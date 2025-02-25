@@ -12,7 +12,7 @@
     <string name="app_open_id" translatable="false">ca-app-pub-3940256099942544/9257395921</string>
     <string name="app_open_id_resume" translatable="false">ca-app-pub-3940256099942544/9257395921</string>
 
-    // album
+    <!--    album-->
     <color name="ads_text_color_headline_album">@android:color/white</color>
     <color name="ads_text_color_attribution_album">@android:color/white</color>
     <color name="ads_text_color_call_button_album">@color/selector_color_white_black</color>
@@ -37,7 +37,11 @@
     <dimen name="ads_padding_top_call_to_action_album">6dp</dimen>
     <dimen name="ads_radius_bg_album">0dp</dimen>
 
-    // font
+    <style name="NativeAlbum" parent="BaseNativeAdView">
+
+    </style>
+
+    <!--    font-->
     <color name="ads_text_color_headline_font">@android:color/black</color>
     <color name="ads_text_color_body_font">@android:color/black</color>
     <color name="ads_text_color_attribution_font">@android:color/white</color>
@@ -64,7 +68,11 @@
     <dimen name="ads_padding_top_call_to_action_font">6dp</dimen>
     <dimen name="ads_radius_bg_font">0dp</dimen>
 
-    // frame
+    <style name="NativeFont" parent="BaseNativeAdView">
+
+    </style>
+
+    <!--    frame-->
     <color name="ads_text_color_headline_frame">@android:color/white</color>
     <color name="ads_text_color_body_frame">@android:color/white</color>
     <color name="ads_text_color_attribution_frame">@android:color/white</color>
@@ -94,7 +102,11 @@
     <dimen name="ads_top_left_radius_bg_frame">10dp</dimen>
     <dimen name="ads_top_right_radius_bg_frame">0dp</dimen>
 
-    // language
+    <style name="NativeFrame" parent="BaseNativeAdView">
+
+    </style>
+
+    <!--    language-->
     <color name="ads_text_color_headline_language">@android:color/black</color>
     <color name="ads_text_color_body_language">@android:color/black</color>
     <color name="ads_text_color_attribution_language">@android:color/white</color>
@@ -121,7 +133,11 @@
     <dimen name="ads_padding_top_call_to_action_language">6dp</dimen>
     <dimen name="ads_radius_bg_language">0dp</dimen>
 
-    // share
+    <style name="NativeLanguage" parent="BaseNativeAdView">
+
+    </style>
+
+    <!--    share-->
     <color name="ads_text_color_headline_share">@android:color/white</color>
     <color name="ads_text_color_body_share">@android:color/white</color>
     <color name="ads_text_color_attribution_share">@android:color/white</color>
@@ -148,7 +164,11 @@
     <dimen name="ads_padding_top_call_to_action_share">6dp</dimen>
     <dimen name="ads_radius_bg_share">10dp</dimen>
 
-    // sticker
+    <style name="NativeShare" parent="BaseNativeAdView">
+
+    </style>
+
+    <!--    sticker-->
     <color name="ads_text_color_headline_sticker">@android:color/white</color>
     <color name="ads_text_color_body_sticker">@android:color/white</color>
     <color name="ads_text_color_attribution_sticker">@android:color/white</color>
@@ -175,7 +195,11 @@
     <dimen name="ads_padding_top_call_to_action_sticker">6dp</dimen>
     <dimen name="ads_radius_bg_sticker">10dp</dimen>
 
-    // template
+    <style name="NativeSticker" parent="BaseNativeAdView">
+
+    </style>
+
+    <!--    template-->
     <color name="ads_text_color_headline_template">@android:color/black</color>
     <color name="ads_text_color_body_template">@android:color/black</color>
     <color name="ads_text_color_attribution_template">@android:color/white</color>
@@ -202,7 +226,11 @@
     <dimen name="ads_padding_top_call_to_action_template">6dp</dimen>
     <dimen name="ads_radius_bg_template">0dp</dimen>
 
-    // vip
+    <style name="NativeTemplate" parent="BaseNativeAdView">
+
+    </style>
+
+    <!--    vip-->
     <color name="ads_text_color_headline_vip">@android:color/black</color>
     <color name="ads_text_color_body_vip">@android:color/black</color>
     <color name="ads_text_color_attribution_vip">@android:color/white</color>
@@ -230,14 +258,18 @@
     <dimen name="ads_padding_top_bottom_call_to_action_vip">6dp</dimen>
     <dimen name="ads_radius_bg_vip">10dp</dimen>
 
-    // shimmer
+    <style name="NativeVip" parent="BaseNativeAdView">
+
+    </style>
+
+    <!--    shimmer-->
     <color name="ads_bg_shimmer_color">#80000000</color>
 
     <drawable name="ads_bg_shimmer">@drawable/ads__bg_shimmer</drawable>
 
     <dimen name="ads_bg_shimmer_radius">14dp</dimen>
 
-    // downloaded
+    <!--    downloaded-->
     <color name="ads_bg_color_downloaded">#000000</color>
     <color name="ads_bg_color_downloaded_pressed">#CCCACACA</color>
 
@@ -247,11 +279,19 @@
     <dimen name="ads_padding_right_downloaded">10dp</dimen>
     <dimen name="ads_padding_top_downloaded">6dp</dimen>
 
-    // mẫu khởi tạo sẽ có parent là BaseNativeCustom
-    <style name="NativeCustom" parent="BaseNativeCustom">
+    <style name="NativeCustom" parent="BaseNativeAdView">
 
     </style>
 
+    <!--    config lại native ads-->
+    <style name="BaseNativeAdView">
+        <item name="android:layout_marginStart">0dp</item>
+        <item name="android:layout_marginTop">0dp</item>
+        <item name="android:layout_marginEnd">0dp</item>
+        <item name="android:layout_marginBottom">0dp</item>
+    </style>
+
+    <!--    config loại native ads-->
     <style name="BaseNativeCustom">
         <item name="adLayoutId">@layout/ad_native_custom</item>
         <item name="adHeadlineId">@id/ad_headline_custom</item>

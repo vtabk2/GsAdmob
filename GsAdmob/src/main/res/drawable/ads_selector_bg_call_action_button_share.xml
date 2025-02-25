@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <shape>
+            <corners android:radius="@dimen/ads_radius_call_to_action_share"/>
+            <padding
+                android:bottom="@dimen/ads_padding_bottom_call_to_action_share"
+                android:left="@dimen/ads_padding_left_call_to_action_share"
+                android:right="@dimen/ads_padding_right_call_to_action_share"
+                android:top="@dimen/ads_padding_top_call_to_action_share"/>
+            <solid android:color="@color/ads_call_button_share_pressed"/>
+        </shape>
+    </item>
+
+    <item>
+        <shape>
+            <corners android:radius="@dimen/ads_radius_call_to_action_share"/>
+            <padding
+                android:bottom="@dimen/ads_padding_bottom_call_to_action_share"
+                android:left="@dimen/ads_padding_left_call_to_action_share"
+                android:right="@dimen/ads_padding_right_call_to_action_share"
+                android:top="@dimen/ads_padding_top_call_to_action_share"/>
+            <solid android:color="@color/ads_call_button_share"/>
+        </shape>
+    </item>
+</selector>

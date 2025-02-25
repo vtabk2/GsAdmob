@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <shape>
+            <corners android:radius="@dimen/ads_radius_call_to_action_template"/>
+            <padding
+                android:bottom="@dimen/ads_padding_bottom_call_to_action_template"
+                android:left="@dimen/ads_padding_left_call_to_action_template"
+                android:right="@dimen/ads_padding_right_call_to_action_template"
+                android:top="@dimen/ads_padding_top_call_to_action_template"/>
+            <solid android:color="@color/ads_call_button_template_pressed"/>
+        </shape>
+    </item>
+
+    <item>
+        <shape>
+            <corners android:radius="@dimen/ads_radius_call_to_action_template"/>
+            <padding
+                android:bottom="@dimen/ads_padding_bottom_call_to_action_template"
+                android:left="@dimen/ads_padding_left_call_to_action_template"
+                android:right="@dimen/ads_padding_right_call_to_action_template"
+                android:top="@dimen/ads_padding_top_call_to_action_template"/>
+            <solid android:color="@color/ads_call_button_template"/>
+        </shape>
+    </item>
+</selector>

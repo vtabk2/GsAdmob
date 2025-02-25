@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
+    <string name="banner_id" translatable="false">ca-app-pub-3940256099942544/9214589741</string>
+    <string name="banner_id_home" translatable="false">ca-app-pub-3940256099942544/9214589741</string>
+    <string name="banner_id_collapsible" translatable="false">ca-app-pub-3940256099942544/2014213617</string>
+    <string name="full_id" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="full_without_video" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="native_id" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
+    <string name="native_language" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
+    <string name="rewarded_interstitial_id" translatable="false">ca-app-pub-3940256099942544/5354046379</string>
+    <string name="app_open_id" translatable="false">ca-app-pub-3940256099942544/9257395921</string>
+    <string name="app_open_id_resume" translatable="false">ca-app-pub-3940256099942544/9257395921</string>
+
+    // album
+    <color name="ads_text_color_headline_album">@android:color/white</color>
+    <color name="ads_text_color_attribution_album">@android:color/white</color>
+    <color name="ads_text_color_call_button_album">@color/selector_color_white_black</color>
+    <color name="ads_call_button_album">#14B261</color>
+    <color name="ads_call_button_album_pressed">#DFE1E6</color>
+    <color name="ads_bg_color_album">#212121</color>
+
+    <drawable name="ads_bg_album">@drawable/ads__bg_album</drawable>
+    <drawable name="ads_bg_call_action_button_album">
+        @drawable/ads_selector_bg_call_action_button_album
+    </drawable>
+
+    <dimen name="ads_text_size_headline_album">15sp</dimen>
+    <dimen name="ads_text_size_attribution_album">8sp</dimen>
+    <dimen name="ads_text_size_call_to_action_album">14sp</dimen>
+    <dimen name="ads_height_call_to_action_album">32dp</dimen>
+    <dimen name="ads_radius_call_to_action_album">10dp</dimen>
+    <dimen name="ads_padding_bottom_call_to_action_album">6dp</dimen>
+    <dimen name="ads_padding_left_call_to_action_album">10dp</dimen>
+    <dimen name="ads_padding_right_call_to_action_album">10dp</dimen>
+    <dimen name="ads_padding_top_call_to_action_album">6dp</dimen>
+    <dimen name="ads_radius_bg_album">0dp</dimen>
+
+    // font
+    <color name="ads_text_color_headline_font">@android:color/black</color>
+    <color name="ads_text_color_body_font">@android:color/black</color>
+    <color name="ads_text_color_attribution_font">@android:color/white</color>
+    <color name="ads_text_color_call_button_font">@color/selector_color_white_black</color>
+    <color name="ads_call_button_font">#4088F4</color>
+    <color name="ads_call_button_font_pressed">#DFE1E6</color>
+    <color name="ads_bg_color_font">#F0F4F8</color>
+
+    <drawable name="ads_bg_call_action_button_font">
+        @drawable/ads_selector_bg_call_action_button_font
+    </drawable>
+
+    <dimen name="ads_text_size_headline_font">15sp</dimen>
+    <dimen name="ads_text_size_body_font">12sp</dimen>
+    <dimen name="ads_text_size_attribution_font">8sp</dimen>
+    <dimen name="ads_text_size_call_to_action_font">14sp</dimen>
+    <dimen name="ads_height_call_to_action_font">32dp</dimen>
+    <dimen name="ads_radius_call_to_action_font">10dp</dimen>
+    <dimen name="ads_padding_bottom_call_to_action_font">6dp</dimen>
+    <dimen name="ads_padding_left_call_to_action_font">10dp</dimen>
+    <dimen name="ads_padding_right_call_to_action_font">10dp</dimen>
+    <dimen name="ads_padding_top_call_to_action_font">6dp</dimen>
+    <dimen name="ads_radius_bg_font">0dp</dimen>
+
+    // frame
+    <color name="ads_text_color_headline_frame">@android:color/white</color>
+    <color name="ads_text_color_body_frame">@android:color/white</color>
+    <color name="ads_text_color_attribution_frame">@android:color/white</color>
+    <color name="ads_text_color_call_button_frame">@color/selector_color_white_black</color>
+    <color name="ads_call_button_frame">#4088F4</color>
+    <color name="ads_call_button_frame_pressed">#DFE1E6</color>
+    <color name="ads_bg_color_frame">#706EEC</color>
+
+    <drawable name="ads_bg_call_action_button_frame">
+        @drawable/ads_selector_bg_call_action_button_frame
+    </drawable>
+
+    <dimen name="ads_text_size_headline_frame">13sp</dimen>
+    <dimen name="ads_text_size_body_frame">12sp</dimen>
+    <dimen name="ads_text_size_attribution_frame">8sp</dimen>
+    <dimen name="ads_text_size_call_to_action_frame">14sp</dimen>
+    <dimen name="ads_height_call_to_action_frame">32dp</dimen>
+    <dimen name="ads_radius_call_to_action_frame">10dp</dimen>
+    <dimen name="ads_padding_bottom_call_to_action_frame">6dp</dimen>
+    <dimen name="ads_padding_left_bottom_call_to_action_frame">10dp</dimen>
+    <dimen name="ads_padding_right_bottom_call_to_action_frame">10dp</dimen>
+    <dimen name="ads_padding_top_bottom_call_to_action_frame">6dp</dimen>
+    <dimen name="ads_bottom_left_radius_bg_frame">10dp</dimen>
+    <dimen name="ads_bottom_right_radius_bg_frame">10dp</dimen>
+    <dimen name="ads_top_left_radius_bg_frame">10dp</dimen>
+    <dimen name="ads_top_right_radius_bg_frame">0dp</dimen>
+
+    // language
+    <color name="ads_text_color_headline_language">@android:color/black</color>
+    <color name="ads_text_color_body_language">@android:color/black</color>
+    <color name="ads_text_color_attribution_language">@android:color/white</color>
+    <color name="ads_text_color_call_button_language">@color/selector_color_white_black</color>
+    <color name="ads_call_button_language">#14B261</color>
+    <color name="ads_call_button_language_pressed">#DFE1E6</color>
+    <color name="ads_bg_color_language">#F2F2F2</color>
+
+    <drawable name="ads_bg_call_action_button_language">
+        @drawable/ads_selector_bg_call_action_button_language
+    </drawable>
+
+    <dimen name="ads_text_size_headline_language">15sp</dimen>
+    <dimen name="ads_text_size_body_language">13sp</dimen>
+    <dimen name="ads_text_size_attribution_language">8sp</dimen>
+    <dimen name="ads_text_size_call_to_action_language">16sp</dimen>
+    <dimen name="ads_height_call_to_action_language">48dp</dimen>
+    <dimen name="ads_radius_call_to_action_language">10dp</dimen>
+    <dimen name="ads_padding_bottom_call_to_action_language">6dp</dimen>
+    <dimen name="ads_padding_left_call_to_action_language">10dp</dimen>
+    <dimen name="ads_padding_right_call_to_action_language">10dp</dimen>
+    <dimen name="ads_padding_top_call_to_action_language">6dp</dimen>
+    <dimen name="ads_radius_bg_language">0dp</dimen>
+
+    // share
+    <color name="ads_text_color_headline_share">@android:color/white</color>
+    <color name="ads_text_color_body_share">@android:color/white</color>
+    <color name="ads_text_color_attribution_share">@android:color/white</color>
+    <color name="ads_text_color_call_button_share">@color/selector_color_white_black</color>
+    <color name="ads_call_button_share">#14B261</color>
+    <color name="ads_call_button_share_pressed">#DFE1E6</color>
+    <color name="ads_bg_color_share">#212121</color>
+
+    <drawable name="ads_bg_share">@drawable/ads__bg_share</drawable>
+    <drawable name="ads_bg_call_action_button_share">
+        @drawable/ads_selector_bg_call_action_button_share
+    </drawable>
+
+    <dimen name="ads_text_size_headline_share">15sp</dimen>
+    <dimen name="ads_text_size_body_share">13sp</dimen>
+    <dimen name="ads_text_size_attribution_share">8sp</dimen>
+    <dimen name="ads_text_size_call_to_action_share">14sp</dimen>
+    <dimen name="ads_height_call_to_action_share">36dp</dimen>
+    <dimen name="ads_radius_call_to_action_share">10dp</dimen>
+    <dimen name="ads_padding_bottom_call_to_action_share">6dp</dimen>
+    <dimen name="ads_padding_left_call_to_action_share">10dp</dimen>
+    <dimen name="ads_padding_right_call_to_action_share">10dp</dimen>
+    <dimen name="ads_padding_top_call_to_action_share">6dp</dimen>
+    <dimen name="ads_radius_bg_share">10dp</dimen>
+
+    // sticker
+    <color name="ads_text_color_headline_sticker">@android:color/white</color>
+    <color name="ads_text_color_body_sticker">@android:color/white</color>
+    <color name="ads_text_color_attribution_sticker">@android:color/white</color>
+    <color name="ads_text_color_call_button_sticker">@color/selector_color_white_black</color>
+    <color name="ads_call_button_sticker">#4088F4</color>
+    <color name="ads_call_button_sticker_pressed">#DFE1E6</color>
+    <color name="ads_bg_color_sticker">#706EEC</color>
+
+    <drawable name="ads_bg_call_action_button_sticker">
+        @drawable/ads_selector_bg_call_action_button_sticker
+    </drawable>
+
+    <dimen name="ads_text_size_headline_sticker">15sp</dimen>
+    <dimen name="ads_text_size_body_sticker">12sp</dimen>
+    <dimen name="ads_text_size_attribution_sticker">8sp</dimen>
+    <dimen name="ads_text_size_call_to_action_sticker">13sp</dimen>
+    <dimen name="ads_height_call_to_action_sticker">32dp</dimen>
+    <dimen name="ads_radius_call_to_action_sticker">10dp</dimen>
+    <dimen name="ads_padding_bottom_call_to_action_sticker">6dp</dimen>
+    <dimen name="ads_padding_left_call_to_action_sticker">10dp</dimen>
+    <dimen name="ads_padding_right_call_to_action_sticker">10dp</dimen>
+    <dimen name="ads_padding_top_call_to_action_sticker">6dp</dimen>
+    <dimen name="ads_radius_bg_sticker">10dp</dimen>
+
+    // template
+    <color name="ads_text_color_headline_template">@android:color/black</color>
+    <color name="ads_text_color_body_template">@android:color/black</color>
+    <color name="ads_text_color_attribution_template">@android:color/white</color>
+    <color name="ads_text_color_call_button_template">@color/selector_color_white_black</color>
+    <color name="ads_call_button_template">#4088F4</color>
+    <color name="ads_call_button_template_pressed">#DFE1E6</color>
+    <color name="ads_bg_color_template">#EEEDED</color>
+
+    <drawable name="ads_bg_call_action_button_template">
+        @drawable/ads_selector_bg_call_action_button_template
+    </drawable>
+
+    <dimen name="ads_text_size_headline_template">15sp</dimen>
+    <dimen name="ads_text_size_body_template">12sp</dimen>
+    <dimen name="ads_text_size_attribution_template">8sp</dimen>
+    <dimen name="ads_text_size_call_to_action_template">14sp</dimen>
+    <dimen name="ads_height_call_to_action_template">32dp</dimen>
+    <dimen name="ads_radius_call_to_action_template">10dp</dimen>
+    <dimen name="ads_padding_bottom_call_to_action_template">6dp</dimen>
+    <dimen name="ads_padding_left_call_to_action_template">10dp</dimen>
+    <dimen name="ads_padding_right_call_to_action_template">10dp</dimen>
+    <dimen name="ads_padding_top_call_to_action_template">6dp</dimen>
+    <dimen name="ads_radius_bg_template">0dp</dimen>
+
+    // vip
+    <color name="ads_text_color_headline_vip">@android:color/black</color>
+    <color name="ads_text_color_body_vip">@android:color/black</color>
+    <color name="ads_text_color_attribution_vip">@android:color/white</color>
+    <color name="ads_text_color_call_button_vip">@color/selector_color_white_black</color>
+    <color name="ads_call_button_vip_start">#7152db</color>
+    <color name="ads_call_button_vip_end">#cf23c7</color>
+    <color name="ads_call_button_vip_pressed">#DFE1E6</color>
+    <color name="ads_bg_color_vip">#F2F2F2</color>
+
+    <drawable name="ads_bg_call_action_button_vip">
+        @drawable/ads_selector_bg_call_action_button_vip
+    </drawable>
+
+    <dimen name="ads_text_size_headline_vip">15sp</dimen>
+    <dimen name="ads_text_size_body_vip">12sp</dimen>
+    <dimen name="ads_text_size_attribution_vip">8sp</dimen>
+    <dimen name="ads_text_size_call_to_action_vip">14sp</dimen>
+    <dimen name="ads_height_call_to_action_vip">36dp</dimen>
+    <dimen name="ads_radius_call_to_action_vip">4dp</dimen>
+    <dimen name="ads_padding_bottom_call_to_action_vip">6dp</dimen>
+    <dimen name="ads_padding_left_bottom_call_to_action_vip">10dp</dimen>
+    <dimen name="ads_padding_right_bottom_call_to_action_vip">10dp</dimen>
+    <dimen name="ads_padding_top_bottom_call_to_action_vip">6dp</dimen>
+    <dimen name="ads_radius_bg_vip">10dp</dimen>
+
+    // shimmer
+    <color name="ads_bg_shimmer_color">#80000000</color>
+    <dimen name="ads_bg_shimmer_radius">14dp</dimen>
+
+    // downloaded
+    <color name="ads_bg_color_downloaded">#000000</color>
+    <color name="ads_bg_color_downloaded_pressed">#CCCACACA</color>
+
+    <dimen name="ads_radius_downloaded">4dp</dimen>
+    <dimen name="ads_padding_bottom_downloaded">6dp</dimen>
+    <dimen name="ads_padding_left_downloaded">10dp</dimen>
+    <dimen name="ads_padding_right_downloaded">10dp</dimen>
+    <dimen name="ads_padding_top_downloaded">6dp</dimen>
+
+    // mẫu khởi tạo sẽ có parent là BaseNativeCustom
+    <style name="NativeCustom" parent="BaseNativeCustom">
+
+    </style>
+
+    <style name="BaseNativeCustom">
+        <item name="adLayoutId">@layout/ad_native_custom</item>
+        <item name="adHeadlineId">@id/ad_headline_custom</item>
+        <item name="adBodyId">@id/ad_body_custom</item>
+        <item name="adStarsId">@id/ad_stars_custom</item>
+        <item name="adAppIconId">@id/ad_app_icon_custom</item>
+        <item name="adCallToActionId">@id/ad_call_to_action_custom</item>
+        <item name="adViewId">@id/ad_view_custom</item>
+        <item name="adMediaViewId">@id/ad_media_custom</item>
+        <item name="adShimmerId">@id/ad_shimmer_custom</item>
+    </style>
+
+    <style name="adsRatingBar" parent="Theme.AppCompat">
+        <item name="colorControlNormal">#FFBF1C</item>
+        <item name="colorControlActivated">#FFBF1C</item>
+    </style>
+</resources>

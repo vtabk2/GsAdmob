@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.core.gsadmob.AspectRatioLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    app:heightToWidth="0.40298507462">
+
+    <com.google.android.gms.ads.nativead.NativeAdView
+        android:id="@+id/ad_view_sticker"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/ads_bg_sticker">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/ad_attribution_sticker"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ads_bg_text_ad_sticker"
+                android:includeFontPadding="false"
+                android:layoutDirection="ltr"
+                android:text="AD"
+                android:textColor="@color/ads_text_color_attribution_sticker"
+                android:textSize="@dimen/ads_text_size_attribution_sticker"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"/>
+
+            <FrameLayout
+                android:id="@+id/viewBound"
+                android:layout_width="wrap_content"
+                android:layout_height="40dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/ad_attribution_sticker">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/ad_app_icon_sticker"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:layout_marginEnd="10dp"
+                    android:adjustViewBounds="true"/>
+            </FrameLayout>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/ad_headline_sticker"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textAlignment="viewStart"
+                android:textColor="@color/ads_text_color_headline_sticker"
+                android:textSize="@dimen/ads_text_size_headline_sticker"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/viewBound"
+                app:layout_constraintTop_toTopOf="@id/viewBound"/>
+
+            <RatingBar
+                android:id="@+id/ad_stars_sticker"
+                style="?android:attr/ratingBarStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="4dp"
+                android:isIndicator="true"
+                android:numStars="5"
+                android:stepSize="0.5"
+                android:theme="@style/adsRatingBar"
+                app:layout_constraintStart_toStartOf="@id/ad_headline_sticker"
+                app:layout_constraintTop_toBottomOf="@id/ad_headline_sticker"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/ad_body_sticker"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:ellipsize="end"
+                android:maxLines="2"
+                android:textAlignment="viewStart"
+                android:textColor="@color/ads_text_color_body_sticker"
+                android:textSize="@dimen/ads_text_size_body_sticker"
+                app:layout_constraintEnd_toEndOf="@id/ad_headline_sticker"
+                app:layout_constraintStart_toStartOf="@id/viewBound"
+                app:layout_constraintTop_toBottomOf="@id/ad_stars_sticker"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/ad_call_to_action_sticker"
+                android:layout_width="wrap_content"
+                android:layout_height="@dimen/ads_height_call_to_action_sticker"
+                android:layout_marginHorizontal="7dp"
+                android:layout_marginBottom="7dp"
+                android:background="@drawable/ads_bg_call_action_button_sticker"
+                android:gravity="center"
+                android:lineSpacingExtra="5dp"
+                android:minWidth="96dp"
+                android:textColor="@color/ads_text_color_call_button_sticker"
+                android:textSize="@dimen/ads_text_size_call_to_action_sticker"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </com.google.android.gms.ads.nativead.NativeAdView>
+
+    <include
+        android:id="@+id/stickerShimmer"
+        layout="@layout/ad_native_sticker_shimmer"/>
+</com.core.gsadmob.AspectRatioLayout>

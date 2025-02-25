@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="BaseNativeAdView">
+        <attr name="ads_mode" format="enum">
+            <enum name="none" value="0"/>
+            <enum name="album" value="1"/>
+            <enum name="font" value="2"/>
+            <enum name="frame" value="3"/>
+            <enum name="language" value="4"/>
+            <enum name="share" value="5"/>
+            <enum name="sticker" value="6"/>
+            <enum name="template" value="7"/>
+            <enum name="vip" value="8"/>
+            <enum name="custom" value="9"/>
+        </attr>
+        <attr name="adLayoutId" format="reference"/>
+        <attr name="adHeadlineId" format="reference"/>
+        <attr name="adBodyId" format="reference"/>
+        <attr name="adStarsId" format="reference"/>
+        <attr name="adAppIconId" format="reference"/>
+        <attr name="adCallToActionId" format="reference"/>
+        <attr name="adViewId" format="reference"/>
+        <attr name="adMediaViewId" format="reference"/>
+        <attr name="adShimmerId" format="reference"/>
+    </declare-styleable>
+
+    <declare-styleable name="AspectRatioLayout">
+        <attr name="admob_widthToHeight" format="float"/>
+        <attr name="admob_heightToWidth" format="float"/>
+    </declare-styleable>
+</resources>

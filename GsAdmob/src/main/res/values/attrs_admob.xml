@@ -23,9 +23,4 @@
         <attr name="adMediaViewId" format="reference"/>
         <attr name="adShimmerId" format="reference"/>
     </declare-styleable>
-
-    <declare-styleable name="AspectRatioLayout">
-        <attr name="admob_widthToHeight" format="float"/>
-        <attr name="admob_heightToWidth" format="float"/>
-    </declare-styleable>
 </resources>

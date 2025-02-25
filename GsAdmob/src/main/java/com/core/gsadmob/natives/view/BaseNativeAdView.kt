@@ -10,6 +10,9 @@ import android.widget.RatingBar
 import androidx.appcompat.widget.AppCompatTextView
 import com.core.gsadmob.R
 import com.core.gsadmob.natives.AdsMode
+import com.core.gscore.utils.extensions.gone
+import com.core.gscore.utils.extensions.invisible
+import com.core.gscore.utils.extensions.visible
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.gms.ads.nativead.MediaView
 import com.google.android.gms.ads.nativead.NativeAd

@@ -9,6 +9,8 @@ import android.view.ViewGroup
 import android.view.WindowMetrics
 import android.widget.FrameLayout
 import com.core.gsadmob.R
+import com.core.gscore.utils.extensions.gone
+import com.core.gscore.utils.extensions.visible
 import com.google.ads.mediation.admob.AdMobAdapter
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdRequest

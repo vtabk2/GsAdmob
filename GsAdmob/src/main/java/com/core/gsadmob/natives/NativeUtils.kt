@@ -3,6 +3,7 @@ package com.core.gsadmob.natives
 import android.app.Activity
 import androidx.lifecycle.LifecycleOwner
 import com.core.gsadmob.R
+import com.core.gscore.utils.extensions.launchWhenResumed
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.nativead.NativeAd

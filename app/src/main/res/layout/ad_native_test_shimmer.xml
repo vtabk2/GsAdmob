@@ -53,7 +53,7 @@
                 android:isIndicator="true"
                 android:numStars="5"
                 android:stepSize="0.5"
-                android:theme="@style/adsRatingBar"
+                android:theme="@style/ads_RatingBar"
                 app:layout_constraintBottom_toBottomOf="@id/ad_attribution_test"
                 app:layout_constraintStart_toEndOf="@id/ad_attribution_test"
                 app:layout_constraintTop_toTopOf="@id/ad_attribution_test"/>

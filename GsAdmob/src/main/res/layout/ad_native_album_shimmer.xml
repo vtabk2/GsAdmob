@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.core.gscore.utils.view.AspectRatioLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    style="@style/NativeAlbum"
+    style="@style/ads_NativeAlbum"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:heightToWidth="0.25">
@@ -54,7 +54,7 @@
                 android:isIndicator="true"
                 android:numStars="5"
                 android:stepSize="0.5"
-                android:theme="@style/adsRatingBar"
+                android:theme="@style/ads_RatingBar"
                 app:layout_constraintBottom_toBottomOf="@id/ad_attribution_album"
                 app:layout_constraintStart_toEndOf="@id/ad_attribution_album"
                 app:layout_constraintTop_toTopOf="@id/ad_attribution_album"/>

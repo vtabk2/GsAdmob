@@ -37,7 +37,7 @@
     <dimen name="ads_padding_top_call_to_action_album">6dp</dimen>
     <dimen name="ads_radius_bg_album">0dp</dimen>
 
-    <style name="NativeAlbum" parent="BaseNativeAdView">
+    <style name="ads_NativeAlbum" parent="ads_BaseNativeAdView">
 
     </style>
 
@@ -68,7 +68,7 @@
     <dimen name="ads_padding_top_call_to_action_font">6dp</dimen>
     <dimen name="ads_radius_bg_font">0dp</dimen>
 
-    <style name="NativeFont" parent="BaseNativeAdView">
+    <style name="ads_NativeFont" parent="ads_BaseNativeAdView">
 
     </style>
 
@@ -102,7 +102,7 @@
     <dimen name="ads_top_left_radius_bg_frame">10dp</dimen>
     <dimen name="ads_top_right_radius_bg_frame">0dp</dimen>
 
-    <style name="NativeFrame" parent="BaseNativeAdView">
+    <style name="ads_NativeFrame" parent="ads_BaseNativeAdView">
 
     </style>
 
@@ -133,7 +133,7 @@
     <dimen name="ads_padding_top_call_to_action_language">6dp</dimen>
     <dimen name="ads_radius_bg_language">0dp</dimen>
 
-    <style name="NativeLanguage" parent="BaseNativeAdView">
+    <style name="ads_NativeLanguage" parent="ads_BaseNativeAdView">
 
     </style>
 
@@ -164,7 +164,7 @@
     <dimen name="ads_padding_top_call_to_action_share">6dp</dimen>
     <dimen name="ads_radius_bg_share">10dp</dimen>
 
-    <style name="NativeShare" parent="BaseNativeAdView">
+    <style name="ads_NativeShare" parent="ads_BaseNativeAdView">
 
     </style>
 
@@ -195,7 +195,7 @@
     <dimen name="ads_padding_top_call_to_action_sticker">6dp</dimen>
     <dimen name="ads_radius_bg_sticker">10dp</dimen>
 
-    <style name="NativeSticker" parent="BaseNativeAdView">
+    <style name="ads_NativeSticker" parent="ads_BaseNativeAdView">
 
     </style>
 
@@ -226,7 +226,7 @@
     <dimen name="ads_padding_top_call_to_action_template">6dp</dimen>
     <dimen name="ads_radius_bg_template">0dp</dimen>
 
-    <style name="NativeTemplate" parent="BaseNativeAdView">
+    <style name="ads_NativeTemplate" parent="ads_BaseNativeAdView">
 
     </style>
 
@@ -258,7 +258,7 @@
     <dimen name="ads_padding_top_bottom_call_to_action_vip">6dp</dimen>
     <dimen name="ads_radius_bg_vip">10dp</dimen>
 
-    <style name="NativeVip" parent="BaseNativeAdView">
+    <style name="ads_NativeVip" parent="ads_BaseNativeAdView">
 
     </style>
 
@@ -279,12 +279,12 @@
     <dimen name="ads_padding_right_downloaded">10dp</dimen>
     <dimen name="ads_padding_top_downloaded">6dp</dimen>
 
-    <style name="NativeCustom" parent="BaseNativeAdView">
+    <style name="ads_NativeCustom" parent="ads_BaseNativeAdView">
 
     </style>
 
     <!--    config lại native ads-->
-    <style name="BaseNativeAdView">
+    <style name="ads_BaseNativeAdView">
         <item name="android:layout_marginStart">0dp</item>
         <item name="android:layout_marginTop">0dp</item>
         <item name="android:layout_marginEnd">0dp</item>
@@ -292,7 +292,7 @@
     </style>
 
     <!--    config loại native ads-->
-    <style name="BaseNativeCustom">
+    <style name="ads_BaseNativeCustom">
         <item name="adLayoutId">@layout/ad_native_custom</item>
         <item name="adHeadlineId">@id/ad_headline_custom</item>
         <item name="adBodyId">@id/ad_body_custom</item>
@@ -304,7 +304,7 @@
         <item name="adShimmerId">@id/ad_shimmer_custom</item>
     </style>
 
-    <style name="adsRatingBar" parent="Theme.AppCompat">
+    <style name="ads_RatingBar" parent="Theme.AppCompat">
         <item name="colorControlNormal">#FFBF1C</item>
         <item name="colorControlActivated">#FFBF1C</item>
     </style>

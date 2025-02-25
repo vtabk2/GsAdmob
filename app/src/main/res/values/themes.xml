@@ -7,7 +7,7 @@
 
     <style name="Theme.GsAdmob" parent="Base.Theme.GsAdmob"/>
 
-    <style name="NativeTest" parent="BaseNativeCustom">
+    <style name="NativeTest" parent="ads_BaseNativeCustom">
         <item name="adLayoutId">@layout/ad_native_test</item>
         <item name="adHeadlineId">@id/ad_headline_test</item>
         <item name="adStarsId">@id/ad_stars_test</item>

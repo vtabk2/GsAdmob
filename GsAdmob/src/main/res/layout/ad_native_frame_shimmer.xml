@@ -2,7 +2,7 @@
 <com.facebook.shimmer.ShimmerFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ad_view_frame_shimmer"
-    style="@style/NativeFrame"
+    style="@style/ads_NativeFrame"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -53,7 +53,7 @@
             android:isIndicator="true"
             android:numStars="5"
             android:stepSize="0.5"
-            android:theme="@style/adsRatingBar"
+            android:theme="@style/ads_RatingBar"
             app:layout_constraintBottom_toBottomOf="@id/ad_attribution_frame_shimmer"
             app:layout_constraintStart_toEndOf="@id/ad_attribution_frame_shimmer"
             app:layout_constraintTop_toTopOf="@id/ad_attribution_frame_shimmer"/>

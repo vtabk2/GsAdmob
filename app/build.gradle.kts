@@ -43,4 +43,10 @@ dependencies {
     implementation(libs.androidx.constraintlayout)
 
     implementation(project(":GsAdmob"))
+
+    // admob
+    implementation(libs.play.services.ads)
+    implementation(libs.shimmer)
+
+    implementation(libs.gscore)
 }

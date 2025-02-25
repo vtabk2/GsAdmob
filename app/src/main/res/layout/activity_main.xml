@@ -1,19 +1,87 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    android:fillViewport="true">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/app_name"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <com.core.gsadmob.natives.view.NativeGsAdView
+            android:id="@+id/nativeTest1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <!--        <com.core.gsadmob.natives.view.NativeGsAdView-->
+        <!--            android:id="@+id/nativeAlbum"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="10dp"-->
+        <!--            app:ads_mode="album"/>-->
+
+        <!--        <com.core.gsadmob.natives.view.NativeGsAdView-->
+        <!--            android:id="@+id/nativeFont"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="10dp"-->
+        <!--            app:ads_mode="font"/>-->
+
+        <!--        <LinearLayout-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:orientation="horizontal">-->
+
+        <!--            <com.core.gsadmob.natives.view.NativeGsAdView-->
+        <!--                android:id="@+id/nativeFrame1"-->
+        <!--                android:layout_width="0dp"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_weight="1"-->
+        <!--                app:ads_mode="frame"/>-->
+
+        <!--            <com.core.gsadmob.natives.view.NativeGsAdView-->
+        <!--                android:id="@+id/nativeFrame2"-->
+        <!--                android:layout_width="0dp"-->
+        <!--                android:layout_height="wrap_content"-->
+        <!--                android:layout_weight="1"-->
+        <!--                app:ads_mode="frame"/>-->
+        <!--        </LinearLayout>-->
+
+        <!--        <com.core.gsadmob.natives.view.NativeGsAdView-->
+        <!--            android:id="@+id/nativeLanguage"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="10dp"-->
+        <!--            app:ads_mode="language"/>-->
+
+        <!--        <com.core.gsadmob.natives.view.NativeGsAdView-->
+        <!--            android:id="@+id/nativeShare"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="10dp"/>-->
+
+        <!--        <com.core.gsadmob.natives.view.NativeGsAdView-->
+        <!--            android:id="@+id/nativeSticker"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="10dp"-->
+        <!--            app:ads_mode="sticker"/>-->
+
+        <!--        <com.core.gsadmob.natives.view.NativeGsAdView-->
+        <!--            android:id="@+id/nativeTemplate"-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="10dp"-->
+        <!--            app:ads_mode="template"/>-->
+
+        <com.core.gsadmob.natives.view.NativeGsAdView
+            android:id="@+id/nativeCustom"
+            style="@style/NativeTest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:ads_mode="custom"/>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

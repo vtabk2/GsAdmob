@@ -6,4 +6,14 @@
     </style>
 
     <style name="Theme.GsAdmob" parent="Base.Theme.GsAdmob"/>
+
+    <style name="NativeTest" parent="BaseNativeCustom">
+        <item name="adLayoutId">@layout/ad_native_test</item>
+        <item name="adHeadlineId">@id/ad_headline_test</item>
+        <item name="adStarsId">@id/ad_stars_test</item>
+        <item name="adAppIconId">@id/ad_app_icon_test</item>
+        <item name="adCallToActionId">@id/ad_call_to_action_test</item>
+        <item name="adViewId">@id/ad_view_test</item>
+        <item name="adShimmerId">@id/ad_view_test_shimmer</item>
+    </style>
 </resources>

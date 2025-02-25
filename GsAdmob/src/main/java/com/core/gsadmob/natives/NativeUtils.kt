@@ -4,8 +4,10 @@ import android.app.Activity
 import androidx.lifecycle.LifecycleOwner
 import com.core.gsadmob.R
 import com.core.gscore.utils.extensions.launchWhenResumed
+import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.nativead.NativeAd
 
 object NativeUtils {
@@ -23,7 +25,12 @@ object NativeUtils {
                             return@forNativeAd
                         }
                         callback.invoke(nativeAd)
-                    }.build()
+                    }.withAdListener(object : AdListener() {
+                        override fun onAdFailedToLoad(loadAdError: LoadAdError) {
+                            super.onAdFailedToLoad(loadAdError)
+                            callback.invoke(null)
+                        }
+                    }).build()
                     adLoader.loadAd(AdRequest.Builder().setHttpTimeoutMillis(5000).build())
                 } catch (e: Exception) {
                     e.printStackTrace()

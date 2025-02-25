@@ -21,6 +21,7 @@
     <color name="ads_bg_color_album">#212121</color>
 
     <drawable name="ads_bg_album">@drawable/ads__bg_album</drawable>
+    <drawable name="ads_bg_text_ad_album">@drawable/ads__bg_text_ad_album</drawable>
     <drawable name="ads_bg_call_action_button_album">
         @drawable/ads_selector_bg_call_action_button_album
     </drawable>
@@ -45,6 +46,8 @@
     <color name="ads_call_button_font_pressed">#DFE1E6</color>
     <color name="ads_bg_color_font">#F0F4F8</color>
 
+    <drawable name="ads_bg_font">@drawable/ads__bg_font</drawable>
+    <drawable name="ads_bg_text_ad_font">@drawable/ads__bg_text_ad_font</drawable>
     <drawable name="ads_bg_call_action_button_font">
         @drawable/ads_selector_bg_call_action_button_font
     </drawable>
@@ -70,6 +73,8 @@
     <color name="ads_call_button_frame_pressed">#DFE1E6</color>
     <color name="ads_bg_color_frame">#706EEC</color>
 
+    <drawable name="ads_bg_frame">@drawable/ads__bg_frame</drawable>
+    <drawable name="ads_bg_text_ad_frame">@drawable/ads__bg_text_ad_frame</drawable>
     <drawable name="ads_bg_call_action_button_frame">
         @drawable/ads_selector_bg_call_action_button_frame
     </drawable>
@@ -98,6 +103,8 @@
     <color name="ads_call_button_language_pressed">#DFE1E6</color>
     <color name="ads_bg_color_language">#F2F2F2</color>
 
+    <drawable name="ads_bg_language">@drawable/ads__bg_language</drawable>
+    <drawable name="ads_bg_text_ad_language">@drawable/ads__bg_text_ad_language</drawable>
     <drawable name="ads_bg_call_action_button_language">
         @drawable/ads_selector_bg_call_action_button_language
     </drawable>
@@ -124,6 +131,7 @@
     <color name="ads_bg_color_share">#212121</color>
 
     <drawable name="ads_bg_share">@drawable/ads__bg_share</drawable>
+    <drawable name="ads_bg_text_ad_share">@drawable/ads__bg_text_ad_share</drawable>
     <drawable name="ads_bg_call_action_button_share">
         @drawable/ads_selector_bg_call_action_button_share
     </drawable>
@@ -149,6 +157,8 @@
     <color name="ads_call_button_sticker_pressed">#DFE1E6</color>
     <color name="ads_bg_color_sticker">#706EEC</color>
 
+    <drawable name="ads_bg_sticker">@drawable/ads__bg_sticker</drawable>
+    <drawable name="ads_bg_text_ad_sticker">@drawable/ads__bg_text_ad_sticker</drawable>
     <drawable name="ads_bg_call_action_button_sticker">
         @drawable/ads_selector_bg_call_action_button_sticker
     </drawable>
@@ -174,6 +184,8 @@
     <color name="ads_call_button_template_pressed">#DFE1E6</color>
     <color name="ads_bg_color_template">#EEEDED</color>
 
+    <drawable name="ads_bg_template">@drawable/ads__bg_template</drawable>
+    <drawable name="ads_bg_text_ad_template">@drawable/ads__bg_text_ad_template</drawable>
     <drawable name="ads_bg_call_action_button_template">
         @drawable/ads_selector_bg_call_action_button_template
     </drawable>
@@ -195,11 +207,13 @@
     <color name="ads_text_color_body_vip">@android:color/black</color>
     <color name="ads_text_color_attribution_vip">@android:color/white</color>
     <color name="ads_text_color_call_button_vip">@color/selector_color_white_black</color>
-    <color name="ads_call_button_vip_start">#7152db</color>
-    <color name="ads_call_button_vip_end">#cf23c7</color>
+    <color name="ads_call_button_vip_start">#14B261</color>
+    <color name="ads_call_button_vip_end">#14B261</color>
     <color name="ads_call_button_vip_pressed">#DFE1E6</color>
     <color name="ads_bg_color_vip">#F2F2F2</color>
 
+    <drawable name="ads_bg_vip">@drawable/ads__bg_vip</drawable>
+    <drawable name="ads_bg_text_ad_vip">@drawable/ads__bg_text_ad_vip</drawable>
     <drawable name="ads_bg_call_action_button_vip">
         @drawable/ads_selector_bg_call_action_button_vip
     </drawable>
@@ -209,7 +223,7 @@
     <dimen name="ads_text_size_attribution_vip">8sp</dimen>
     <dimen name="ads_text_size_call_to_action_vip">14sp</dimen>
     <dimen name="ads_height_call_to_action_vip">36dp</dimen>
-    <dimen name="ads_radius_call_to_action_vip">4dp</dimen>
+    <dimen name="ads_radius_call_to_action_vip">10dp</dimen>
     <dimen name="ads_padding_bottom_call_to_action_vip">6dp</dimen>
     <dimen name="ads_padding_left_bottom_call_to_action_vip">10dp</dimen>
     <dimen name="ads_padding_right_bottom_call_to_action_vip">10dp</dimen>
@@ -218,6 +232,9 @@
 
     // shimmer
     <color name="ads_bg_shimmer_color">#80000000</color>
+
+    <drawable name="ads_bg_shimmer">@drawable/ads__bg_shimmer</drawable>
+
     <dimen name="ads_bg_shimmer_radius">14dp</dimen>
 
     // downloaded

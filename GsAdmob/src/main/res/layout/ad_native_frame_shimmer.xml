@@ -2,7 +2,6 @@
 <com.facebook.shimmer.ShimmerFrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/ad_view_frame_shimmer"
-    style="@style/ads_NativeFrame"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/ads_bg_shimmer_root">

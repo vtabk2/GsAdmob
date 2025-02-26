@@ -388,6 +388,55 @@
         <item name="ads_mode">language</item>
     </style>
 
+    <style name="NativeShare" parent="ads_BaseNativeCustom">
+        <item name="adLayoutId">@layout/ad_native_share</item>
+        <item name="adHeadlineId">@id/ad_headline_share</item>
+        <item name="adBodyId">@id/ad_body_share</item>
+        <item name="adStarsId">@id/ad_stars_share</item>
+        <item name="adAppIconId">@id/ad_app_icon_share</item>
+        <item name="adCallToActionId">@id/ad_call_to_action_share</item>
+        <item name="adViewId">@id/ad_view_share</item>
+        <item name="adMediaViewId">@id/ad_media_share</item>
+        <item name="adShimmerId">@id/ad_shimmer_share</item>
+        <item name="ads_mode">share</item>
+    </style>
+
+    <style name="NativeSticker" parent="ads_BaseNativeCustom">
+        <item name="adLayoutId">@layout/ad_native_sticker</item>
+        <item name="adHeadlineId">@id/ad_headline_sticker</item>
+        <item name="adBodyId">@id/ad_body_sticker</item>
+        <item name="adStarsId">@id/ad_stars_sticker</item>
+        <item name="adAppIconId">@id/ad_app_icon_sticker</item>
+        <item name="adCallToActionId">@id/ad_call_to_action_sticker</item>
+        <item name="adViewId">@id/ad_view_sticker</item>
+        <item name="adShimmerId">@id/ad_shimmer_sticker</item>
+        <item name="ads_mode">sticker</item>
+    </style>
+
+    <style name="NativeTemplate" parent="ads_BaseNativeCustom">
+        <item name="adLayoutId">@layout/ad_native_template</item>
+        <item name="adHeadlineId">@id/ad_headline_template</item>
+        <item name="adBodyId">@id/ad_body_template</item>
+        <item name="adStarsId">@id/ad_stars_template</item>
+        <item name="adAppIconId">@id/ad_app_icon_template</item>
+        <item name="adCallToActionId">@id/ad_call_to_action_template</item>
+        <item name="adViewId">@id/ad_view_template</item>
+        <item name="adShimmerId">@id/ad_shimmer_template</item>
+        <item name="ads_mode">template</item>
+    </style>
+
+    <style name="NativeVip" parent="ads_BaseNativeCustom">
+        <item name="adLayoutId">@layout/ad_native_vip</item>
+        <item name="adHeadlineId">@id/ad_headline_vip</item>
+        <item name="adBodyId">@id/ad_body_vip</item>
+        <item name="adStarsId">@id/ad_stars_vip</item>
+        <item name="adCallToActionId">@id/ad_call_to_action_vip</item>
+        <item name="adViewId">@id/ad_view_vip</item>
+        <item name="adMediaViewId">@id/ad_media_vip</item>
+        <item name="adShimmerId">@id/ad_shimmer_vip</item>
+        <item name="ads_mode">vip</item>
+    </style>
+
     <style name="ads_RatingBar" parent="Theme.AppCompat">
         <item name="colorControlNormal">#FFBF1C</item>
         <item name="colorControlActivated">#FFBF1C</item>

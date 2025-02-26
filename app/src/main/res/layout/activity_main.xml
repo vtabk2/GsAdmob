@@ -39,24 +39,28 @@
 
         <com.core.gsadmob.natives.view.NativeGsAdView
             android:id="@+id/nativeTest5"
+            style="@style/NativeShare"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"/>
 
         <com.core.gsadmob.natives.view.NativeGsAdView
             android:id="@+id/nativeTest6"
+            style="@style/NativeSticker"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"/>
 
         <com.core.gsadmob.natives.view.NativeGsAdView
             android:id="@+id/nativeTest7"
+            style="@style/NativeTemplate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"/>
 
         <com.core.gsadmob.natives.view.NativeGsAdView
             android:id="@+id/nativeTest8"
+            style="@style/NativeVip"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"/>

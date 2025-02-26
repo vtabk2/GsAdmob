@@ -104,7 +104,5 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.gms.ads.nativead.NativeAdView>
 
-    <include
-        android:id="@+id/font_shimmer"
-        layout="@layout/ad_native_font_shimmer"/>
+    <include layout="@layout/ad_native_font_shimmer"/>
 </com.core.gscore.utils.view.AspectRatioLayout>

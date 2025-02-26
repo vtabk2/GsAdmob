@@ -120,7 +120,5 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.gms.ads.nativead.NativeAdView>
 
-    <include
-        android:id="@+id/languageShimmer"
-        layout="@layout/ad_native_language_shimmer"/>
+    <include layout="@layout/ad_native_language_shimmer"/>
 </FrameLayout>

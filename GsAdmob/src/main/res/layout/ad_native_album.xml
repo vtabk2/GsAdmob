@@ -91,7 +91,5 @@
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.gms.ads.nativead.NativeAdView>
 
-    <include
-        android:id="@+id/albumShimmer"
-        layout="@layout/ad_native_album_shimmer"/>
+    <include layout="@layout/ad_native_album_shimmer"/>
 </com.core.gscore.utils.view.AspectRatioLayout>

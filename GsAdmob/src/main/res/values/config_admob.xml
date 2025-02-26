@@ -332,6 +332,7 @@
         <item name="adViewId">@id/ad_view_custom</item>
         <item name="adMediaViewId">@id/ad_media_custom</item>
         <item name="adShimmerId">@id/ad_shimmer_custom</item>
+        <item name="ads_mode">custom</item>
     </style>
 
     <!--    album-->
@@ -343,6 +344,7 @@
         <item name="adCallToActionId">@id/ad_call_to_action_album</item>
         <item name="adViewId">@id/ad_view_album</item>
         <item name="adShimmerId">@id/ad_shimmer_album</item>
+        <item name="ads_mode">album</item>
     </style>
 
     <!--    font-->
@@ -355,6 +357,35 @@
         <item name="adCallToActionId">@id/ad_call_to_action_font</item>
         <item name="adViewId">@id/ad_view_font</item>
         <item name="adShimmerId">@id/ad_shimmer_font</item>
+        <item name="ads_mode">font</item>
+    </style>
+
+    <!--    frame-->
+    <style name="NativeFrame" parent="ads_BaseNativeCustom">
+        <item name="adLayoutId">@layout/ad_native_frame</item>
+        <item name="adHeadlineId">@id/ad_headline_frame</item>
+        <item name="adBodyId">@id/ad_body_frame</item>
+        <item name="adStarsId">@id/ad_stars_frame</item>
+        <item name="adAppIconId">@id/ad_app_icon_frame</item>
+        <item name="adCallToActionId">@id/ad_call_to_action_frame</item>
+        <item name="adViewId">@id/ad_view_frame</item>
+        <item name="adMediaViewId">@id/ad_media_frame</item>
+        <item name="adShimmerId">@id/ad_shimmer_frame</item>
+        <item name="ads_mode">frame</item>
+    </style>
+
+    <!--    frame-->
+    <style name="NativeLanguage" parent="ads_BaseNativeCustom">
+        <item name="adLayoutId">@layout/ad_native_language</item>
+        <item name="adHeadlineId">@id/ad_headline_language</item>
+        <item name="adBodyId">@id/ad_body_language</item>
+        <item name="adStarsId">@id/ad_stars_language</item>
+        <item name="adAppIconId">@id/ad_app_icon_language</item>
+        <item name="adCallToActionId">@id/ad_call_to_action_language</item>
+        <item name="adViewId">@id/ad_view_language</item>
+        <item name="adMediaViewId">@id/ad_media_language</item>
+        <item name="adShimmerId">@id/ad_shimmer_language</item>
+        <item name="ads_mode">language</item>
     </style>
 
     <style name="ads_RatingBar" parent="Theme.AppCompat">

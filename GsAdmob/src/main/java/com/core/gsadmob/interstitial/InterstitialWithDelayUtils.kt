@@ -23,7 +23,8 @@ class InterstitialWithDelayUtils {
         delayTime = time
     }
 
-    fun loadAd(context: Context, adUnitId: Int = R.string.full_id) {
+    fun loadAd(context: Context, isVip: Boolean, adUnitId: Int = R.string.full_id) {
+        if (isVip) return
         val currentTime = System.currentTimeMillis()
         if (currentTime - lastTime < delayTime * 1000) return
         if (isLoading) return
@@ -37,7 +38,7 @@ class InterstitialWithDelayUtils {
                 isLoading = false
                 if (!isReload) {
                     isReload = true
-                    loadAd(context)
+                    loadAd(context, isVip)
                 }
             }
 
@@ -48,41 +49,45 @@ class InterstitialWithDelayUtils {
                     override fun onAdDismissedFullScreenContent() {
                         mInterstitialAd = null
                         mAdCloseListener?.onAdClose()
-                        loadAd(context)
+                        loadAd(context, isVip)
                     }
 
                     override fun onAdFailedToShowFullScreenContent(p0: AdError) {
                         mInterstitialAd = null
                         mAdCloseListener?.onAdCloseIfFailed()
-                        loadAd(context)
+                        loadAd(context, isVip)
                     }
                 }
             }
         })
     }
 
-    fun showInterstitialAd(activity: Activity, isVip: Boolean) {
-        showInterstitialAd(activity, isVip, null)
-    }
-
-    fun showInterstitialAd(activity: Activity, isVip: Boolean, adCloseListener: AdCloseListener?) {
+    fun showInterstitialAd(activity: Activity, isVip: Boolean, listener: AdCloseListener? = null) {
         if (isVip) {
-            adCloseListener?.onAdCloseIfFailed()
+            // khi vip xóa quảng cáo đã tải đi
+            mInterstitialAd = null
+            mAdCloseListener = null
+            listener?.onAdCloseIfFailed()
         } else {
-            mAdCloseListener = adCloseListener
+            mAdCloseListener = listener
             if (mInterstitialAd != null) {
                 isReload = false
                 mInterstitialAd?.show(activity)
             } else {
-                adCloseListener?.onAdCloseIfFailed()
-                loadAd(activity)
+                mAdCloseListener?.onAdCloseIfFailed()
+                loadAd(activity, false)
             }
         }
     }
 
-    fun checkInterstitialAd(activity: Activity) {
+    fun checkReloadInterstitialAdIfNeed(activity: Activity, isVip: Boolean) {
+        if (isVip) {
+            mInterstitialAd = null
+            mAdCloseListener = null
+            return
+        }
         if (mInterstitialAd == null) {
-            loadAd(activity)
+            loadAd(activity, false)
         }
     }
 

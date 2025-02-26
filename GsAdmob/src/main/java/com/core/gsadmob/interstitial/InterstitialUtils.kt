@@ -16,12 +16,13 @@ class InterstitialUtils {
     private var isReload = false
     private var isLoading = false
 
-    private var interstitialAdNoVideo: InterstitialAd? = null
-    private var adCloseListenerNoVideo: AdCloseListener? = null
+    private var mInterstitialAdNoVideo: InterstitialAd? = null
+    private var mAdCloseNoVideoListener: AdCloseListener? = null
     private var isReloadNoVideo = false
     private var isLoadingNoVideo = false
 
-    fun loadAd(context: Context) {
+    fun loadAd(context: Context, isVip: Boolean) {
+        if (isVip) return
         if (isLoading) return
         isLoading = true
         mInterstitialAd = null
@@ -36,7 +37,7 @@ class InterstitialUtils {
                     isLoading = false
                     if (!isReload) {
                         isReload = true
-                        loadAd(context)
+                        loadAd(context, isVip)
                     }
                 }
 
@@ -48,22 +49,23 @@ class InterstitialUtils {
                             override fun onAdDismissedFullScreenContent() {
                                 mInterstitialAd = null
                                 mAdCloseListener?.onAdClose()
-                                loadAd(context)
+                                loadAd(context, isVip)
                             }
 
                             override fun onAdFailedToShowFullScreenContent(p0: AdError) {
                                 mInterstitialAd = null
                                 mAdCloseListener?.onAdCloseIfFailed()
-                                loadAd(context)
+                                loadAd(context, isVip)
                             }
                         }
                 }
             })
     }
 
-    fun loadAdNoVideo(context: Context) {
+    fun loadAdNoVideo(context: Context, isVip: Boolean) {
+        if (isVip) return
         if (isLoadingNoVideo) return
-        interstitialAdNoVideo = null
+        mInterstitialAdNoVideo = null
         val adRequest: AdRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
         InterstitialAd.load(
             context,
@@ -71,79 +73,78 @@ class InterstitialUtils {
             adRequest,
             object : InterstitialAdLoadCallback() {
                 override fun onAdFailedToLoad(adError: LoadAdError) {
-                    interstitialAdNoVideo = null
+                    mInterstitialAdNoVideo = null
                     isLoadingNoVideo = false
                     if (!isReloadNoVideo) {
                         isReloadNoVideo = true
-                        loadAdNoVideo(context)
+                        loadAdNoVideo(context, isVip)
                     }
                 }
 
                 override fun onAdLoaded(ad: InterstitialAd) {
-                    interstitialAdNoVideo = ad
+                    mInterstitialAdNoVideo = ad
                     isLoadingNoVideo = false
-                    interstitialAdNoVideo?.fullScreenContentCallback =
+                    mInterstitialAdNoVideo?.fullScreenContentCallback =
                         object : FullScreenContentCallback() {
                             override fun onAdDismissedFullScreenContent() {
-                                interstitialAdNoVideo = null
-                                adCloseListenerNoVideo?.onAdClose()
-                                loadAdNoVideo(context)
+                                mInterstitialAdNoVideo = null
+                                mAdCloseNoVideoListener?.onAdClose()
+                                loadAdNoVideo(context, isVip)
                             }
 
                             override fun onAdFailedToShowFullScreenContent(p0: AdError) {
-                                interstitialAdNoVideo = null
-                                adCloseListenerNoVideo?.onAdCloseIfFailed()
-                                loadAdNoVideo(context)
+                                mInterstitialAdNoVideo = null
+                                mAdCloseNoVideoListener?.onAdCloseIfFailed()
+                                loadAdNoVideo(context, isVip)
                             }
                         }
                 }
             })
     }
 
-    fun showInterstitialAd(activity: Activity, isVip: Boolean) {
-        showInterstitialAd(activity, isVip, null)
-    }
-
-    fun showInterstitialAd(activity: Activity, isVip: Boolean, adCloseListener: AdCloseListener?) {
+    fun showInterstitialAd(activity: Activity, isVip: Boolean, listener: AdCloseListener? = null) {
         if (isVip) {
-            adCloseListener?.onAdCloseIfFailed()
+            // khi vip xóa quảng cáo đã tải đi
+            mInterstitialAd = null
+            mAdCloseListener = null
+            listener?.onAdCloseIfFailed()
         } else {
-            mAdCloseListener = adCloseListener
+            mAdCloseListener = listener
             if (mInterstitialAd != null) {
                 isReload = false
                 mInterstitialAd?.show(activity)
             } else {
-                adCloseListener?.onAdCloseIfFailed()
-                loadAd(activity)
+                mAdCloseListener?.onAdCloseIfFailed()
+                loadAd(activity, false)
             }
         }
     }
 
-    fun checkInterstitialAd(activity: Activity) {
+    fun checkReloadInterstitialAdIfNeed(activity: Activity, isVip: Boolean) {
+        if (isVip) {
+            mInterstitialAd = null
+            mAdCloseListener = null
+            return
+        }
         if (mInterstitialAd == null) {
-            loadAd(activity)
+            loadAd(activity, false)
         }
     }
 
-    fun showInterstitialAdNoVideo(activity: Activity, isVip: Boolean) {
-        showInterstitialAdNoVideo(activity, isVip, null)
-    }
-
-    fun showInterstitialAdNoVideo(
-        activity: Activity,
-        isVip: Boolean,
-        adCloseListenerNoVideo: AdCloseListener?
-    ) {
-        this.adCloseListenerNoVideo = adCloseListenerNoVideo
+    fun showInterstitialAdNoVideo(activity: Activity, isVip: Boolean, listener: AdCloseListener? = null) {
         if (isVip) {
-            this.adCloseListenerNoVideo?.onAdCloseIfFailed()
+            // khi vip xóa quảng cáo đã tải đi
+            mInterstitialAdNoVideo = null
+            mAdCloseNoVideoListener = null
+            listener?.onAdCloseIfFailed()
         } else {
-            if (this.interstitialAdNoVideo != null) {
+            mAdCloseNoVideoListener = listener
+            if (mInterstitialAdNoVideo != null) {
                 isReloadNoVideo = false
-                interstitialAdNoVideo?.show(activity)
+                mInterstitialAdNoVideo?.show(activity)
             } else {
-                this.adCloseListenerNoVideo?.onAdCloseIfFailed()
-                loadAdNoVideo(activity)
+                mAdCloseNoVideoListener?.onAdCloseIfFailed()
+                loadAdNoVideo(activity, false)
             }
         }
     }

@@ -100,6 +100,7 @@
                 android:gravity="center"
                 android:lineSpacingExtra="5dp"
                 android:minWidth="96dp"
+                android:textAllCaps="@bool/ads_call_button_sticker_textAllCaps"
                 android:textColor="@color/ads_text_color_call_button_sticker"
                 android:textSize="@dimen/ads_text_size_call_to_action_sticker"
                 app:layout_constraintBottom_toBottomOf="parent"

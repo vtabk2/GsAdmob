@@ -26,6 +26,8 @@
         @drawable/ads_selector_bg_call_action_button_album
     </drawable>
 
+    <bool name="ads_call_button_album_textAllCaps">false</bool>
+
     <dimen name="ads_text_size_headline_album">15sp</dimen>
     <dimen name="ads_text_size_attribution_album">8sp</dimen>
     <dimen name="ads_text_size_call_to_action_album">14sp</dimen>
@@ -55,6 +57,8 @@
     <drawable name="ads_bg_call_action_button_font">
         @drawable/ads_selector_bg_call_action_button_font
     </drawable>
+
+    <bool name="ads_call_button_font_textAllCaps">false</bool>
 
     <dimen name="ads_text_size_headline_font">15sp</dimen>
     <dimen name="ads_text_size_body_font">12sp</dimen>
@@ -86,6 +90,8 @@
     <drawable name="ads_bg_call_action_button_frame">
         @drawable/ads_selector_bg_call_action_button_frame
     </drawable>
+
+    <bool name="ads_call_button_frame_textAllCaps">false</bool>
 
     <dimen name="ads_text_size_headline_frame">13sp</dimen>
     <dimen name="ads_text_size_body_frame">12sp</dimen>
@@ -121,6 +127,8 @@
         @drawable/ads_selector_bg_call_action_button_language
     </drawable>
 
+    <bool name="ads_call_button_language_textAllCaps">true</bool>
+
     <dimen name="ads_text_size_headline_language">15sp</dimen>
     <dimen name="ads_text_size_body_language">13sp</dimen>
     <dimen name="ads_text_size_attribution_language">8sp</dimen>
@@ -151,6 +159,8 @@
     <drawable name="ads_bg_call_action_button_share">
         @drawable/ads_selector_bg_call_action_button_share
     </drawable>
+
+    <bool name="ads_call_button_share_textAllCaps">false</bool>
 
     <dimen name="ads_text_size_headline_share">15sp</dimen>
     <dimen name="ads_text_size_body_share">13sp</dimen>
@@ -183,6 +193,8 @@
         @drawable/ads_selector_bg_call_action_button_sticker
     </drawable>
 
+    <bool name="ads_call_button_sticker_textAllCaps">false</bool>
+
     <dimen name="ads_text_size_headline_sticker">15sp</dimen>
     <dimen name="ads_text_size_body_sticker">12sp</dimen>
     <dimen name="ads_text_size_attribution_sticker">8sp</dimen>
@@ -213,6 +225,8 @@
     <drawable name="ads_bg_call_action_button_template">
         @drawable/ads_selector_bg_call_action_button_template
     </drawable>
+
+    <bool name="ads_call_button_template_textAllCaps">false</bool>
 
     <dimen name="ads_text_size_headline_template">15sp</dimen>
     <dimen name="ads_text_size_body_template">12sp</dimen>
@@ -246,6 +260,8 @@
         @drawable/ads_selector_bg_call_action_button_vip
     </drawable>
 
+    <bool name="ads_call_button_vip_textAllCaps">true</bool>
+
     <dimen name="ads_text_size_headline_vip">15sp</dimen>
     <dimen name="ads_text_size_body_vip">12sp</dimen>
     <dimen name="ads_text_size_attribution_vip">8sp</dimen>
@@ -277,14 +293,21 @@
     <dimen name="ads_bg_shimmer_radius">5dp</dimen>
 
     <!--    downloaded-->
-    <color name="ads_bg_color_downloaded">#000000</color>
+    <color name="ads_bg_color_downloaded_start">#000000</color>
+    <color name="ads_bg_color_downloaded_end">#000000</color>
     <color name="ads_bg_color_downloaded_pressed">#CCCACACA</color>
+
+    <drawable name="ads_bg_call_action_button_downloaded">
+        @drawable/ads_selector_bg_call_action_button_downloaded
+    </drawable>
 
     <dimen name="ads_radius_downloaded">4dp</dimen>
     <dimen name="ads_padding_bottom_downloaded">6dp</dimen>
     <dimen name="ads_padding_left_downloaded">10dp</dimen>
     <dimen name="ads_padding_right_downloaded">10dp</dimen>
     <dimen name="ads_padding_top_downloaded">6dp</dimen>
+
+    <bool name="ads_call_button_custom_textAllCaps">true</bool>
 
     <style name="ads_NativeCustom" parent="ads_BaseNativeAdView">
 

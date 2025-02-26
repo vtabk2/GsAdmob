@@ -19,7 +19,7 @@
                 android:left="@dimen/ads_padding_left_downloaded"
                 android:right="@dimen/ads_padding_right_downloaded"
                 android:top="@dimen/ads_padding_top_downloaded"/>
-            <solid android:color="@color/ads_bg_color_downloaded"/>
+            <gradient android:endColor="@color/ads_bg_color_downloaded_end" android:startColor="@color/ads_bg_color_downloaded_start"/>
         </shape>
     </item>
 </selector>

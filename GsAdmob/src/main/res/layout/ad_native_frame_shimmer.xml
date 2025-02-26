@@ -106,6 +106,7 @@
             android:gravity="center"
             android:lineSpacingExtra="5dp"
             android:minWidth="96dp"
+            android:textAllCaps="@bool/ads_call_button_frame_textAllCaps"
             android:textColor="@color/ads_text_color_call_button_frame"
             android:textSize="@dimen/ads_text_size_call_to_action_frame"
             app:layout_constraintBottom_toBottomOf="parent"

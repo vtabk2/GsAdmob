@@ -39,7 +39,7 @@
     <dimen name="ads_padding_top_call_to_action_album">6dp</dimen>
     <dimen name="ads_radius_bg_album">0dp</dimen>
 
-    <style name="ads_NativeAlbum" parent="ads_BaseNativeAdView">
+    <style name="ads_NativeAlbumRoot" parent="ads_BaseNativeAdViewRoot">
 
     </style>
 
@@ -72,7 +72,7 @@
     <dimen name="ads_padding_top_call_to_action_font">6dp</dimen>
     <dimen name="ads_radius_bg_font">0dp</dimen>
 
-    <style name="ads_NativeFont" parent="ads_BaseNativeAdView">
+    <style name="ads_NativeFontRoot" parent="ads_BaseNativeAdViewRoot">
 
     </style>
 
@@ -108,7 +108,7 @@
     <dimen name="ads_top_left_radius_bg_frame">10dp</dimen>
     <dimen name="ads_top_right_radius_bg_frame">0dp</dimen>
 
-    <style name="ads_NativeFrame" parent="ads_BaseNativeAdView">
+    <style name="ads_NativeFrameRoot" parent="ads_BaseNativeAdViewRoot">
 
     </style>
 
@@ -141,7 +141,7 @@
     <dimen name="ads_padding_top_call_to_action_language">6dp</dimen>
     <dimen name="ads_radius_bg_language">0dp</dimen>
 
-    <style name="ads_NativeLanguage" parent="ads_BaseNativeAdView">
+    <style name="ads_NativeLanguageRoot" parent="ads_BaseNativeAdViewRoot">
 
     </style>
 
@@ -174,7 +174,7 @@
     <dimen name="ads_padding_top_call_to_action_share">6dp</dimen>
     <dimen name="ads_radius_bg_share">10dp</dimen>
 
-    <style name="ads_NativeShare" parent="ads_BaseNativeAdView">
+    <style name="ads_NativeShareRoot" parent="ads_BaseNativeAdViewRoot">
 
     </style>
 
@@ -207,7 +207,7 @@
     <dimen name="ads_padding_top_call_to_action_sticker">6dp</dimen>
     <dimen name="ads_radius_bg_sticker">10dp</dimen>
 
-    <style name="ads_NativeSticker" parent="ads_BaseNativeAdView">
+    <style name="ads_NativeStickerRoot" parent="ads_BaseNativeAdViewRoot">
 
     </style>
 
@@ -240,7 +240,7 @@
     <dimen name="ads_padding_top_call_to_action_template">6dp</dimen>
     <dimen name="ads_radius_bg_template">0dp</dimen>
 
-    <style name="ads_NativeTemplate" parent="ads_BaseNativeAdView">
+    <style name="ads_NativeTemplateRoot" parent="ads_BaseNativeAdViewRoot">
 
     </style>
 
@@ -274,7 +274,7 @@
     <dimen name="ads_padding_top_bottom_call_to_action_vip">6dp</dimen>
     <dimen name="ads_radius_bg_vip">10dp</dimen>
 
-    <style name="ads_NativeVip" parent="ads_BaseNativeAdView">
+    <style name="ads_NativeVipRoot" parent="ads_BaseNativeAdViewRoot">
 
     </style>
 
@@ -309,12 +309,12 @@
 
     <bool name="ads_call_button_custom_textAllCaps">true</bool>
 
-    <style name="ads_NativeCustom" parent="ads_BaseNativeAdView">
+    <style name="ads_NativeCustomRoot" parent="ads_BaseNativeAdViewRoot">
 
     </style>
 
     <!--    config lại native ads-->
-    <style name="ads_BaseNativeAdView">
+    <style name="ads_BaseNativeAdViewRoot">
         <item name="android:layout_marginStart">0dp</item>
         <item name="android:layout_marginTop">0dp</item>
         <item name="android:layout_marginEnd">0dp</item>
@@ -332,6 +332,29 @@
         <item name="adViewId">@id/ad_view_custom</item>
         <item name="adMediaViewId">@id/ad_media_custom</item>
         <item name="adShimmerId">@id/ad_shimmer_custom</item>
+    </style>
+
+    <!--    album-->
+    <style name="NativeAlbum" parent="ads_BaseNativeCustom">
+        <item name="adLayoutId">@layout/ad_native_album</item>
+        <item name="adHeadlineId">@id/ad_headline_album</item>
+        <item name="adStarsId">@id/ad_stars_album</item>
+        <item name="adAppIconId">@id/ad_app_icon_album</item>
+        <item name="adCallToActionId">@id/ad_call_to_action_album</item>
+        <item name="adViewId">@id/ad_view_album</item>
+        <item name="adShimmerId">@id/ad_shimmer_album</item>
+    </style>
+
+    <!--    font-->
+    <style name="NativeFont" parent="ads_BaseNativeCustom">
+        <item name="adLayoutId">@layout/ad_native_font</item>
+        <item name="adHeadlineId">@id/ad_headline_font</item>
+        <item name="adBodyId">@id/ad_body_font</item>
+        <item name="adStarsId">@id/ad_stars_font</item>
+        <item name="adAppIconId">@id/ad_app_icon_font</item>
+        <item name="adCallToActionId">@id/ad_call_to_action_font</item>
+        <item name="adViewId">@id/ad_view_font</item>
+        <item name="adShimmerId">@id/ad_shimmer_font</item>
     </style>
 
     <style name="ads_RatingBar" parent="Theme.AppCompat">

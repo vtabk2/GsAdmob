@@ -15,66 +15,47 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-        <!--        <com.core.gsadmob.natives.view.NativeGsAdView-->
-        <!--            android:id="@+id/nativeAlbum"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginTop="10dp"-->
-        <!--            app:ads_mode="album"/>-->
+        <com.core.gsadmob.natives.view.NativeGsAdView
+            android:id="@+id/nativeTest2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"/>
 
-        <!--        <com.core.gsadmob.natives.view.NativeGsAdView-->
-        <!--            android:id="@+id/nativeFont"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginTop="10dp"-->
-        <!--            app:ads_mode="font"/>-->
+        <com.core.gsadmob.natives.view.NativeGsAdView
+            android:id="@+id/nativeTest3"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"/>
 
-        <!--        <LinearLayout-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:orientation="horizontal">-->
+        <com.core.gsadmob.natives.view.NativeGsAdView
+            android:id="@+id/nativeTest4"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"/>
 
-        <!--            <com.core.gsadmob.natives.view.NativeGsAdView-->
-        <!--                android:id="@+id/nativeFrame1"-->
-        <!--                android:layout_width="0dp"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_weight="1"-->
-        <!--                app:ads_mode="frame"/>-->
+        <com.core.gsadmob.natives.view.NativeGsAdView
+            android:id="@+id/nativeTest5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"/>
 
-        <!--            <com.core.gsadmob.natives.view.NativeGsAdView-->
-        <!--                android:id="@+id/nativeFrame2"-->
-        <!--                android:layout_width="0dp"-->
-        <!--                android:layout_height="wrap_content"-->
-        <!--                android:layout_weight="1"-->
-        <!--                app:ads_mode="frame"/>-->
-        <!--        </LinearLayout>-->
+        <com.core.gsadmob.natives.view.NativeGsAdView
+            android:id="@+id/nativeTest6"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"/>
 
-        <!--        <com.core.gsadmob.natives.view.NativeGsAdView-->
-        <!--            android:id="@+id/nativeLanguage"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginTop="10dp"-->
-        <!--            app:ads_mode="language"/>-->
+        <com.core.gsadmob.natives.view.NativeGsAdView
+            android:id="@+id/nativeTest7"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"/>
 
-        <!--        <com.core.gsadmob.natives.view.NativeGsAdView-->
-        <!--            android:id="@+id/nativeShare"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginTop="10dp"/>-->
-
-        <!--        <com.core.gsadmob.natives.view.NativeGsAdView-->
-        <!--            android:id="@+id/nativeSticker"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginTop="10dp"-->
-        <!--            app:ads_mode="sticker"/>-->
-
-        <!--        <com.core.gsadmob.natives.view.NativeGsAdView-->
-        <!--            android:id="@+id/nativeTemplate"-->
-        <!--            android:layout_width="match_parent"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginTop="10dp"-->
-        <!--            app:ads_mode="template"/>-->
+        <com.core.gsadmob.natives.view.NativeGsAdView
+            android:id="@+id/nativeTest8"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"/>
 
         <com.core.gsadmob.natives.view.NativeGsAdView
             android:id="@+id/nativeCustom"

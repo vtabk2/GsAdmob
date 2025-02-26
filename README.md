@@ -4,24 +4,56 @@
 **Step 1.** Add the JitPack repository to your build file
 Add it in your root build.gradle at the end of repositories:
 ```css
-dependencyResolutionManagement {
-		repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-		repositories {
-			mavenCentral()
-			maven { url 'https://jitpack.io' }
-		}
-	}
+        dependencyResolutionManagement {
+                repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
+                repositories {
+                    mavenCentral()
+                    maven { url 'https://jitpack.io' }
+                }
+            }
 ```
 **Step 2.** Add the dependency
 ```css
-dependencies {
-	        implementation 'com.github.vtabk2:GsAdmob:1.0.5'
-	}
+        dependencies {
+                    implementation 'com.github.vtabk2:GsAdmob:1.0.5'
+            }
 ```
 
 - admob : cấu hình trong config_admob
 - BannerUtils
+```css
+        BannerUtils.initBannerAds(activity = this, flBannerAds = bindingView.flBannerAds, isVip = false, show = true, alwaysShow = true, callbackAdMob = { adView ->
+            adBanner = adView
+        })
+```
+- InterstitialWithDelayUtils dùng khi cần load InterstitialAds có delay load giữa các lần
+```css
+        InterstitialWithDelayUtils.instance.registerDelayTime(10)
+        
+        InterstitialWithDelayUtils.instance.showInterstitialAd(activity = this, isVip = false, listener = object : InterstitialWithDelayUtils.AdCloseListener {
+                override fun onAdClose() {
+                    // todo
+                }
+
+                override fun onAdCloseIfFailed() {
+                    // todo
+                }
+            })
+```
 - InterstitialUtils
+
+```css
+        InterstitialUtils.instance.showInterstitialAd(activity = this, isVip = false, listener = object : InterstitialUtils.AdCloseListener {
+                override fun onAdClose() {
+                    // todo
+                }
+
+                override fun onAdCloseIfFailed() {
+                    // todo
+                }
+            })
+```
+
 - NativeUtils
 - RewardedInterstitialUtils
 

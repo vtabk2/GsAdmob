@@ -40,6 +40,7 @@ class MainActivity : AppCompatActivity() {
 //        bindingView.nativeTest8.applyBuilder(NativeDefaultConfig.BUILDER_VIP)
 
         NativeUtils.loadNativeAds(this, this, isVip = false, callbackStart = {
+            bindingView.nativeTest0.startShimmer()
             bindingView.nativeTest1.startShimmer()
             bindingView.nativeTest2.startShimmer()
             bindingView.nativeTest3.startShimmer()
@@ -52,6 +53,7 @@ class MainActivity : AppCompatActivity() {
             bindingView.nativeCustom1.startShimmer()
             bindingView.nativeCustom2.startShimmer()
         }, callback = { nativeAd ->
+            bindingView.nativeTest0.setNativeAd(nativeAd)
             bindingView.nativeTest1.setNativeAd(nativeAd)
             bindingView.nativeTest2.setNativeAd(nativeAd)
             bindingView.nativeTest3.setNativeAd(nativeAd)

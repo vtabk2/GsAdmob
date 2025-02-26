@@ -10,6 +10,7 @@ import android.widget.RatingBar
 import androidx.appcompat.widget.AppCompatTextView
 import com.core.gsadmob.R
 import com.core.gsadmob.natives.AdsMode
+import com.core.gsadmob.natives.NativeDefaultConfig
 import com.core.gscore.utils.extensions.gone
 import com.core.gscore.utils.extensions.invisible
 import com.core.gscore.utils.extensions.visible
@@ -70,9 +71,66 @@ abstract class BaseNativeAdView(context: Context, attrs: AttributeSet?) : FrameL
             if (typedArray.hasValue(R.styleable.BaseNativeAdView_adShimmerId)) {
                 builder.adShimmerId = typedArray.getResourceId(R.styleable.BaseNativeAdView_adShimmerId, builder.adShimmerId)
             }
+            checkBuilderWithAdsMode()
             typedArray.recycle()
         }
         applyBuilder(builder)
+    }
+
+    private fun checkBuilderWithAdsMode() {
+        when (builder.adsMode) {
+            AdsMode.ALBUM -> {
+                if (builder.adLayoutId == R.layout.ad_native_custom) {
+                    builder = NativeDefaultConfig.BUILDER_ALBUM
+                }
+            }
+
+            AdsMode.FONT -> {
+                if (builder.adLayoutId == R.layout.ad_native_custom) {
+                    builder = NativeDefaultConfig.BUILDER_FONT
+                }
+            }
+
+            AdsMode.FRAME -> {
+                if (builder.adLayoutId == R.layout.ad_native_custom) {
+                    builder = NativeDefaultConfig.BUILDER_FRAME
+                }
+            }
+
+            AdsMode.LANGUAGE -> {
+                if (builder.adLayoutId == R.layout.ad_native_custom) {
+                    builder = NativeDefaultConfig.BUILDER_LANGUAGE
+                }
+            }
+
+            AdsMode.SHARE -> {
+                if (builder.adLayoutId == R.layout.ad_native_custom) {
+                    builder = NativeDefaultConfig.BUILDER_SHARE
+                }
+            }
+
+            AdsMode.STICKER -> {
+                if (builder.adLayoutId == R.layout.ad_native_custom) {
+                    builder = NativeDefaultConfig.BUILDER_STICKER
+                }
+            }
+
+            AdsMode.TEMPLATE -> {
+                if (builder.adLayoutId == R.layout.ad_native_custom) {
+                    builder = NativeDefaultConfig.BUILDER_TEMPLATE
+                }
+            }
+
+            AdsMode.VIP -> {
+                if (builder.adLayoutId == R.layout.ad_native_custom) {
+                    builder = NativeDefaultConfig.BUILDER_VIP
+                }
+            }
+
+            else -> {
+
+            }
+        }
     }
 
     open fun initViewWithMode() {}

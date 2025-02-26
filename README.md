@@ -15,7 +15,7 @@ Add it in your root build.gradle at the end of repositories:
 **Step 2.** Add the dependency
 ```css
         dependencies {
-                    implementation 'com.github.vtabk2:GsAdmob:1.0.6'
+                    implementation 'com.github.vtabk2:GsAdmob:1.0.7'
             }
 ```
 
@@ -55,10 +55,6 @@ Add it in your root build.gradle at the end of repositories:
 ```
 
 - NativeUtils
-- RewardedInterstitialUtils
-
-- AppOpenAdManager
-- AppResumeAdManager
 
 - Tùy biến NativeAdView thì chọn ads_mode = custom
 
@@ -79,17 +75,15 @@ Add it in your root build.gradle at the end of repositories:
         bindingView.nativeCustom.applyBuilder(builder)
 ```
 
-- Cách 2: Đổi tất cả id thì cấu hình lại trong builder: id = 0 khi không có trong layout
+- Cách 2: Đổi tất cả id thì cấu hình lại trong builder:
 ```css
         val builder = BaseNativeAdView.Builder().apply {
             adLayoutId = R.layout.ad_native_test
             adHeadlineId = R.id.ad_headline_test
-            adBodyId = 0
             adStarsId = R.id.ad_stars_test
             adAppIconId = R.id.ad_app_icon_test
             adCallToActionId = R.id.ad_call_to_action_test
             adViewId = R.id.ad_view_test
-            adMediaViewId = 0
             adShimmerId = R.id.ad_view_test_shimmer
         }
         bindingView.nativeCustom.applyBuilder(builder)
@@ -99,12 +93,18 @@ Add it in your root build.gradle at the end of repositories:
 
 ```css
         <com.core.gsadmob.natives.view.NativeGsAdView
+            android:id="@+id/nativeTest8"
+            style="@style/NativeVip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"/>
+
+        <com.core.gsadmob.natives.view.NativeGsAdView
             android:id="@+id/nativeCustom"
             style="@style/NativeTest"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:ads_mode="custom"/>
+            android:layout_marginTop="10dp"/>
 
         <style name="NativeTest" parent="BaseNativeCustom">
             <item name="adLayoutId">@layout/ad_native_test</item>
@@ -117,6 +117,10 @@ Add it in your root build.gradle at the end of repositories:
             <!--        <item name="adMediaViewId">@id/ad_media_test</item>-->
             <item name="adShimmerId">@id/ad_view_test_shimmer</item>
         </style>
+        
+        bindingView.nativeTest1.applyBuilder(NativeDefaultConfig.BUILDER_ALBUM)
+        
+        bindingView.nativeTest2.applyBuilder(NativeDefaultConfig.BUILDER_FONT)
 ```
 - Cách load native
 
@@ -127,3 +131,8 @@ Add it in your root build.gradle at the end of repositories:
             bindingView.nativeCustom.setNativeAd(nativeAd)
         })
 ```
+
+- RewardedInterstitialUtils
+
+- AppOpenAdManager
+- AppResumeAdManager

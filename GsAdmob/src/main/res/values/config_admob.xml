@@ -262,12 +262,19 @@
 
     </style>
 
+    <!--    shimmer root-->
+    <color name="ads_bg_shimmer_root_color">#CACACA</color>
+
+    <drawable name="ads_bg_shimmer_root">@drawable/ads__bg_shimmer_root</drawable>
+
+    <dimen name="ads_bg_shimmer_root_radius">0dp</dimen>
+
     <!--    shimmer-->
     <color name="ads_bg_shimmer_color">#80000000</color>
 
     <drawable name="ads_bg_shimmer">@drawable/ads__bg_shimmer</drawable>
 
-    <dimen name="ads_bg_shimmer_radius">14dp</dimen>
+    <dimen name="ads_bg_shimmer_radius">5dp</dimen>
 
     <!--    downloaded-->
     <color name="ads_bg_color_downloaded">#000000</color>

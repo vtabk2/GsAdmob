@@ -4,7 +4,8 @@
     android:id="@+id/ad_view_language_shimmer"
     style="@style/ads_NativeLanguage"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@drawable/ads_bg_shimmer_root">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

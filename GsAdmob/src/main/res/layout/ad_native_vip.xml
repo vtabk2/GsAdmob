@@ -4,13 +4,13 @@
     style="@style/ads_NativeVip"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/ads_bg_vip"
     app:heightToWidth="0.46923076923">
 
     <com.google.android.gms.ads.nativead.NativeAdView
         android:id="@+id/ad_view_vip"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/ads_bg_vip">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

@@ -9,7 +9,8 @@
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/ad_view_template_shimmer"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/ads_bg_shimmer_root">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

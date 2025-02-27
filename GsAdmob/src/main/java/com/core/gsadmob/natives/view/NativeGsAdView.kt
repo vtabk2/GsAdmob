@@ -1,11 +1,13 @@
 package com.core.gsadmob.natives.view
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.AttributeSet
 import android.widget.ImageView
 import android.widget.RatingBar
 import androidx.appcompat.widget.AppCompatTextView
 import com.core.gsadmob.natives.AdsMode
+import com.core.gsadmob.utils.extensions.setMarginExtensionFunction
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.gms.ads.nativead.MediaView
 import com.google.android.gms.ads.nativead.NativeAdView
@@ -67,6 +69,7 @@ class NativeGsAdView(context: Context, attrs: AttributeSet? = null) : BaseNative
         }
     }
 
+    @SuppressLint("ResourceType")
     override fun initViewWithMode() {
         when (builder.adsMode) {
             AdsMode.NONE -> {
@@ -74,9 +77,34 @@ class NativeGsAdView(context: Context, attrs: AttributeSet? = null) : BaseNative
             }
 
             else -> {
+                var marginStartRoot = 0
+                var marginTopRoot = 0
+                var marginEndRoot = 0
+                var marginBottomRoot = 0
+
+                try {
+                    val attrViewRoot = intArrayOf(
+                        android.R.attr.layout_marginStart,
+                        android.R.attr.layout_marginTop,
+                        android.R.attr.layout_marginEnd,
+                        android.R.attr.layout_marginBottom
+                    )
+                    val typedArrayRoot = context.obtainStyledAttributes(builder.adsNativeViewRoot, attrViewRoot)
+
+                    marginStartRoot = typedArrayRoot.getDimension(0, 0f).toInt()
+                    marginTopRoot = typedArrayRoot.getDimension(1, 0f).toInt()
+                    marginEndRoot = typedArrayRoot.getDimension(2, 0f).toInt()
+                    marginBottomRoot = typedArrayRoot.getDimension(3, 0f).toInt()
+
+                    typedArrayRoot.recycle()
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+
                 removeView(customView)
                 customView = layoutInflater.inflate(builder.adLayoutId, null)
                 addView(customView)
+                customView?.setMarginExtensionFunction(marginStartRoot, marginTopRoot, marginEndRoot, marginBottomRoot)
             }
         }
     }

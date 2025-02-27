@@ -71,6 +71,9 @@ abstract class BaseNativeAdView(context: Context, attrs: AttributeSet?) : FrameL
             if (typedArray.hasValue(R.styleable.BaseNativeAdView_adShimmerId)) {
                 builder.adShimmerId = typedArray.getResourceId(R.styleable.BaseNativeAdView_adShimmerId, builder.adShimmerId)
             }
+            if (typedArray.hasValue(R.styleable.BaseNativeAdView_adsNativeViewRoot)) {
+                builder.adsNativeViewRoot = typedArray.getResourceId(R.styleable.BaseNativeAdView_adsNativeViewRoot, builder.adsNativeViewRoot)
+            }
             checkBuilderWithAdsMode()
             typedArray.recycle()
         }
@@ -230,6 +233,7 @@ abstract class BaseNativeAdView(context: Context, attrs: AttributeSet?) : FrameL
         var adViewId: Int = R.id.ad_view_custom,
         var adMediaViewId: Int = R.id.ad_media_custom,
         var adShimmerId: Int = R.id.ad_shimmer_custom,
+        var adsNativeViewRoot: Int = R.style.ads_BaseNativeAdViewRoot,
         var adsMode: AdsMode = AdsMode.NONE
     )
 }

@@ -13,6 +13,7 @@ object NativeDefaultConfig {
         adCallToActionId = R.id.ad_call_to_action_album
         adViewId = R.id.ad_view_album
         adShimmerId = R.id.ad_shimmer_album
+        adsNativeViewRoot = R.style.NativeAlbum
         adsMode = AdsMode.ALBUM
     }
 
@@ -25,6 +26,7 @@ object NativeDefaultConfig {
         adCallToActionId = R.id.ad_call_to_action_font
         adViewId = R.id.ad_view_font
         adShimmerId = R.id.ad_shimmer_font
+        adsNativeViewRoot = R.style.NativeFont
         adsMode = AdsMode.FONT
     }
 
@@ -38,6 +40,7 @@ object NativeDefaultConfig {
         adViewId = R.id.ad_view_frame
         adMediaViewId = R.id.ad_media_frame
         adShimmerId = R.id.ad_shimmer_frame
+        adsNativeViewRoot = R.style.NativeFrame
         adsMode = AdsMode.FRAME
     }
 
@@ -51,6 +54,7 @@ object NativeDefaultConfig {
         adViewId = R.id.ad_view_language
         adMediaViewId = R.id.ad_media_language
         adShimmerId = R.id.ad_shimmer_language
+        adsNativeViewRoot = R.style.NativeLanguage
         adsMode = AdsMode.LANGUAGE
     }
 
@@ -64,6 +68,7 @@ object NativeDefaultConfig {
         adViewId = R.id.ad_view_share
         adMediaViewId = R.id.ad_media_share
         adShimmerId = R.id.ad_shimmer_share
+        adsNativeViewRoot = R.style.NativeShare
         adsMode = AdsMode.SHARE
     }
 
@@ -76,6 +81,7 @@ object NativeDefaultConfig {
         adCallToActionId = R.id.ad_call_to_action_sticker
         adViewId = R.id.ad_view_sticker
         adShimmerId = R.id.ad_shimmer_sticker
+        adsNativeViewRoot = R.style.NativeSticker
         adsMode = AdsMode.STICKER
     }
 
@@ -88,6 +94,7 @@ object NativeDefaultConfig {
         adCallToActionId = R.id.ad_call_to_action_template
         adViewId = R.id.ad_view_template
         adShimmerId = R.id.ad_shimmer_template
+        adsNativeViewRoot = R.style.NativeTemplate
         adsMode = AdsMode.TEMPLATE
     }
 
@@ -100,6 +107,7 @@ object NativeDefaultConfig {
         adViewId = R.id.ad_view_vip
         adMediaViewId = R.id.ad_media_vip
         adShimmerId = R.id.ad_shimmer_vip
+        adsNativeViewRoot = R.style.NativeVip
         adsMode = AdsMode.VIP
     }
 }

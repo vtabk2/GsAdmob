@@ -332,6 +332,7 @@
         <item name="adViewId">@id/ad_view_custom</item>
         <item name="adMediaViewId">@id/ad_media_custom</item>
         <item name="adShimmerId">@id/ad_shimmer_custom</item>
+        <item name="adsNativeViewRoot">@style/ads_BaseNativeAdViewRoot</item>
         <item name="ads_mode">custom</item>
     </style>
 
@@ -344,6 +345,7 @@
         <item name="adCallToActionId">@id/ad_call_to_action_album</item>
         <item name="adViewId">@id/ad_view_album</item>
         <item name="adShimmerId">@id/ad_shimmer_album</item>
+        <item name="adsNativeViewRoot">@style/ads_NativeAlbumRoot</item>
         <item name="ads_mode">album</item>
     </style>
 
@@ -357,6 +359,7 @@
         <item name="adCallToActionId">@id/ad_call_to_action_font</item>
         <item name="adViewId">@id/ad_view_font</item>
         <item name="adShimmerId">@id/ad_shimmer_font</item>
+        <item name="adsNativeViewRoot">@style/ads_NativeFontRoot</item>
         <item name="ads_mode">font</item>
     </style>
 
@@ -371,10 +374,11 @@
         <item name="adViewId">@id/ad_view_frame</item>
         <item name="adMediaViewId">@id/ad_media_frame</item>
         <item name="adShimmerId">@id/ad_shimmer_frame</item>
+        <item name="adsNativeViewRoot">@style/ads_NativeFrameRoot</item>
         <item name="ads_mode">frame</item>
     </style>
 
-    <!--    frame-->
+    <!--    language-->
     <style name="NativeLanguage" parent="ads_BaseNativeCustom">
         <item name="adLayoutId">@layout/ad_native_language</item>
         <item name="adHeadlineId">@id/ad_headline_language</item>
@@ -385,9 +389,11 @@
         <item name="adViewId">@id/ad_view_language</item>
         <item name="adMediaViewId">@id/ad_media_language</item>
         <item name="adShimmerId">@id/ad_shimmer_language</item>
+        <item name="adsNativeViewRoot">@style/ads_NativeLanguageRoot</item>
         <item name="ads_mode">language</item>
     </style>
 
+    <!--    share-->
     <style name="NativeShare" parent="ads_BaseNativeCustom">
         <item name="adLayoutId">@layout/ad_native_share</item>
         <item name="adHeadlineId">@id/ad_headline_share</item>
@@ -398,9 +404,11 @@
         <item name="adViewId">@id/ad_view_share</item>
         <item name="adMediaViewId">@id/ad_media_share</item>
         <item name="adShimmerId">@id/ad_shimmer_share</item>
+        <item name="adsNativeViewRoot">@style/ads_NativeShareRoot</item>
         <item name="ads_mode">share</item>
     </style>
 
+    <!--    sticker-->
     <style name="NativeSticker" parent="ads_BaseNativeCustom">
         <item name="adLayoutId">@layout/ad_native_sticker</item>
         <item name="adHeadlineId">@id/ad_headline_sticker</item>
@@ -410,9 +418,11 @@
         <item name="adCallToActionId">@id/ad_call_to_action_sticker</item>
         <item name="adViewId">@id/ad_view_sticker</item>
         <item name="adShimmerId">@id/ad_shimmer_sticker</item>
+        <item name="adsNativeViewRoot">@style/ads_NativeStickerRoot</item>
         <item name="ads_mode">sticker</item>
     </style>
 
+    <!--    template-->
     <style name="NativeTemplate" parent="ads_BaseNativeCustom">
         <item name="adLayoutId">@layout/ad_native_template</item>
         <item name="adHeadlineId">@id/ad_headline_template</item>
@@ -422,9 +432,11 @@
         <item name="adCallToActionId">@id/ad_call_to_action_template</item>
         <item name="adViewId">@id/ad_view_template</item>
         <item name="adShimmerId">@id/ad_shimmer_template</item>
+        <item name="adsNativeViewRoot">@style/ads_NativeTemplateRoot</item>
         <item name="ads_mode">template</item>
     </style>
 
+    <!--    vip-->
     <style name="NativeVip" parent="ads_BaseNativeCustom">
         <item name="adLayoutId">@layout/ad_native_vip</item>
         <item name="adHeadlineId">@id/ad_headline_vip</item>
@@ -434,6 +446,7 @@
         <item name="adViewId">@id/ad_view_vip</item>
         <item name="adMediaViewId">@id/ad_media_vip</item>
         <item name="adShimmerId">@id/ad_shimmer_vip</item>
+        <item name="adsNativeViewRoot">@style/ads_NativeVipRoot</item>
         <item name="ads_mode">vip</item>
     </style>
 

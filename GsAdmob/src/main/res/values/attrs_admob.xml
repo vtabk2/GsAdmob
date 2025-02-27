@@ -22,5 +22,6 @@
         <attr name="adViewId" format="reference"/>
         <attr name="adMediaViewId" format="reference"/>
         <attr name="adShimmerId" format="reference"/>
+        <attr name="adsNativeViewRoot" format="reference"/>
     </declare-styleable>
 </resources>

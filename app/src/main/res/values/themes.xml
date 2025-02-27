@@ -16,4 +16,36 @@
         <item name="adViewId">@id/ad_view_test</item>
         <item name="adShimmerId">@id/ad_view_test_shimmer</item>
     </style>
+
+    <style name="ads_NativeAlbumRoot" parent="ads_BaseNativeAdViewRoot">
+        <item name="android:layout_marginStart">6dp</item>
+        <item name="android:layout_marginEnd">6dp</item>
+        <item name="android:layout_marginBottom">8dp</item>
+    </style>
+
+    <style name="ads_NativeFontRoot" parent="ads_BaseNativeAdViewRoot">
+        <item name="android:layout_marginStart">10dp</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginEnd">10dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+    </style>
+
+    <style name="ads_NativeFrameRoot" parent="ads_BaseNativeAdViewRoot">
+        <item name="android:layout_marginStart">5dp</item>
+        <item name="android:layout_marginTop">5dp</item>
+        <item name="android:layout_marginEnd">5dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+    </style>
+
+    <style name="ads_NativeSticker" parent="ads_BaseNativeAdViewRoot">
+        <item name="android:layout_marginTop">3dp</item>
+        <item name="android:layout_marginBottom">18dp</item>
+    </style>
+
+    <style name="ads_NativeTemplateRoot" parent="ads_BaseNativeAdViewRoot">
+        <item name="android:layout_marginStart">5dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginEnd">5dp</item>
+        <item name="android:layout_marginBottom">5dp</item>
+    </style>
 </resources>

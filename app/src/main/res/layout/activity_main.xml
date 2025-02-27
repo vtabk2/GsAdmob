@@ -10,11 +10,11 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <com.core.gsadmob.natives.view.NativeGsAdView
-            android:id="@+id/nativeTest0"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:ads_mode="vip"/>
+<!--        <com.core.gsadmob.natives.view.NativeGsAdView-->
+<!--            android:id="@+id/nativeTest0"-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            app:ads_mode="vip"/>-->
 
         <com.core.gsadmob.natives.view.NativeGsAdView
             android:id="@+id/nativeTest1"

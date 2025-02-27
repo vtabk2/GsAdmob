@@ -1,14 +1,18 @@
 package com.example.GsAdmob
 
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import com.core.gsadmob.natives.NativeUtils
 import com.example.GsAdmob.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
+    private lateinit var bindingView: ActivityMainBinding
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        val bindingView = ActivityMainBinding.inflate(layoutInflater)
+        bindingView = ActivityMainBinding.inflate(layoutInflater)
         setContentView(bindingView.root)
 
 //        val builder = BaseNativeAdView.Builder().apply {
@@ -38,32 +42,45 @@ class MainActivity : AppCompatActivity() {
 //
 //        bindingView.nativeTest8.applyBuilder(NativeDefaultConfig.BUILDER_VIP)
 
+        val liveDataNetworkStatus = LiveDataNetworkStatus(this)
+        liveDataNetworkStatus.observe(this) { connect ->
+            if (connect) {
+                loadAds(true)
+            }
+        }
+
+        loadAds(false)
+    }
+
+    private fun loadAds(isReload: Boolean) {
         NativeUtils.loadNativeAds(this, this, isVip = false, callbackStart = {
 //            bindingView.nativeTest0.startShimmer()
             bindingView.nativeTest1.startShimmer()
-            bindingView.nativeTest2.startShimmer()
-            bindingView.nativeTest3.startShimmer()
-            bindingView.nativeTest4.startShimmer()
-            bindingView.nativeTest5.startShimmer()
-            bindingView.nativeTest6.startShimmer()
-            bindingView.nativeTest7.startShimmer()
-            bindingView.nativeTest8.startShimmer()
-
-            bindingView.nativeCustom1.startShimmer()
-            bindingView.nativeCustom2.startShimmer()
+//            bindingView.nativeTest2.startShimmer()
+//            bindingView.nativeTest3.startShimmer()
+//            bindingView.nativeTest4.startShimmer()
+//            bindingView.nativeTest5.startShimmer()
+//            bindingView.nativeTest6.startShimmer()
+//            bindingView.nativeTest7.startShimmer()
+//            bindingView.nativeTest8.startShimmer()
+//
+//            bindingView.nativeCustom1.startShimmer()
+//            bindingView.nativeCustom2.startShimmer()
         }, callback = { nativeAd ->
-//            bindingView.nativeTest0.setNativeAd(nativeAd)
-            bindingView.nativeTest1.setNativeAd(nativeAd)
-            bindingView.nativeTest2.setNativeAd(nativeAd)
-            bindingView.nativeTest3.setNativeAd(nativeAd)
-            bindingView.nativeTest4.setNativeAd(nativeAd)
-            bindingView.nativeTest5.setNativeAd(nativeAd)
-            bindingView.nativeTest6.setNativeAd(nativeAd)
-            bindingView.nativeTest7.setNativeAd(nativeAd)
-            bindingView.nativeTest8.setNativeAd(nativeAd)
-
-            bindingView.nativeCustom1.setNativeAd(nativeAd)
-            bindingView.nativeCustom2.setNativeAd(nativeAd)
+            Handler(Looper.getMainLooper()).postDelayed({
+                //            bindingView.nativeTest0.setNativeAd(nativeAd)
+                bindingView.nativeTest1.setNativeAd(nativeAd)
+//            bindingView.nativeTest2.setNativeAd(nativeAd)
+//            bindingView.nativeTest3.setNativeAd(nativeAd)
+//            bindingView.nativeTest4.setNativeAd(nativeAd)
+//            bindingView.nativeTest5.setNativeAd(nativeAd)
+//            bindingView.nativeTest6.setNativeAd(nativeAd)
+//            bindingView.nativeTest7.setNativeAd(nativeAd)
+//            bindingView.nativeTest8.setNativeAd(nativeAd)
+//
+//            bindingView.nativeCustom1.setNativeAd(nativeAd)
+//            bindingView.nativeCustom2.setNativeAd(nativeAd)
+            }, 2000)
         })
     }
 }

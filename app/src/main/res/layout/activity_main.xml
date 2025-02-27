@@ -16,6 +16,11 @@
         <!--            android:layout_height="wrap_content"-->
         <!--            app:ads_mode="vip"/>-->
 
+        <com.core.gsadmob.banner.BannerGsAdView
+            android:id="@+id/bannerView"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"/>
+
         <com.core.gsadmob.natives.view.NativeGsAdView
             android:id="@+id/nativeTest1"
             style="@style/NativeAlbum"

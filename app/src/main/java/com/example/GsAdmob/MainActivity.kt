@@ -56,9 +56,13 @@ class MainActivity : AppCompatActivity() {
         }
 
         loadAds(false)
+
+        bindingView.bannerView.loadAds(isVip = false, alwaysShow = true)
     }
 
     private fun loadAds(isReload: Boolean) {
+        bindingView.bannerView.loadAds(isVip = false)
+
         NativeUtils.loadNativeAds(this, this, isVip = false, callbackStart = {
 //            bindingView.nativeTest0.startShimmer()
             bindingView.nativeTest1.startShimmer()

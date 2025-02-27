@@ -28,6 +28,14 @@ class BannerGsAdView(context: Context, attrs: AttributeSet?) : FrameLayout(conte
     private var bannerAds: AdView? = null
     private var shimmerView: ShimmerFrameLayout? = null
 
+    private var delayTime = 0L
+    private var lastTime = System.currentTimeMillis()
+
+    // delay thời gian load lại banner tính bằng giây
+    fun registerDelayTime(time: Long) {
+        delayTime = time
+    }
+
     init {
         bannerAds = AdView(context)
         bannerAds?.descendantFocusability = ViewGroup.FOCUS_BLOCK_DESCENDANTS
@@ -46,12 +54,12 @@ class BannerGsAdView(context: Context, attrs: AttributeSet?) : FrameLayout(conte
     }
 
     fun loadAds(
-        isVip: Boolean,
-        adUnitId: Int = R.string.banner_id,
-        show: Boolean = true,
-        alwaysShow: Boolean = false,
-        isCollapsible: Boolean = false,
-        callbackShow: (() -> Unit)? = null,
+        isVip: Boolean, // true: vip, false: free -> sẽ hiển thị ads
+        adUnitId: Int = R.string.banner_id, // truyền id banner
+        show: Boolean = true, // true: show banner, false: không show banner
+        alwaysShow: Boolean = false, // tác dụng để banner ko gone()
+        isCollapsible: Boolean = false, // nếu muốn dùng collapsible banner
+        callbackShow: (() -> Unit)? = null, // callback khi show banner thành công
     ) {
         if (isVip) {
             if (!alwaysShow) {
@@ -60,6 +68,10 @@ class BannerGsAdView(context: Context, attrs: AttributeSet?) : FrameLayout(conte
             }
             return
         }
+
+        val currentTime = System.currentTimeMillis()
+        if (currentTime - lastTime < delayTime * 1000) return
+        lastTime = currentTime
 
         startShimmer()
 

@@ -15,17 +15,44 @@ Add it in your root build.gradle at the end of repositories:
 **Step 2.** Add the dependency
 ```css
         dependencies {
-                    implementation 'com.github.vtabk2:GsAdmob:1.1.2'
+                    implementation 'com.github.vtabk2:GsAdmob:1.1.3'
             }
 ```
 
 - admob : cấu hình trong config_admob
+
 - BannerUtils
+  Cách 1:
 ```css
         BannerUtils.initBannerAds(activity = this, flBannerAds = bindingView.flBannerAds, isVip = false, show = true, alwaysShow = true, callbackAdMob = { adView ->
             adBanner = adView
         })
 ```
+
+  Cách 2:
+
+```css
+        <com.core.gsadmob.banner.BannerGsAdView
+            android:id="@+id/bannerView"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"/>
+```
+
+  Load banner
+
+```css
+        bindingView.bannerView.loadAds(isVip = false, alwaysShow = true)
+       
+       
+        bindingView.bannerView.loadAds(isVip = false)
+```
+
+  Nếu muốn có thời gian delay giữa các lần load lại banner
+
+```css
+        bindingView.bannerView.registerDelayTime(10)
+```
+
 - InterstitialWithDelayUtils dùng khi cần load InterstitialAds có delay load giữa các lần
 ```css
         InterstitialWithDelayUtils.instance.registerDelayTime(10)

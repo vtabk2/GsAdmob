@@ -84,17 +84,17 @@ class NativeGsAdView(context: Context, attrs: AttributeSet? = null) : BaseNative
 
                 try {
                     val attrViewRoot = intArrayOf(
-                        android.R.attr.layout_marginStart,
                         android.R.attr.layout_marginTop,
+                        android.R.attr.layout_marginBottom,
+                        android.R.attr.layout_marginStart,
                         android.R.attr.layout_marginEnd,
-                        android.R.attr.layout_marginBottom
                     )
                     val typedArrayRoot = context.obtainStyledAttributes(builder.adsNativeViewRoot, attrViewRoot)
 
-                    marginStartRoot = typedArrayRoot.getDimension(0, 0f).toInt()
-                    marginTopRoot = typedArrayRoot.getDimension(1, 0f).toInt()
-                    marginEndRoot = typedArrayRoot.getDimension(2, 0f).toInt()
-                    marginBottomRoot = typedArrayRoot.getDimension(3, 0f).toInt()
+                    marginStartRoot = typedArrayRoot.getDimension(2, 0f).toInt()
+                    marginTopRoot = typedArrayRoot.getDimension(0, 0f).toInt()
+                    marginEndRoot = typedArrayRoot.getDimension(3, 0f).toInt()
+                    marginBottomRoot = typedArrayRoot.getDimension(1, 0f).toInt()
 
                     typedArrayRoot.recycle()
                 } catch (e: Exception) {

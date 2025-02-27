@@ -1,4 +1,4 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
+<resources>
     <!-- Base application theme. -->
     <style name="Base.Theme.GsAdmob" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
@@ -14,7 +14,15 @@
         <item name="adAppIconId">@id/ad_app_icon_test</item>
         <item name="adCallToActionId">@id/ad_call_to_action_test</item>
         <item name="adViewId">@id/ad_view_test</item>
+        <item name="adsNativeViewRoot">@style/ads_NativeTestRoot</item>
         <item name="adShimmerId">@id/ad_view_test_shimmer</item>
+    </style>
+
+    <style name="ads_NativeTestRoot" parent="ads_BaseNativeAdViewRoot">
+        <item name="android:layout_marginStart">20dp</item>
+        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginEnd">20dp</item>
+        <item name="android:layout_marginBottom">10dp</item>
     </style>
 
     <style name="ads_NativeAlbumRoot" parent="ads_BaseNativeAdViewRoot">
@@ -37,7 +45,7 @@
         <item name="android:layout_marginBottom">5dp</item>
     </style>
 
-    <style name="ads_NativeSticker" parent="ads_BaseNativeAdViewRoot">
+    <style name="ads_NativeStickerRoot" parent="ads_BaseNativeAdViewRoot">
         <item name="android:layout_marginTop">3dp</item>
         <item name="android:layout_marginBottom">18dp</item>
     </style>

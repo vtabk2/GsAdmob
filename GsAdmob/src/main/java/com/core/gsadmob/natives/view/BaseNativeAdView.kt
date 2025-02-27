@@ -33,6 +33,8 @@ abstract class BaseNativeAdView(context: Context, attrs: AttributeSet?) : FrameL
     abstract val shimmerView: ShimmerFrameLayout?
 
     var customView: View? = null
+    var customShimmerView: View? = null
+
     var builder = Builder()
 
     private var nativeAd: NativeAd? = null
@@ -46,6 +48,9 @@ abstract class BaseNativeAdView(context: Context, attrs: AttributeSet?) : FrameL
             }
             if (typedArray.hasValue(R.styleable.BaseNativeAdView_adLayoutId)) {
                 builder.adLayoutId = typedArray.getResourceId(R.styleable.BaseNativeAdView_adLayoutId, builder.adLayoutId)
+            }
+            if (typedArray.hasValue(R.styleable.BaseNativeAdView_adLayoutShimmerId)) {
+                builder.adLayoutShimmerId = typedArray.getResourceId(R.styleable.BaseNativeAdView_adLayoutShimmerId, builder.adLayoutShimmerId)
             }
             if (typedArray.hasValue(R.styleable.BaseNativeAdView_adHeadlineId)) {
                 builder.adHeadlineId = typedArray.getResourceId(R.styleable.BaseNativeAdView_adHeadlineId, builder.adHeadlineId)
@@ -206,8 +211,9 @@ abstract class BaseNativeAdView(context: Context, attrs: AttributeSet?) : FrameL
     }
 
     fun startShimmer() {
+        visible() // quan trọng, nếu không visible() thì sẽ ko hiển thị đc view
         shimmerView?.visible()
-        shimmerView?.startShimmer()
+        shimmerView?.showShimmer(true)
         adView?.invisible()
     }
 
@@ -225,6 +231,7 @@ abstract class BaseNativeAdView(context: Context, attrs: AttributeSet?) : FrameL
 
     data class Builder(
         var adLayoutId: Int = R.layout.ad_native_custom,
+        var adLayoutShimmerId: Int = R.layout.ad_native_custom_shimmer,
         var adHeadlineId: Int = R.id.ad_headline_custom,
         var adBodyId: Int = R.id.ad_body_custom,
         var adStarsId: Int = R.id.ad_stars_custom,

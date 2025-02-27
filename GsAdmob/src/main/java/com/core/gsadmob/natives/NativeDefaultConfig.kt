@@ -7,6 +7,7 @@ object NativeDefaultConfig {
 
     val BUILDER_ALBUM = BaseNativeAdView.Builder().apply {
         adLayoutId = R.layout.ad_native_album
+        adLayoutShimmerId = R.layout.ad_native_album_shimmer
         adHeadlineId = R.id.ad_headline_album
         adStarsId = R.id.ad_stars_album
         adAppIconId = R.id.ad_app_icon_album
@@ -19,6 +20,7 @@ object NativeDefaultConfig {
 
     val BUILDER_FONT = BaseNativeAdView.Builder().apply {
         adLayoutId = R.layout.ad_native_font
+        adLayoutShimmerId = R.layout.ad_native_font_shimmer
         adHeadlineId = R.id.ad_headline_font
         adBodyId = R.id.ad_body_font
         adStarsId = R.id.ad_stars_font
@@ -32,6 +34,7 @@ object NativeDefaultConfig {
 
     val BUILDER_FRAME = BaseNativeAdView.Builder().apply {
         adLayoutId = R.layout.ad_native_frame
+        adLayoutShimmerId = R.layout.ad_native_frame_shimmer
         adHeadlineId = R.id.ad_headline_frame
         adBodyId = R.id.ad_body_frame
         adStarsId = R.id.ad_stars_frame
@@ -46,6 +49,7 @@ object NativeDefaultConfig {
 
     val BUILDER_LANGUAGE = BaseNativeAdView.Builder().apply {
         adLayoutId = R.layout.ad_native_language
+        adLayoutShimmerId = R.layout.ad_native_language_shimmer
         adHeadlineId = R.id.ad_headline_language
         adBodyId = R.id.ad_body_language
         adStarsId = R.id.ad_stars_language
@@ -60,6 +64,7 @@ object NativeDefaultConfig {
 
     val BUILDER_SHARE = BaseNativeAdView.Builder().apply {
         adLayoutId = R.layout.ad_native_share
+        adLayoutShimmerId = R.layout.ad_native_share_shimmer
         adHeadlineId = R.id.ad_headline_share
         adBodyId = R.id.ad_body_share
         adStarsId = R.id.ad_stars_share
@@ -74,6 +79,7 @@ object NativeDefaultConfig {
 
     val BUILDER_STICKER = BaseNativeAdView.Builder().apply {
         adLayoutId = R.layout.ad_native_sticker
+        adLayoutShimmerId = R.layout.ad_native_sticker_shimmer
         adHeadlineId = R.id.ad_headline_sticker
         adBodyId = R.id.ad_body_sticker
         adStarsId = R.id.ad_stars_sticker
@@ -87,6 +93,7 @@ object NativeDefaultConfig {
 
     val BUILDER_TEMPLATE = BaseNativeAdView.Builder().apply {
         adLayoutId = R.layout.ad_native_template
+        adLayoutShimmerId = R.layout.ad_native_template_shimmer
         adHeadlineId = R.id.ad_headline_template
         adBodyId = R.id.ad_body_template
         adStarsId = R.id.ad_stars_template
@@ -100,6 +107,7 @@ object NativeDefaultConfig {
 
     val BUILDER_VIP = BaseNativeAdView.Builder().apply {
         adLayoutId = R.layout.ad_native_vip
+        adLayoutShimmerId = R.layout.ad_native_vip_shimmer
         adHeadlineId = R.id.ad_headline_vip
         adBodyId = R.id.ad_body_vip
         adStarsId = R.id.ad_stars_vip

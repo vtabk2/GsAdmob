@@ -65,7 +65,7 @@ class NativeGsAdView(context: Context, attrs: AttributeSet? = null) : BaseNative
     override val shimmerView: ShimmerFrameLayout? by lazy {
         when (builder.adsMode) {
             AdsMode.NONE -> null
-            else -> customView?.findViewById(builder.adShimmerId)
+            else -> customShimmerView?.findViewById(builder.adShimmerId)
         }
     }
 
@@ -101,10 +101,23 @@ class NativeGsAdView(context: Context, attrs: AttributeSet? = null) : BaseNative
                     e.printStackTrace()
                 }
 
-                removeView(customView)
-                customView = layoutInflater.inflate(builder.adLayoutId, null)
-                addView(customView)
-                customView?.setMarginExtensionFunction(marginStartRoot, marginTopRoot, marginEndRoot, marginBottomRoot)
+                removeAllViews()
+                // adView
+                if (builder.adLayoutId != 0) {
+                    customView = layoutInflater.inflate(builder.adLayoutId, null)
+                    customView?.let {
+                        addView(it)
+                        it.setMarginExtensionFunction(marginStartRoot, marginTopRoot, marginEndRoot, marginBottomRoot)
+                    }
+                }
+                // shimmer view
+                if (builder.adLayoutShimmerId != 0) {
+                    customShimmerView = layoutInflater.inflate(builder.adLayoutShimmerId, null)
+                    customShimmerView?.let {
+                        addView(it)
+                        it.setMarginExtensionFunction(marginStartRoot, marginTopRoot, marginEndRoot, marginBottomRoot)
+                    }
+                }
             }
         }
     }

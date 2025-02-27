@@ -14,6 +14,7 @@
             <enum name="custom" value="9"/>
         </attr>
         <attr name="adLayoutId" format="reference"/>
+        <attr name="adLayoutShimmerId" format="reference"/>
         <attr name="adHeadlineId" format="reference"/>
         <attr name="adBodyId" format="reference"/>
         <attr name="adStarsId" format="reference"/>

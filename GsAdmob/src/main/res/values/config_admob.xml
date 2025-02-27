@@ -324,6 +324,7 @@
     <!--    config loại native ads-->
     <style name="ads_BaseNativeCustom">
         <item name="adLayoutId">@layout/ad_native_custom</item>
+        <item name="adLayoutShimmerId">@layout/ad_native_custom_shimmer</item>
         <item name="adHeadlineId">@id/ad_headline_custom</item>
         <item name="adBodyId">@id/ad_body_custom</item>
         <item name="adStarsId">@id/ad_stars_custom</item>
@@ -339,6 +340,7 @@
     <!--    album-->
     <style name="NativeAlbum" parent="ads_BaseNativeCustom">
         <item name="adLayoutId">@layout/ad_native_album</item>
+        <item name="adLayoutShimmerId">@layout/ad_native_album_shimmer</item>
         <item name="adHeadlineId">@id/ad_headline_album</item>
         <item name="adStarsId">@id/ad_stars_album</item>
         <item name="adAppIconId">@id/ad_app_icon_album</item>
@@ -352,6 +354,7 @@
     <!--    font-->
     <style name="NativeFont" parent="ads_BaseNativeCustom">
         <item name="adLayoutId">@layout/ad_native_font</item>
+        <item name="adLayoutShimmerId">@layout/ad_native_font_shimmer</item>
         <item name="adHeadlineId">@id/ad_headline_font</item>
         <item name="adBodyId">@id/ad_body_font</item>
         <item name="adStarsId">@id/ad_stars_font</item>
@@ -366,6 +369,7 @@
     <!--    frame-->
     <style name="NativeFrame" parent="ads_BaseNativeCustom">
         <item name="adLayoutId">@layout/ad_native_frame</item>
+        <item name="adLayoutShimmerId">@layout/ad_native_frame_shimmer</item>
         <item name="adHeadlineId">@id/ad_headline_frame</item>
         <item name="adBodyId">@id/ad_body_frame</item>
         <item name="adStarsId">@id/ad_stars_frame</item>
@@ -381,6 +385,7 @@
     <!--    language-->
     <style name="NativeLanguage" parent="ads_BaseNativeCustom">
         <item name="adLayoutId">@layout/ad_native_language</item>
+        <item name="adLayoutShimmerId">@layout/ad_native_language_shimmer</item>
         <item name="adHeadlineId">@id/ad_headline_language</item>
         <item name="adBodyId">@id/ad_body_language</item>
         <item name="adStarsId">@id/ad_stars_language</item>
@@ -396,6 +401,7 @@
     <!--    share-->
     <style name="NativeShare" parent="ads_BaseNativeCustom">
         <item name="adLayoutId">@layout/ad_native_share</item>
+        <item name="adLayoutShimmerId">@layout/ad_native_share_shimmer</item>
         <item name="adHeadlineId">@id/ad_headline_share</item>
         <item name="adBodyId">@id/ad_body_share</item>
         <item name="adStarsId">@id/ad_stars_share</item>
@@ -411,6 +417,7 @@
     <!--    sticker-->
     <style name="NativeSticker" parent="ads_BaseNativeCustom">
         <item name="adLayoutId">@layout/ad_native_sticker</item>
+        <item name="adLayoutShimmerId">@layout/ad_native_sticker_shimmer</item>
         <item name="adHeadlineId">@id/ad_headline_sticker</item>
         <item name="adBodyId">@id/ad_body_sticker</item>
         <item name="adStarsId">@id/ad_stars_sticker</item>
@@ -425,6 +432,7 @@
     <!--    template-->
     <style name="NativeTemplate" parent="ads_BaseNativeCustom">
         <item name="adLayoutId">@layout/ad_native_template</item>
+        <item name="adLayoutShimmerId">@layout/ad_native_template_shimmer</item>
         <item name="adHeadlineId">@id/ad_headline_template</item>
         <item name="adBodyId">@id/ad_body_template</item>
         <item name="adStarsId">@id/ad_stars_template</item>
@@ -439,6 +447,7 @@
     <!--    vip-->
     <style name="NativeVip" parent="ads_BaseNativeCustom">
         <item name="adLayoutId">@layout/ad_native_vip</item>
+        <item name="adLayoutShimmerId">@layout/ad_native_vip_shimmer</item>
         <item name="adHeadlineId">@id/ad_headline_vip</item>
         <item name="adBodyId">@id/ad_body_vip</item>
         <item name="adStarsId">@id/ad_stars_vip</item>

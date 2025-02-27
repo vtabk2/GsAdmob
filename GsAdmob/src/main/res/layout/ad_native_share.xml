@@ -112,6 +112,4 @@
                 app:layout_constraintTop_toBottomOf="@id/ad_body_share"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.gms.ads.nativead.NativeAdView>
-
-    <include layout="@layout/ad_native_share_shimmer"/>
 </FrameLayout>

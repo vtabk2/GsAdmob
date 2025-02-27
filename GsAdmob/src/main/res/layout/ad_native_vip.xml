@@ -103,6 +103,4 @@
                 app:layout_constraintStart_toStartOf="parent"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.gms.ads.nativead.NativeAdView>
-
-    <include layout="@layout/ad_native_vip_shimmer"/>
 </com.core.gscore.utils.view.AspectRatioLayout>

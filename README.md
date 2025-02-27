@@ -15,7 +15,7 @@ Add it in your root build.gradle at the end of repositories:
 **Step 2.** Add the dependency
 ```css
         dependencies {
-                    implementation 'com.github.vtabk2:GsAdmob:1.1.1'
+                    implementation 'com.github.vtabk2:GsAdmob:1.1.2'
             }
 ```
 
@@ -71,6 +71,8 @@ Add it in your root build.gradle at the end of repositories:
 ```css
         val builder = BaseNativeAdView.Builder().apply {
             adLayoutId = R.layout.ad_native_test
+            adLayoutShimmerId = R.layout.ad_native_test_shimmer
+            //            adLayoutShimmerId = 0 // nếu không muốn dùng shimmer
         }
         bindingView.nativeCustom.applyBuilder(builder)
 ```
@@ -79,6 +81,7 @@ Add it in your root build.gradle at the end of repositories:
 ```css
         val builder = BaseNativeAdView.Builder().apply {
             adLayoutId = R.layout.ad_native_test
+            adLayoutShimmerId = R.layout.ad_native_test_shimmer
             adHeadlineId = R.id.ad_headline_test
             adStarsId = R.id.ad_stars_test
             adAppIconId = R.id.ad_app_icon_test
@@ -108,6 +111,7 @@ Add it in your root build.gradle at the end of repositories:
 
         <style name="NativeTest" parent="BaseNativeCustom">
             <item name="adLayoutId">@layout/ad_native_test</item>
+            <item name="adLayoutShimmerId">@layout/ad_native_test_shimmer</item>
             <item name="adHeadlineId">@id/ad_headline_test</item>
             <!--        <item name="adBodyId">@id/ad_body_test</item>-->
             <item name="adStarsId">@id/ad_stars_test</item>

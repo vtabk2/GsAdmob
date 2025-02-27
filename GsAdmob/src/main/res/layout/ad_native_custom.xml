@@ -118,6 +118,4 @@
                 app:layout_constraintTop_toBottomOf="@id/ad_body_custom"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.gms.ads.nativead.NativeAdView>
-
-    <include layout="@layout/ad_native_custom_shimmer"/>
 </FrameLayout>

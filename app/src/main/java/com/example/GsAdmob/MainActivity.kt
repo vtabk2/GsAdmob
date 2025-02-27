@@ -4,7 +4,9 @@ import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
+import com.core.gsadmob.natives.AdsMode
 import com.core.gsadmob.natives.NativeUtils
+import com.core.gsadmob.natives.view.BaseNativeAdView
 import com.example.GsAdmob.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -15,16 +17,20 @@ class MainActivity : AppCompatActivity() {
         bindingView = ActivityMainBinding.inflate(layoutInflater)
         setContentView(bindingView.root)
 
-//        val builder = BaseNativeAdView.Builder().apply {
-//            adLayoutId = R.layout.ad_native_test
-//            adHeadlineId = R.id.ad_headline_test
-//            adStarsId = R.id.ad_stars_test
-//            adAppIconId = R.id.ad_app_icon_test
-//            adCallToActionId = R.id.ad_call_to_action_test
-//            adViewId = R.id.ad_view_test
-//            adShimmerId = R.id.ad_view_test_shimmer
-//        }
-//        bindingView.nativeTest1.applyBuilder(builder)
+        val builder = BaseNativeAdView.Builder().apply {
+            adLayoutId = R.layout.ad_native_test
+            adLayoutShimmerId = R.layout.ad_native_test_shimmer
+//            adLayoutShimmerId = 0 // nếu không muốn dùng shimmer
+            adHeadlineId = R.id.ad_headline_test
+            adStarsId = R.id.ad_stars_test
+            adAppIconId = R.id.ad_app_icon_test
+            adCallToActionId = R.id.ad_call_to_action_test
+            adViewId = R.id.ad_view_test
+            adShimmerId = R.id.ad_view_test_shimmer
+            adsNativeViewRoot = R.style.ads_NativeTestRoot
+            adsMode = AdsMode.CUSTOM
+        }
+        bindingView.nativeTest1.applyBuilder(builder)
 
 //        bindingView.nativeTest1.applyBuilder(NativeDefaultConfig.BUILDER_ALBUM)
 //

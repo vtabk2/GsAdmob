@@ -149,4 +149,16 @@ class BannerGsAdView(context: Context, attrs: AttributeSet?) : FrameLayout(conte
         shimmerView?.gone()
         bannerAds?.visible()
     }
+
+    fun resume() {
+        bannerAds?.resume()
+    }
+
+    fun pause() {
+        bannerAds?.pause()
+    }
+
+    fun destroy() {
+        bannerAds?.destroy()
+    }
 }

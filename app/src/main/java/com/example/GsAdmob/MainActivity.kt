@@ -55,10 +55,8 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+        bindingView.bannerView.registerDelayTime(10)
         loadAds(false)
-
-//        bindingView.bannerView.registerDelayTime(10)
-        bindingView.bannerView.loadAds(isVip = false, alwaysShow = true)
     }
 
     private fun loadAds(isReload: Boolean) {

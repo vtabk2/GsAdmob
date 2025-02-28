@@ -29,7 +29,7 @@ class BannerGsAdView(context: Context, attrs: AttributeSet?) : FrameLayout(conte
     private var shimmerView: ShimmerFrameLayout? = null
 
     private var delayTime = 0L
-    private var lastTime = System.currentTimeMillis()
+    private var lastTime = 0L
 
     // delay thời gian load lại banner tính bằng giây
     fun registerDelayTime(time: Long) {
@@ -69,9 +69,11 @@ class BannerGsAdView(context: Context, attrs: AttributeSet?) : FrameLayout(conte
             return
         }
 
-        val currentTime = System.currentTimeMillis()
-        if (currentTime - lastTime < delayTime * 1000) return
-        lastTime = currentTime
+        if (delayTime > 0) {
+            val currentTime = System.currentTimeMillis()
+            if (currentTime - lastTime < delayTime * 1000) return
+            lastTime = currentTime
+        }
 
         startShimmer()
 

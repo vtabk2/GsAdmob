@@ -280,10 +280,15 @@
 
     <!--    shimmer root-->
     <color name="ads_bg_shimmer_root_color">#CACACA</color>
+    <color name="ads_bg_banner_shimmer_root_color">#CACACA</color>
 
     <drawable name="ads_bg_shimmer_root">@drawable/ads__bg_shimmer_root</drawable>
 
+    <drawable name="ads_bg_banner_shimmer_root">@drawable/ads__bg_banner_shimmer_root</drawable>
+
     <dimen name="ads_bg_shimmer_root_radius">0dp</dimen>
+
+    <dimen name="ads_bg_banner_shimmer_root_radius">0dp</dimen>
 
     <!--    shimmer-->
     <color name="ads_bg_shimmer_color">#80000000</color>

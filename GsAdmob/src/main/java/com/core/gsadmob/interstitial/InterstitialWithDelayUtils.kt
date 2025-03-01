@@ -17,18 +17,22 @@ class InterstitialWithDelayUtils {
     private var isLoading = false
 
     private var delayTime = 0L
-    private var lastTime = System.currentTimeMillis()
+    private var lastTime = 0L
 
-    fun registerDelayTime(time: Long) {
-        delayTime = time
+    fun registerDelayTime(delayTime: Long) {
+        this.delayTime = delayTime
     }
 
     fun loadAd(context: Context, isVip: Boolean, adUnitId: Int = R.string.full_id) {
         if (isVip) return
-        val currentTime = System.currentTimeMillis()
-        if (currentTime - lastTime < delayTime * 1000) return
         if (isLoading) return
-        lastTime = currentTime
+
+        if (delayTime > 0L) {
+            val currentTime = System.currentTimeMillis()
+            if (currentTime - lastTime < delayTime * 1000) return
+            lastTime = currentTime
+        }
+
         isLoading = true
         mInterstitialAd = null
         val adRequest: AdRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()

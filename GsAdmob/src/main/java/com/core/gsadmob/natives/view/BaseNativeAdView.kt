@@ -43,8 +43,8 @@ abstract class BaseNativeAdView(context: Context, attrs: AttributeSet?) : FrameL
         attrs?.let {
             val typedArray = context.obtainStyledAttributes(it, R.styleable.BaseNativeAdView)
 
-            if (typedArray.hasValue(R.styleable.BaseNativeAdView_ads_mode)) {
-                builder.adsMode = AdsMode.entries.toTypedArray()[typedArray.getInt(R.styleable.BaseNativeAdView_ads_mode, 0)]
+            if (typedArray.hasValue(R.styleable.BaseNativeAdView_ad_mode)) {
+                builder.adsMode = AdsMode.entries.toTypedArray()[typedArray.getInt(R.styleable.BaseNativeAdView_ad_mode, 0)]
             }
             if (typedArray.hasValue(R.styleable.BaseNativeAdView_adLayoutId)) {
                 builder.adLayoutId = typedArray.getResourceId(R.styleable.BaseNativeAdView_adLayoutId, builder.adLayoutId)

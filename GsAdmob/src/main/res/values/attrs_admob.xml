@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="BaseNativeAdView">
-        <attr name="ads_mode" format="enum">
+        <attr name="ad_mode" format="enum">
             <enum name="none" value="0"/>
             <enum name="album" value="1"/>
             <enum name="font" value="2"/>

@@ -14,7 +14,7 @@
         <!--            android:id="@+id/nativeTest0"-->
         <!--            android:layout_width="match_parent"-->
         <!--            android:layout_height="wrap_content"-->
-        <!--            app:ads_mode="vip"/>-->
+        <!--            app:ad_mode="vip"/>-->
 
         <com.core.gsadmob.banner.BannerGsAdView
             android:id="@+id/bannerView"
@@ -88,6 +88,6 @@
         <!--            android:layout_width="match_parent"-->
         <!--            android:layout_height="wrap_content"-->
         <!--            android:layout_marginTop="10dp"-->
-        <!--            app:ads_mode="custom"/>-->
+        <!--            app:ad_mode="custom"/>-->
     </LinearLayout>
 </androidx.core.widget.NestedScrollView>

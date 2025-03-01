@@ -83,7 +83,7 @@ Add it in your root build.gradle at the end of repositories:
 
 - NativeUtils
 
-- Tùy biến NativeAdView thì chọn ads_mode = custom
+- Tùy biến NativeAdView thì chọn ad_mode = custom
 
 ```css
         <com.core.gsadmob.natives.view.NativeGsAdView
@@ -91,7 +91,7 @@ Add it in your root build.gradle at the end of repositories:
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            app:ads_mode="custom"/>
+            app:ad_mode="custom"/>
 ```
 
 - Cách 1: Giữ id gốc chỉ đổi id layout

@@ -27,6 +27,45 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvClear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:background="?attr/selectableItemBackground"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="5dp"
+            android:text="ClearWithId"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvClearAll"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:background="?attr/selectableItemBackground"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="5dp"
+            android:text="ClearAll"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            android:id="@+id/tvShowInterstitial"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="10dp"
+            android:background="?attr/selectableItemBackground"
+            android:paddingHorizontal="10dp"
+            android:paddingVertical="5dp"
+            android:text="Show Interstitial"
+            android:textColor="@android:color/black"
+            android:textSize="14sp"/>
+
         <!--        <com.core.gsadmob.natives.view.NativeGsAdView-->
         <!--            android:id="@+id/nativeTest2"-->
         <!--            style="@style/NativeFont"-->

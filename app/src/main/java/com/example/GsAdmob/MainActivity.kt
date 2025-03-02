@@ -1,21 +1,35 @@
 package com.example.GsAdmob
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.provider.Settings
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.core.gsadmob.interstitial.InterstitialGsWithDelayUtils
 import com.core.gsadmob.natives.AdsMode
 import com.core.gsadmob.natives.NativeUtils
 import com.core.gsadmob.natives.view.BaseNativeAdView
 import com.example.GsAdmob.databinding.ActivityMainBinding
+import com.google.android.gms.ads.MobileAds
+import com.google.android.gms.ads.RequestConfiguration
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import java.security.MessageDigest
+import java.security.NoSuchAlgorithmException
 
 class MainActivity : AppCompatActivity() {
     private lateinit var bindingView: ActivityMainBinding
+    private val deviceTestList = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         bindingView = ActivityMainBinding.inflate(layoutInflater)
         setContentView(bindingView.root)
+
+        initMobileAds()
 
         val builder = BaseNativeAdView.Builder().apply {
             adLayoutId = R.layout.ad_native_test
@@ -57,6 +71,45 @@ class MainActivity : AppCompatActivity() {
 
         bindingView.bannerView.registerDelayTime(10)
         loadAds(false)
+
+        InterstitialGsWithDelayUtils.instance.registerDelayTime(10)
+
+        bindingView.tvClear.setOnClickListener {
+            InterstitialGsWithDelayUtils.instance.clearWithId()
+        }
+
+        bindingView.tvClearAll.setOnClickListener {
+            InterstitialGsWithDelayUtils.instance.clearAll()
+        }
+
+        bindingView.tvShowInterstitial.setOnClickListener {
+            InterstitialGsWithDelayUtils.instance.checkReloadInterstitialAdIfNeed(this, isVip = false, callback = { canShow ->
+                if (canShow) {
+                    InterstitialGsWithDelayUtils.instance.showInterstitialAd(this, isVip = false)
+                } else {
+                    Toast.makeText(this, "Không có sẵn ad", Toast.LENGTH_SHORT).show()
+                }
+            })
+        }
+    }
+
+    fun initMobileAds() {
+        deviceTestList.add(md5(getAndroidId()).uppercase())
+
+        val requestConfiguration = RequestConfiguration.Builder().setTestDeviceIds(deviceTestList).build()
+        MobileAds.setRequestConfiguration(requestConfiguration)
+
+        val backgroundScope = CoroutineScope(Dispatchers.IO)
+        backgroundScope.launch {
+            // Initialize the Google Mobile Ads SDK on a background thread.
+            MobileAds.initialize(this@MainActivity) {}
+        }
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        InterstitialGsWithDelayUtils.instance.loadAd(this, isVip = false)
     }
 
     private fun loadAds(isReload: Boolean) {
@@ -91,5 +144,31 @@ class MainActivity : AppCompatActivity() {
 //            bindingView.nativeCustom2.setNativeAd(nativeAd)
             }, 2000)
         })
+    }
+
+    private fun md5(input: String): String {
+        try {
+            // Create MD5 Hash
+            val digest = MessageDigest.getInstance("MD5")
+            digest.update(input.toByteArray())
+            val messageDigest = digest.digest()
+
+            // Create Hex String
+            val hexString = StringBuffer()
+            for (i in messageDigest.indices) hexString.append(java.lang.String.format("%02X", 0xFF and messageDigest[i].toInt()))
+            return hexString.toString()
+        } catch (e: NoSuchAlgorithmException) {
+            e.printStackTrace()
+        }
+        return ""
+    }
+
+    @SuppressLint("HardwareIds")
+    private fun getAndroidId(): String {
+        return try {
+            Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
+        } catch (e: Exception) {
+            ""
+        }
     }
 }

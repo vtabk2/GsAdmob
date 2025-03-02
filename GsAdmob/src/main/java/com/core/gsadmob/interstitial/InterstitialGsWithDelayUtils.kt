@@ -12,26 +12,23 @@ import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 
 class InterstitialGsWithDelayUtils {
     private val interstitialMap = HashMap<Int, SubInterstitial>()
+    private var backupDelayTimeMap = HashMap<Int, Long>()
 
     fun registerDelayTime(delayTime: Long, adUnitId: Int = R.string.full_id) {
-        if (interstitialMap.containsKey(adUnitId)) {
-            interstitialMap[adUnitId]?.delayTime = delayTime
-        } else {
-            interstitialMap[adUnitId] = SubInterstitial(delayTime = delayTime)
-        }
+        backupDelayTimeMap[adUnitId] = delayTime
     }
 
     fun loadAd(context: Context, isVip: Boolean, adUnitId: Int = R.string.full_id) {
-        if (isVip) return
-        val subInterstitial = interstitialMap[adUnitId] ?: SubInterstitial()
-        if (subInterstitial.isLoading) return
-
+        if (isVip) return // vip thì không cần load
+        val subInterstitial = interstitialMap[adUnitId] ?: SubInterstitial(delayTime = backupDelayTimeMap[adUnitId] ?: 0L)
+        interstitialMap[adUnitId] = subInterstitial
+        if (subInterstitial.isLoading) return // đang load thì ko load lại nữa
+        if (subInterstitial.interstitialAd != null) return // có rồi thì ko load lại nữa
         if (subInterstitial.delayTime > 0L) {
             val currentTime = System.currentTimeMillis()
             if (currentTime - subInterstitial.lastTime < subInterstitial.delayTime * 1000) return
             subInterstitial.lastTime = currentTime
         }
-
         subInterstitial.isLoading = true
         subInterstitial.interstitialAd = null
 
@@ -42,7 +39,7 @@ class InterstitialGsWithDelayUtils {
                 subInterstitial.isLoading = false
                 if (!subInterstitial.isReload) {
                     subInterstitial.isReload = true
-                    loadAd(context, isVip)
+                    loadAd(context, isVip, adUnitId)
                 }
             }
 
@@ -53,13 +50,13 @@ class InterstitialGsWithDelayUtils {
                     override fun onAdDismissedFullScreenContent() {
                         subInterstitial.interstitialAd = null
                         subInterstitial.adCloseListener?.onAdClose()
-                        loadAd(context, isVip)
+                        loadAd(context, isVip, adUnitId)
                     }
 
                     override fun onAdFailedToShowFullScreenContent(p0: AdError) {
                         subInterstitial.interstitialAd = null
                         subInterstitial.adCloseListener?.onAdCloseIfFailed()
-                        loadAd(context, isVip)
+                        loadAd(context, isVip, adUnitId)
                     }
                 }
             }
@@ -80,23 +77,46 @@ class InterstitialGsWithDelayUtils {
                     subInterstitial.interstitialAd?.show(activity)
                 } else {
                     subInterstitial.adCloseListener?.onAdCloseIfFailed()
-                    loadAd(activity, false)
+                    loadAd(activity, false, adUnitId)
                 }
             }
         }
     }
 
-    fun checkReloadInterstitialAdIfNeed(activity: Activity, isVip: Boolean, adUnitId: Int = R.string.full_id) {
+    fun checkReloadInterstitialAdIfNeed(activity: Activity, isVip: Boolean, adUnitId: Int = R.string.full_id, callback: (canShow: Boolean) -> Unit) {
         interstitialMap[adUnitId]?.let { subInterstitial ->
             if (isVip) {
                 subInterstitial.interstitialAd = null
                 subInterstitial.adCloseListener = null
+                callback.invoke(false)
                 return
             }
+            callback.invoke(subInterstitial.interstitialAd != null)
             if (subInterstitial.interstitialAd == null) {
-                loadAd(activity, false)
+                loadAd(activity, false, adUnitId)
+            }
+        } ?: run {
+            callback.invoke(false)
+            loadAd(activity, isVip, adUnitId)
+        }
+    }
+
+    fun clearWithId(adUnitId: Int = R.string.full_id) {
+        val subInterstitial = interstitialMap.remove(adUnitId)
+        subInterstitial?.apply {
+            interstitialAd = null
+            adCloseListener = null
+        }
+    }
+
+    fun clearAll() {
+        interstitialMap.forEach { data ->
+            data.value.apply {
+                interstitialAd = null
+                adCloseListener = null
             }
         }
+        interstitialMap.clear()
     }
 
     interface AdCloseListener {

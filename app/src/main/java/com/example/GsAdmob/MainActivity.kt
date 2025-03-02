@@ -1,24 +1,22 @@
 package com.example.GsAdmob
 
-import android.annotation.SuppressLint
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
-import android.provider.Settings
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.core.gsadmob.interstitial.InterstitialGsWithDelayUtils
 import com.core.gsadmob.natives.AdsMode
 import com.core.gsadmob.natives.NativeUtils
 import com.core.gsadmob.natives.view.BaseNativeAdView
+import com.core.gsadmob.utils.extensions.DeviceExtensions.getAndroidId
+import com.core.gsadmob.utils.extensions.DeviceExtensions.md5
 import com.example.GsAdmob.databinding.ActivityMainBinding
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.RequestConfiguration
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.security.MessageDigest
-import java.security.NoSuchAlgorithmException
 
 class MainActivity : AppCompatActivity() {
     private lateinit var bindingView: ActivityMainBinding
@@ -93,8 +91,8 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    fun initMobileAds() {
-        deviceTestList.add(md5(getAndroidId()).uppercase())
+    private fun initMobileAds() {
+        deviceTestList.add(md5(getAndroidId(this)).uppercase())
 
         val requestConfiguration = RequestConfiguration.Builder().setTestDeviceIds(deviceTestList).build()
         MobileAds.setRequestConfiguration(requestConfiguration)
@@ -144,31 +142,5 @@ class MainActivity : AppCompatActivity() {
 //            bindingView.nativeCustom2.setNativeAd(nativeAd)
             }, 2000)
         })
-    }
-
-    private fun md5(input: String): String {
-        try {
-            // Create MD5 Hash
-            val digest = MessageDigest.getInstance("MD5")
-            digest.update(input.toByteArray())
-            val messageDigest = digest.digest()
-
-            // Create Hex String
-            val hexString = StringBuffer()
-            for (i in messageDigest.indices) hexString.append(java.lang.String.format("%02X", 0xFF and messageDigest[i].toInt()))
-            return hexString.toString()
-        } catch (e: NoSuchAlgorithmException) {
-            e.printStackTrace()
-        }
-        return ""
-    }
-
-    @SuppressLint("HardwareIds")
-    private fun getAndroidId(): String {
-        return try {
-            Settings.Secure.getString(contentResolver, Settings.Secure.ANDROID_ID)
-        } catch (e: Exception) {
-            ""
-        }
     }
 }

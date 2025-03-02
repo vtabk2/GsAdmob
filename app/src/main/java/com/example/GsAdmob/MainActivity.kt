@@ -9,8 +9,8 @@ import com.core.gsadmob.interstitial.InterstitialGsWithDelayUtils
 import com.core.gsadmob.natives.AdsMode
 import com.core.gsadmob.natives.NativeUtils
 import com.core.gsadmob.natives.view.BaseNativeAdView
-import com.core.gsadmob.utils.extensions.DeviceExtensions.getAndroidId
-import com.core.gsadmob.utils.extensions.DeviceExtensions.md5
+import com.core.gsadmob.utils.extensions.getAndroidId
+import com.core.gsadmob.utils.extensions.md5
 import com.example.GsAdmob.databinding.ActivityMainBinding
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.RequestConfiguration

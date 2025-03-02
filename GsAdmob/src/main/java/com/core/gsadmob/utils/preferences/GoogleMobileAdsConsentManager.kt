@@ -4,8 +4,8 @@ import android.app.Activity
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
-import com.core.gsadmob.utils.extensions.DeviceExtensions.getAndroidId
-import com.core.gsadmob.utils.extensions.DeviceExtensions.md5
+import com.core.gsadmob.utils.extensions.getAndroidId
+import com.core.gsadmob.utils.extensions.md5
 import com.google.android.ump.ConsentDebugSettings
 import com.google.android.ump.ConsentForm
 import com.google.android.ump.ConsentInformation

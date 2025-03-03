@@ -153,6 +153,16 @@ Add it in your root build.gradle at the end of repositories:
         
         bindingView.nativeTest2.applyBuilder(NativeDefaultConfig.BUILDER_FONT)
 ```
+
+- Cách 4: Có thể tạo style rồi set trực tiếp bằng cách dưới đây
+
+```css
+        bindingView.nativeTest1.setStyle(com.core.gsadmob.R.style.NativeVip)
+        
+hoặc
+        
+        bindingView.nativeTest1.setStyle(R.style.NativeTest)
+```
 - Cách load native
 
 ```css

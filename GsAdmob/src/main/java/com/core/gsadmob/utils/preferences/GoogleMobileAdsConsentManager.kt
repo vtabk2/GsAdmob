@@ -73,10 +73,14 @@ class GoogleMobileAdsConsentManager private constructor(context: Context) {
                     onCanShowAds.invoke()
                 }
             }, {
-                if (canRequestAds) {
-                    onCanShowAds.invoke()
+                if (isPrivacyOptionsRequired) {
+                    if (canRequestAds) {
+                        onCanShowAds.invoke()
+                    } else {
+                        onDisableAds.invoke()
+                    }
                 } else {
-                    onDisableAds.invoke()
+                    onCanShowAds.invoke()
                 }
             }
         )

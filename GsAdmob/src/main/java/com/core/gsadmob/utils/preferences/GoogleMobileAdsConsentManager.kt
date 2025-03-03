@@ -48,7 +48,6 @@ class GoogleMobileAdsConsentManager private constructor(context: Context) {
             /*Release*/
             ConsentRequestParameters.Builder().setTagForUnderAgeOfConsent(false).build()
         }
-        cmpUtils.isCheckGDPR = false
         consentInformation.requestConsentInfoUpdate(
             activity,
             params,

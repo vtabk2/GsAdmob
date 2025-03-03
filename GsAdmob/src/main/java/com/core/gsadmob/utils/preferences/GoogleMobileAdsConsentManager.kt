@@ -67,9 +67,11 @@ class GoogleMobileAdsConsentManager private constructor(context: Context) {
                             }
                         }, timeout)
                     } else {
+                        cmpUtils.isCheckGDPR = true
                         onCanShowAds.invoke()
                     }
                 } else {
+                    cmpUtils.isCheckGDPR = true
                     onCanShowAds.invoke()
                 }
             }, {

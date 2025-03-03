@@ -55,8 +55,8 @@ class GoogleMobileAdsConsentManager private constructor(context: Context) {
                 if (isPrivacyOptionsRequired) {
                     if (cmpUtils.requiredShowCMPDialog()) {
                         Handler(Looper.getMainLooper()).postDelayed({
-                            cmpUtils.isCheckGDPR = true
                             if (activity.isFinishing) return@postDelayed
+                            cmpUtils.isCheckGDPR = true
                             UserMessagingPlatform.showPrivacyOptionsForm(activity) {
                                 if (canRequestAds) {
                                     onCanShowAds.invoke()
@@ -66,11 +66,9 @@ class GoogleMobileAdsConsentManager private constructor(context: Context) {
                             }
                         }, timeout)
                     } else {
-                        cmpUtils.isCheckGDPR = true
                         onCanShowAds.invoke()
                     }
                 } else {
-                    cmpUtils.isCheckGDPR = true
                     onCanShowAds.invoke()
                 }
             }, {

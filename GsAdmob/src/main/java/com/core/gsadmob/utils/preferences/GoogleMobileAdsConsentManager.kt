@@ -20,7 +20,7 @@ class GoogleMobileAdsConsentManager private constructor(context: Context) {
     val canRequestAds: Boolean get() = consentInformation.canRequestAds()
 
     /** Helper variable to determine if the privacy options form is required. */
-    private val isPrivacyOptionsRequired: Boolean get() = consentInformation.privacyOptionsRequirementStatus == ConsentInformation.PrivacyOptionsRequirementStatus.REQUIRED
+    val isPrivacyOptionsRequired: Boolean get() = consentInformation.privacyOptionsRequirementStatus == ConsentInformation.PrivacyOptionsRequirementStatus.REQUIRED
 
     fun reset() {
         consentInformation.reset()

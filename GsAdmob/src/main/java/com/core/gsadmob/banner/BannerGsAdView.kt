@@ -62,8 +62,8 @@ class BannerGsAdView(context: Context, attrs: AttributeSet?) : FrameLayout(conte
         callbackShow: (() -> Unit)? = null, // callback khi show banner thành công
     ) {
         if (isVip) {
+            stopShimmer()
             if (!alwaysShow) {
-                stopShimmer()
                 gone()
             }
             return

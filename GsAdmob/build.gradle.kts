@@ -47,7 +47,6 @@ dependencies {
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
-    implementation(libs.androidx.preference.ktx)
 
     // admob
     implementation(libs.play.services.ads)

@@ -1,10 +1,12 @@
 package com.example.gsadmob.ui.activity
 
+import android.util.Log
 import androidx.appcompat.app.AlertDialog
-import androidx.appcompat.app.AppCompatActivity
 import com.core.gsadmob.rewarded.RewardedInterstitialUtils
+import com.core.gsmvvm.ui.activity.BaseMVVMActivity
 import com.example.gsadmob.BuildConfig
 import com.example.gsadmob.R
+import com.example.gsadmob.databinding.ActivityTestAdsBinding
 import com.example.gsadmob.utils.DialogUtils
 import com.example.gsadmob.utils.extensions.cmpUtils
 import com.example.gsadmob.utils.extensions.dialogLayout
@@ -14,9 +16,39 @@ import com.gs.core.ui.view.toasty.Toasty
 import com.gs.core.utils.network.NetworkUtils
 import java.util.concurrent.atomic.AtomicBoolean
 
-class TestAdsActivity : AppCompatActivity() {
+class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
     private var googleMobileAdsConsentManager: GoogleMobileAdsConsentManager? = null
     private var gdprPermissionsDialog: AlertDialog? = null
+
+    override fun getViewBinding(): ActivityTestAdsBinding {
+        return ActivityTestAdsBinding.inflate(layoutInflater)
+    }
+
+    override fun initListener() {
+        super.initListener()
+
+        bindingView.tvRewarded.setOnClickListener {
+            showRewardedAds(callback = { typeShowAds ->
+                when (typeShowAds) {
+                    TypeShowAds.SUCCESS -> {
+                        Log.d("TAG5", "initListener: SUCCESS")
+                    }
+
+                    TypeShowAds.FAILED -> {
+                        Log.d("TAG5", "initListener: FAILED")
+                    }
+
+                    TypeShowAds.TIMEOUT -> {
+                        Log.d("TAG5", "initListener: TIMEOUT")
+                    }
+
+                    TypeShowAds.CANCEL -> {
+                        Log.d("TAG5", "initListener: CANCEL")
+                    }
+                }
+            })
+        }
+    }
 
     fun showRewardedAds(callback: (typeShowAds: TypeShowAds) -> Unit, requireCheck: Boolean = true) {
         NetworkUtils.hasInternetAccessCheck(doTask = {

@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <declare-styleable name="BaseNativeAdView">
-        <attr name="ad_mode" format="enum">
+        <attr name="adsMode" format="enum">
             <enum name="none" value="0"/>
             <enum name="album" value="1"/>
             <enum name="font" value="2"/>
@@ -22,7 +22,7 @@
         <attr name="adsCallToActionId" format="reference"/>
         <attr name="adsViewId" format="reference"/>
         <attr name="adsMediaViewId" format="reference"/>
-        <attr name="adShimmerId" format="reference"/>
+        <attr name="adsShimmerId" format="reference"/>
         <attr name="adsNativeViewRoot" format="reference"/>
     </declare-styleable>
 </resources>

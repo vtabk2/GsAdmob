@@ -213,8 +213,8 @@ abstract class BaseNativeAdView(context: Context, attrs: AttributeSet?) : FrameL
     }
 
     private fun setupBuilderWithTypedArray(typedArray: TypedArray) {
-        if (typedArray.hasValue(R.styleable.BaseNativeAdView_ad_mode)) {
-            builder.adsMode = AdsMode.entries.toTypedArray()[typedArray.getInt(R.styleable.BaseNativeAdView_ad_mode, 0)]
+        if (typedArray.hasValue(R.styleable.BaseNativeAdView_adsMode)) {
+            builder.adsMode = AdsMode.entries.toTypedArray()[typedArray.getInt(R.styleable.BaseNativeAdView_adsMode, 0)]
         }
         if (typedArray.hasValue(R.styleable.BaseNativeAdView_adsLayoutId)) {
             builder.adsLayoutId = typedArray.getResourceId(R.styleable.BaseNativeAdView_adsLayoutId, builder.adsLayoutId)
@@ -243,8 +243,8 @@ abstract class BaseNativeAdView(context: Context, attrs: AttributeSet?) : FrameL
         if (typedArray.hasValue(R.styleable.BaseNativeAdView_adsMediaViewId)) {
             builder.adsMediaViewId = typedArray.getResourceId(R.styleable.BaseNativeAdView_adsMediaViewId, builder.adsMediaViewId)
         }
-        if (typedArray.hasValue(R.styleable.BaseNativeAdView_adShimmerId)) {
-            builder.adsShimmerId = typedArray.getResourceId(R.styleable.BaseNativeAdView_adShimmerId, builder.adsShimmerId)
+        if (typedArray.hasValue(R.styleable.BaseNativeAdView_adsShimmerId)) {
+            builder.adsShimmerId = typedArray.getResourceId(R.styleable.BaseNativeAdView_adsShimmerId, builder.adsShimmerId)
         }
         if (typedArray.hasValue(R.styleable.BaseNativeAdView_adsNativeViewRoot)) {
             builder.adsNativeViewRoot = typedArray.getResourceId(R.styleable.BaseNativeAdView_adsNativeViewRoot, builder.adsNativeViewRoot)

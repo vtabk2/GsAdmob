@@ -15,7 +15,7 @@ Add it in your root build.gradle at the end of repositories:
 **Step 2.** Add the dependency
 ```css
         dependencies {
-                    implementation 'com.github.vtabk2:GsAdmob:1.1.15'
+                    implementation 'com.github.vtabk2:GsAdmob:1.1.16'
             }
 ```
 
@@ -91,7 +91,7 @@ Add it in your root build.gradle at the end of repositories:
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            app:ad_mode="custom"/>
+            app:adsMode="custom"/>
 ```
 
 - Cách 1: Giữ id gốc chỉ đổi id layout

@@ -1,9 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.core.gscore.utils.view.AspectRatioLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    app:heightToWidth="0.25">
+    android:layout_height="wrap_content">
 
     <com.google.android.gms.ads.nativead.NativeAdView
         android:id="@+id/ad_view_album"
@@ -13,7 +12,8 @@
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:paddingVertical="7dp">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/ad_app_icon_album"
@@ -75,18 +75,17 @@
                 android:layout_height="@dimen/ads_height_call_to_action_album"
                 android:layout_gravity="center_vertical"
                 android:layout_marginHorizontal="11dp"
-                android:layout_marginBottom="7dp"
                 android:background="@drawable/ads_bg_call_action_button_album"
                 android:ellipsize="end"
                 android:gravity="center"
                 android:includeFontPadding="false"
                 android:maxLines="1"
+                android:textAllCaps="@bool/ads_call_button_album_textAllCaps"
                 android:textColor="@color/ads_text_color_call_button_album"
                 android:textSize="@dimen/ads_text_size_call_to_action_album"
-                android:textAllCaps="@bool/ads_call_button_album_textAllCaps"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toEndOf="@id/ad_app_icon_album"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.gms.ads.nativead.NativeAdView>
-</com.core.gscore.utils.view.AspectRatioLayout>
+</FrameLayout>

@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity() {
 //        bindingView.nativeTest1.applyBuilder(builder)
 
 
-        bindingView.nativeTest1.setStyle(com.core.gsadmob.R.style.NativeVip)
+        bindingView.nativeTest1.setStyle(com.core.gsadmob.R.style.NativeAlbum)
 
 //        bindingView.nativeTest1.applyBuilder(NativeDefaultConfig.BUILDER_ALBUM)
 //

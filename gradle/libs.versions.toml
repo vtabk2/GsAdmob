@@ -1,5 +1,6 @@
 [versions]
 agp = "8.8.2"
+baseandroid = "1.1.3"
 gscore = "1.0.1"
 kotlin = "2.1.10"
 coreKtx = "1.13.1"
@@ -14,6 +15,7 @@ shimmer = "0.5.0"
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 androidx-preference-ktx = { module = "androidx.preference:preference-ktx", version.ref = "preferenceKtx" }
+baseandroid = { module = "com.github.vtabk2:BaseAndroid", version.ref = "baseandroid" }
 gscore = { module = "com.github.vtabk2:GsCore", version.ref = "gscore" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }

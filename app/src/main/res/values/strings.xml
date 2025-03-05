@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">GsAdmob</string>
+
+    <string name="text_please_check_time">Please check the device time!</string>
+    <string name="check_network_connection">Please check your Internet connection !!!</string>
+    <string name="msg_gdpr">The rewarded promotion advertisement is unavailable because you denied the permission.</string>
+    <string name="text_grant_permission">Grant permission</string>
 </resources>

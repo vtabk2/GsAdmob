@@ -41,6 +41,19 @@
                 app:layout_constraintEnd_toEndOf="@id/ad_call_to_action_album"
                 app:layout_constraintStart_toStartOf="@id/ad_call_to_action_album"/>
 
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/ad_attribution_album"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                android:background="@drawable/ads_bg_text_ad_album"
+                android:includeFontPadding="false"
+                android:text="AD"
+                android:textColor="@color/ads_text_color_attribution_album"
+                android:textSize="@dimen/ads_text_size_attribution_album"
+                app:layout_constraintBottom_toTopOf="@id/ad_call_to_action_album"
+                app:layout_constraintStart_toStartOf="@id/ad_call_to_action_album"/>
+
             <RatingBar
                 android:id="@+id/ad_stars_album"
                 style="?android:attr/ratingBarStyleSmall"
@@ -55,19 +68,6 @@
                 app:layout_constraintBottom_toBottomOf="@id/ad_attribution_album"
                 app:layout_constraintStart_toEndOf="@id/ad_attribution_album"
                 app:layout_constraintTop_toTopOf="@id/ad_attribution_album"/>
-
-            <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/ad_attribution_album"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="6dp"
-                android:background="@drawable/ads_bg_text_ad_album"
-                android:includeFontPadding="false"
-                android:text="AD"
-                android:textColor="@color/ads_text_color_attribution_album"
-                android:textSize="@dimen/ads_text_size_attribution_album"
-                app:layout_constraintBottom_toTopOf="@id/ad_call_to_action_album"
-                app:layout_constraintStart_toStartOf="@id/ad_call_to_action_album"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/ad_call_to_action_album"

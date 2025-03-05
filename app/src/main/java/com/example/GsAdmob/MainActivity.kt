@@ -30,15 +30,15 @@ class MainActivity : AppCompatActivity() {
         initMobileAds()
 
         val builder = BaseNativeAdView.Builder().apply {
-            adLayoutId = R.layout.ad_native_test
-            adLayoutShimmerId = R.layout.ad_native_test_shimmer
-//            adLayoutShimmerId = 0 // nếu không muốn dùng shimmer
-            adHeadlineId = R.id.ad_headline_test
-            adStarsId = R.id.ad_stars_test
-            adAppIconId = R.id.ad_app_icon_test
-            adCallToActionId = R.id.ad_call_to_action_test
-            adViewId = R.id.ad_view_test
-            adShimmerId = R.id.ad_view_test_shimmer
+            adsLayoutId = R.layout.ad_native_test
+            adsLayoutShimmerId = R.layout.ad_native_test_shimmer
+//            adsLayoutShimmerId = 0 // nếu không muốn dùng shimmer
+            adsHeadlineId = R.id.ad_headline_test
+            adsStarsId = R.id.ad_stars_test
+            adsAppIconId = R.id.ad_app_icon_test
+            adsCallToActionId = R.id.ad_call_to_action_test
+            adsViewId = R.id.ad_view_test
+            adsShimmerId = R.id.ad_view_test_shimmer
             adsNativeViewRoot = R.style.ads_NativeTestRoot
             adsMode = AdsMode.CUSTOM
         }

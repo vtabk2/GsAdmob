@@ -16,56 +16,56 @@ class NativeGsAdView(context: Context, attrs: AttributeSet? = null) : BaseNative
     override val titleView: AppCompatTextView? by lazy {
         when (builder.adsMode) {
             AdsMode.NONE -> null
-            else -> customView?.findViewById(builder.adHeadlineId)
+            else -> customView?.findViewById(builder.adsHeadlineId)
         }
     }
 
     override val subTitleView: AppCompatTextView? by lazy {
         when (builder.adsMode) {
             AdsMode.NONE -> null
-            else -> customView?.findViewById(builder.adBodyId)
+            else -> customView?.findViewById(builder.adsBodyId)
         }
     }
 
     override val starView: RatingBar? by lazy {
         when (builder.adsMode) {
             AdsMode.NONE -> null
-            else -> customView?.findViewById(builder.adStarsId)
+            else -> customView?.findViewById(builder.adsStarsId)
         }
     }
 
     override val iconView: ImageView? by lazy {
         when (builder.adsMode) {
             AdsMode.NONE -> null
-            else -> customView?.findViewById(builder.adAppIconId)
+            else -> customView?.findViewById(builder.adsAppIconId)
         }
     }
 
     override val callActionButtonView: AppCompatTextView? by lazy {
         when (builder.adsMode) {
             AdsMode.NONE -> null
-            else -> customView?.findViewById(builder.adCallToActionId)
+            else -> customView?.findViewById(builder.adsCallToActionId)
         }
     }
 
     override val adView: NativeAdView? by lazy {
         when (builder.adsMode) {
             AdsMode.NONE -> null
-            else -> customView?.findViewById(builder.adViewId)
+            else -> customView?.findViewById(builder.adsViewId)
         }
     }
 
     override val mediaView: MediaView? by lazy {
         when (builder.adsMode) {
             AdsMode.NONE -> null
-            else -> customView?.findViewById(builder.adMediaViewId)
+            else -> customView?.findViewById(builder.adsMediaViewId)
         }
     }
 
     override val shimmerView: ShimmerFrameLayout? by lazy {
         when (builder.adsMode) {
             AdsMode.NONE -> null
-            else -> customShimmerView?.findViewById(builder.adShimmerId)
+            else -> customShimmerView?.findViewById(builder.adsShimmerId)
         }
     }
 
@@ -103,16 +103,16 @@ class NativeGsAdView(context: Context, attrs: AttributeSet? = null) : BaseNative
 
                 removeAllViews()
                 // adView
-                if (builder.adLayoutId != 0) {
-                    customView = layoutInflater.inflate(builder.adLayoutId, null)
+                if (builder.adsLayoutId != 0) {
+                    customView = layoutInflater.inflate(builder.adsLayoutId, null)
                     customView?.let {
                         addView(it)
                         it.setMarginExtensionFunction(marginStartRoot, marginTopRoot, marginEndRoot, marginBottomRoot)
                     }
                 }
                 // shimmer view
-                if (builder.adLayoutShimmerId != 0) {
-                    customShimmerView = layoutInflater.inflate(builder.adLayoutShimmerId, null)
+                if (builder.adsLayoutShimmerId != 0) {
+                    customShimmerView = layoutInflater.inflate(builder.adsLayoutShimmerId, null)
                     customShimmerView?.let {
                         addView(it)
                         it.setMarginExtensionFunction(marginStartRoot, marginTopRoot, marginEndRoot, marginBottomRoot)

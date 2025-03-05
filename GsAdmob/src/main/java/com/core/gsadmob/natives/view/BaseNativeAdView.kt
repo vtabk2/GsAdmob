@@ -49,49 +49,49 @@ abstract class BaseNativeAdView(context: Context, attrs: AttributeSet?) : FrameL
     private fun checkBuilderWithAdsMode() {
         when (builder.adsMode) {
             AdsMode.ALBUM -> {
-                if (builder.adLayoutId == R.layout.ad_native_custom) {
+                if (builder.adsLayoutId == R.layout.ad_native_custom) {
                     builder = NativeDefaultConfig.BUILDER_ALBUM
                 }
             }
 
             AdsMode.FONT -> {
-                if (builder.adLayoutId == R.layout.ad_native_custom) {
+                if (builder.adsLayoutId == R.layout.ad_native_custom) {
                     builder = NativeDefaultConfig.BUILDER_FONT
                 }
             }
 
             AdsMode.FRAME -> {
-                if (builder.adLayoutId == R.layout.ad_native_custom) {
+                if (builder.adsLayoutId == R.layout.ad_native_custom) {
                     builder = NativeDefaultConfig.BUILDER_FRAME
                 }
             }
 
             AdsMode.LANGUAGE -> {
-                if (builder.adLayoutId == R.layout.ad_native_custom) {
+                if (builder.adsLayoutId == R.layout.ad_native_custom) {
                     builder = NativeDefaultConfig.BUILDER_LANGUAGE
                 }
             }
 
             AdsMode.SHARE -> {
-                if (builder.adLayoutId == R.layout.ad_native_custom) {
+                if (builder.adsLayoutId == R.layout.ad_native_custom) {
                     builder = NativeDefaultConfig.BUILDER_SHARE
                 }
             }
 
             AdsMode.STICKER -> {
-                if (builder.adLayoutId == R.layout.ad_native_custom) {
+                if (builder.adsLayoutId == R.layout.ad_native_custom) {
                     builder = NativeDefaultConfig.BUILDER_STICKER
                 }
             }
 
             AdsMode.TEMPLATE -> {
-                if (builder.adLayoutId == R.layout.ad_native_custom) {
+                if (builder.adsLayoutId == R.layout.ad_native_custom) {
                     builder = NativeDefaultConfig.BUILDER_TEMPLATE
                 }
             }
 
             AdsMode.VIP -> {
-                if (builder.adLayoutId == R.layout.ad_native_custom) {
+                if (builder.adsLayoutId == R.layout.ad_native_custom) {
                     builder = NativeDefaultConfig.BUILDER_VIP
                 }
             }
@@ -137,6 +137,15 @@ abstract class BaseNativeAdView(context: Context, attrs: AttributeSet?) : FrameL
         nativeAd.starRating?.let { starRating ->
             starView?.rating = starRating.toFloat()
             starView?.visible()
+            when (builder.adsMode) {
+                AdsMode.ALBUM -> {
+                    subTitleView?.invisible()
+                }
+
+                else -> {
+                    // nothing
+                }
+            }
         } ?: run {
             when (builder.adsMode) {
                 AdsMode.STICKER -> {
@@ -207,35 +216,35 @@ abstract class BaseNativeAdView(context: Context, attrs: AttributeSet?) : FrameL
         if (typedArray.hasValue(R.styleable.BaseNativeAdView_ad_mode)) {
             builder.adsMode = AdsMode.entries.toTypedArray()[typedArray.getInt(R.styleable.BaseNativeAdView_ad_mode, 0)]
         }
-        if (typedArray.hasValue(R.styleable.BaseNativeAdView_adLayoutId)) {
-            builder.adLayoutId = typedArray.getResourceId(R.styleable.BaseNativeAdView_adLayoutId, builder.adLayoutId)
+        if (typedArray.hasValue(R.styleable.BaseNativeAdView_adsLayoutId)) {
+            builder.adsLayoutId = typedArray.getResourceId(R.styleable.BaseNativeAdView_adsLayoutId, builder.adsLayoutId)
         }
-        if (typedArray.hasValue(R.styleable.BaseNativeAdView_adLayoutShimmerId)) {
-            builder.adLayoutShimmerId = typedArray.getResourceId(R.styleable.BaseNativeAdView_adLayoutShimmerId, builder.adLayoutShimmerId)
+        if (typedArray.hasValue(R.styleable.BaseNativeAdView_adsLayoutShimmerId)) {
+            builder.adsLayoutShimmerId = typedArray.getResourceId(R.styleable.BaseNativeAdView_adsLayoutShimmerId, builder.adsLayoutShimmerId)
         }
-        if (typedArray.hasValue(R.styleable.BaseNativeAdView_adHeadlineId)) {
-            builder.adHeadlineId = typedArray.getResourceId(R.styleable.BaseNativeAdView_adHeadlineId, builder.adHeadlineId)
+        if (typedArray.hasValue(R.styleable.BaseNativeAdView_adsHeadlineId)) {
+            builder.adsHeadlineId = typedArray.getResourceId(R.styleable.BaseNativeAdView_adsHeadlineId, builder.adsHeadlineId)
         }
-        if (typedArray.hasValue(R.styleable.BaseNativeAdView_adBodyId)) {
-            builder.adBodyId = typedArray.getResourceId(R.styleable.BaseNativeAdView_adBodyId, builder.adBodyId)
+        if (typedArray.hasValue(R.styleable.BaseNativeAdView_adsBodyId)) {
+            builder.adsBodyId = typedArray.getResourceId(R.styleable.BaseNativeAdView_adsBodyId, builder.adsBodyId)
         }
-        if (typedArray.hasValue(R.styleable.BaseNativeAdView_adStarsId)) {
-            builder.adStarsId = typedArray.getResourceId(R.styleable.BaseNativeAdView_adStarsId, builder.adStarsId)
+        if (typedArray.hasValue(R.styleable.BaseNativeAdView_adsStarsId)) {
+            builder.adsStarsId = typedArray.getResourceId(R.styleable.BaseNativeAdView_adsStarsId, builder.adsStarsId)
         }
-        if (typedArray.hasValue(R.styleable.BaseNativeAdView_adAppIconId)) {
-            builder.adAppIconId = typedArray.getResourceId(R.styleable.BaseNativeAdView_adAppIconId, builder.adAppIconId)
+        if (typedArray.hasValue(R.styleable.BaseNativeAdView_adsAppIconId)) {
+            builder.adsAppIconId = typedArray.getResourceId(R.styleable.BaseNativeAdView_adsAppIconId, builder.adsAppIconId)
         }
-        if (typedArray.hasValue(R.styleable.BaseNativeAdView_adCallToActionId)) {
-            builder.adCallToActionId = typedArray.getResourceId(R.styleable.BaseNativeAdView_adCallToActionId, builder.adCallToActionId)
+        if (typedArray.hasValue(R.styleable.BaseNativeAdView_adsCallToActionId)) {
+            builder.adsCallToActionId = typedArray.getResourceId(R.styleable.BaseNativeAdView_adsCallToActionId, builder.adsCallToActionId)
         }
-        if (typedArray.hasValue(R.styleable.BaseNativeAdView_adViewId)) {
-            builder.adViewId = typedArray.getResourceId(R.styleable.BaseNativeAdView_adViewId, builder.adViewId)
+        if (typedArray.hasValue(R.styleable.BaseNativeAdView_adsViewId)) {
+            builder.adsViewId = typedArray.getResourceId(R.styleable.BaseNativeAdView_adsViewId, builder.adsViewId)
         }
-        if (typedArray.hasValue(R.styleable.BaseNativeAdView_adMediaViewId)) {
-            builder.adMediaViewId = typedArray.getResourceId(R.styleable.BaseNativeAdView_adMediaViewId, builder.adMediaViewId)
+        if (typedArray.hasValue(R.styleable.BaseNativeAdView_adsMediaViewId)) {
+            builder.adsMediaViewId = typedArray.getResourceId(R.styleable.BaseNativeAdView_adsMediaViewId, builder.adsMediaViewId)
         }
         if (typedArray.hasValue(R.styleable.BaseNativeAdView_adShimmerId)) {
-            builder.adShimmerId = typedArray.getResourceId(R.styleable.BaseNativeAdView_adShimmerId, builder.adShimmerId)
+            builder.adsShimmerId = typedArray.getResourceId(R.styleable.BaseNativeAdView_adShimmerId, builder.adsShimmerId)
         }
         if (typedArray.hasValue(R.styleable.BaseNativeAdView_adsNativeViewRoot)) {
             builder.adsNativeViewRoot = typedArray.getResourceId(R.styleable.BaseNativeAdView_adsNativeViewRoot, builder.adsNativeViewRoot)
@@ -247,16 +256,16 @@ abstract class BaseNativeAdView(context: Context, attrs: AttributeSet?) : FrameL
     }
 
     data class Builder(
-        var adLayoutId: Int = R.layout.ad_native_custom,
-        var adLayoutShimmerId: Int = R.layout.ad_native_custom_shimmer,
-        var adHeadlineId: Int = R.id.ad_headline_custom,
-        var adBodyId: Int = R.id.ad_body_custom,
-        var adStarsId: Int = R.id.ad_stars_custom,
-        var adAppIconId: Int = R.id.ad_app_icon_custom,
-        var adCallToActionId: Int = R.id.ad_call_to_action_custom,
-        var adViewId: Int = R.id.ad_view_custom,
-        var adMediaViewId: Int = R.id.ad_media_custom,
-        var adShimmerId: Int = R.id.ad_shimmer_custom,
+        var adsLayoutId: Int = R.layout.ad_native_custom,
+        var adsLayoutShimmerId: Int = R.layout.ad_native_custom_shimmer,
+        var adsHeadlineId: Int = R.id.ad_headline_custom,
+        var adsBodyId: Int = R.id.ad_body_custom,
+        var adsStarsId: Int = R.id.ad_stars_custom,
+        var adsAppIconId: Int = R.id.ad_app_icon_custom,
+        var adsCallToActionId: Int = R.id.ad_call_to_action_custom,
+        var adsViewId: Int = R.id.ad_view_custom,
+        var adsMediaViewId: Int = R.id.ad_media_custom,
+        var adsShimmerId: Int = R.id.ad_shimmer_custom,
         var adsNativeViewRoot: Int = R.style.ads_BaseNativeAdViewRoot,
         var adsMode: AdsMode = AdsMode.NONE
     )

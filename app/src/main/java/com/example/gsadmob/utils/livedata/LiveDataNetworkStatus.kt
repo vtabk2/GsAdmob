@@ -1,4 +1,4 @@
-package com.example.GsAdmob
+package com.example.gsadmob.utils.livedata
 
 import android.annotation.SuppressLint
 import android.content.Context

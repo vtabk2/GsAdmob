@@ -4,11 +4,11 @@ plugins {
 }
 
 android {
-    namespace = "com.example.GsAdmob"
+    namespace = "com.example.gsadmob"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.example.GsAdmob"
+        applicationId = "com.example.gsadmob"
         minSdk = 21
         targetSdk = 34
         versionCode = 1
@@ -49,4 +49,6 @@ dependencies {
     implementation(libs.shimmer)
 
     implementation(libs.gscore)
+
+    implementation (libs.androidx.preference.ktx)
 }

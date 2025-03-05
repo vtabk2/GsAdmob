@@ -9,6 +9,7 @@ object NativeDefaultConfig {
         adLayoutId = R.layout.ad_native_album
         adLayoutShimmerId = R.layout.ad_native_album_shimmer
         adHeadlineId = R.id.ad_headline_album
+        adBodyId = R.id.ad_body_album
         adStarsId = R.id.ad_stars_album
         adAppIconId = R.id.ad_app_icon_album
         adCallToActionId = R.id.ad_call_to_action_album

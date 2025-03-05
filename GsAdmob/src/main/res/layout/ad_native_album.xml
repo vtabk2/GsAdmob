@@ -31,7 +31,7 @@
                 android:id="@+id/ad_headline_album"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="4dp"
+                android:layout_marginBottom="6dp"
                 android:ellipsize="end"
                 android:maxLines="1"
                 android:textAlignment="viewStart"
@@ -68,6 +68,22 @@
                 app:layout_constraintBottom_toBottomOf="@id/ad_attribution_album"
                 app:layout_constraintStart_toEndOf="@id/ad_attribution_album"
                 app:layout_constraintTop_toTopOf="@id/ad_attribution_album"/>
+
+            <androidx.appcompat.widget.AppCompatTextView
+                android:id="@+id/ad_body_album"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textAlignment="viewStart"
+                android:textColor="@color/ads_text_color_body_album"
+                android:textSize="@dimen/ads_text_size_body_album"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/ad_attribution_album"
+                app:layout_constraintEnd_toEndOf="@+id/ad_headline_album"
+                app:layout_constraintStart_toEndOf="@id/ad_stars_album"
+                app:layout_constraintTop_toTopOf="@+id/ad_attribution_album"/>
 
             <androidx.appcompat.widget.AppCompatTextView
                 android:id="@+id/ad_call_to_action_album"

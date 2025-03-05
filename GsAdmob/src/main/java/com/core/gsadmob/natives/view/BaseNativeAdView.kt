@@ -138,14 +138,23 @@ abstract class BaseNativeAdView(context: Context, attrs: AttributeSet?) : FrameL
             starView?.rating = starRating.toFloat()
             starView?.visible()
         } ?: run {
-            if (builder.adsMode == AdsMode.STICKER) {
-                if (icon != null) {
-                    starView?.invisible()
-                } else {
-                    starView?.gone()
+            when (builder.adsMode) {
+                AdsMode.STICKER -> {
+                    if (icon != null) {
+                        starView?.invisible()
+                    } else {
+                        starView?.gone()
+                    }
                 }
-            } else {
-                starView?.invisible()
+
+                AdsMode.ALBUM -> {
+                    starView?.gone()
+                    subTitleView?.visible()
+                }
+
+                else -> {
+                    starView?.invisible()
+                }
             }
         }
         if (callAction != null) {

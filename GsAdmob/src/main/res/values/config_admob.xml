@@ -14,6 +14,7 @@
 
     <!--    album-->
     <color name="ads_text_color_headline_album">@android:color/white</color>
+    <color name="ads_text_color_body_album">@android:color/white</color>
     <color name="ads_text_color_attribution_album">@android:color/white</color>
     <color name="ads_text_color_call_button_album">@color/selector_color_white_black</color>
     <color name="ads_call_button_album">#14B261</color>
@@ -29,6 +30,7 @@
     <bool name="ads_call_button_album_textAllCaps">false</bool>
 
     <dimen name="ads_text_size_headline_album">15sp</dimen>
+    <dimen name="ads_text_size_body_album">13sp</dimen>
     <dimen name="ads_text_size_attribution_album">8sp</dimen>
     <dimen name="ads_text_size_call_to_action_album">14sp</dimen>
     <dimen name="ads_height_call_to_action_album">32dp</dimen>
@@ -347,6 +349,7 @@
         <item name="adLayoutId">@layout/ad_native_album</item>
         <item name="adLayoutShimmerId">@layout/ad_native_album_shimmer</item>
         <item name="adHeadlineId">@id/ad_headline_album</item>
+        <item name="adBodyId">@id/ad_body_album</item>
         <item name="adStarsId">@id/ad_stars_album</item>
         <item name="adAppIconId">@id/ad_app_icon_album</item>
         <item name="adCallToActionId">@id/ad_call_to_action_album</item>

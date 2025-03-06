@@ -4,6 +4,7 @@ import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import com.core.gsadmob.rewarded.RewardedInterstitialUtils
 import com.core.gsadmob.rewarded.RewardedUtils
+import com.core.gscore.utils.extensions.setClickSafeAll
 import com.core.gsmvvm.ui.activity.BaseMVVMActivity
 import com.example.gsadmob.BuildConfig
 import com.example.gsadmob.R
@@ -28,23 +29,57 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
     override fun initListener() {
         super.initListener()
 
-        bindingView.tvRewarded.setOnClickListener {
+        bindingView.tvRewarded.setClickSafeAll {
+            Log.d("TAG5", "initListener: Click Rewarded")
             checkShowRewardedAds(callback = { typeShowAds ->
                 when (typeShowAds) {
                     TypeShowAds.SUCCESS -> {
-                        Log.d("TAG5", "initListener: SUCCESS")
+                        Toasty.showToast(this@TestAdsActivity, "Rewarded SUCCESS", Toasty.SUCCESS)
+                        Log.d("TAG5", "initListener: Rewarded SUCCESS")
                     }
 
                     TypeShowAds.FAILED -> {
-                        Log.d("TAG5", "initListener: FAILED")
+                        Toasty.showToast(this@TestAdsActivity, "Rewarded FAILED", Toasty.ERROR)
+                        Log.d("TAG5", "initListener: Rewarded FAILED")
                     }
 
                     TypeShowAds.TIMEOUT -> {
-                        Log.d("TAG5", "initListener: TIMEOUT")
+                        Toasty.showToast(this@TestAdsActivity, "Rewarded TIMEOUT", Toasty.WARNING)
+                        Log.d("TAG5", "initListener: Rewarded TIMEOUT")
                     }
 
                     TypeShowAds.CANCEL -> {
-                        Log.d("TAG5", "initListener: CANCEL")
+                        // xử lý khi đóng ads thì làm gì ko quan trọng đã thành công hay không
+                        Toasty.showToast(this@TestAdsActivity, "Rewarded CANCEL", Toasty.WARNING)
+                        Log.d("TAG5", "initListener: Rewarded CANCEL")
+                    }
+                }
+            }, isRewardedInterstitialAds = false)
+        }
+
+        bindingView.tvRewardedInterstitial.setClickSafeAll {
+            Log.d("TAG5", "initListener: Click Rewarded Interstitial")
+            checkShowRewardedAds(callback = { typeShowAds ->
+                when (typeShowAds) {
+                    TypeShowAds.SUCCESS -> {
+                        Toasty.showToast(this@TestAdsActivity, "Rewarded Interstitial SUCCESS", Toasty.SUCCESS)
+                        Log.d("TAG5", "initListener: Rewarded Interstitial SUCCESS")
+                    }
+
+                    TypeShowAds.FAILED -> {
+                        Toasty.showToast(this@TestAdsActivity, "Rewarded Interstitial FAILED", Toasty.ERROR)
+                        Log.d("TAG5", "initListener: Rewarded Interstitial FAILED")
+                    }
+
+                    TypeShowAds.TIMEOUT -> {
+                        Toasty.showToast(this@TestAdsActivity, "Rewarded Interstitial TIMEOUT", Toasty.WARNING)
+                        Log.d("TAG5", "initListener: Rewarded Interstitial TIMEOUT")
+                    }
+
+                    TypeShowAds.CANCEL -> {
+                        // xử lý khi đóng ads thì làm gì ko quan trọng đã thành công hay không
+                        Toasty.showToast(this@TestAdsActivity, "Rewarded Interstitial CANCEL", Toasty.WARNING)
+                        Log.d("TAG5", "initListener: Rewarded Interstitial CANCEL")
                     }
                 }
             })
@@ -52,6 +87,8 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
     }
 
     fun checkShowRewardedAds(callback: (typeShowAds: TypeShowAds) -> Unit, isRewardedInterstitialAds: Boolean = true, requireCheck: Boolean = true) {
+        Log.d("TAG5", "checkShowRewardedAds: isRewardedInterstitialAds = $isRewardedInterstitialAds")
+        Log.d("TAG5", "checkShowRewardedAds: requireCheck = $requireCheck")
         NetworkUtils.hasInternetAccessCheck(doTask = {
             if (googleMobileAdsConsentManager == null) {
                 googleMobileAdsConsentManager = GoogleMobileAdsConsentManager.getInstance(this)

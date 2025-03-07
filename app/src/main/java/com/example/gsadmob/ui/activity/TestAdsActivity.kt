@@ -2,6 +2,7 @@ package com.example.gsadmob.ui.activity
 
 import android.util.Log
 import androidx.appcompat.app.AlertDialog
+import com.core.gsadmob.natives.NativeUtils
 import com.core.gsadmob.rewarded.RewardedInterstitialUtils
 import com.core.gsadmob.rewarded.RewardedUtils
 import com.core.gscore.utils.extensions.setClickSafeAll
@@ -82,6 +83,14 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
                         Log.d("TAG5", "initListener: Rewarded Interstitial CANCEL")
                     }
                 }
+            })
+        }
+
+        bindingView.tvNativeFrame.setClickSafeAll {
+            NativeUtils.loadNativeAds(this, this, isVip = false, callbackStart = {
+                bindingView.nativeFrame.startShimmer()
+            }, callback = { nativeAd ->
+                bindingView.nativeFrame.setNativeAd(nativeAd)
             })
         }
     }

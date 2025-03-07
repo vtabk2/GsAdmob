@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    app:heightToWidth="0.25">
+    app:heightToWidth="@dimen/ads_root_template_heightToWidth">
 
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/ad_shimmer_template"

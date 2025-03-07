@@ -33,4 +33,30 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvRewarded"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvNativeFrame"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/selector_background_grant"
+        android:gravity="center"
+        android:text="Native Frame"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvRewardedInterstitial"/>
+
+    <com.core.gsadmob.natives.view.NativeGsAdView
+        android:id="@+id/nativeFrame"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:visibility="gone"
+        app:adsMode="frame"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvNativeFrame"
+        app:layout_constraintWidth_percent="0.5"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

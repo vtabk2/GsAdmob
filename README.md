@@ -56,8 +56,10 @@ Add it in your root build.gradle at the end of repositories:
         bindingView.bannerView.registerDelayTime(10)
 ```
 
-- InterstitialWithDelayUtils dùng khi cần load InterstitialAds có delay load giữa các lần
-- 
+**InterstitialWithDelayUtils**
+
+  dùng khi cần load InterstitialAds có delay load giữa các lần
+
 ```css
         InterstitialWithDelayUtils.instance.registerDelayTime(10)
         

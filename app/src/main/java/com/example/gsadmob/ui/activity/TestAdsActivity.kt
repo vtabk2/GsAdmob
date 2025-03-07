@@ -5,6 +5,7 @@ import androidx.appcompat.app.AlertDialog
 import com.core.gsadmob.natives.NativeUtils
 import com.core.gsadmob.rewarded.RewardedInterstitialUtils
 import com.core.gsadmob.rewarded.RewardedUtils
+import com.core.gscore.utils.extensions.gone
 import com.core.gscore.utils.extensions.setClickSafeAll
 import com.core.gsmvvm.ui.activity.BaseMVVMActivity
 import com.example.gsadmob.BuildConfig
@@ -93,11 +94,35 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
                 bindingView.nativeFrame.setNativeAd(nativeAd)
             })
         }
+
+        bindingView.imageFrameClose.setOnClickListener {
+            bindingView.nativeFrame.gone()
+        }
+
+        bindingView.tvNativeLanguage.setClickSafeAll {
+            NativeUtils.loadNativeAds(this, this, isVip = false, callbackStart = {
+                bindingView.nativeLanguage.startShimmer()
+            }, callback = { nativeAd ->
+                bindingView.nativeLanguage.setNativeAd(nativeAd)
+            })
+        }
+
+        bindingView.imageLanguageClose.setOnClickListener {
+            bindingView.nativeLanguage.gone()
+        }
     }
 
     fun checkShowRewardedAds(callback: (typeShowAds: TypeShowAds) -> Unit, isRewardedInterstitialAds: Boolean = true, requireCheck: Boolean = true) {
         Log.d("TAG5", "checkShowRewardedAds: isRewardedInterstitialAds = $isRewardedInterstitialAds")
         Log.d("TAG5", "checkShowRewardedAds: requireCheck = $requireCheck")
+
+        fun loadOrShow() {
+            if (isRewardedInterstitialAds) {
+                loadAndShowRewardedInterstitialAds(callback)
+            } else {
+                loadAndShowRewardedAds(callback)
+            }
+        }
         NetworkUtils.hasInternetAccessCheck(doTask = {
             if (googleMobileAdsConsentManager == null) {
                 googleMobileAdsConsentManager = GoogleMobileAdsConsentManager.getInstance(this)
@@ -107,11 +132,7 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
                     if (cmpUtils.requiredShowCMPDialog()) {
                         if (cmpUtils.isCheckGDPR) {
                             googleMobileAdsConsentManager?.gatherConsent(this, onCanShowAds = {
-                                if (isRewardedInterstitialAds) {
-                                    showRewardedInterstitialAds(callback)
-                                } else {
-                                    showRewardedAds(callback)
-                                }
+                                loadOrShow()
                             }, onDisableAds = {
                                 callback(TypeShowAds.CANCEL)
                             }, isDebug = BuildConfig.DEBUG, timeout = 0)
@@ -120,11 +141,7 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
                             gdprPermissionsDialog = DialogUtils.initGdprPermissionDialog(this, callback = { granted ->
                                 if (granted) {
                                     googleMobileAdsConsentManager?.gatherConsent(this, onCanShowAds = {
-                                        if (isRewardedInterstitialAds) {
-                                            showRewardedInterstitialAds(callback)
-                                        } else {
-                                            showRewardedAds(callback)
-                                        }
+                                        loadOrShow()
                                     }, onDisableAds = {
                                         callback(TypeShowAds.CANCEL)
                                     }, isDebug = BuildConfig.DEBUG, timeout = 0)
@@ -136,20 +153,12 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
                             dialogLayout(gdprPermissionsDialog)
                         }
                     } else {
-                        if (isRewardedInterstitialAds) {
-                            showRewardedInterstitialAds(callback)
-                        } else {
-                            showRewardedAds(callback)
-                        }
+                        loadOrShow()
                     }
                 }
 
                 ConsentInformation.PrivacyOptionsRequirementStatus.NOT_REQUIRED -> {
-                    if (isRewardedInterstitialAds) {
-                        showRewardedInterstitialAds(callback)
-                    } else {
-                        showRewardedAds(callback)
-                    }
+                    loadOrShow()
                 }
 
                 else -> {
@@ -159,11 +168,7 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
                             checkShowRewardedAds(callback, isRewardedInterstitialAds, requireCheck = false)
                         })
                     } else {
-                        if (isRewardedInterstitialAds) {
-                            showRewardedInterstitialAds(callback)
-                        } else {
-                            showRewardedAds(callback)
-                        }
+                        loadOrShow()
                     }
                 }
             }
@@ -181,7 +186,7 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
         }, context = this)
     }
 
-    private fun showRewardedAds(callback: (typeShowAds: TypeShowAds) -> Unit) {
+    private fun loadAndShowRewardedAds(callback: (typeShowAds: TypeShowAds) -> Unit) {
         val check = AtomicBoolean(true)
         RewardedUtils.instance.registerAdsListener(object : RewardedUtils.RewardedAdCloseListener {
             override fun onAdCloseIfFailed() {
@@ -221,7 +226,7 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
         }, this)
     }
 
-    private fun showRewardedInterstitialAds(callback: (typeShowAds: TypeShowAds) -> Unit) {
+    private fun loadAndShowRewardedInterstitialAds(callback: (typeShowAds: TypeShowAds) -> Unit) {
         val check = AtomicBoolean(true)
         RewardedInterstitialUtils.instance.registerAdsListener(object : RewardedInterstitialUtils.RewardedAdCloseListener {
             override fun onAdCloseIfFailed() {

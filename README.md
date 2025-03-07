@@ -15,13 +15,13 @@ Add it in your root build.gradle at the end of repositories:
 **Step 2.** Add the dependency
 ```css
         dependencies {
-                    implementation 'com.github.vtabk2:GsAdmob:1.1.17'
+                    implementation 'com.github.vtabk2:GsAdmob:1.1.18'
             }
 ```
 
 - admob : cấu hình trong config_admob
 
-- BannerUtils
+**BannerUtils**
   Cách 1:
 ```css
         BannerUtils.initBannerAds(activity = this, flBannerAds = bindingView.flBannerAds, isVip = false, show = true, alwaysShow = true, callbackAdMob = { adView ->
@@ -38,7 +38,7 @@ Add it in your root build.gradle at the end of repositories:
             android:layout_height="60dp"/>
 ```
 
-  Load banner
+**Load banner**
 
 ```css
         bindingView.bannerView.loadAds(isVip = false, alwaysShow = true)
@@ -67,7 +67,7 @@ Add it in your root build.gradle at the end of repositories:
                 }
             })
 ```
-- InterstitialUtils
+**InterstitialUtils**
 
 ```css
         InterstitialUtils.instance.showInterstitialAd(activity = this, isVip = false, listener = object : InterstitialUtils.AdCloseListener {
@@ -81,7 +81,7 @@ Add it in your root build.gradle at the end of repositories:
             })
 ```
 
-- NativeUtils
+**NativeUtils**
 
 - Tùy biến NativeAdView thì chọn ad_mode = custom
 
@@ -173,10 +173,10 @@ hoặc
         })
 ```
 
-- RewardedInterstitialUtils
+**RewardedInterstitialUtils**
 
-- AppOpenAdManager
+**AppOpenAdManager**
 
-- AppResumeAdManager
+**AppResumeAdManager**
 
-- Hướng dẫn GDPR xem ở TestAdsActivity
+**Hướng dẫn GDPR xem ở TestAdsActivity**

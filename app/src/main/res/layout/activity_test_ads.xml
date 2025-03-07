@@ -45,9 +45,21 @@
         android:text="Native Frame"
         android:textColor="@android:color/white"
         android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/imageFrameClose"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvRewardedInterstitial"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imageFrameClose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:background="?attr/selectableItemBackground"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="@id/tvNativeFrame"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvNativeFrame"
+        app:srcCompat="@drawable/ic_close_black"/>
 
     <com.core.gsadmob.natives.view.NativeGsAdView
         android:id="@+id/nativeFrame"
@@ -59,4 +71,44 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvNativeFrame"
         app:layout_constraintWidth_percent="0.5"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvNativeLanguage"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="8dp"
+        android:background="@drawable/selector_background_grant"
+        android:gravity="center"
+        android:text="Native Language"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@id/imageLanguageClose"
+        app:layout_constraintHorizontal_bias="0.517"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/nativeFrame"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imageLanguageClose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:background="?attr/selectableItemBackground"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="@id/tvNativeLanguage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvNativeLanguage"
+        app:srcCompat="@drawable/ic_close_black"/>
+
+    <com.core.gsadmob.natives.view.NativeGsAdView
+        android:id="@+id/nativeLanguage"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:visibility="gone"
+        app:adsMode="language"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvNativeLanguage"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>

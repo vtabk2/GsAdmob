@@ -21,15 +21,18 @@ Add it in your root build.gradle at the end of repositories:
 
 - admob : cấu hình trong config_admob
 
+
 **BannerUtils**
-  Cách 1:
+
+-  Cách 1:
+
 ```css
         BannerUtils.initBannerAds(activity = this, flBannerAds = bindingView.flBannerAds, isVip = false, show = true, alwaysShow = true, callbackAdMob = { adView ->
             adBanner = adView
         })
 ```
 
-  Cách 2:
+-  Cách 2:
 
 ```css
         <com.core.gsadmob.banner.BannerGsAdView
@@ -47,13 +50,14 @@ Add it in your root build.gradle at the end of repositories:
         bindingView.bannerView.loadAds(isVip = false)
 ```
 
-  Nếu muốn có thời gian delay giữa các lần load lại banner
+- Nếu muốn có thời gian delay giữa các lần load lại banner
 
 ```css
         bindingView.bannerView.registerDelayTime(10)
 ```
 
 - InterstitialWithDelayUtils dùng khi cần load InterstitialAds có delay load giữa các lần
+- 
 ```css
         InterstitialWithDelayUtils.instance.registerDelayTime(10)
         
@@ -95,6 +99,7 @@ Add it in your root build.gradle at the end of repositories:
 ```
 
 - Cách 1: Giữ id gốc chỉ đổi id layout
+
 ```css
         val builder = BaseNativeAdView.Builder().apply {
             adsLayoutId = R.layout.ad_native_test
@@ -105,6 +110,7 @@ Add it in your root build.gradle at the end of repositories:
 ```
 
 - Cách 2: Đổi tất cả id thì cấu hình lại trong builder:
+
 ```css
         val builder = BaseNativeAdView.Builder().apply {
             adsLayoutId = R.layout.ad_native_test

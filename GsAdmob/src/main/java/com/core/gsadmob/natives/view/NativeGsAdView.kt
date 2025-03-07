@@ -11,6 +11,7 @@ import com.core.gsadmob.utils.extensions.setMarginExtensionFunction
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.gms.ads.nativead.MediaView
 import com.google.android.gms.ads.nativead.NativeAdView
+import androidx.core.content.withStyledAttributes
 
 class NativeGsAdView(context: Context, attrs: AttributeSet? = null) : BaseNativeAdView(context, attrs) {
     override val titleView: AppCompatTextView? by lazy {
@@ -89,14 +90,14 @@ class NativeGsAdView(context: Context, attrs: AttributeSet? = null) : BaseNative
                         android.R.attr.layout_marginStart,
                         android.R.attr.layout_marginEnd,
                     )
-                    val typedArrayRoot = context.obtainStyledAttributes(builder.adsNativeViewRoot, attrViewRoot)
+                    context.withStyledAttributes(builder.adsNativeViewRoot, attrViewRoot) {
 
-                    marginStartRoot = typedArrayRoot.getDimension(2, 0f).toInt()
-                    marginTopRoot = typedArrayRoot.getDimension(0, 0f).toInt()
-                    marginEndRoot = typedArrayRoot.getDimension(3, 0f).toInt()
-                    marginBottomRoot = typedArrayRoot.getDimension(1, 0f).toInt()
+                        marginStartRoot = getDimension(2, 0f).toInt()
+                        marginTopRoot = getDimension(0, 0f).toInt()
+                        marginEndRoot = getDimension(3, 0f).toInt()
+                        marginBottomRoot = getDimension(1, 0f).toInt()
 
-                    typedArrayRoot.recycle()
+                    }
                 } catch (e: Exception) {
                     e.printStackTrace()
                 }

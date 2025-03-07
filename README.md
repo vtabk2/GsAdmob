@@ -15,7 +15,7 @@ Add it in your root build.gradle at the end of repositories:
 **Step 2.** Add the dependency
 ```css
         dependencies {
-                    implementation 'com.github.vtabk2:GsAdmob:1.1.16'
+                    implementation 'com.github.vtabk2:GsAdmob:1.1.17'
             }
 ```
 
@@ -176,4 +176,7 @@ hoặc
 - RewardedInterstitialUtils
 
 - AppOpenAdManager
+
 - AppResumeAdManager
+
+- Hướng dẫn GDPR xem ở TestAdsActivity

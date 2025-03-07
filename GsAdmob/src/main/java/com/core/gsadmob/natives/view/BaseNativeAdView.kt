@@ -161,7 +161,11 @@ abstract class BaseNativeAdView(context: Context, attrs: AttributeSet?) : FrameL
                     subTitleView?.visible()
                 }
                 AdsMode.SHARE -> {
-                    starView?.gone()
+                    if (icon != null) {
+                        starView?.invisible()
+                    } else {
+                        starView?.gone()
+                    }
                 }
 
                 else -> {

@@ -75,6 +75,7 @@
     <dimen name="ads_padding_top_call_to_action_font">6dp</dimen>
     <dimen name="ads_radius_bg_font">0dp</dimen>
     <dimen name="ads_root_font_heightToWidth">0.25</dimen>
+    <dimen name="ads_minWidth_call_to_action_font">96dp</dimen>
 
     <style name="ads_NativeFontRoot" parent="ads_BaseNativeAdViewRoot">
 
@@ -178,6 +179,8 @@
     <dimen name="ads_padding_right_call_to_action_share">10dp</dimen>
     <dimen name="ads_padding_top_call_to_action_share">6dp</dimen>
     <dimen name="ads_radius_bg_share">10dp</dimen>
+    <dimen name="ads_margin_start_share">10dp</dimen>
+    <dimen name="ads_margin_end_share">10dp</dimen>
 
     <style name="ads_NativeShareRoot" parent="ads_BaseNativeAdViewRoot">
 
@@ -290,7 +293,15 @@
     <color name="ads_bg_shimmer_root_color">#CACACA</color>
     <color name="ads_bg_banner_shimmer_root_color">#CACACA</color>
 
-    <drawable name="ads_bg_shimmer_root">@drawable/ads__bg_shimmer_root</drawable>
+    <drawable name="ads_bg_shimmer_album">@drawable/ads__bg_shimmer_root</drawable>
+    <drawable name="ads_bg_shimmer_custom">@drawable/ads__bg_shimmer_root</drawable>
+    <drawable name="ads_bg_shimmer_font">@drawable/ads__bg_shimmer_root</drawable>
+    <drawable name="ads_bg_shimmer_frame">@drawable/ads__bg_shimmer_root</drawable>
+    <drawable name="ads_bg_shimmer_language">@drawable/ads__bg_shimmer_root</drawable>
+    <drawable name="ads_bg_shimmer_share">@drawable/ads__bg_shimmer_root</drawable>
+    <drawable name="ads_bg_shimmer_sticker">@drawable/ads__bg_shimmer_root</drawable>
+    <drawable name="ads_bg_shimmer_template">@drawable/ads__bg_shimmer_root</drawable>
+    <drawable name="ads_bg_shimmer_vip">@drawable/ads__bg_shimmer_root</drawable>
 
     <drawable name="ads_bg_banner_shimmer_root">@drawable/ads__bg_banner_shimmer_root</drawable>
 

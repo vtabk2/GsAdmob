@@ -4,7 +4,7 @@
     android:id="@+id/ad_shimmer_custom"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@drawable/ads_bg_shimmer_root">
+    android:background="@drawable/ads_bg_shimmer_custom">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

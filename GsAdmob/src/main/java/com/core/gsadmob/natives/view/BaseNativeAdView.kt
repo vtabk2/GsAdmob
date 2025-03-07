@@ -160,6 +160,9 @@ abstract class BaseNativeAdView(context: Context, attrs: AttributeSet?) : FrameL
                     starView?.gone()
                     subTitleView?.visible()
                 }
+                AdsMode.SHARE -> {
+                    starView?.gone()
+                }
 
                 else -> {
                     starView?.invisible()

@@ -9,7 +9,7 @@
         android:id="@+id/ad_shimmer_frame"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/ads_bg_shimmer_root">
+        android:background="@drawable/ads_bg_shimmer_frame">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"

@@ -95,7 +95,7 @@
                 android:background="@drawable/ads_bg_call_action_button_sticker"
                 android:gravity="center"
                 android:lineSpacingExtra="5dp"
-                android:minWidth="96dp"
+                android:minWidth="@dimen/ads_minWidth_call_to_action_sticker"
                 android:textAllCaps="@bool/ads_call_button_sticker_textAllCaps"
                 android:textColor="@color/ads_text_color_call_button_sticker"
                 android:textSize="@dimen/ads_text_size_call_to_action_sticker"

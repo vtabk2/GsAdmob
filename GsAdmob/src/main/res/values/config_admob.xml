@@ -113,6 +113,7 @@
     <dimen name="ads_top_left_radius_bg_frame">10dp</dimen>
     <dimen name="ads_top_right_radius_bg_frame">0dp</dimen>
     <dimen name="ads_root_frame_heightToWidth">1.5</dimen>
+    <dimen name="ads_minWidth_call_to_action_frame">96dp</dimen>
 
     <style name="ads_NativeFrameRoot" parent="ads_BaseNativeAdViewRoot">
 
@@ -215,6 +216,7 @@
     <dimen name="ads_padding_top_call_to_action_sticker">6dp</dimen>
     <dimen name="ads_radius_bg_sticker">10dp</dimen>
     <dimen name="ads_root_sticker_heightToWidth">0.40298507462</dimen>
+    <dimen name="ads_minWidth_call_to_action_sticker">96dp</dimen>
 
     <style name="ads_NativeStickerRoot" parent="ads_BaseNativeAdViewRoot">
 
@@ -249,6 +251,7 @@
     <dimen name="ads_padding_top_call_to_action_template">6dp</dimen>
     <dimen name="ads_radius_bg_template">0dp</dimen>
     <dimen name="ads_root_template_heightToWidth">0.25</dimen>
+    <dimen name="ads_minWidth_call_to_action_template">96dp</dimen>
 
     <style name="ads_NativeTemplateRoot" parent="ads_BaseNativeAdViewRoot">
 

@@ -1,7 +1,6 @@
 package com.example.gsadmob.ui.activity
 
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import com.core.gsadmob.callback.AdGsListener
 import com.core.gsadmob.natives.NativeUtils
@@ -12,6 +11,7 @@ import com.core.gscore.utils.extensions.setClickSafeAll
 import com.core.gsmvvm.ui.activity.BaseMVVMActivity
 import com.example.gsadmob.BuildConfig
 import com.example.gsadmob.R
+import com.example.gsadmob.TestApplication
 import com.example.gsadmob.databinding.ActivityTestAdsBinding
 import com.example.gsadmob.utils.DialogUtils
 import com.example.gsadmob.utils.extensions.cmpUtils
@@ -33,67 +33,53 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
     override fun setupView(savedInstanceState: Bundle?) {
         super.setupView(savedInstanceState)
 
-        AdGsManager.instance.apply {
-            registerCoroutineScope(application)
-//            registerDelayTime(30L, adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_REWARDED)
-//            registerDelayTime(30L, adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_REWARDED_INTERSTITIAL)
-        }
+        TestApplication.applicationContext().initMobileAds()
     }
 
     override fun initListener() {
         super.initListener()
 
         bindingView.tvRewarded.setClickSafeAll {
-            Log.d("TAG5", "initListener: Click Rewarded")
             checkShowRewardedAds(callback = { typeShowAds ->
                 when (typeShowAds) {
                     TypeShowAds.SUCCESS -> {
                         Toasty.showToast(this@TestAdsActivity, "Rewarded SUCCESS", Toasty.SUCCESS)
-                        Log.d("TAG5", "initListener: Rewarded SUCCESS")
                     }
 
                     TypeShowAds.FAILED -> {
                         Toasty.showToast(this@TestAdsActivity, "Rewarded FAILED", Toasty.ERROR)
-                        Log.d("TAG5", "initListener: Rewarded FAILED")
                     }
 
                     TypeShowAds.TIMEOUT -> {
                         Toasty.showToast(this@TestAdsActivity, "Rewarded TIMEOUT", Toasty.WARNING)
-                        Log.d("TAG5", "initListener: Rewarded TIMEOUT")
                     }
 
                     TypeShowAds.CANCEL -> {
                         // xử lý khi đóng ads thì làm gì ko quan trọng đã thành công hay không
                         Toasty.showToast(this@TestAdsActivity, "Rewarded CANCEL", Toasty.WARNING)
-                        Log.d("TAG5", "initListener: Rewarded CANCEL")
                     }
                 }
             }, isRewardedInterstitialAds = false)
         }
 
         bindingView.tvRewardedInterstitial.setClickSafeAll {
-            Log.d("TAG5", "initListener: Click Rewarded Interstitial")
             checkShowRewardedAds(callback = { typeShowAds ->
                 when (typeShowAds) {
                     TypeShowAds.SUCCESS -> {
                         Toasty.showToast(this@TestAdsActivity, "Rewarded Interstitial SUCCESS", Toasty.SUCCESS)
-                        Log.d("TAG5", "initListener: Rewarded Interstitial SUCCESS")
                     }
 
                     TypeShowAds.FAILED -> {
                         Toasty.showToast(this@TestAdsActivity, "Rewarded Interstitial FAILED", Toasty.ERROR)
-                        Log.d("TAG5", "initListener: Rewarded Interstitial FAILED")
                     }
 
                     TypeShowAds.TIMEOUT -> {
                         Toasty.showToast(this@TestAdsActivity, "Rewarded Interstitial TIMEOUT", Toasty.WARNING)
-                        Log.d("TAG5", "initListener: Rewarded Interstitial TIMEOUT")
                     }
 
                     TypeShowAds.CANCEL -> {
                         // xử lý khi đóng ads thì làm gì ko quan trọng đã thành công hay không
                         Toasty.showToast(this@TestAdsActivity, "Rewarded Interstitial CANCEL", Toasty.WARNING)
-                        Log.d("TAG5", "initListener: Rewarded Interstitial CANCEL")
                     }
                 }
             })

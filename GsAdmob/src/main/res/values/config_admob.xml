@@ -1,8 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
-    <string name="app_open_id" translatable="false">ca-app-pub-3940256099942544/9257395921</string>
-    <string name="app_open_id_resume" translatable="false">ca-app-pub-3940256099942544/9257395921</string>
     <string name="banner_id" translatable="false">ca-app-pub-3940256099942544/9214589741</string>
     <string name="banner_id_home" translatable="false">ca-app-pub-3940256099942544/9214589741</string>
     <string name="banner_id_collapsible" translatable="false">ca-app-pub-3940256099942544/2014213617</string>
@@ -12,6 +10,8 @@
     <string name="native_language" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
     <string name="rewarded_id" translatable="false">ca-app-pub-3940256099942544/5224354917</string>
     <string name="rewarded_interstitial_id" translatable="false">ca-app-pub-3940256099942544/5354046379</string>
+    <string name="app_open_id" translatable="false">ca-app-pub-3940256099942544/9257395921</string>
+    <string name="app_open_id_resume" translatable="false">ca-app-pub-3940256099942544/9257395921</string>
 
     <!--    album-->
     <color name="ads_text_color_headline_album">@android:color/white</color>

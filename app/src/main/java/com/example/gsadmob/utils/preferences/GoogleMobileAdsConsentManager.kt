@@ -4,6 +4,7 @@ import android.app.Activity
 import android.content.Context
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import com.core.gsadmob.utils.extensions.getAndroidId
 import com.core.gsadmob.utils.extensions.md5
 import com.google.android.ump.ConsentDebugSettings
@@ -50,10 +51,12 @@ class GoogleMobileAdsConsentManager private constructor(context: Context) {
             /*Release*/
             ConsentRequestParameters.Builder().setTagForUnderAgeOfConsent(false).build()
         }
+        Log.d("TAG5", "gatherConsent: isDebug = $isDebug")
         consentInformation.requestConsentInfoUpdate(
             activity,
             params,
             {
+                Log.d("TAG5", "gatherConsent: isPrivacyOptionsRequired1 = $isPrivacyOptionsRequired")
                 if (isPrivacyOptionsRequired) {
                     if (cmpUtils.requiredShowCMPDialog()) {
                         Handler(Looper.getMainLooper()).postDelayed({
@@ -74,6 +77,7 @@ class GoogleMobileAdsConsentManager private constructor(context: Context) {
                     onCanShowAds.invoke()
                 }
             }, {
+                Log.d("TAG5", "gatherConsent: isPrivacyOptionsRequired2 = $isPrivacyOptionsRequired")
                 if (isPrivacyOptionsRequired) {
                     if (canRequestAds) {
                         onCanShowAds.invoke()

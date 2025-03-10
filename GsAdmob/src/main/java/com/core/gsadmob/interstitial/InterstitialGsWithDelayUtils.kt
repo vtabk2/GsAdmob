@@ -3,7 +3,6 @@ package com.core.gsadmob.interstitial
 import android.app.Activity
 import android.content.Context
 import com.core.gsadmob.R
-import com.core.gsadmob.callback.AdGsListener
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
@@ -50,13 +49,13 @@ class InterstitialGsWithDelayUtils {
                 subInterstitial.interstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
                     override fun onAdDismissedFullScreenContent() {
                         subInterstitial.interstitialAd = null
-                        subInterstitial.listener?.onAdClose("onAdDismissedFullScreenContent")
+                        subInterstitial.adCloseListener?.onAdClose()
                         loadAd(context, isVip, adUnitId)
                     }
 
                     override fun onAdFailedToShowFullScreenContent(p0: AdError) {
                         subInterstitial.interstitialAd = null
-                        subInterstitial.listener?.onAdCloseIfFailed()
+                        subInterstitial.adCloseListener?.onAdCloseIfFailed()
                         loadAd(context, isVip, adUnitId)
                     }
                 }
@@ -64,20 +63,20 @@ class InterstitialGsWithDelayUtils {
         })
     }
 
-    fun showInterstitialAd(activity: Activity, isVip: Boolean, adUnitId: Int = R.string.full_id, listener: AdGsListener? = null) {
+    fun showInterstitialAd(activity: Activity, isVip: Boolean, adUnitId: Int = R.string.full_id, listener: AdCloseListener? = null) {
         interstitialMap[adUnitId]?.let { subInterstitial ->
             if (isVip) {
                 // khi vip xóa quảng cáo đã tải đi
                 subInterstitial.interstitialAd = null
-                subInterstitial.listener = null
+                subInterstitial.adCloseListener = null
                 listener?.onAdCloseIfFailed()
             } else {
-                subInterstitial.listener = listener
+                subInterstitial.adCloseListener = listener
                 if (subInterstitial.interstitialAd != null) {
                     subInterstitial.isReload = false
                     subInterstitial.interstitialAd?.show(activity)
                 } else {
-                    subInterstitial.listener?.onAdCloseIfFailed()
+                    subInterstitial.adCloseListener?.onAdCloseIfFailed()
                     loadAd(activity, false, adUnitId)
                 }
             }
@@ -88,7 +87,7 @@ class InterstitialGsWithDelayUtils {
         interstitialMap[adUnitId]?.let { subInterstitial ->
             if (isVip) {
                 subInterstitial.interstitialAd = null
-                subInterstitial.listener = null
+                subInterstitial.adCloseListener = null
                 callback.invoke(false)
                 return
             }
@@ -106,7 +105,7 @@ class InterstitialGsWithDelayUtils {
         val subInterstitial = interstitialMap.remove(adUnitId)
         subInterstitial?.apply {
             interstitialAd = null
-            listener = null
+            adCloseListener = null
         }
     }
 
@@ -114,15 +113,20 @@ class InterstitialGsWithDelayUtils {
         interstitialMap.forEach { data ->
             data.value.apply {
                 interstitialAd = null
-                listener = null
+                adCloseListener = null
             }
         }
         interstitialMap.clear()
     }
 
+    interface AdCloseListener {
+        fun onAdClose() {}
+        fun onAdCloseIfFailed() {}
+    }
+
     data class SubInterstitial(
         var interstitialAd: InterstitialAd? = null,
-        var listener: AdGsListener? = null,
+        var adCloseListener: AdCloseListener? = null,
         var isReload: Boolean = false,
         var isLoading: Boolean = false,
         var delayTime: Long = 0L,

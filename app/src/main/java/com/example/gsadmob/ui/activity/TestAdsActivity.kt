@@ -2,6 +2,7 @@ package com.example.gsadmob.ui.activity
 
 import android.util.Log
 import androidx.appcompat.app.AlertDialog
+import com.core.gsadmob.callback.AdGsListener
 import com.core.gsadmob.natives.NativeUtils
 import com.core.gsadmob.rewarded.RewardedInterstitialUtils
 import com.core.gsadmob.rewarded.RewardedUtils
@@ -188,7 +189,7 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
 
     private fun loadAndShowRewardedAds(callback: (typeShowAds: TypeShowAds) -> Unit) {
         val check = AtomicBoolean(true)
-        RewardedUtils.instance.registerAdsListener(object : RewardedUtils.RewardedAdCloseListener {
+        RewardedUtils.instance.registerAdsListener(object : AdGsListener {
             override fun onAdCloseIfFailed() {
                 callback(TypeShowAds.FAILED)
                 check.set(false)
@@ -228,7 +229,7 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
 
     private fun loadAndShowRewardedInterstitialAds(callback: (typeShowAds: TypeShowAds) -> Unit) {
         val check = AtomicBoolean(true)
-        RewardedInterstitialUtils.instance.registerAdsListener(object : RewardedInterstitialUtils.RewardedAdCloseListener {
+        RewardedInterstitialUtils.instance.registerAdsListener(object : AdGsListener {
             override fun onAdCloseIfFailed() {
                 callback(TypeShowAds.FAILED)
                 check.set(false)

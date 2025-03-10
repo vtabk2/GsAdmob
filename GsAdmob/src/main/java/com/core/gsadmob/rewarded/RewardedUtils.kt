@@ -3,6 +3,7 @@ package com.core.gsadmob.rewarded
 import android.app.Activity
 import android.content.Context
 import com.core.gsadmob.R
+import com.core.gsadmob.callback.AdGsListener
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
@@ -15,7 +16,7 @@ class RewardedUtils {
     private var isReload = false
     private var isLoading = false
     private var isShowing = false
-    private var listener: RewardedAdCloseListener? = null
+    private var listener: AdGsListener? = null
 
     var isCancel: Boolean = false
 
@@ -95,18 +96,12 @@ class RewardedUtils {
         }
     }
 
-    fun registerAdsListener(listener: RewardedAdCloseListener?) {
+    fun registerAdsListener(listener: AdGsListener?) {
         this.listener = listener
     }
 
     fun removeAdsListener() {
         listener = null
-    }
-
-    interface RewardedAdCloseListener {
-        fun onAdCloseIfFailed() {}
-        fun onShowFinishSuccess() {}
-        fun onAdClose() {}
     }
 
     companion object {

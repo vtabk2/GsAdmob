@@ -1,7 +1,9 @@
 package com.example.gsadmob.ui.activity
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.lifecycleScope
 import com.core.gsadmob.callback.AdGsListener
 import com.core.gsadmob.natives.NativeUtils
 import com.core.gsadmob.utils.AdGsManager
@@ -20,11 +22,14 @@ import com.example.gsadmob.utils.preferences.GoogleMobileAdsConsentManager
 import com.google.android.ump.ConsentInformation
 import com.gs.core.ui.view.toasty.Toasty
 import com.gs.core.utils.network.NetworkUtils
+import kotlinx.coroutines.launch
 import java.util.concurrent.atomic.AtomicBoolean
 
 class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
     private var googleMobileAdsConsentManager: GoogleMobileAdsConsentManager? = null
     private var gdprPermissionsDialog: AlertDialog? = null
+
+    private var isVip: Boolean = false
 
     override fun getViewBinding(): ActivityTestAdsBinding {
         return ActivityTestAdsBinding.inflate(layoutInflater)
@@ -34,10 +39,26 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
         super.setupView(savedInstanceState)
 
         TestApplication.applicationContext().initMobileAds()
+
+        lifecycleScope.launch {
+            AdGsManager.instance.isVipFlow.collect {
+                isVip = it
+                Log.d("TAG5", "setupView: isVip = $isVip")
+                if (isVip) {
+                    bindingView.tvActiveVip.text = "Vip Active"
+                } else {
+                    bindingView.tvActiveVip.text = "Vip Inactive"
+                }
+            }
+        }
     }
 
     override fun initListener() {
         super.initListener()
+
+        bindingView.tvActiveVip.setOnClickListener {
+            AdGsManager.instance.notifyVip(isVip = !isVip)
+        }
 
         bindingView.tvRewarded.setClickSafeAll {
             checkShowRewardedAds(callback = { typeShowAds ->

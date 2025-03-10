@@ -21,7 +21,6 @@ import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.google.android.gms.ads.rewardedinterstitial.RewardedInterstitialAd
 import com.google.android.gms.ads.rewardedinterstitial.RewardedInterstitialAdLoadCallback
 import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -31,7 +30,7 @@ class AdGsManager {
     private var backupDelayTimeMap = HashMap<Int, Long>()
 
     private var isVipMutableStateFlow = MutableStateFlow(false)
-    private var isVipFlow = isVipMutableStateFlow.asStateFlow()
+    var isVipFlow = isVipMutableStateFlow.asStateFlow()
 
     private var activeAdList = mutableListOf<AdPlaceName>()
 
@@ -40,7 +39,7 @@ class AdGsManager {
 
     private var isWebViewEnabled = true
 
-    fun registerCoroutineScope(application: Application) {
+    fun registerCoroutineScope(application: Application, coroutineScope: CoroutineScope) {
         application.registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacks {
             override fun onActivityCreated(activity: Activity, bundle: Bundle?) {}
 
@@ -62,20 +61,23 @@ class AdGsManager {
             override fun onActivityDestroyed(activity: Activity) {}
         })
 
-        defaultScope = CoroutineScope(Dispatchers.IO)
+        defaultScope = coroutineScope
 
         defaultScope?.launch {
             isVipFlow.collect { isVip ->
                 Log.d("TAG5", "registerCoroutineScope: isVip = $isVip")
                 if (isVip) {
                     clearAll()
+                    //
+                    activeAdList.forEach { activeAd ->
+                        // todo
+                    }
                 } else {
                     // reload active ad list
                     activeAdList.forEach { activeAd ->
                         loadAd(adPlaceName = activeAd)
                     }
                 }
-                // push
             }
         }
     }
@@ -323,6 +325,12 @@ class AdGsManager {
             data.value.clearData()
         }
         adGsDataMap.clear()
+    }
+
+    fun notifyVip(isVip: Boolean) {
+        defaultScope?.launch {
+            isVipMutableStateFlow.emit(isVip)
+        }
     }
 
     fun activeAd(adPlaceName: AdPlaceName) {

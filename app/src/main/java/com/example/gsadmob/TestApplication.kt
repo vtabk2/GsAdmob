@@ -3,6 +3,7 @@ package com.example.gsadmob
 import android.annotation.SuppressLint
 import com.core.gsadmob.utils.AdGsManager
 import com.gs.core.GsApplication
+import kotlinx.coroutines.MainScope
 
 class TestApplication : GsApplication() {
 
@@ -19,7 +20,7 @@ class TestApplication : GsApplication() {
     }
 
     override fun initConfig() {
-        AdGsManager.instance.registerCoroutineScope(this)
+        AdGsManager.instance.registerCoroutineScope(application = this, coroutineScope = MainScope())
     }
 
     companion object {

@@ -17,12 +17,14 @@ data class AdGsData(
     var delayTime: Long = 0L,
     var lastTime: Long = 0L
 ) {
-    fun clearData() {
+    fun clearData(isResetReload: Boolean) {
         interstitialAd = null
         rewardedAd = null
         rewardedInterstitialAd = null
         listener = null
-        isReload = false
+        if (isResetReload) {
+            isReload = false
+        }
         isLoading = false
         lastTime = 0L
     }

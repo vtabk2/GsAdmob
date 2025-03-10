@@ -271,7 +271,7 @@ class AdGsManager {
 
     private fun showRewarded(adPlaceName: AdPlaceName, adGsData: AdGsData) {
         if (adGsData.isCancel) {
-            adGsData.clearData()
+            adGsData.clearData(isResetReload = true)
             return
         }
         if (!adGsData.isShowing) {
@@ -317,12 +317,12 @@ class AdGsManager {
 
     fun clearWithAdPlaceName(adPlaceName: AdPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_FULL) {
         val adGsData = adGsDataMap.remove(adPlaceName.adUnitId)
-        adGsData?.clearData()
+        adGsData?.clearData(isResetReload = true)
     }
 
     fun clearAll() {
         adGsDataMap.forEach { data ->
-            data.value.clearData()
+            data.value.clearData(isResetReload = true)
         }
         adGsDataMap.clear()
     }

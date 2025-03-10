@@ -60,6 +60,10 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
             AdGsManager.instance.notifyVip(isVip = !isVip)
         }
 
+        bindingView.tvInterstitial.setOnClickListener {
+            AdGsManager.instance.loadAd(AdPlaceNameConfig.AD_PLACE_NAME_FULL)
+        }
+
         bindingView.tvRewarded.setClickSafeAll {
             checkShowRewardedAds(callback = { typeShowAds ->
                 when (typeShowAds) {

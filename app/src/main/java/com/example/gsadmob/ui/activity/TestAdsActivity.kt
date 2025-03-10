@@ -1,10 +1,12 @@
 package com.example.gsadmob.ui.activity
 
+import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AlertDialog
+import com.core.gsadmob.callback.AdGsListener
 import com.core.gsadmob.natives.NativeUtils
-import com.core.gsadmob.rewarded.RewardedInterstitialUtils
-import com.core.gsadmob.rewarded.RewardedUtils
+import com.core.gsadmob.utils.AdGsManager
+import com.core.gsadmob.utils.AdPlaceNameConfig
 import com.core.gscore.utils.extensions.gone
 import com.core.gscore.utils.extensions.setClickSafeAll
 import com.core.gsmvvm.ui.activity.BaseMVVMActivity
@@ -26,6 +28,16 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
 
     override fun getViewBinding(): ActivityTestAdsBinding {
         return ActivityTestAdsBinding.inflate(layoutInflater)
+    }
+
+    override fun setupView(savedInstanceState: Bundle?) {
+        super.setupView(savedInstanceState)
+
+        AdGsManager.instance.apply {
+            registerCoroutineScope(application)
+//            registerDelayTime(30L, adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_REWARDED)
+//            registerDelayTime(30L, adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_REWARDED_INTERSTITIAL)
+        }
     }
 
     override fun initListener() {
@@ -112,17 +124,7 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
         }
     }
 
-    fun checkShowRewardedAds(callback: (typeShowAds: TypeShowAds) -> Unit, isRewardedInterstitialAds: Boolean = true, requireCheck: Boolean = true) {
-        Log.d("TAG5", "checkShowRewardedAds: isRewardedInterstitialAds = $isRewardedInterstitialAds")
-        Log.d("TAG5", "checkShowRewardedAds: requireCheck = $requireCheck")
-
-        fun loadOrShow() {
-            if (isRewardedInterstitialAds) {
-                loadAndShowRewardedInterstitialAds(callback)
-            } else {
-                loadAndShowRewardedAds(callback)
-            }
-        }
+    private fun checkShowRewardedAds(callback: (typeShowAds: TypeShowAds) -> Unit, isRewardedInterstitialAds: Boolean = true, requireCheck: Boolean = true) {
         NetworkUtils.hasInternetAccessCheck(doTask = {
             if (googleMobileAdsConsentManager == null) {
                 googleMobileAdsConsentManager = GoogleMobileAdsConsentManager.getInstance(this)
@@ -132,7 +134,7 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
                     if (cmpUtils.requiredShowCMPDialog()) {
                         if (cmpUtils.isCheckGDPR) {
                             googleMobileAdsConsentManager?.gatherConsent(this, onCanShowAds = {
-                                loadOrShow()
+                                loadRewardedAds(isRewardedInterstitialAds, callback)
                             }, onDisableAds = {
                                 callback(TypeShowAds.CANCEL)
                             }, isDebug = BuildConfig.DEBUG, timeout = 0)
@@ -141,7 +143,7 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
                             gdprPermissionsDialog = DialogUtils.initGdprPermissionDialog(this, callback = { granted ->
                                 if (granted) {
                                     googleMobileAdsConsentManager?.gatherConsent(this, onCanShowAds = {
-                                        loadOrShow()
+                                        loadRewardedAds(isRewardedInterstitialAds, callback)
                                     }, onDisableAds = {
                                         callback(TypeShowAds.CANCEL)
                                     }, isDebug = BuildConfig.DEBUG, timeout = 0)
@@ -153,12 +155,12 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
                             dialogLayout(gdprPermissionsDialog)
                         }
                     } else {
-                        loadOrShow()
+                        loadRewardedAds(isRewardedInterstitialAds, callback)
                     }
                 }
 
                 ConsentInformation.PrivacyOptionsRequirementStatus.NOT_REQUIRED -> {
-                    loadOrShow()
+                    loadRewardedAds(isRewardedInterstitialAds, callback)
                 }
 
                 else -> {
@@ -168,7 +170,7 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
                             checkShowRewardedAds(callback, isRewardedInterstitialAds, requireCheck = false)
                         })
                     } else {
-                        loadOrShow()
+                        loadRewardedAds(isRewardedInterstitialAds, callback)
                     }
                 }
             }
@@ -186,9 +188,12 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
         }, context = this)
     }
 
-    private fun loadAndShowRewardedAds(callback: (typeShowAds: TypeShowAds) -> Unit) {
+    private fun loadRewardedAds(isRewardedInterstitialAds: Boolean, callback: (typeShowAds: TypeShowAds) -> Unit) {
         val check = AtomicBoolean(true)
-        RewardedUtils.instance.registerAdsListener(object : RewardedUtils.RewardedAdCloseListener {
+
+        val adPlaceName = if (isRewardedInterstitialAds) AdPlaceNameConfig.AD_PLACE_NAME_REWARDED_INTERSTITIAL else AdPlaceNameConfig.AD_PLACE_NAME_REWARDED
+
+        AdGsManager.instance.registerAdsListener(adPlaceName = adPlaceName, adGsListener = object : AdGsListener {
             override fun onAdCloseIfFailed() {
                 callback(TypeShowAds.FAILED)
                 check.set(false)
@@ -202,58 +207,20 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
             override fun onAdClose() {
                 callback(TypeShowAds.CANCEL)
                 check.set(false)
-                RewardedUtils.instance.removeAdsListener()
+                AdGsManager.instance.removeAdsListener(adPlaceName = adPlaceName)
             }
         })
-        RewardedUtils.instance.showAd(this) {
+
+        AdGsManager.instance.showRewardedAd(adPlaceName = adPlaceName, callbackShow = {
             check.set(false)
-        }
+        })
+
         NetworkUtils.hasInternetAccessCheck(doTask = {
             // nothing
         }, doException = { networkError ->
             if (!check.get()) return@hasInternetAccessCheck
             callback(TypeShowAds.TIMEOUT)
-            RewardedUtils.instance.removeAdsListener()
-            when (networkError) {
-                NetworkUtils.NetworkError.SSL_HANDSHAKE -> {
-                    Toasty.showToast(this, R.string.text_please_check_time, Toasty.WARNING)
-                }
-
-                else -> {
-                    Toasty.showToast(this, R.string.check_network_connection, Toasty.WARNING)
-                }
-            }
-        }, this)
-    }
-
-    private fun loadAndShowRewardedInterstitialAds(callback: (typeShowAds: TypeShowAds) -> Unit) {
-        val check = AtomicBoolean(true)
-        RewardedInterstitialUtils.instance.registerAdsListener(object : RewardedInterstitialUtils.RewardedAdCloseListener {
-            override fun onAdCloseIfFailed() {
-                callback(TypeShowAds.FAILED)
-                check.set(false)
-            }
-
-            override fun onShowFinishSuccess() {
-                callback(TypeShowAds.SUCCESS)
-                check.set(false)
-            }
-
-            override fun onAdClose() {
-                callback(TypeShowAds.CANCEL)
-                check.set(false)
-                RewardedInterstitialUtils.instance.removeAdsListener()
-            }
-        })
-        RewardedInterstitialUtils.instance.showAd(this) {
-            check.set(false)
-        }
-        NetworkUtils.hasInternetAccessCheck(doTask = {
-            // nothing
-        }, doException = { networkError ->
-            if (!check.get()) return@hasInternetAccessCheck
-            callback(TypeShowAds.TIMEOUT)
-            RewardedInterstitialUtils.instance.removeAdsListener()
+            AdGsManager.instance.removeAdsListener(adPlaceName = adPlaceName)
             when (networkError) {
                 NetworkUtils.NetworkError.SSL_HANDSHAKE -> {
                     Toasty.showToast(this, R.string.text_please_check_time, Toasty.WARNING)

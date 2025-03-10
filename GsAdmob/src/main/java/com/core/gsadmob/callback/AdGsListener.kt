@@ -1,7 +1,7 @@
 package com.core.gsadmob.callback
 
 interface AdGsListener {
-    fun onAdClose(from: String) {}
+    fun onAdClose() {}
     fun onAdCloseIfFailed() {}
     fun onShowFinishSuccess() {}
 }

@@ -50,7 +50,7 @@ class InterstitialGsWithDelayUtils {
                 subInterstitial.interstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
                     override fun onAdDismissedFullScreenContent() {
                         subInterstitial.interstitialAd = null
-                        subInterstitial.listener?.onAdClose()
+                        subInterstitial.listener?.onAdClose("onAdDismissedFullScreenContent")
                         loadAd(context, isVip, adUnitId)
                     }
 

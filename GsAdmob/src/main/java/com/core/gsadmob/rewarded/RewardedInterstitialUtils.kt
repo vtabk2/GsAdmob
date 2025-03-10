@@ -55,14 +55,14 @@ class RewardedInterstitialUtils {
                             override fun onAdDismissedFullScreenContent() {
                                 mRewardedInterstitialAd = null
                                 isShowing = false
-                                listener?.onAdClose()
+                                listener?.onAdClose("onAdDismissedFullScreenContent")
                                 load(context)
                             }
 
                             override fun onAdFailedToShowFullScreenContent(adError: AdError) {
                                 mRewardedInterstitialAd = null
                                 isShowing = false
-                                listener?.onAdClose()
+                                listener?.onAdClose("onAdFailedToShowFullScreenContent")
                                 load(context)
                             }
                         }

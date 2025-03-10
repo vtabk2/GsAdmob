@@ -1,11 +1,15 @@
 package com.example.gsadmob.ui.activity
 
+import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.lifecycleScope
 import com.core.gsadmob.callback.AdGsListener
 import com.core.gsadmob.natives.NativeUtils
 import com.core.gsadmob.rewarded.RewardedInterstitialUtils
 import com.core.gsadmob.rewarded.RewardedUtils
+import com.core.gsadmob.utils.AdGsManager
+import com.core.gsadmob.utils.AdPlaceNameConfig
 import com.core.gscore.utils.extensions.gone
 import com.core.gscore.utils.extensions.setClickSafeAll
 import com.core.gsmvvm.ui.activity.BaseMVVMActivity
@@ -27,6 +31,14 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
 
     override fun getViewBinding(): ActivityTestAdsBinding {
         return ActivityTestAdsBinding.inflate(layoutInflater)
+    }
+
+    override fun setupView(savedInstanceState: Bundle?) {
+        super.setupView(savedInstanceState)
+
+        AdGsManager.instance.registerCoroutineScope(coroutineScope = lifecycleScope)
+
+        AdGsManager.instance.loadAd(this, adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_FULL)
     }
 
     override fun initListener() {
@@ -200,7 +212,7 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
                 check.set(false)
             }
 
-            override fun onAdClose() {
+            override fun onAdClose(from: String) {
                 callback(TypeShowAds.CANCEL)
                 check.set(false)
                 RewardedUtils.instance.removeAdsListener()
@@ -240,7 +252,7 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
                 check.set(false)
             }
 
-            override fun onAdClose() {
+            override fun onAdClose(from: String) {
                 callback(TypeShowAds.CANCEL)
                 check.set(false)
                 RewardedInterstitialUtils.instance.removeAdsListener()

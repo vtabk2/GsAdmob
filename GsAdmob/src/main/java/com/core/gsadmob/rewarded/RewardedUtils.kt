@@ -55,14 +55,14 @@ class RewardedUtils {
                             override fun onAdDismissedFullScreenContent() {
                                 mRewardedAd = null
                                 isShowing = false
-                                listener?.onAdClose()
+                                listener?.onAdClose("onAdDismissedFullScreenContent")
                                 load(context)
                             }
 
                             override fun onAdFailedToShowFullScreenContent(adError: AdError) {
                                 mRewardedAd = null
                                 isShowing = false
-                                listener?.onAdClose()
+                                listener?.onAdClose("onAdFailedToShowFullScreenContent")
                                 load(context)
                             }
                         }

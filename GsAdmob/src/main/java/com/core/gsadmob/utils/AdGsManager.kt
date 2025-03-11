@@ -488,7 +488,7 @@ class AdGsManager {
     /**
      * Xóa danh sách ads sử dụng trong activity hiện tại
      */
-    fun destroy() {
+    fun destroyActivity() {
         activeAdList.clear()
     }
 

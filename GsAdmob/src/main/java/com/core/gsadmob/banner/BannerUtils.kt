@@ -74,11 +74,9 @@ object BannerUtils {
                         flBannerAds.gone()
                     }
                 }
-                super.onAdLoaded()
             }
 
             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
-                super.onAdFailedToLoad(loadAdError)
                 if (alwaysShow) {
                     flBannerAds.visible()
                 } else {

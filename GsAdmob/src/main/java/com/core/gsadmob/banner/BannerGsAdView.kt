@@ -103,11 +103,9 @@ class BannerGsAdView(context: Context, attrs: AttributeSet?) : FrameLayout(conte
                         gone()
                     }
                 }
-                super.onAdLoaded()
             }
 
             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
-                super.onAdFailedToLoad(loadAdError)
                 stopShimmer()
                 if (alwaysShow) {
                     bannerAds?.visible()

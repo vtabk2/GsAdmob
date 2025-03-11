@@ -27,7 +27,6 @@ object NativeUtils {
                         callback.invoke(nativeAd)
                     }.withAdListener(object : AdListener() {
                         override fun onAdFailedToLoad(loadAdError: LoadAdError) {
-                            super.onAdFailedToLoad(loadAdError)
                             callback.invoke(null)
                         }
                     }).build()

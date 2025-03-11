@@ -32,7 +32,7 @@ class InterstitialUtils {
             context.getString(R.string.full_id),
             adRequest,
             object : InterstitialAdLoadCallback() {
-                override fun onAdFailedToLoad(adError: LoadAdError) {
+                override fun onAdFailedToLoad(loadAdError: LoadAdError) {
                     mInterstitialAd = null
                     isLoading = false
                     if (!isReload) {
@@ -52,7 +52,7 @@ class InterstitialUtils {
                                 loadAd(context, isVip)
                             }
 
-                            override fun onAdFailedToShowFullScreenContent(p0: AdError) {
+                            override fun onAdFailedToShowFullScreenContent(adError: AdError) {
                                 mInterstitialAd = null
                                 mAdCloseListener?.onAdCloseIfFailed()
                                 loadAd(context, isVip)
@@ -72,7 +72,7 @@ class InterstitialUtils {
             context.getString(R.string.full_without_video),
             adRequest,
             object : InterstitialAdLoadCallback() {
-                override fun onAdFailedToLoad(adError: LoadAdError) {
+                override fun onAdFailedToLoad(loadAdError: LoadAdError) {
                     mInterstitialAdNoVideo = null
                     isLoadingNoVideo = false
                     if (!isReloadNoVideo) {
@@ -92,7 +92,7 @@ class InterstitialUtils {
                                 loadAdNoVideo(context, isVip)
                             }
 
-                            override fun onAdFailedToShowFullScreenContent(p0: AdError) {
+                            override fun onAdFailedToShowFullScreenContent(adError: AdError) {
                                 mInterstitialAdNoVideo = null
                                 mAdCloseNoVideoListener?.onAdCloseIfFailed()
                                 loadAdNoVideo(context, isVip)

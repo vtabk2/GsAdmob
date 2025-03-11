@@ -34,7 +34,7 @@ class InterstitialGsWithDelayUtils {
 
         val adRequest: AdRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
         InterstitialAd.load(context, context.getString(adUnitId), adRequest, object : InterstitialAdLoadCallback() {
-            override fun onAdFailedToLoad(adError: LoadAdError) {
+            override fun onAdFailedToLoad(loadAdError: LoadAdError) {
                 subInterstitial.interstitialAd = null
                 subInterstitial.isLoading = false
                 if (!subInterstitial.isReload) {
@@ -53,7 +53,7 @@ class InterstitialGsWithDelayUtils {
                         loadAd(context, isVip, adUnitId)
                     }
 
-                    override fun onAdFailedToShowFullScreenContent(p0: AdError) {
+                    override fun onAdFailedToShowFullScreenContent(adError: AdError) {
                         subInterstitial.interstitialAd = null
                         subInterstitial.adCloseListener?.onAdCloseIfFailed()
                         loadAd(context, isVip, adUnitId)

@@ -12,7 +12,6 @@ import com.core.gsadmob.rewarded.RewardedUtils
 import com.core.gsadmob.utils.AdGsManager
 import com.core.gsadmob.utils.AdPlaceNameConfig
 import com.core.gscore.utils.extensions.gone
-import com.core.gscore.utils.extensions.setClickSafeAll
 import com.core.gsmvvm.ui.activity.BaseMVVMActivity
 import com.example.gsadmob.BuildConfig
 import com.example.gsadmob.R
@@ -58,19 +57,23 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
                     it.forEach { adGsDataMap ->
                         when (adGsDataMap.key) {
                             AdPlaceNameConfig.AD_PLACE_NAME_NATIVE -> {
-                                if (adGsDataMap.value.isLoading) {
-                                    bindingView.nativeFrame.startShimmer()
-                                } else {
-                                    bindingView.nativeFrame.setNativeAd((adGsDataMap.value as? NativeAdGsData)?.nativeAd)
-                                }
+                                (adGsDataMap.value as? NativeAdGsData)?.let { nativeAdGsData ->
+                                    if (nativeAdGsData.isLoading) {
+                                        bindingView.nativeFrame.startShimmer()
+                                    } else {
+                                        bindingView.nativeFrame.setNativeAd(nativeAdGsData.nativeAd)
+                                    }
+                                } ?: bindingView.nativeFrame.setNativeAd(null)
                             }
 
                             AdPlaceNameConfig.AD_PLACE_NAME_NATIVE_LANGUAGE -> {
-                                if (adGsDataMap.value.isLoading) {
-                                    bindingView.nativeLanguage.startShimmer()
-                                } else {
-                                    bindingView.nativeLanguage.setNativeAd((adGsDataMap.value as? NativeAdGsData)?.nativeAd)
-                                }
+                                (adGsDataMap.value as? NativeAdGsData)?.let { nativeAdGsData ->
+                                    if (nativeAdGsData.isLoading) {
+                                        bindingView.nativeLanguage.startShimmer()
+                                    } else {
+                                        bindingView.nativeLanguage.setNativeAd(nativeAdGsData.nativeAd)
+                                    }
+                                } ?: bindingView.nativeFrame.setNativeAd(null)
                             }
                         }
                     }
@@ -82,16 +85,16 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
     override fun initListener() {
         super.initListener()
 
-        bindingView.tvActiveVip.setClickSafeAll {
+        bindingView.tvActiveVip.setOnClickListener {
             AdGsManager.instance.notifyVip(isVip = !isVip)
         }
 
-        bindingView.tvInterstitial.setClickSafeAll {
+        bindingView.tvInterstitial.setOnClickListener {
             startActivity(Intent(this, FirstActivity::class.java))
             AdGsManager.instance.showAd(AdPlaceNameConfig.AD_PLACE_NAME_FULL)
         }
 
-        bindingView.tvRewarded.setClickSafeAll {
+        bindingView.tvRewarded.setOnClickListener {
             Log.d("TAG5", "initListener: Click Rewarded")
             checkShowRewardedAds(callback = { typeShowAds ->
                 when (typeShowAds) {
@@ -119,7 +122,7 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
             }, isRewardedInterstitialAds = false)
         }
 
-        bindingView.tvRewardedInterstitial.setClickSafeAll {
+        bindingView.tvRewardedInterstitial.setOnClickListener {
             Log.d("TAG5", "initListener: Click Rewarded Interstitial")
             checkShowRewardedAds(callback = { typeShowAds ->
                 when (typeShowAds) {
@@ -147,7 +150,7 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
             })
         }
 
-        bindingView.tvNativeFrame.setClickSafeAll {
+        bindingView.tvNativeFrame.setOnClickListener {
             NativeUtils.loadNativeAds(this, this, isVip = false, callbackStart = {
                 bindingView.nativeFrame.startShimmer()
             }, callback = { nativeAd ->
@@ -159,7 +162,7 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
             bindingView.nativeFrame.gone()
         }
 
-        bindingView.tvNativeLanguage.setClickSafeAll {
+        bindingView.tvNativeLanguage.setOnClickListener {
             NativeUtils.loadNativeAds(this, this, isVip = false, callbackStart = {
                 bindingView.nativeLanguage.startShimmer()
             }, callback = { nativeAd ->
@@ -336,6 +339,8 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
     override fun onDestroy() {
         gdprPermissionsDialog?.dismiss()
         gdprPermissionsDialog = null
+
+        AdGsManager.instance.destroyActivity()
 
         super.onDestroy()
     }

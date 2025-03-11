@@ -9,6 +9,7 @@ import com.core.gsadmob.callback.AdGsListener
 import com.core.gsadmob.model.AdGsType
 import com.core.gsadmob.model.AdPlaceName
 import com.core.gsadmob.model.BaseAdGsData
+import com.core.gsadmob.model.BaseData
 import com.core.gsadmob.model.BaseRewardedAdGsData
 import com.core.gsadmob.model.InterstitialAdGsData
 import com.core.gsadmob.model.NativeAdGsData
@@ -33,8 +34,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class AdGsManager {
-    private val adGsDataMap = HashMap<AdPlaceName, BaseAdGsData>()
-    val adGsDataMapMutableStateFlow = MutableStateFlow(HashMap<AdPlaceName, BaseAdGsData>())
+    private val adGsDataMap = HashMap<AdPlaceName, BaseData>()
+    val adGsDataMapMutableStateFlow = MutableStateFlow(HashMap<AdPlaceName, BaseData>())
 
     private val backupDelayTimeMap = HashMap<AdPlaceName, Long>()
 
@@ -100,8 +101,21 @@ class AdGsManager {
             clearAll()
             return
         }
-        val adGsData = adGsDataMap[adPlaceName] ?: BaseAdGsData(delayTime = backupDelayTimeMap[adPlaceName] ?: 0L)
+        val adGsData = adGsDataMap[adPlaceName] ?: run {
+            when (adPlaceName.adGsType) {
+                AdGsType.INTERSTITIAL -> InterstitialAdGsData()
+                AdGsType.NATIVE -> NativeAdGsData()
+                AdGsType.REWARDED -> RewardedAdGsData()
+                AdGsType.REWARDED_INTERSTITIAL -> RewardedInterstitialAdGsData()
+
+            }.apply {
+                delayTime = backupDelayTimeMap[adPlaceName] ?: 0L
+            }
+        }
         adGsDataMap[adPlaceName] = adGsData
+
+        if (adGsData !is BaseAdGsData) return
+
         if (adGsData.isLoading) {
             return
         }
@@ -367,7 +381,7 @@ class AdGsManager {
         }
     }
 
-    private fun showOrCancelAd(adPlaceName: AdPlaceName, adGsData: BaseAdGsData) {
+    private fun showOrCancelAd(adPlaceName: AdPlaceName, adGsData: BaseData) {
         currentActivity?.let {
             when (adGsData) {
                 is InterstitialAdGsData -> {
@@ -401,14 +415,24 @@ class AdGsManager {
     }
 
     fun registerAdsListener(adPlaceName: AdPlaceName, adGsListener: AdGsListener) {
-        val adGsData = adGsDataMap[adPlaceName] ?: BaseAdGsData(delayTime = backupDelayTimeMap[adPlaceName] ?: 0L)
+        val adGsData = adGsDataMap[adPlaceName] ?: run {
+            when (adPlaceName.adGsType) {
+                AdGsType.INTERSTITIAL -> InterstitialAdGsData()
+                AdGsType.NATIVE -> NativeAdGsData()
+                AdGsType.REWARDED -> RewardedAdGsData()
+                AdGsType.REWARDED_INTERSTITIAL -> RewardedInterstitialAdGsData()
+
+            }.apply {
+                delayTime = backupDelayTimeMap[adPlaceName] ?: 0L
+            }
+        }
         // update listener
-        adGsData.listener = adGsListener
+        (adGsData as? BaseAdGsData)?.listener = adGsListener
         adGsDataMap[adPlaceName] = adGsData
     }
 
     fun removeAdsListener(adPlaceName: AdPlaceName) {
-        adGsDataMap[adPlaceName]?.listener = null
+        (adGsDataMap[adPlaceName] as? BaseAdGsData)?.listener = null
     }
 
     /**
@@ -440,7 +464,7 @@ class AdGsManager {
      * Cập nhật trạng thái các ads được active ở activity này
      */
     private fun notifyAds() {
-        val newData = HashMap<AdPlaceName, BaseAdGsData>()
+        val newData = HashMap<AdPlaceName, BaseData>()
         activeAdList.forEach {
             adGsDataMap[it]?.let { adGsData ->
                 newData[it] = adGsData

@@ -1,10 +1,16 @@
 package com.example.gsadmob.ui.activity
 
+import android.content.Intent
+import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AlertDialog
+import androidx.lifecycle.lifecycleScope
+import com.core.gsadmob.model.NativeAdGsData
 import com.core.gsadmob.natives.NativeUtils
 import com.core.gsadmob.rewarded.RewardedInterstitialUtils
 import com.core.gsadmob.rewarded.RewardedUtils
+import com.core.gsadmob.utils.AdGsManager
+import com.core.gsadmob.utils.AdPlaceNameConfig
 import com.core.gscore.utils.extensions.gone
 import com.core.gscore.utils.extensions.setClickSafeAll
 import com.core.gsmvvm.ui.activity.BaseMVVMActivity
@@ -18,18 +24,72 @@ import com.example.gsadmob.utils.preferences.GoogleMobileAdsConsentManager
 import com.google.android.ump.ConsentInformation
 import com.gs.core.ui.view.toasty.Toasty
 import com.gs.core.utils.network.NetworkUtils
+import kotlinx.coroutines.async
+import kotlinx.coroutines.launch
 import java.util.concurrent.atomic.AtomicBoolean
 
 class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
     private var googleMobileAdsConsentManager: GoogleMobileAdsConsentManager? = null
     private var gdprPermissionsDialog: AlertDialog? = null
 
+    private var isVip: Boolean = false
+
     override fun getViewBinding(): ActivityTestAdsBinding {
         return ActivityTestAdsBinding.inflate(layoutInflater)
     }
 
+    override fun setupView(savedInstanceState: Bundle?) {
+        super.setupView(savedInstanceState)
+
+        lifecycleScope.launch {
+            async {
+                AdGsManager.instance.isVipFlow.collect {
+                    isVip = it
+                    if (isVip) {
+                        bindingView.tvActiveVip.text = "Vip Active"
+                    } else {
+                        bindingView.tvActiveVip.text = "Vip Inactive"
+                    }
+                }
+            }
+
+            async {
+                AdGsManager.instance.adGsDataMapMutableStateFlow.collect {
+                    it.forEach { adGsDataMap ->
+                        when (adGsDataMap.key) {
+                            AdPlaceNameConfig.AD_PLACE_NAME_NATIVE -> {
+                                if (adGsDataMap.value.isLoading) {
+                                    bindingView.nativeFrame.startShimmer()
+                                } else {
+                                    bindingView.nativeFrame.setNativeAd((adGsDataMap.value as? NativeAdGsData)?.nativeAd)
+                                }
+                            }
+
+                            AdPlaceNameConfig.AD_PLACE_NAME_NATIVE_LANGUAGE -> {
+                                if (adGsDataMap.value.isLoading) {
+                                    bindingView.nativeLanguage.startShimmer()
+                                } else {
+                                    bindingView.nativeLanguage.setNativeAd((adGsDataMap.value as? NativeAdGsData)?.nativeAd)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
     override fun initListener() {
         super.initListener()
+
+        bindingView.tvActiveVip.setClickSafeAll {
+            AdGsManager.instance.notifyVip(isVip = !isVip)
+        }
+
+        bindingView.tvInterstitial.setClickSafeAll {
+            startActivity(Intent(this, FirstActivity::class.java))
+            AdGsManager.instance.showAd(AdPlaceNameConfig.AD_PLACE_NAME_FULL)
+        }
 
         bindingView.tvRewarded.setClickSafeAll {
             Log.d("TAG5", "initListener: Click Rewarded")
@@ -112,7 +172,7 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
         }
     }
 
-    fun checkShowRewardedAds(callback: (typeShowAds: TypeShowAds) -> Unit, isRewardedInterstitialAds: Boolean = true, requireCheck: Boolean = true) {
+    private fun checkShowRewardedAds(callback: (typeShowAds: TypeShowAds) -> Unit, isRewardedInterstitialAds: Boolean = true, requireCheck: Boolean = true) {
         Log.d("TAG5", "checkShowRewardedAds: isRewardedInterstitialAds = $isRewardedInterstitialAds")
         Log.d("TAG5", "checkShowRewardedAds: requireCheck = $requireCheck")
 

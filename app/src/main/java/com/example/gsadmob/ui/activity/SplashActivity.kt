@@ -14,12 +14,8 @@ import com.example.gsadmob.R
 import com.example.gsadmob.TestApplication
 import com.example.gsadmob.utils.extensions.cmpUtils
 import com.example.gsadmob.utils.preferences.GoogleMobileAdsConsentManager
-import com.google.android.gms.ads.MobileAds
 import com.gs.core.ui.view.hourglass.Hourglass
 import com.gs.core.utils.network.NetworkUtils
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
 import java.util.concurrent.atomic.AtomicBoolean
 
 class SplashActivity : AppCompatActivity() {
@@ -31,7 +27,7 @@ class SplashActivity : AppCompatActivity() {
     // Use an atomic boolean to initialize the Google Mobile Ads SDK and load ads once.
     private val isMobileAdsInitializeCalled = AtomicBoolean(false)
 
-    private lateinit var googleMobileAdsConsentManager: GoogleMobileAdsConsentManager
+    private var googleMobileAdsConsentManager: GoogleMobileAdsConsentManager? = null
 
     private val timerVirus = object : Hourglass(3000, 10) {
         override fun onTimerTick(timeRemaining: Long) {
@@ -57,7 +53,7 @@ class SplashActivity : AppCompatActivity() {
         // phải check mạng trước nếu không timeout mặc định quá lâu
         NetworkUtils.hasInternetAccessCheck(doTask = {
             googleMobileAdsConsentManager = GoogleMobileAdsConsentManager.getInstance(this)
-            googleMobileAdsConsentManager.gatherConsent(this, onCanShowAds = {
+            googleMobileAdsConsentManager?.gatherConsent(this, onCanShowAds = {
                 initializeMobileAdsSdk()
                 if (TestApplication.applicationContext().checkHasAds()) {
                     delayShowAds(clBlur)
@@ -79,7 +75,7 @@ class SplashActivity : AppCompatActivity() {
             }, onDisableAds = {
                 goToHome()
             }, isDebug = BuildConfig.DEBUG)
-            if (googleMobileAdsConsentManager.canRequestAds) {
+            if (googleMobileAdsConsentManager?.canRequestAds == true) {
                 initializeMobileAdsSdk()
             }
         }, doException = {

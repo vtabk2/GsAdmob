@@ -499,10 +499,23 @@ class AdGsManager {
 
     /**
      * Hủy ads không cho show nữa (đa phần là rewardAd khi đang tải thì tắt -> không cho show nữa)
+     * @param adPlaceName ad cần cancel
+     * @param isCancel = true -> cancel ads
      */
     fun cancelAd(adPlaceName: AdPlaceName, isCancel: Boolean = true) {
         (adGsDataMap[adPlaceName] as? BaseRewardedAdGsData)?.isCancel = isCancel
     }
+
+    /**
+     * Hủy tất cả ads không cho show nữa (đa phần là rewardAd khi đang tải thì tắt -> không cho show nữa)
+     * @param isCancel = true -> cancel ads
+     */
+    fun cancelAllAd(isCancel: Boolean = true) {
+        adGsDataMap.forEach {
+            (it.value as? BaseRewardedAdGsData)?.isCancel = isCancel
+        }
+    }
+
 
     /**
      * Đăng ký danh sách ads đươc sử dụng trong activity -> mục đích là khi thay đổi vip sẽ tự động load lại ads
@@ -518,6 +531,10 @@ class AdGsManager {
      */
     fun destroyActivity() {
         activeAdList.clear()
+        // hủy tất cả các listener
+        adGsDataMap.forEach {
+            it.value.listener = null
+        }
     }
 
     companion object {

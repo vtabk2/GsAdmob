@@ -84,6 +84,8 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
         bindingView.tvInterstitial.setOnClickListener {
             startActivity(Intent(this, FirstActivity::class.java))
             AdGsManager.instance.showAd(AdPlaceNameConfig.AD_PLACE_NAME_FULL)
+            // chuyển màn thì cần cancel tất cả các rewarded đi
+            AdGsManager.instance.cancelAllAd()
         }
 
         bindingView.tvRewarded.setOnClickListener {

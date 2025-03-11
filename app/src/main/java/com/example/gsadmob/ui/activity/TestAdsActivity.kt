@@ -87,6 +87,7 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
         }
 
         bindingView.tvRewarded.setOnClickListener {
+            AdGsManager.instance.cancelAd(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_REWARDED, isCancel = false)
             checkShowRewardedAds(callback = { typeShowAds ->
                 when (typeShowAds) {
                     TypeShowAds.SUCCESS -> {
@@ -109,7 +110,12 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
             }, isRewardedInterstitialAds = false)
         }
 
+        bindingView.imageRewardedClose.setOnClickListener {
+            AdGsManager.instance.cancelAd(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_REWARDED)
+        }
+
         bindingView.tvRewardedInterstitial.setOnClickListener {
+            AdGsManager.instance.cancelAd(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_REWARDED_INTERSTITIAL, isCancel = false)
             checkShowRewardedAds(callback = { typeShowAds ->
                 when (typeShowAds) {
                     TypeShowAds.SUCCESS -> {
@@ -130,6 +136,10 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
                     }
                 }
             })
+        }
+
+        bindingView.imageRewardedInterstitialClose.setOnClickListener {
+            AdGsManager.instance.cancelAd(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_REWARDED_INTERSTITIAL)
         }
 
         bindingView.tvNativeFrame.setOnClickListener {

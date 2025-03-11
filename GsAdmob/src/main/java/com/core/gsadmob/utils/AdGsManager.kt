@@ -500,7 +500,7 @@ class AdGsManager {
     /**
      * Hủy ads không cho show nữa (đa phần là rewardAd khi đang tải thì tắt -> không cho show nữa)
      */
-    fun cancelAd(adPlaceName: AdPlaceName, isCancel: Boolean) {
+    fun cancelAd(adPlaceName: AdPlaceName, isCancel: Boolean = true) {
         (adGsDataMap[adPlaceName] as? BaseRewardedAdGsData)?.isCancel = isCancel
     }
 

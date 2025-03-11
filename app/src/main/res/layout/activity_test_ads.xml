@@ -45,9 +45,21 @@
         android:text="Rewarded"
         android:textColor="@android:color/white"
         android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/imageRewardedClose"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvInterstitial"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imageRewardedClose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:background="?attr/selectableItemBackground"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="@id/tvRewarded"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvRewarded"
+        app:srcCompat="@drawable/ic_close_black"/>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvRewardedInterstitial"
@@ -60,9 +72,21 @@
         android:text="Rewarded Interstitial"
         android:textColor="@android:color/white"
         android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/imageRewardedInterstitialClose"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvRewarded"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imageRewardedInterstitialClose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="15dp"
+        android:background="?attr/selectableItemBackground"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="@id/tvRewardedInterstitial"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvRewardedInterstitial"
+        app:srcCompat="@drawable/ic_close_black"/>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvNativeFrame"

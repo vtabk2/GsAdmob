@@ -9,7 +9,6 @@ import com.core.gsadmob.callback.AdGsListener
 import com.core.gsadmob.model.AdGsType
 import com.core.gsadmob.model.AdPlaceName
 import com.core.gsadmob.model.BaseAdGsData
-import com.core.gsadmob.model.BaseData
 import com.core.gsadmob.model.BaseRewardedAdGsData
 import com.core.gsadmob.model.InterstitialAdGsData
 import com.core.gsadmob.model.NativeAdGsData
@@ -34,8 +33,8 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class AdGsManager {
-    private val adGsDataMap = HashMap<AdPlaceName, BaseData>()
-    val adGsDataMapMutableStateFlow = MutableStateFlow(HashMap<AdPlaceName, BaseData>())
+    private val adGsDataMap = HashMap<AdPlaceName, BaseAdGsData>()
+    val adGsDataMapMutableStateFlow = MutableStateFlow(HashMap<AdPlaceName, BaseAdGsData>())
 
     private val backupDelayTimeMap = HashMap<AdPlaceName, Long>()
 
@@ -113,8 +112,6 @@ class AdGsManager {
             }
         }
         adGsDataMap[adPlaceName] = adGsData
-
-        if (adGsData !is BaseAdGsData) return
 
         if (adGsData.isLoading) {
             return
@@ -381,7 +378,7 @@ class AdGsManager {
         }
     }
 
-    private fun showOrCancelAd(adPlaceName: AdPlaceName, adGsData: BaseData) {
+    private fun showOrCancelAd(adPlaceName: AdPlaceName, adGsData: BaseAdGsData) {
         currentActivity?.let {
             when (adGsData) {
                 is InterstitialAdGsData -> {
@@ -427,12 +424,12 @@ class AdGsManager {
             }
         }
         // update listener
-        (adGsData as? BaseAdGsData)?.listener = adGsListener
+        adGsData.listener = adGsListener
         adGsDataMap[adPlaceName] = adGsData
     }
 
     fun removeAdsListener(adPlaceName: AdPlaceName) {
-        (adGsDataMap[adPlaceName] as? BaseAdGsData)?.listener = null
+        adGsDataMap[adPlaceName]?.listener = null
     }
 
     /**
@@ -464,13 +461,20 @@ class AdGsManager {
      * Cập nhật trạng thái các ads được active ở activity này
      */
     private fun notifyAds() {
-        val newData = HashMap<AdPlaceName, BaseData>()
-        activeAdList.forEach {
-            adGsDataMap[it]?.let { adGsData ->
-                newData[it] = adGsData
+        defaultScope?.launch {
+            val newData = HashMap<AdPlaceName, BaseAdGsData>()
+            activeAdList.forEach {
+                adGsDataMap[it]?.let { adGsData ->
+                    when (adGsData) {
+                        is InterstitialAdGsData -> newData[it] = adGsData.copy()
+                        is NativeAdGsData -> newData[it] = adGsData.copy()
+                        is RewardedAdGsData -> newData[it] = adGsData.copy()
+                        is RewardedInterstitialAdGsData -> newData[it] = adGsData.copy()
+                    }
+                }
             }
+            adGsDataMapMutableStateFlow.emit(newData)
         }
-        adGsDataMapMutableStateFlow.value = newData
     }
 
     /**

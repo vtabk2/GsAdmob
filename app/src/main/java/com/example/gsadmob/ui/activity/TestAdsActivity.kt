@@ -2,16 +2,13 @@ package com.example.gsadmob.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
 import com.core.gsadmob.model.NativeAdGsData
-import com.core.gsadmob.natives.NativeUtils
 import com.core.gsadmob.rewarded.RewardedInterstitialUtils
 import com.core.gsadmob.rewarded.RewardedUtils
 import com.core.gsadmob.utils.AdGsManager
 import com.core.gsadmob.utils.AdPlaceNameConfig
-import com.core.gscore.utils.extensions.gone
 import com.core.gsmvvm.ui.activity.BaseMVVMActivity
 import com.example.gsadmob.BuildConfig
 import com.example.gsadmob.R
@@ -57,23 +54,19 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
                     it.forEach { adGsDataMap ->
                         when (adGsDataMap.key) {
                             AdPlaceNameConfig.AD_PLACE_NAME_NATIVE -> {
-                                (adGsDataMap.value as? NativeAdGsData)?.let { nativeAdGsData ->
-                                    if (nativeAdGsData.isLoading) {
-                                        bindingView.nativeFrame.startShimmer()
-                                    } else {
-                                        bindingView.nativeFrame.setNativeAd(nativeAdGsData.nativeAd)
-                                    }
-                                } ?: bindingView.nativeFrame.setNativeAd(null)
+                                if (adGsDataMap.value.isLoading) {
+                                    bindingView.nativeFrame.startShimmer()
+                                } else {
+                                    bindingView.nativeFrame.setNativeAd((adGsDataMap.value as? NativeAdGsData)?.nativeAd)
+                                }
                             }
 
                             AdPlaceNameConfig.AD_PLACE_NAME_NATIVE_LANGUAGE -> {
-                                (adGsDataMap.value as? NativeAdGsData)?.let { nativeAdGsData ->
-                                    if (nativeAdGsData.isLoading) {
-                                        bindingView.nativeLanguage.startShimmer()
-                                    } else {
-                                        bindingView.nativeLanguage.setNativeAd(nativeAdGsData.nativeAd)
-                                    }
-                                } ?: bindingView.nativeFrame.setNativeAd(null)
+                                if (adGsDataMap.value.isLoading) {
+                                    bindingView.nativeLanguage.startShimmer()
+                                } else {
+                                    bindingView.nativeLanguage.setNativeAd((adGsDataMap.value as? NativeAdGsData)?.nativeAd)
+                                }
                             }
                         }
                     }
@@ -95,90 +88,75 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
         }
 
         bindingView.tvRewarded.setOnClickListener {
-            Log.d("TAG5", "initListener: Click Rewarded")
             checkShowRewardedAds(callback = { typeShowAds ->
                 when (typeShowAds) {
                     TypeShowAds.SUCCESS -> {
                         Toasty.showToast(this@TestAdsActivity, "Rewarded SUCCESS", Toasty.SUCCESS)
-                        Log.d("TAG5", "initListener: Rewarded SUCCESS")
                     }
 
                     TypeShowAds.FAILED -> {
                         Toasty.showToast(this@TestAdsActivity, "Rewarded FAILED", Toasty.ERROR)
-                        Log.d("TAG5", "initListener: Rewarded FAILED")
                     }
 
                     TypeShowAds.TIMEOUT -> {
                         Toasty.showToast(this@TestAdsActivity, "Rewarded TIMEOUT", Toasty.WARNING)
-                        Log.d("TAG5", "initListener: Rewarded TIMEOUT")
                     }
 
                     TypeShowAds.CANCEL -> {
                         // xử lý khi đóng ads thì làm gì ko quan trọng đã thành công hay không
                         Toasty.showToast(this@TestAdsActivity, "Rewarded CANCEL", Toasty.WARNING)
-                        Log.d("TAG5", "initListener: Rewarded CANCEL")
                     }
                 }
             }, isRewardedInterstitialAds = false)
         }
 
         bindingView.tvRewardedInterstitial.setOnClickListener {
-            Log.d("TAG5", "initListener: Click Rewarded Interstitial")
             checkShowRewardedAds(callback = { typeShowAds ->
                 when (typeShowAds) {
                     TypeShowAds.SUCCESS -> {
                         Toasty.showToast(this@TestAdsActivity, "Rewarded Interstitial SUCCESS", Toasty.SUCCESS)
-                        Log.d("TAG5", "initListener: Rewarded Interstitial SUCCESS")
                     }
 
                     TypeShowAds.FAILED -> {
                         Toasty.showToast(this@TestAdsActivity, "Rewarded Interstitial FAILED", Toasty.ERROR)
-                        Log.d("TAG5", "initListener: Rewarded Interstitial FAILED")
                     }
 
                     TypeShowAds.TIMEOUT -> {
                         Toasty.showToast(this@TestAdsActivity, "Rewarded Interstitial TIMEOUT", Toasty.WARNING)
-                        Log.d("TAG5", "initListener: Rewarded Interstitial TIMEOUT")
                     }
 
                     TypeShowAds.CANCEL -> {
                         // xử lý khi đóng ads thì làm gì ko quan trọng đã thành công hay không
                         Toasty.showToast(this@TestAdsActivity, "Rewarded Interstitial CANCEL", Toasty.WARNING)
-                        Log.d("TAG5", "initListener: Rewarded Interstitial CANCEL")
                     }
                 }
             })
         }
 
         bindingView.tvNativeFrame.setOnClickListener {
-            NativeUtils.loadNativeAds(this, this, isVip = false, callbackStart = {
+            AdGsManager.instance.activeAd(AdPlaceNameConfig.AD_PLACE_NAME_NATIVE)
+            AdGsManager.instance.loadAd(AdPlaceNameConfig.AD_PLACE_NAME_NATIVE, requiredLoadNewAds = true, callbackStart = {
                 bindingView.nativeFrame.startShimmer()
-            }, callback = { nativeAd ->
-                bindingView.nativeFrame.setNativeAd(nativeAd)
             })
         }
 
         bindingView.imageFrameClose.setOnClickListener {
-            bindingView.nativeFrame.gone()
+            AdGsManager.instance.clearWithAdPlaceName(AdPlaceNameConfig.AD_PLACE_NAME_NATIVE)
         }
 
         bindingView.tvNativeLanguage.setOnClickListener {
-            NativeUtils.loadNativeAds(this, this, isVip = false, callbackStart = {
+            AdGsManager.instance.activeAd(AdPlaceNameConfig.AD_PLACE_NAME_NATIVE_LANGUAGE)
+            AdGsManager.instance.loadAd(AdPlaceNameConfig.AD_PLACE_NAME_NATIVE_LANGUAGE, requiredLoadNewAds = true, callbackStart = {
                 bindingView.nativeLanguage.startShimmer()
-            }, callback = { nativeAd ->
-                bindingView.nativeLanguage.setNativeAd(nativeAd)
             })
         }
 
         bindingView.imageLanguageClose.setOnClickListener {
-            bindingView.nativeLanguage.gone()
+            AdGsManager.instance.clearWithAdPlaceName(AdPlaceNameConfig.AD_PLACE_NAME_NATIVE_LANGUAGE)
         }
     }
 
     private fun checkShowRewardedAds(callback: (typeShowAds: TypeShowAds) -> Unit, isRewardedInterstitialAds: Boolean = true, requireCheck: Boolean = true) {
-        Log.d("TAG5", "checkShowRewardedAds: isRewardedInterstitialAds = $isRewardedInterstitialAds")
-        Log.d("TAG5", "checkShowRewardedAds: requireCheck = $requireCheck")
-
         fun loadOrShow() {
             if (isRewardedInterstitialAds) {
                 loadAndShowRewardedInterstitialAds(callback)

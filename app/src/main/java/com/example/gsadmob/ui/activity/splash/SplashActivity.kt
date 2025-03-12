@@ -1,4 +1,4 @@
-package com.example.gsadmob.ui.activity
+package com.example.gsadmob.ui.activity.splash
 
 import android.content.Intent
 import android.os.Bundle
@@ -12,6 +12,7 @@ import com.core.gscore.utils.extensions.visible
 import com.example.gsadmob.BuildConfig
 import com.example.gsadmob.R
 import com.example.gsadmob.TestApplication
+import com.example.gsadmob.ui.activity.TestAdsActivity
 import com.example.gsadmob.utils.extensions.cmpUtils
 import com.example.gsadmob.utils.preferences.GoogleMobileAdsConsentManager
 import com.gs.core.ui.view.hourglass.Hourglass

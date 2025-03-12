@@ -5,6 +5,7 @@ import android.app.Activity
 import android.app.Application
 import android.app.Application.ActivityLifecycleCallbacks
 import android.os.Bundle
+import android.util.Log
 import com.core.gsadmob.callback.AdGsListener
 import com.core.gsadmob.model.AdGsType
 import com.core.gsadmob.model.AdPlaceName
@@ -409,6 +410,7 @@ class AdGsManager {
      * Xóa 1 ad cụ thể
      */
     fun clearWithAdPlaceName(adPlaceName: AdPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_FULL) {
+        Log.d("TAG5", "clearWithAdPlaceName: adPlaceName = $adPlaceName")
         adGsDataMap[adPlaceName]?.clearData(isResetReload = true)
         notifyAds()
     }

@@ -6,16 +6,16 @@ import com.core.gsadmob.model.NativeAdGsData
 import com.core.gsadmob.utils.AdGsManager
 import com.core.gsadmob.utils.AdPlaceNameConfig
 import com.core.gsmvvm.ui.activity.BaseMVVMActivity
-import com.example.gsadmob.databinding.ActivityFirstBinding
+import com.example.gsadmob.databinding.ActivityTestNativeBinding
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
-class FirstActivity : BaseMVVMActivity<ActivityFirstBinding>() {
+class FirstActivity : BaseMVVMActivity<ActivityTestNativeBinding>() {
 
     private var isVip: Boolean = false
 
-    override fun getViewBinding(): ActivityFirstBinding {
-        return ActivityFirstBinding.inflate(layoutInflater)
+    override fun getViewBinding(): ActivityTestNativeBinding {
+        return ActivityTestNativeBinding.inflate(layoutInflater)
     }
 
     override fun setupView(savedInstanceState: Bundle?) {

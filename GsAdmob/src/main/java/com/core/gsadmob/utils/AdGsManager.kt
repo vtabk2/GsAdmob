@@ -51,8 +51,11 @@ class AdGsManager {
     private var currentActivity: Activity? = null
 
     private var isWebViewEnabled = true
+    private var application: Application? = null
 
     fun registerCoroutineScope(application: Application, coroutineScope: CoroutineScope) {
+        this.application = application
+
         application.registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacks {
             override fun onActivityCreated(activity: Activity, bundle: Bundle?) {}
 
@@ -185,17 +188,10 @@ class AdGsManager {
     }
 
     private fun loadNativeAd(adPlaceName: AdPlaceName, adGsData: NativeAdGsData, requiredLoadNewAds: Boolean, callbackStart: (() -> Unit)? = null) {
-        currentActivity?.let {
+        application?.let {
             callbackStart?.invoke()
             val adRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
             val adLoader = AdLoader.Builder(it, it.getString(adPlaceName.adUnitId)).forNativeAd { nativeAd ->
-                // If this callback occurs after the activity is destroyed, you
-                // must call destroy and return or you may get a memory leak.
-                // Note `isDestroyed` is a method on Activity.
-                if (it.isDestroyed) {
-                    nativeAd.destroy()
-                    return@forNativeAd
-                }
                 if (isVipFlow.value) {
                     clearWithAdPlaceName(adPlaceName = adPlaceName)
                 } else {
@@ -410,7 +406,6 @@ class AdGsManager {
      * Xóa 1 ad cụ thể
      */
     fun clearWithAdPlaceName(adPlaceName: AdPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_FULL) {
-        Log.d("TAG5", "clearWithAdPlaceName: adPlaceName = $adPlaceName")
         adGsDataMap[adPlaceName]?.clearData(isResetReload = true)
         notifyAds()
     }
@@ -441,6 +436,8 @@ class AdGsManager {
                     }
                 }
             }
+            Log.d("TAG5", "notifyAds: newData = $newData")
+            Log.d("TAG5", "notifyAds: adGsDataMap = $adGsDataMap")
             adGsDataMapMutableStateFlow.emit(newData)
         }
     }

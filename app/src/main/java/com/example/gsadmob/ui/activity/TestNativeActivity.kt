@@ -90,4 +90,9 @@ class FirstActivity : BaseMVVMActivity<ActivityTestNativeBinding>() {
             AdGsManager.instance.clearWithAdPlaceName(AdPlaceNameConfig.AD_PLACE_NAME_NATIVE_LANGUAGE)
         }
     }
+
+    override fun onDestroy() {
+        AdGsManager.instance.destroyActivity()
+        super.onDestroy()
+    }
 }

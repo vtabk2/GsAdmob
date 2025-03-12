@@ -5,7 +5,6 @@ import android.app.Activity
 import android.app.Application
 import android.app.Application.ActivityLifecycleCallbacks
 import android.os.Bundle
-import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.core.gsadmob.callback.AdGsListener
 import com.core.gsadmob.model.AdGsType
@@ -26,6 +25,8 @@ import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.appopen.AppOpenAd
+import com.google.android.gms.ads.appopen.AppOpenAd.AppOpenAdLoadCallback
 import com.google.android.gms.ads.interstitial.InterstitialAd
 import com.google.android.gms.ads.interstitial.InterstitialAdLoadCallback
 import com.google.android.gms.ads.rewarded.RewardedAd
@@ -154,7 +155,6 @@ class AdGsManager {
         if (adGsData.delayTime > 0L && !adGsData.isReload) {
             val currentTime = System.currentTimeMillis()
             if (currentTime - adGsData.lastTime < adGsData.delayTime * 1000) return
-            adGsData.lastTime = currentTime
         }
 
         adGsData.isLoading = true
@@ -169,7 +169,54 @@ class AdGsManager {
     }
 
     private fun loadAppOpenAd(adPlaceName: AdPlaceName, adGsData: AppOpenAdGsData, requiredLoadNewAds: Boolean) {
-        Log.d("TAG5", "loadAppOpenAd: ")
+        application?.let {
+            val adRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
+            AppOpenAd.load(it, it.getString(adPlaceName.adUnitId), adRequest, object : AppOpenAdLoadCallback() {
+                override fun onAdFailedToLoad(loadAdError: LoadAdError) {
+                    adGsData.clearData(isResetReload = false)
+                    notifyAds()
+
+                    adGsData.listener?.onAdClose(isFailed = true)
+                }
+
+                override fun onAdLoaded(appOpenAd: AppOpenAd) {
+                    adGsData.lastTime = System.currentTimeMillis()
+
+                    if (isVipFlow.value) {
+                        clearWithAdPlaceName(adPlaceName = adPlaceName)
+                    } else {
+                        adGsData.appOpenAd = appOpenAd
+                        adGsData.isLoading = false
+                        notifyAds()
+
+                        adGsData.listener?.let {
+                            showOrCancelAd(adPlaceName = adPlaceName, adGsData = adGsData)
+                        }
+                        adGsData.appOpenAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
+                            override fun onAdDismissedFullScreenContent() {
+                                adGsData.clearData(isResetReload = true)
+                                notifyAds()
+
+                                adGsData.listener?.onAdClose()
+                                loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
+                            }
+
+                            override fun onAdFailedToShowFullScreenContent(adError: AdError) {
+                                adGsData.clearData(isResetReload = true)
+                                notifyAds()
+
+                                adGsData.listener?.onAdClose()
+                                loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
+                            }
+
+                            override fun onAdClicked() {
+                                adGsData.listener?.onAdClicked()
+                            }
+                        }
+                    }
+                }
+            })
+        }
     }
 
     /**
@@ -190,6 +237,8 @@ class AdGsManager {
                 }
 
                 override fun onAdLoaded(interstitialAd: InterstitialAd) {
+                    adGsData.lastTime = System.currentTimeMillis()
+
                     if (isVipFlow.value) {
                         clearWithAdPlaceName(adPlaceName = adPlaceName)
                     } else {
@@ -233,6 +282,8 @@ class AdGsManager {
             }
             val adRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
             val adLoader = AdLoader.Builder(it, it.getString(adPlaceName.adUnitId)).forNativeAd { nativeAd ->
+                adGsData.lastTime = System.currentTimeMillis()
+
                 if (isVipFlow.value) {
                     clearWithAdPlaceName(adPlaceName = adPlaceName)
                 } else {
@@ -270,6 +321,8 @@ class AdGsManager {
                 }
 
                 override fun onAdLoaded(rewardedAd: RewardedAd) {
+                    adGsData.lastTime = System.currentTimeMillis()
+
                     if (isVipFlow.value) {
                         clearWithAdPlaceName(adPlaceName = adPlaceName)
                     } else {
@@ -323,6 +376,8 @@ class AdGsManager {
                 }
 
                 override fun onAdLoaded(rewardedInterstitialAd: RewardedInterstitialAd) {
+                    adGsData.lastTime = System.currentTimeMillis()
+
                     if (isVipFlow.value) {
                         clearWithAdPlaceName(adPlaceName = adPlaceName)
                     } else {

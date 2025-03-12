@@ -96,8 +96,11 @@ class AdGsManager {
         }
     }
 
+    /**
+     *  Thử tải lại những quảng cáo được dùng trong activity hiện tại mà có cấu hình tự động tải lại
+     *  Dựa vào isReloadIfNeed config trong AdPlaceName (thường là native và banner vì chúng cần cập nhật trên UI luôn)
+     */
     private fun tryReloadAd() {
-        // reload active ad list
         activeAdList.forEach { adPlaceName ->
             if (adPlaceName.isReloadIfNeed) {
                 loadAd(adPlaceName = adPlaceName)
@@ -105,6 +108,10 @@ class AdGsManager {
         }
     }
 
+    /**
+     * Tải quảng cáo
+     * @param requiredLoadNewAds = true sẽ yêu cầu tải quảng cáo mới không quan tâm đã có quảng cáo cũ rồi
+     */
     fun loadAd(adPlaceName: AdPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_FULL, requiredLoadNewAds: Boolean = false) {
         if (!isWebViewEnabled) {
             clearAll()
@@ -121,15 +128,15 @@ class AdGsManager {
             return
         }
 
-        var ads: Any? = when (adPlaceName.adGsType) {
-            AdGsType.INTERSTITIAL -> (adGsData as? InterstitialAdGsData)?.interstitialAd
-            AdGsType.NATIVE -> (adGsData as? NativeAdGsData)?.nativeAd
-            AdGsType.REWARDED -> (adGsData as? RewardedAdGsData)?.rewardedAd
-            AdGsType.REWARDED_INTERSTITIAL -> (adGsData as? RewardedInterstitialAdGsData)?.rewardedInterstitialAd
-        }
-
-        if (requiredLoadNewAds) { // requiredLoadNewAds = true tức là sẽ cho phép load ads mới mặc dù đã load đc ad cũ rồi
-            ads = null
+        val ads: Any? = if (requiredLoadNewAds) { // requiredLoadNewAds = true tức là sẽ cho phép load ads mới mặc dù đã load đc ad cũ rồi
+            null
+        } else {
+            when (adPlaceName.adGsType) {
+                AdGsType.INTERSTITIAL -> (adGsData as? InterstitialAdGsData)?.interstitialAd
+                AdGsType.NATIVE -> (adGsData as? NativeAdGsData)?.nativeAd
+                AdGsType.REWARDED -> (adGsData as? RewardedAdGsData)?.rewardedAd
+                AdGsType.REWARDED_INTERSTITIAL -> (adGsData as? RewardedInterstitialAdGsData)?.rewardedInterstitialAd
+            }
         }
 
         if (ads != null) return
@@ -152,6 +159,9 @@ class AdGsManager {
         }
     }
 
+    /**
+     * Tải quảng cáo xen kẽ
+     */
     private fun loadInterstitialAd(adPlaceName: AdPlaceName, adGsData: InterstitialAdGsData, requiredLoadNewAds: Boolean) {
         currentActivity?.let {
             val adRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
@@ -325,6 +335,10 @@ class AdGsManager {
         }
     }
 
+    /**
+     * Hiển thị quảng cáo nếu được
+     * Nếu không có quảng cáo sẽ tự động tải
+     */
     fun showAd(adPlaceName: AdPlaceName, requiredLoadNewAds: Boolean = false, callbackShow: (() -> Unit)? = null) {
         adGsDataMap[adPlaceName]?.let { adGsData ->
             val canShow = when (adPlaceName.adGsType) {
@@ -423,7 +437,7 @@ class AdGsManager {
     }
 
     /**
-     * Xóa hết ads đi thường dùng cho trường hợp đã mua vip
+     * Xóa hết quảng cáo đi (thường dùng cho trường hợp đã mua vip)
      */
     fun clearAll() {
         adGsDataMap.forEach { data ->
@@ -433,7 +447,7 @@ class AdGsManager {
     }
 
     /**
-     * Cập nhật trạng thái các ads được active ở activity này
+     * Cập nhật trạng thái các quảng cáo được active ở activity này
      */
     private fun notifyAds() {
         defaultScope?.launch {
@@ -464,17 +478,7 @@ class AdGsManager {
     }
 
     /**
-     * Cho phép tự động tải ad không
-     * @param isAutoReload = true cho phép tự động tải laại ad khi mất vip
-     */
-    fun notifyAutoReload(isAutoReload: Boolean) {
-        defaultScope?.launch {
-            isVipMutableStateFlow.emit(isAutoReload)
-        }
-    }
-
-    /**
-     * Hủy ads không cho show nữa (đa phần là rewardAd khi đang tải thì tắt -> không cho show nữa)
+     * Hủy quảng cáo không cho hiển thị nữa (đa phần là rewardAd khi đang tải thì tắt -> không cho show nữa)
      * @param adPlaceName ad cần cancel
      * @param isCancel = true -> cancel ads và hủy listener đi
      */
@@ -486,7 +490,7 @@ class AdGsManager {
     }
 
     /**
-     * Hủy tất cả ads không cho show nữa (đa phần là rewardAd khi đang tải thì tắt -> không cho show nữa)
+     * Hủy tất cả quảng cáo không cho show nữa (đa phần là rewardAd khi đang tải thì tắt -> không cho show nữa)
      * @param isCancel = true -> cancel ads và hủy listener đi
      */
     fun cancelAllAd(isCancel: Boolean = true) {
@@ -500,7 +504,7 @@ class AdGsManager {
 
 
     /**
-     * Đăng ký danh sách ads đươc sử dụng trong activity -> mục đích là khi thay đổi vip sẽ tự động load lại ads
+     * Đăng ký danh sách quảng cáo đươc sử dụng trong activity -> mục đích là khi thay đổi vip hoặc thay đổi kết nối mạng sẽ kiểm tra để tự động tải lại các quảng cáo này
      */
     fun activeAd(adPlaceName: AdPlaceName) {
         if (!activeAdList.contains(adPlaceName)) {
@@ -509,10 +513,12 @@ class AdGsManager {
     }
 
     /**
-     * Xóa danh sách ads sử dụng trong activity hiện tại
+     * Xóa danh sách quảng cáo sử dụng trong activity hiện tại
+     * Xóa các listener đăng ký trong activity hiện tại
      */
     fun destroyActivity() {
         activeAdList.clear()
+
         // hủy tất cả các listener
         adGsDataMap.forEach {
             it.value.listener = null

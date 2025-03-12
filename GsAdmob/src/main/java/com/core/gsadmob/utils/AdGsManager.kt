@@ -210,7 +210,7 @@ class AdGsManager {
                                 adGsData.clearData(isResetReload = true)
                                 notifyAds()
 
-                                adGsData.listener?.onAdCloseIfFailed()
+                                adGsData.listener?.onAdClose(isFailed = true)
                                 loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
                             }
 
@@ -262,7 +262,7 @@ class AdGsManager {
                     adGsData.clearData(isResetReload = false)
                     notifyAds()
 
-                    adGsData.listener?.onAdCloseIfFailed()
+                    adGsData.listener?.onAdClose(isFailed = true)
                     if (!adGsData.isReload) {
                         adGsData.isReload = true
                         loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
@@ -315,7 +315,7 @@ class AdGsManager {
                     adGsData.clearData(isResetReload = false)
                     notifyAds()
 
-                    adGsData.listener?.onAdCloseIfFailed()
+                    adGsData.listener?.onAdClose(isFailed = true)
                     if (!adGsData.isReload) {
                         adGsData.isReload = true
                         loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)

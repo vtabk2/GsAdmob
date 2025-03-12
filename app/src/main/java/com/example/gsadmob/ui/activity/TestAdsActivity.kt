@@ -18,7 +18,6 @@ import com.example.gsadmob.utils.preferences.GoogleMobileAdsConsentManager
 import com.google.android.ump.ConsentInformation
 import com.gs.core.ui.view.toasty.Toasty
 import com.gs.core.utils.network.NetworkUtils
-import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -202,20 +201,20 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
         val adPlaceName = if (isRewardedInterstitialAds) AdPlaceNameConfig.AD_PLACE_NAME_REWARDED_INTERSTITIAL else AdPlaceNameConfig.AD_PLACE_NAME_REWARDED
 
         AdGsManager.instance.registerAdsListener(adPlaceName = adPlaceName, adGsListener = object : AdGsListener {
-            override fun onAdCloseIfFailed() {
-                callback(TypeShowAds.FAILED)
-                check.set(false)
-            }
-
             override fun onShowFinishSuccess() {
                 callback(TypeShowAds.SUCCESS)
                 check.set(false)
             }
 
-            override fun onAdClose() {
-                callback(TypeShowAds.CANCEL)
-                check.set(false)
-                AdGsManager.instance.removeAdsListener(adPlaceName = adPlaceName)
+            override fun onAdClose(isFailed: Boolean) {
+                if (isFailed) {
+                    callback(TypeShowAds.FAILED)
+                    check.set(false)
+                } else {
+                    callback(TypeShowAds.CANCEL)
+                    check.set(false)
+                    AdGsManager.instance.removeAdsListener(adPlaceName = adPlaceName)
+                }
             }
         })
         AdGsManager.instance.showAd(adPlaceName = adPlaceName, callbackShow = {

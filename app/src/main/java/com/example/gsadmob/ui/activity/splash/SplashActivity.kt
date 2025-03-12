@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatTextView
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
-import com.core.gsadmob.appopen.AppOpenAdManager
+import com.core.gsadmob.callback.AdGsListener
 import com.core.gscore.utils.extensions.gone
 import com.core.gscore.utils.extensions.visible
 import com.example.gsadmob.BuildConfig
@@ -59,7 +59,7 @@ class SplashActivity : AppCompatActivity() {
                 if (TestApplication.applicationContext().checkHasAds()) {
                     delayShowAds(clBlur)
                 } else {
-                    TestApplication.applicationContext().setAdOpenListener(object : AppOpenAdManager.AdOpenListener {
+                    TestApplication.applicationContext().setAdOpenListener(object : AdGsListener {
                         override fun onAdSuccess() {
                             isLoaded = true
                             delayShowAds(clBlur)

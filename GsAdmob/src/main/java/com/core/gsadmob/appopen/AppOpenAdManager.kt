@@ -3,6 +3,7 @@ package com.core.gsadmob.appopen
 import android.app.Activity
 import android.content.Context
 import com.core.gsadmob.R
+import com.core.gsadmob.callback.AdGsListener
 import com.google.android.gms.ads.AdActivity
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
@@ -15,7 +16,7 @@ class AppOpenAdManager {
     private var appOpenAd: AppOpenAd? = null
     private var isLoadingAd = false
     var isShowingAd = false
-    var adOpenListener: AdOpenListener? = null
+    var listener: AdGsListener? = null
 
     /** Keep track of the time an app open ad is loaded to ensure you don't show an expired ad. */
     private var loadTime: Long = 0
@@ -47,7 +48,7 @@ class AppOpenAdManager {
                     appOpenAd = ad
                     isLoadingAd = false
                     loadTime = Date().time
-                    adOpenListener?.onAdSuccess()
+                    listener?.onAdSuccess()
                 }
 
                 /**
@@ -57,7 +58,7 @@ class AppOpenAdManager {
                  */
                 override fun onAdFailedToLoad(loadAdError: LoadAdError) {
                     isLoadingAd = false
-                    adOpenListener?.onAdFailed()
+                    listener?.onAdFailed()
                 }
             }
         )
@@ -116,10 +117,5 @@ class AppOpenAdManager {
         }
         isShowingAd = true
         appOpenAd?.show(activity)
-    }
-
-    interface AdOpenListener {
-        fun onAdSuccess()
-        fun onAdFailed()
     }
 }

@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import com.core.gsadmob.appopen.AppOpenAdManager
 import com.core.gsadmob.appopen.AppResumeAdManager
+import com.core.gsadmob.callback.AdGsListener
 import com.core.gsadmob.utils.AdGsManager
 import com.gs.core.GsApplication
 import kotlinx.coroutines.MainScope
@@ -40,8 +41,8 @@ class TestApplication : GsApplication() {
         }
     }
 
-    fun setAdOpenListener(appOpenListener: AppOpenAdManager.AdOpenListener?) {
-        appOpenAdManager?.adOpenListener = appOpenListener
+    fun setAdOpenListener(listener: AdGsListener?) {
+        appOpenAdManager?.listener = listener
     }
 
     fun checkHasAds(): Boolean {

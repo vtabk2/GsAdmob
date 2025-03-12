@@ -56,21 +56,19 @@ class FirstActivity : BaseMVVMActivity<ActivityTestNativeBinding>() {
                     }
                 }
             }
+        }
 
-            async {
-                AdGsManager.instance.startTryReloadAdMutableStateFlow.collect { shimmerData ->
-                    when (shimmerData.adPlaceName) {
-                        AdPlaceNameConfig.AD_PLACE_NAME_NATIVE -> {
-                            if (shimmerData.isLoading) {
-                                bindingView.nativeFrame.startShimmer()
-                            }
-                        }
+        AdGsManager.instance.shimmerDataLiveData.observe(this) { shimmerData ->
+            when (shimmerData.adPlaceName) {
+                AdPlaceNameConfig.AD_PLACE_NAME_NATIVE -> {
+                    if (shimmerData.isLoading) {
+                        bindingView.nativeFrame.startShimmer()
+                    }
+                }
 
-                        AdPlaceNameConfig.AD_PLACE_NAME_NATIVE_LANGUAGE -> {
-                            if (shimmerData.isLoading) {
-                                bindingView.nativeLanguage.startShimmer()
-                            }
-                        }
+                AdPlaceNameConfig.AD_PLACE_NAME_NATIVE_LANGUAGE -> {
+                    if (shimmerData.isLoading) {
+                        bindingView.nativeLanguage.startShimmer()
                     }
                 }
             }

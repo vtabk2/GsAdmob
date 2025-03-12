@@ -5,6 +5,7 @@ import android.app.Activity
 import android.app.Application
 import android.app.Application.ActivityLifecycleCallbacks
 import android.os.Bundle
+import androidx.lifecycle.MutableLiveData
 import com.core.gsadmob.callback.AdGsListener
 import com.core.gsadmob.model.AdGsType
 import com.core.gsadmob.model.AdPlaceName
@@ -37,7 +38,8 @@ import kotlinx.coroutines.launch
 class AdGsManager {
     private val adGsDataMap = HashMap<AdPlaceName, BaseAdGsData>()
     val adGsDataMapMutableStateFlow = MutableStateFlow(HashMap<AdPlaceName, BaseAdGsData>())
-    val startTryReloadAdMutableStateFlow = MutableStateFlow(ShimmerData())
+
+    val shimmerDataLiveData = MutableLiveData<ShimmerData>()
 
     private val backupDelayTimeMap = HashMap<AdPlaceName, Long>()
 
@@ -153,7 +155,7 @@ class AdGsManager {
 
         when (adPlaceName.adGsType) {
             AdGsType.INTERSTITIAL -> loadInterstitialAd(adPlaceName = adPlaceName, adGsData = adGsData as InterstitialAdGsData, requiredLoadNewAds = requiredLoadNewAds)
-            AdGsType.NATIVE -> loadNativeAd(adPlaceName = adPlaceName, adGsData = adGsData as NativeAdGsData, requiredLoadNewAds = requiredLoadNewAds)
+            AdGsType.NATIVE -> loadNativeAd(adPlaceName = adPlaceName, adGsData = adGsData as NativeAdGsData)
             AdGsType.REWARDED -> loadRewardedAd(adPlaceName = adPlaceName, adGsData = adGsData as RewardedAdGsData, requiredLoadNewAds = requiredLoadNewAds)
             AdGsType.REWARDED_INTERSTITIAL -> loadRewardedInterstitialAd(adPlaceName = adPlaceName, adGsData = adGsData as RewardedInterstitialAdGsData, requiredLoadNewAds = requiredLoadNewAds)
         }
@@ -211,11 +213,10 @@ class AdGsManager {
         }
     }
 
-    private fun loadNativeAd(adPlaceName: AdPlaceName, adGsData: NativeAdGsData, requiredLoadNewAds: Boolean) {
+    private fun loadNativeAd(adPlaceName: AdPlaceName, adGsData: NativeAdGsData) {
         application?.let {
-            defaultScope?.launch {
-                startTryReloadAdMutableStateFlow.emit(ShimmerData(adPlaceName = adPlaceName, isLoading = true))
-            }
+            shimmerDataLiveData.postValue(ShimmerData(adPlaceName = adPlaceName, isLoading = true))
+
             val adRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
             val adLoader = AdLoader.Builder(it, it.getString(adPlaceName.adUnitId)).forNativeAd { nativeAd ->
                 if (isVipFlow.value) {
@@ -229,11 +230,6 @@ class AdGsManager {
                 override fun onAdFailedToLoad(loadAdError: LoadAdError) {
                     adGsData.clearData(isResetReload = false)
                     notifyAds()
-
-                    if (!adGsData.isReload) {
-                        adGsData.isReload = true
-                        loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
-                    }
                 }
 
                 override fun onAdClicked() {
@@ -478,7 +474,6 @@ class AdGsManager {
                 }
             }
             adGsDataMapMutableStateFlow.emit(newData)
-            startTryReloadAdMutableStateFlow.emit(ShimmerData())
         }
     }
 

@@ -17,4 +17,12 @@ open class BaseAdGsData(
         isLoading = false
         lastTime = 0L
     }
+
+    fun applyBaseAdGsData(baseAdGsData: BaseAdGsData) {
+        baseAdGsData.listener = listener
+        baseAdGsData.isReload = isReload
+        baseAdGsData.isLoading = isLoading
+        baseAdGsData.delayTime = delayTime
+        baseAdGsData.lastTime = lastTime
+    }
 }

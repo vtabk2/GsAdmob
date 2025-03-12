@@ -200,6 +200,10 @@ class AdGsManager {
                                 adGsData.listener?.onAdCloseIfFailed()
                                 loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
                             }
+
+                            override fun onAdClicked() {
+                                adGsData.listener?.onAdClicked()
+                            }
                         }
                     }
                 }
@@ -223,7 +227,6 @@ class AdGsManager {
                 }
             }.withAdListener(object : AdListener() {
                 override fun onAdFailedToLoad(loadAdError: LoadAdError) {
-                    super.onAdFailedToLoad(loadAdError)
                     adGsData.clearData(isResetReload = false)
                     notifyAds()
 
@@ -231,6 +234,10 @@ class AdGsManager {
                         adGsData.isReload = true
                         loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
                     }
+                }
+
+                override fun onAdClicked() {
+                    adGsData.listener?.onAdClicked()
                 }
             }).build()
             adLoader.loadAd(adRequest)
@@ -278,6 +285,10 @@ class AdGsManager {
 
                                 adGsData.listener?.onAdClose()
                                 loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
+                            }
+
+                            override fun onAdClicked() {
+                                adGsData.listener?.onAdClicked()
                             }
                         }
                     }
@@ -327,6 +338,10 @@ class AdGsManager {
 
                                 adGsData.listener?.onAdClose()
                                 loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
+                            }
+
+                            override fun onAdClicked() {
+                                adGsData.listener?.onAdClicked()
                             }
                         }
                     }

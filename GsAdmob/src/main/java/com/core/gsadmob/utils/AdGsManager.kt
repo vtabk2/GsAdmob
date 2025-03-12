@@ -418,6 +418,10 @@ class AdGsManager {
         adGsDataMap[adPlaceName] = adGsData
     }
 
+    fun removeAdsListener(adPlaceName: AdPlaceName) {
+        adGsDataMap[adPlaceName]?.listener = null
+    }
+
     private fun getAdGsData(adPlaceName: AdPlaceName): BaseAdGsData {
         return adGsDataMap[adPlaceName] ?: run {
             when (adPlaceName.adGsType) {
@@ -430,10 +434,6 @@ class AdGsManager {
                 delayTime = backupDelayTimeMap[adPlaceName] ?: 0L
             }
         }
-    }
-
-    fun removeAdsListener(adPlaceName: AdPlaceName) {
-        adGsDataMap[adPlaceName]?.listener = null
     }
 
     /**

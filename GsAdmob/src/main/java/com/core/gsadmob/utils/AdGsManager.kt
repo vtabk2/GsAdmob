@@ -100,39 +100,20 @@ class AdGsManager {
             clearAll()
             return
         }
-        val adGsData = adGsDataMap[adPlaceName] ?: run {
-            when (adPlaceName.adGsType) {
-                AdGsType.INTERSTITIAL -> InterstitialAdGsData()
-                AdGsType.NATIVE -> NativeAdGsData()
-                AdGsType.REWARDED -> RewardedAdGsData()
-                AdGsType.REWARDED_INTERSTITIAL -> RewardedInterstitialAdGsData()
-
-            }.apply {
-                delayTime = backupDelayTimeMap[adPlaceName] ?: 0L
-            }
-        }
+        val adGsData = getAdGsData(adPlaceName = adPlaceName)
         adGsDataMap[adPlaceName] = adGsData
 
         if (adGsData.isLoading) {
             return
         }
+
         var ads: Any? = when (adPlaceName.adGsType) {
-            AdGsType.INTERSTITIAL -> {
-                (adGsData as? InterstitialAdGsData)?.interstitialAd
-            }
-
-            AdGsType.NATIVE -> {
-                (adGsData as? NativeAdGsData)?.nativeAd
-            }
-
-            AdGsType.REWARDED -> {
-                (adGsData as? RewardedAdGsData)?.rewardedAd
-            }
-
-            AdGsType.REWARDED_INTERSTITIAL -> {
-                (adGsData as? RewardedInterstitialAdGsData)?.rewardedInterstitialAd
-            }
+            AdGsType.INTERSTITIAL -> (adGsData as? InterstitialAdGsData)?.interstitialAd
+            AdGsType.NATIVE -> (adGsData as? NativeAdGsData)?.nativeAd
+            AdGsType.REWARDED -> (adGsData as? RewardedAdGsData)?.rewardedAd
+            AdGsType.REWARDED_INTERSTITIAL -> (adGsData as? RewardedInterstitialAdGsData)?.rewardedInterstitialAd
         }
+
         if (requiredLoadNewAds) { // requiredLoadNewAds = true tức là sẽ cho phép load ads mới mặc dù đã load đc ad cũ rồi
             ads = null
         }
@@ -150,21 +131,10 @@ class AdGsManager {
         adGsData.isLoading = true
 
         when (adPlaceName.adGsType) {
-            AdGsType.INTERSTITIAL -> {
-                loadInterstitialAd(adPlaceName = adPlaceName, adGsData = adGsData as InterstitialAdGsData, requiredLoadNewAds = requiredLoadNewAds)
-            }
-
-            AdGsType.NATIVE -> {
-                loadNativeAd(adPlaceName = adPlaceName, adGsData = adGsData as NativeAdGsData, requiredLoadNewAds = requiredLoadNewAds, callbackStart)
-            }
-
-            AdGsType.REWARDED -> {
-                loadRewardedAd(adPlaceName = adPlaceName, adGsData = adGsData as RewardedAdGsData, requiredLoadNewAds = requiredLoadNewAds)
-            }
-
-            AdGsType.REWARDED_INTERSTITIAL -> {
-                loadRewardedInterstitialAd(adPlaceName = adPlaceName, adGsData = adGsData as RewardedInterstitialAdGsData, requiredLoadNewAds = requiredLoadNewAds)
-            }
+            AdGsType.INTERSTITIAL -> loadInterstitialAd(adPlaceName = adPlaceName, adGsData = adGsData as InterstitialAdGsData, requiredLoadNewAds = requiredLoadNewAds)
+            AdGsType.NATIVE -> loadNativeAd(adPlaceName = adPlaceName, adGsData = adGsData as NativeAdGsData, requiredLoadNewAds = requiredLoadNewAds, callbackStart)
+            AdGsType.REWARDED -> loadRewardedAd(adPlaceName = adPlaceName, adGsData = adGsData as RewardedAdGsData, requiredLoadNewAds = requiredLoadNewAds)
+            AdGsType.REWARDED_INTERSTITIAL -> loadRewardedInterstitialAd(adPlaceName = adPlaceName, adGsData = adGsData as RewardedInterstitialAdGsData, requiredLoadNewAds = requiredLoadNewAds)
         }
     }
 
@@ -349,21 +319,10 @@ class AdGsManager {
     fun showAd(adPlaceName: AdPlaceName, requiredLoadNewAds: Boolean = false, callbackShow: (() -> Unit)? = null) {
         adGsDataMap[adPlaceName]?.let { adGsData ->
             val canShow = when (adPlaceName.adGsType) {
-                AdGsType.INTERSTITIAL -> {
-                    (adGsData as? InterstitialAdGsData)?.interstitialAd != null
-                }
-
-                AdGsType.REWARDED -> {
-                    (adGsData as? RewardedAdGsData)?.rewardedAd != null
-                }
-
-                AdGsType.REWARDED_INTERSTITIAL -> {
-                    (adGsData as? RewardedInterstitialAdGsData)?.rewardedInterstitialAd != null
-                }
-
-                else -> {
-                    false
-                }
+                AdGsType.INTERSTITIAL -> (adGsData as? InterstitialAdGsData)?.interstitialAd != null
+                AdGsType.REWARDED -> (adGsData as? RewardedAdGsData)?.rewardedAd != null
+                AdGsType.REWARDED_INTERSTITIAL -> (adGsData as? RewardedInterstitialAdGsData)?.rewardedInterstitialAd != null
+                else -> false
             }
             if (canShow) {
                 showOrCancelAd(adPlaceName = adPlaceName, adGsData = adGsData)
@@ -386,7 +345,10 @@ class AdGsManager {
                 }
 
                 is BaseRewardedAdGsData -> {
-                    if (adGsData.isCancel) return
+                    if (adGsData.isCancel) {
+                        adGsData.listener = null
+                        return
+                    }
                     if (adGsData.isShowing) return
                     adGsData.isShowing = true
                     when (adPlaceName.adGsType) {
@@ -412,7 +374,14 @@ class AdGsManager {
     }
 
     fun registerAdsListener(adPlaceName: AdPlaceName, adGsListener: AdGsListener) {
-        val adGsData = adGsDataMap[adPlaceName] ?: run {
+        val adGsData = getAdGsData(adPlaceName = adPlaceName)
+        // update listener
+        adGsData.listener = adGsListener
+        adGsDataMap[adPlaceName] = adGsData
+    }
+
+    private fun getAdGsData(adPlaceName: AdPlaceName): BaseAdGsData {
+        return adGsDataMap[adPlaceName] ?: run {
             when (adPlaceName.adGsType) {
                 AdGsType.INTERSTITIAL -> InterstitialAdGsData()
                 AdGsType.NATIVE -> NativeAdGsData()
@@ -423,9 +392,6 @@ class AdGsManager {
                 delayTime = backupDelayTimeMap[adPlaceName] ?: 0L
             }
         }
-        // update listener
-        adGsData.listener = adGsListener
-        adGsDataMap[adPlaceName] = adGsData
     }
 
     fun removeAdsListener(adPlaceName: AdPlaceName) {

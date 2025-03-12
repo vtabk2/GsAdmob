@@ -56,6 +56,24 @@ class FirstActivity : BaseMVVMActivity<ActivityTestNativeBinding>() {
                     }
                 }
             }
+
+            async {
+                AdGsManager.instance.startTryReloadAdMutableStateFlow.collect { shimmerData ->
+                    when (shimmerData.adPlaceName) {
+                        AdPlaceNameConfig.AD_PLACE_NAME_NATIVE -> {
+                            if (shimmerData.isLoading) {
+                                bindingView.nativeFrame.startShimmer()
+                            }
+                        }
+
+                        AdPlaceNameConfig.AD_PLACE_NAME_NATIVE_LANGUAGE -> {
+                            if (shimmerData.isLoading) {
+                                bindingView.nativeLanguage.startShimmer()
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         bindingView.bannerView.loadAds(isVip = false, adUnitId = com.core.gsadmob.R.string.banner_id)
@@ -70,9 +88,7 @@ class FirstActivity : BaseMVVMActivity<ActivityTestNativeBinding>() {
 
         bindingView.tvNativeFrame.setOnClickListener {
             AdGsManager.instance.activeAd(AdPlaceNameConfig.AD_PLACE_NAME_NATIVE)
-            AdGsManager.instance.loadAd(AdPlaceNameConfig.AD_PLACE_NAME_NATIVE, requiredLoadNewAds = true, callbackStart = {
-                bindingView.nativeFrame.startShimmer()
-            })
+            AdGsManager.instance.loadAd(AdPlaceNameConfig.AD_PLACE_NAME_NATIVE, requiredLoadNewAds = true)
         }
 
         bindingView.imageFrameClear.setOnClickListener {
@@ -81,9 +97,7 @@ class FirstActivity : BaseMVVMActivity<ActivityTestNativeBinding>() {
 
         bindingView.tvNativeLanguage.setOnClickListener {
             AdGsManager.instance.activeAd(AdPlaceNameConfig.AD_PLACE_NAME_NATIVE_LANGUAGE)
-            AdGsManager.instance.loadAd(AdPlaceNameConfig.AD_PLACE_NAME_NATIVE_LANGUAGE, requiredLoadNewAds = true, callbackStart = {
-                bindingView.nativeLanguage.startShimmer()
-            })
+            AdGsManager.instance.loadAd(AdPlaceNameConfig.AD_PLACE_NAME_NATIVE_LANGUAGE, requiredLoadNewAds = true)
         }
 
         bindingView.imageLanguageClear.setOnClickListener {

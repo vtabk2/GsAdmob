@@ -5,7 +5,6 @@ import android.app.Activity
 import android.app.Application
 import android.app.Application.ActivityLifecycleCallbacks
 import android.os.Bundle
-import android.util.Log
 import com.core.gsadmob.callback.AdGsListener
 import com.core.gsadmob.model.AdGsType
 import com.core.gsadmob.model.AdPlaceName
@@ -15,7 +14,9 @@ import com.core.gsadmob.model.InterstitialAdGsData
 import com.core.gsadmob.model.NativeAdGsData
 import com.core.gsadmob.model.RewardedAdGsData
 import com.core.gsadmob.model.RewardedInterstitialAdGsData
+import com.core.gsadmob.model.ShimmerData
 import com.core.gsadmob.utils.extensions.isWebViewEnabled
+import com.core.gsadmob.utils.livedata.LiveDataNetworkStatus
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader
@@ -36,14 +37,12 @@ import kotlinx.coroutines.launch
 class AdGsManager {
     private val adGsDataMap = HashMap<AdPlaceName, BaseAdGsData>()
     val adGsDataMapMutableStateFlow = MutableStateFlow(HashMap<AdPlaceName, BaseAdGsData>())
+    val startTryReloadAdMutableStateFlow = MutableStateFlow(ShimmerData())
 
     private val backupDelayTimeMap = HashMap<AdPlaceName, Long>()
 
     private val isVipMutableStateFlow = MutableStateFlow(false)
     var isVipFlow = isVipMutableStateFlow.asStateFlow()
-
-    private val isAutoReloadMutableStateFlow = MutableStateFlow(false)
-    private var isAutoReloadFlow = isAutoReloadMutableStateFlow.asStateFlow()
 
     private val activeAdList = mutableListOf<AdPlaceName>()
 
@@ -77,6 +76,13 @@ class AdGsManager {
             override fun onActivityDestroyed(activity: Activity) {}
         })
 
+        val liveDataNetworkStatus = LiveDataNetworkStatus(application)
+        liveDataNetworkStatus.observeForever { connect ->
+            if (connect) {
+                tryReloadAd()
+            }
+        }
+
         defaultScope = coroutineScope
 
         defaultScope?.launch {
@@ -84,18 +90,22 @@ class AdGsManager {
                 if (isVip) {
                     clearAll()
                 } else {
-                    if (isAutoReloadFlow.value) {
-                        // reload active ad list
-                        activeAdList.forEach { activeAd ->
-                            loadAd(adPlaceName = activeAd, requiredLoadNewAds = true)
-                        }
-                    }
+                    tryReloadAd()
                 }
             }
         }
     }
 
-    fun loadAd(adPlaceName: AdPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_FULL, requiredLoadNewAds: Boolean = false, callbackStart: (() -> Unit)? = null) {
+    private fun tryReloadAd() {
+        // reload active ad list
+        activeAdList.forEach { adPlaceName ->
+            if (adPlaceName.isReloadIfNeed) {
+                loadAd(adPlaceName = adPlaceName)
+            }
+        }
+    }
+
+    fun loadAd(adPlaceName: AdPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_FULL, requiredLoadNewAds: Boolean = false) {
         if (!isWebViewEnabled) {
             clearAll()
             return
@@ -136,7 +146,7 @@ class AdGsManager {
 
         when (adPlaceName.adGsType) {
             AdGsType.INTERSTITIAL -> loadInterstitialAd(adPlaceName = adPlaceName, adGsData = adGsData as InterstitialAdGsData, requiredLoadNewAds = requiredLoadNewAds)
-            AdGsType.NATIVE -> loadNativeAd(adPlaceName = adPlaceName, adGsData = adGsData as NativeAdGsData, requiredLoadNewAds = requiredLoadNewAds, callbackStart)
+            AdGsType.NATIVE -> loadNativeAd(adPlaceName = adPlaceName, adGsData = adGsData as NativeAdGsData, requiredLoadNewAds = requiredLoadNewAds)
             AdGsType.REWARDED -> loadRewardedAd(adPlaceName = adPlaceName, adGsData = adGsData as RewardedAdGsData, requiredLoadNewAds = requiredLoadNewAds)
             AdGsType.REWARDED_INTERSTITIAL -> loadRewardedInterstitialAd(adPlaceName = adPlaceName, adGsData = adGsData as RewardedInterstitialAdGsData, requiredLoadNewAds = requiredLoadNewAds)
         }
@@ -187,9 +197,11 @@ class AdGsManager {
         }
     }
 
-    private fun loadNativeAd(adPlaceName: AdPlaceName, adGsData: NativeAdGsData, requiredLoadNewAds: Boolean, callbackStart: (() -> Unit)? = null) {
+    private fun loadNativeAd(adPlaceName: AdPlaceName, adGsData: NativeAdGsData, requiredLoadNewAds: Boolean) {
         application?.let {
-            callbackStart?.invoke()
+            defaultScope?.launch {
+                startTryReloadAdMutableStateFlow.emit(ShimmerData(adPlaceName = adPlaceName, isLoading = true))
+            }
             val adRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
             val adLoader = AdLoader.Builder(it, it.getString(adPlaceName.adUnitId)).forNativeAd { nativeAd ->
                 if (isVipFlow.value) {
@@ -436,9 +448,8 @@ class AdGsManager {
                     }
                 }
             }
-            Log.d("TAG5", "notifyAds: newData = $newData")
-            Log.d("TAG5", "notifyAds: adGsDataMap = $adGsDataMap")
             adGsDataMapMutableStateFlow.emit(newData)
+            startTryReloadAdMutableStateFlow.emit(ShimmerData())
         }
     }
 

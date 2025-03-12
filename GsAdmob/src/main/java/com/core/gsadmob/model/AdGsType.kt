@@ -1,6 +1,7 @@
 package com.core.gsadmob.model
 
 enum class AdGsType {
+    APP_OPEN_AD,
     INTERSTITIAL,
     NATIVE,
     REWARDED,

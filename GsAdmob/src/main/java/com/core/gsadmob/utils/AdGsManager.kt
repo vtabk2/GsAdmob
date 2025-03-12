@@ -5,10 +5,12 @@ import android.app.Activity
 import android.app.Application
 import android.app.Application.ActivityLifecycleCallbacks
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.core.gsadmob.callback.AdGsListener
 import com.core.gsadmob.model.AdGsType
 import com.core.gsadmob.model.AdPlaceName
+import com.core.gsadmob.model.AppOpenAdGsData
 import com.core.gsadmob.model.BaseAdGsData
 import com.core.gsadmob.model.BaseRewardedAdGsData
 import com.core.gsadmob.model.InterstitialAdGsData
@@ -137,6 +139,7 @@ class AdGsManager {
             null
         } else {
             when (adPlaceName.adGsType) {
+                AdGsType.APP_OPEN_AD -> (adGsData as? AppOpenAdGsData)?.appOpenAd
                 AdGsType.INTERSTITIAL -> (adGsData as? InterstitialAdGsData)?.interstitialAd
                 AdGsType.NATIVE -> (adGsData as? NativeAdGsData)?.nativeAd
                 AdGsType.REWARDED -> (adGsData as? RewardedAdGsData)?.rewardedAd
@@ -157,11 +160,16 @@ class AdGsManager {
         adGsData.isLoading = true
 
         when (adPlaceName.adGsType) {
+            AdGsType.APP_OPEN_AD -> loadAppOpenAd(adPlaceName = adPlaceName, adGsData = adGsData as AppOpenAdGsData, requiredLoadNewAds = requiredLoadNewAds)
             AdGsType.INTERSTITIAL -> loadInterstitialAd(adPlaceName = adPlaceName, adGsData = adGsData as InterstitialAdGsData, requiredLoadNewAds = requiredLoadNewAds)
             AdGsType.NATIVE -> loadNativeAd(adPlaceName = adPlaceName, adGsData = adGsData as NativeAdGsData)
             AdGsType.REWARDED -> loadRewardedAd(adPlaceName = adPlaceName, adGsData = adGsData as RewardedAdGsData, requiredLoadNewAds = requiredLoadNewAds)
             AdGsType.REWARDED_INTERSTITIAL -> loadRewardedInterstitialAd(adPlaceName = adPlaceName, adGsData = adGsData as RewardedInterstitialAdGsData, requiredLoadNewAds = requiredLoadNewAds)
         }
+    }
+
+    private fun loadAppOpenAd(adPlaceName: AdPlaceName, adGsData: AppOpenAdGsData, requiredLoadNewAds: Boolean) {
+        Log.d("TAG5", "loadAppOpenAd: ")
     }
 
     /**
@@ -171,7 +179,7 @@ class AdGsManager {
         currentActivity?.let {
             val adRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
             InterstitialAd.load(it, it.getString(adPlaceName.adUnitId), adRequest, object : InterstitialAdLoadCallback() {
-                override fun onAdFailedToLoad(adError: LoadAdError) {
+                override fun onAdFailedToLoad(loadAdError: LoadAdError) {
                     adGsData.clearData(isResetReload = false)
                     notifyAds()
 
@@ -359,6 +367,7 @@ class AdGsManager {
     fun showAd(adPlaceName: AdPlaceName, requiredLoadNewAds: Boolean = false, callbackShow: (() -> Unit)? = null) {
         adGsDataMap[adPlaceName]?.let { adGsData ->
             val canShow = when (adPlaceName.adGsType) {
+                AdGsType.APP_OPEN_AD -> (adGsData as? AppOpenAdGsData)?.appOpenAd != null
                 AdGsType.INTERSTITIAL -> (adGsData as? InterstitialAdGsData)?.interstitialAd != null
                 AdGsType.REWARDED -> (adGsData as? RewardedAdGsData)?.rewardedAd != null
                 AdGsType.REWARDED_INTERSTITIAL -> (adGsData as? RewardedInterstitialAdGsData)?.rewardedInterstitialAd != null
@@ -427,6 +436,7 @@ class AdGsManager {
     private fun getAdGsData(adPlaceName: AdPlaceName): BaseAdGsData {
         return adGsDataMap[adPlaceName] ?: run {
             when (adPlaceName.adGsType) {
+                AdGsType.APP_OPEN_AD -> AppOpenAdGsData()
                 AdGsType.INTERSTITIAL -> InterstitialAdGsData()
                 AdGsType.NATIVE -> NativeAdGsData()
                 AdGsType.REWARDED -> RewardedAdGsData()
@@ -479,6 +489,7 @@ class AdGsManager {
             activeAdList.forEach {
                 adGsDataMap[it]?.let { adGsData ->
                     when (adGsData) {
+                        is AppOpenAdGsData -> newData[it] = adGsData.copy()
                         is InterstitialAdGsData -> newData[it] = adGsData.copy()
                         is NativeAdGsData -> newData[it] = adGsData.copy()
                         is RewardedAdGsData -> newData[it] = adGsData.copy()

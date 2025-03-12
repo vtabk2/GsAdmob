@@ -15,9 +15,9 @@ import com.core.gsadmob.model.InterstitialAdGsData
 import com.core.gsadmob.model.NativeAdGsData
 import com.core.gsadmob.model.RewardedAdGsData
 import com.core.gsadmob.model.RewardedInterstitialAdGsData
-import com.core.gsadmob.model.ShimmerData
 import com.core.gsadmob.utils.extensions.isWebViewEnabled
 import com.core.gsadmob.utils.livedata.LiveDataNetworkStatus
+import com.core.gsadmob.utils.network.NetworkUtils
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader
@@ -39,7 +39,8 @@ class AdGsManager {
     private val adGsDataMap = HashMap<AdPlaceName, BaseAdGsData>()
     val adGsDataMapMutableStateFlow = MutableStateFlow(HashMap<AdPlaceName, BaseAdGsData>())
 
-    val shimmerDataLiveData = MutableLiveData<ShimmerData>()
+    private val shimmerMap = HashMap<AdPlaceName, Boolean>()
+    val shimmerLiveData = MutableLiveData<HashMap<AdPlaceName, Boolean>>()
 
     private val backupDelayTimeMap = HashMap<AdPlaceName, Long>()
 
@@ -92,7 +93,9 @@ class AdGsManager {
                 if (isVip) {
                     clearAll()
                 } else {
-                    tryReloadAd()
+                    if (NetworkUtils.isInternetAvailable(application)) {
+                        tryReloadAd()
+                    }
                 }
             }
         }
@@ -215,8 +218,11 @@ class AdGsManager {
 
     private fun loadNativeAd(adPlaceName: AdPlaceName, adGsData: NativeAdGsData) {
         application?.let {
-            shimmerDataLiveData.postValue(ShimmerData(adPlaceName = adPlaceName, isLoading = true))
-
+            // bật mạng thì mới cho hiển thị shimmer
+            if (NetworkUtils.isInternetAvailable(it)) {
+                shimmerMap[adPlaceName] = true
+                shimmerLiveData.postValue(shimmerMap)
+            }
             val adRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
             val adLoader = AdLoader.Builder(it, it.getString(adPlaceName.adUnitId)).forNativeAd { nativeAd ->
                 if (isVipFlow.value) {
@@ -437,6 +443,13 @@ class AdGsManager {
      */
     fun registerDelayTime(delayTime: Long, adPlaceName: AdPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_FULL) {
         backupDelayTimeMap[adPlaceName] = delayTime
+    }
+
+    /**
+     *  Xóa hết shimmer đi
+     */
+    fun clearShimmer() {
+        shimmerMap.clear()
     }
 
     /**

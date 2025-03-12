@@ -58,20 +58,23 @@ class FirstActivity : BaseMVVMActivity<ActivityTestNativeBinding>() {
             }
         }
 
-        AdGsManager.instance.shimmerDataLiveData.observe(this) { shimmerData ->
-            when (shimmerData.adPlaceName) {
-                AdPlaceNameConfig.AD_PLACE_NAME_NATIVE -> {
-                    if (shimmerData.isLoading) {
-                        bindingView.nativeFrame.startShimmer()
+        AdGsManager.instance.shimmerLiveData.observe(this) { shimmerMap ->
+            shimmerMap.forEach {
+                when (it.key) {
+                    AdPlaceNameConfig.AD_PLACE_NAME_NATIVE -> {
+                        if (it.value) {
+                            bindingView.nativeFrame.startShimmer()
+                        }
                     }
-                }
 
-                AdPlaceNameConfig.AD_PLACE_NAME_NATIVE_LANGUAGE -> {
-                    if (shimmerData.isLoading) {
-                        bindingView.nativeLanguage.startShimmer()
+                    AdPlaceNameConfig.AD_PLACE_NAME_NATIVE_LANGUAGE -> {
+                        if (it.value) {
+                            bindingView.nativeLanguage.startShimmer()
+                        }
                     }
                 }
             }
+            AdGsManager.instance.clearShimmer()
         }
 
         bindingView.bannerView.loadAds(isVip = false, adUnitId = com.core.gsadmob.R.string.banner_id)

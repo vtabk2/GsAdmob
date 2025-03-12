@@ -5,7 +5,6 @@ import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
 import com.core.gsadmob.callback.AdGsListener
-import com.core.gsadmob.model.NativeAdGsData
 import com.core.gsadmob.utils.AdGsManager
 import com.core.gsadmob.utils.AdPlaceNameConfig
 import com.core.gsmvvm.ui.activity.BaseMVVMActivity
@@ -37,38 +36,12 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
         super.setupView(savedInstanceState)
 
         lifecycleScope.launch {
-            async {
-                AdGsManager.instance.isVipFlow.collect {
-                    isVip = it
-                    if (isVip) {
-                        bindingView.tvActiveVip.text = "Vip Active"
-                    } else {
-                        bindingView.tvActiveVip.text = "Vip Inactive"
-                    }
-                }
-            }
-
-            async {
-                AdGsManager.instance.adGsDataMapMutableStateFlow.collect {
-                    it.forEach { adGsDataMap ->
-                        when (adGsDataMap.key) {
-                            AdPlaceNameConfig.AD_PLACE_NAME_NATIVE -> {
-                                if (adGsDataMap.value.isLoading) {
-                                    bindingView.nativeFrame.startShimmer()
-                                } else {
-                                    bindingView.nativeFrame.setNativeAd((adGsDataMap.value as? NativeAdGsData)?.nativeAd)
-                                }
-                            }
-
-                            AdPlaceNameConfig.AD_PLACE_NAME_NATIVE_LANGUAGE -> {
-                                if (adGsDataMap.value.isLoading) {
-                                    bindingView.nativeLanguage.startShimmer()
-                                } else {
-                                    bindingView.nativeLanguage.setNativeAd((adGsDataMap.value as? NativeAdGsData)?.nativeAd)
-                                }
-                            }
-                        }
-                    }
+            AdGsManager.instance.isVipFlow.collect {
+                isVip = it
+                if (isVip) {
+                    bindingView.tvActiveVip.text = "Vip Active"
+                } else {
+                    bindingView.tvActiveVip.text = "Vip Inactive"
                 }
             }
         }
@@ -84,6 +57,13 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
         bindingView.tvInterstitial.setOnClickListener {
             startActivity(Intent(this, FirstActivity::class.java))
             AdGsManager.instance.showAd(AdPlaceNameConfig.AD_PLACE_NAME_FULL)
+            // chuyển màn thì cần cancel tất cả các rewarded đi
+            AdGsManager.instance.cancelAllAd()
+        }
+
+        bindingView.tvInterstitialWithoutVideo.setOnClickListener {
+            startActivity(Intent(this, FirstActivity::class.java))
+            AdGsManager.instance.showAd(AdPlaceNameConfig.AD_PLACE_NAME_FULL_WITHOUT_VIDEO)
             // chuyển màn thì cần cancel tất cả các rewarded đi
             AdGsManager.instance.cancelAllAd()
         }
@@ -116,6 +96,10 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
             AdGsManager.instance.cancelAd(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_REWARDED)
         }
 
+        bindingView.imageRewardedClear.setOnClickListener {
+            AdGsManager.instance.clearWithAdPlaceName(AdPlaceNameConfig.AD_PLACE_NAME_REWARDED)
+        }
+
         bindingView.tvRewardedInterstitial.setOnClickListener {
             AdGsManager.instance.cancelAd(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_REWARDED_INTERSTITIAL, isCancel = false)
             checkShowRewardedAds(callback = { typeShowAds ->
@@ -144,26 +128,8 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
             AdGsManager.instance.cancelAd(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_REWARDED_INTERSTITIAL)
         }
 
-        bindingView.tvNativeFrame.setOnClickListener {
-            AdGsManager.instance.activeAd(AdPlaceNameConfig.AD_PLACE_NAME_NATIVE)
-            AdGsManager.instance.loadAd(AdPlaceNameConfig.AD_PLACE_NAME_NATIVE, requiredLoadNewAds = true, callbackStart = {
-                bindingView.nativeFrame.startShimmer()
-            })
-        }
-
-        bindingView.imageFrameClose.setOnClickListener {
-            AdGsManager.instance.clearWithAdPlaceName(AdPlaceNameConfig.AD_PLACE_NAME_NATIVE)
-        }
-
-        bindingView.tvNativeLanguage.setOnClickListener {
-            AdGsManager.instance.activeAd(AdPlaceNameConfig.AD_PLACE_NAME_NATIVE_LANGUAGE)
-            AdGsManager.instance.loadAd(AdPlaceNameConfig.AD_PLACE_NAME_NATIVE_LANGUAGE, requiredLoadNewAds = true, callbackStart = {
-                bindingView.nativeLanguage.startShimmer()
-            })
-        }
-
-        bindingView.imageLanguageClose.setOnClickListener {
-            AdGsManager.instance.clearWithAdPlaceName(AdPlaceNameConfig.AD_PLACE_NAME_NATIVE_LANGUAGE)
+        bindingView.imageRewardedInterstitialClear.setOnClickListener {
+            AdGsManager.instance.clearWithAdPlaceName(AdPlaceNameConfig.AD_PLACE_NAME_REWARDED_INTERSTITIAL)
         }
     }
 

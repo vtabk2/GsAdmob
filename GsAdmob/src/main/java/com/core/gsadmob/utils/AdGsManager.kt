@@ -466,18 +466,24 @@ class AdGsManager {
     /**
      * Hủy ads không cho show nữa (đa phần là rewardAd khi đang tải thì tắt -> không cho show nữa)
      * @param adPlaceName ad cần cancel
-     * @param isCancel = true -> cancel ads
+     * @param isCancel = true -> cancel ads và hủy listener đi
      */
     fun cancelAd(adPlaceName: AdPlaceName, isCancel: Boolean = true) {
+        if (isCancel) {
+            adGsDataMap[adPlaceName]?.listener = null
+        }
         (adGsDataMap[adPlaceName] as? BaseRewardedAdGsData)?.isCancel = isCancel
     }
 
     /**
      * Hủy tất cả ads không cho show nữa (đa phần là rewardAd khi đang tải thì tắt -> không cho show nữa)
-     * @param isCancel = true -> cancel ads
+     * @param isCancel = true -> cancel ads và hủy listener đi
      */
     fun cancelAllAd(isCancel: Boolean = true) {
         adGsDataMap.forEach {
+            if (isCancel) {
+                it.value.listener = null
+            }
             (it.value as? BaseRewardedAdGsData)?.isCancel = isCancel
         }
     }

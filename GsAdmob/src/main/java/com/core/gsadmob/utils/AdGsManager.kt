@@ -159,9 +159,11 @@ class AdGsManager {
                 if (currentTime - adGsData.lastTime < adGsData.delayTime * 1000) return
             }
 
-            // bật mạng thì mới cho hiển thị shimmer
             if (NetworkUtils.isInternetAvailable(it)) {
                 adGsData.isLoading = true
+
+                shimmerMap[adPlaceName] = true
+                shimmerLiveData.postValue(shimmerMap)
 
                 when (adPlaceName.adGsType) {
                     AdGsType.APP_OPEN_AD -> loadAppOpenAd(app = it, adPlaceName = adPlaceName, adGsData = adGsData as AppOpenAdGsData, requiredLoadNewAds = requiredLoadNewAds)

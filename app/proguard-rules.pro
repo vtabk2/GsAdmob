@@ -19,3 +19,10 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+
+  # https://stackoverflow.com/questions/52781821/renderscript-broken-with-androidx
+  -keepclasseswithmembernames,includedescriptorclasses class * {
+  native <methods>;
+  }
+  # RenderScript to be safe on "native callback" side
+  -keep class androidx.renderscript.** { *; }

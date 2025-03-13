@@ -13,6 +13,12 @@ android {
         targetSdk = 34
         versionCode = 1
         versionName = "1.0.0"
+
+        multiDexEnabled = true
+        vectorDrawables.useSupportLibrary = true
+
+        renderscriptTargetApi = 21
+        renderscriptSupportModeEnabled = true
     }
 
     buildTypes {
@@ -55,4 +61,7 @@ dependencies {
     implementation (libs.androidx.preference.ktx)
 
     implementation (libs.baseandroid)
+
+    implementation(libs.lottie)
+    implementation(libs.blurview)
 }

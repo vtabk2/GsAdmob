@@ -67,7 +67,14 @@ class SplashActivity2 : AppCompatActivity() {
                             }
                         })
 
-                        AdGsManager.instance.showAd(adPlaceName = adPlaceName)
+                        AdGsManager.instance.showAd(adPlaceName = adPlaceName, callbackCanShow = { canShow ->
+                            Log.d("TAG5", "onCreate: canShow = $canShow")
+                            if (canShow) {
+
+                            } else {
+
+                            }
+                        })
 
                         NetworkUtils.hasInternetAccessCheck(doTask = {
                             // nothing

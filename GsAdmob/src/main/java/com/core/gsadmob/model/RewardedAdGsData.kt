@@ -2,7 +2,7 @@ package com.core.gsadmob.model
 
 import com.google.android.gms.ads.rewarded.RewardedAd
 
-class RewardedAdGsData(var rewardedAd: RewardedAd? = null) : BaseRewardedAdGsData() {
+class RewardedAdGsData(var rewardedAd: RewardedAd? = null) : BaseShowAdGsData() {
     override fun clearData(isResetReload: Boolean) {
         rewardedAd = null
         super.clearData(isResetReload)

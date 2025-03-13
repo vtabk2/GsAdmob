@@ -2,7 +2,7 @@ package com.core.gsadmob.model
 
 import com.google.android.gms.ads.rewardedinterstitial.RewardedInterstitialAd
 
-class RewardedInterstitialAdGsData(var rewardedInterstitialAd: RewardedInterstitialAd? = null) : BaseRewardedAdGsData() {
+class RewardedInterstitialAdGsData(var rewardedInterstitialAd: RewardedInterstitialAd? = null) : BaseShowAdGsData() {
     override fun clearData(isResetReload: Boolean) {
         rewardedInterstitialAd = null
         super.clearData(isResetReload)

@@ -2,7 +2,7 @@ package com.core.gsadmob.model
 
 import com.google.android.gms.ads.appopen.AppOpenAd
 
-class AppOpenAdGsData(var appOpenAd: AppOpenAd? = null) : BaseRewardedAdGsData() {
+class AppOpenAdGsData(var appOpenAd: AppOpenAd? = null) : BaseShowAdGsData() {
     override fun clearData(isResetReload: Boolean) {
         appOpenAd = null
         super.clearData(isResetReload)

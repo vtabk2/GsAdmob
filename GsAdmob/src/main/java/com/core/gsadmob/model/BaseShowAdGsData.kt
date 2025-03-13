@@ -1,6 +1,6 @@
 package com.core.gsadmob.model
 
-open class BaseRewardedAdGsData(
+open class BaseShowAdGsData(
     var isShowing: Boolean = false,
     var isCancel: Boolean = false
 ) : BaseAdGsData() {

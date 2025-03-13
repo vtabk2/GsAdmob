@@ -11,7 +11,7 @@ import com.core.gsadmob.model.AdGsType
 import com.core.gsadmob.model.AdPlaceName
 import com.core.gsadmob.model.AppOpenAdGsData
 import com.core.gsadmob.model.BaseAdGsData
-import com.core.gsadmob.model.BaseRewardedAdGsData
+import com.core.gsadmob.model.BaseShowAdGsData
 import com.core.gsadmob.model.InterstitialAdGsData
 import com.core.gsadmob.model.NativeAdGsData
 import com.core.gsadmob.model.RewardedAdGsData
@@ -434,18 +434,28 @@ class AdGsManager {
     }
 
     /**
+     * Kiểm tra thời gian tải quảng cáo có trong vòng N giờ hay không
+     */
+    private fun wasLoadTimeLessThanNHoursAgo(adGsData: BaseAdGsData, numHours: Long): Boolean {
+        val dateDifference = System.currentTimeMillis() - adGsData.lastTime
+        val numMilliSecondsPerHour: Long = 3600000
+        return dateDifference < numMilliSecondsPerHour * numHours
+    }
+
+    /**
      * Hiển thị quảng cáo nếu được
      * Nếu không có quảng cáo sẽ tự động tải
      */
-    fun showAd(adPlaceName: AdPlaceName, requiredLoadNewAds: Boolean = false) {
-        adGsDataMap[adPlaceName]?.let { adGsData ->
+    fun showAd(adPlaceName: AdPlaceName, requiredLoadNewAds: Boolean = false, callbackCanShow: ((canShow: Boolean) -> Unit)? = null) {
+        (adGsDataMap[adPlaceName] as? BaseShowAdGsData)?.let { adGsData ->
             val canShow = when (adPlaceName.adGsType) {
-                AdGsType.APP_OPEN_AD -> (adGsData as? AppOpenAdGsData)?.appOpenAd != null
+                AdGsType.APP_OPEN_AD -> (adGsData as? AppOpenAdGsData)?.appOpenAd != null && wasLoadTimeLessThanNHoursAgo(adGsData, 4)
                 AdGsType.INTERSTITIAL -> (adGsData as? InterstitialAdGsData)?.interstitialAd != null
                 AdGsType.REWARDED -> (adGsData as? RewardedAdGsData)?.rewardedAd != null
                 AdGsType.REWARDED_INTERSTITIAL -> (adGsData as? RewardedInterstitialAdGsData)?.rewardedInterstitialAd != null
                 else -> false
             }
+            callbackCanShow?.invoke(canShow)
             if (canShow) {
                 showOrCancelAd(adGsData = adGsData)
             } else {
@@ -453,44 +463,39 @@ class AdGsManager {
                 loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
             }
         } ?: run {
+            callbackCanShow?.invoke(false)
             // chưa có thì load
             loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
         }
     }
 
-    private fun showOrCancelAd(adGsData: BaseAdGsData) {
+    private fun showOrCancelAd(adGsData: BaseShowAdGsData) {
         currentActivity?.let {
+            if (adGsData.isCancel) {
+                adGsData.listener = null
+                return
+            }
+            if (adGsData.isShowing) return
+            adGsData.isShowing = true
+
             when (adGsData) {
-                is BaseRewardedAdGsData -> {
-                    if (adGsData.isCancel) {
-                        adGsData.listener = null
-                        return
+                is AppOpenAdGsData -> {
+                    adGsData.appOpenAd?.show(it)
+                }
+
+                is InterstitialAdGsData -> {
+                    adGsData.interstitialAd?.show(it)
+                }
+
+                is RewardedAdGsData -> {
+                    adGsData.rewardedAd?.show(it) {
+                        adGsData.listener?.onShowFinishSuccess()
                     }
-                    if (adGsData.isShowing) return
-                    adGsData.isShowing = true
+                }
 
-                    when (adGsData) {
-                        is AppOpenAdGsData -> {
-                            adGsData.appOpenAd?.show(it)
-                        }
-
-                        is InterstitialAdGsData -> {
-                            adGsData.interstitialAd?.show(it)
-                        }
-
-                        is RewardedAdGsData -> {
-                            adGsData.rewardedAd?.show(it) {
-                                adGsData.listener?.onShowFinishSuccess()
-                            }
-                        }
-
-                        is RewardedInterstitialAdGsData -> {
-                            adGsData.rewardedInterstitialAd?.show(it) {
-                                adGsData.listener?.onShowFinishSuccess()
-                            }
-                        }
-
-                        else -> {}
+                is RewardedInterstitialAdGsData -> {
+                    adGsData.rewardedInterstitialAd?.show(it) {
+                        adGsData.listener?.onShowFinishSuccess()
                     }
                 }
 
@@ -597,7 +602,7 @@ class AdGsManager {
         if (isCancel) {
             adGsDataMap[adPlaceName]?.listener = null
         }
-        (adGsDataMap[adPlaceName] as? BaseRewardedAdGsData)?.isCancel = isCancel
+        (adGsDataMap[adPlaceName] as? BaseShowAdGsData)?.isCancel = isCancel
     }
 
     /**
@@ -609,7 +614,7 @@ class AdGsManager {
             if (isCancel) {
                 it.value.listener = null
             }
-            (it.value as? BaseRewardedAdGsData)?.isCancel = isCancel
+            (it.value as? BaseShowAdGsData)?.isCancel = isCancel
         }
     }
 

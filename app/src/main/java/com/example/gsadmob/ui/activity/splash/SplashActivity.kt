@@ -65,9 +65,11 @@ class SplashActivity : AppCompatActivity() {
                             delayShowAds(clBlur)
                         }
 
-                        override fun onAdFailed() {
-                            isLoaded = true
-                            goToHome()
+                        override fun onAdClose(isFailed: Boolean) {
+                            if (isFailed) {
+                                isLoaded = true
+                                goToHome()
+                            }
                         }
                     })
                     TestApplication.applicationContext().initOpenAds()

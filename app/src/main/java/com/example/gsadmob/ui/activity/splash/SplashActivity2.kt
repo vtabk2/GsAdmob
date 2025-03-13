@@ -1,24 +1,31 @@
 package com.example.gsadmob.ui.activity.splash
 
+import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.core.gsadmob.callback.AdGsListener
 import com.core.gsadmob.utils.AdGsManager
 import com.core.gsadmob.utils.AdPlaceNameConfig
+import com.core.gscore.utils.extensions.gone
 import com.core.gscore.utils.extensions.visible
 import com.example.gsadmob.BuildConfig
 import com.example.gsadmob.R
 import com.example.gsadmob.TestApplication
 import com.example.gsadmob.databinding.ActivitySplashBinding
+import com.example.gsadmob.ui.activity.TestAdsActivity
 import com.example.gsadmob.utils.extensions.cmpUtils
 import com.example.gsadmob.utils.preferences.GoogleMobileAdsConsentManager
+import com.gs.core.ui.view.hourglass.Hourglass
 import com.gs.core.utils.network.NetworkUtils
 import java.util.concurrent.atomic.AtomicBoolean
 
 class SplashActivity2 : AppCompatActivity() {
+    private var shouldGoToMain = false
     private var isAdLoaded: Boolean = false
+    private var isAppPaused: Boolean = false
+    private var timerDelay: Hourglass? = null
+    private var adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_APP_OPEN
 
     // Use an atomic boolean to initialize the Google Mobile Ads SDK and load ads once.
     private val isMobileAdsInitializeCalled = AtomicBoolean(false)
@@ -26,6 +33,16 @@ class SplashActivity2 : AppCompatActivity() {
     private var googleMobileAdsConsentManager: GoogleMobileAdsConsentManager? = null
 
     private var bindingView: ActivitySplashBinding? = null
+
+    private val timerVirus = object : Hourglass(3000, 10) {
+        override fun onTimerTick(timeRemaining: Long) {
+        }
+
+        override fun onTimerFinish() {
+            if (isAdLoaded) return
+            goToHome()
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Handle the splash screen transition.
@@ -47,46 +64,47 @@ class SplashActivity2 : AppCompatActivity() {
                     googleMobileAdsConsentManager = GoogleMobileAdsConsentManager.getInstance(this@SplashActivity2)
                     googleMobileAdsConsentManager?.gatherConsent(this@SplashActivity2, onCanShowAds = {
                         initializeMobileAdsSdk()
-                        val adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_APP_OPEN
 
                         AdGsManager.instance.registerAdsListener(adPlaceName = adPlaceName, adGsListener = object : AdGsListener {
                             override fun onAdClose(isFailed: Boolean) {
                                 if (isFailed) {
                                     isAdLoaded = true
+                                } else {
+                                    goToHome()
                                 }
-                                Log.d("TAG5", "onAdClose: isFailed = $isFailed")
                             }
 
                             override fun onAdSuccess() {
                                 isAdLoaded = true
-                                Log.d("TAG5", "onAdSuccess: ")
+                                delayShowAds()
                             }
 
                             override fun onAdShowing() {
-                                Log.d("TAG5", "onCreate: onAdShowing")
+                                isAppPaused = false
+                                bindingView?.apply {
+                                    clBlur.gone()
+                                }
                             }
                         })
 
                         AdGsManager.instance.showAd(adPlaceName = adPlaceName, callbackCanShow = { canShow ->
-                            Log.d("TAG5", "onCreate: canShow = $canShow")
                             if (canShow) {
-
+                                delayShowAds()
                             } else {
-
+                                timerVirus.startTimer()
                             }
                         })
-
-                        NetworkUtils.hasInternetAccessCheck(doTask = {
-                            // nothing
-                        }, doException = { networkError ->
-                            Log.d("TAG5", "onCreate: networkError = $networkError")
-                        }, this@SplashActivity2)
                     }, onDisableAds = {
-
+                        goToHome()
                     }, isDebug = BuildConfig.DEBUG)
+
+                    if (googleMobileAdsConsentManager?.canRequestAds == true) {
+                        initializeMobileAdsSdk()
+                    }
                 },
                 doException = {
-
+                    initializeMobileAdsSdk()
+                    goToHome()
                 }, context = this@SplashActivity2
             )
         }
@@ -95,6 +113,24 @@ class SplashActivity2 : AppCompatActivity() {
     private fun delayShowAds() {
         bindingView?.apply {
             clBlur.visible()
+
+            timerDelay = object : Hourglass(1000, 500) {
+                override fun onTimerTick(timeRemaining: Long) {
+                    // nothing
+                }
+
+                override fun onTimerFinish() {
+                    AdGsManager.instance.showAd(adPlaceName = adPlaceName, callbackCanShow = { canShow ->
+                        if (canShow) {
+                            isAppPaused = false
+                        } else {
+                            clBlur.gone()
+                            goToHome()
+                        }
+                    })
+                }
+            }
+            timerDelay?.startTimer()
         }
     }
 
@@ -103,6 +139,48 @@ class SplashActivity2 : AppCompatActivity() {
             return
         }
         TestApplication.applicationContext().initMobileAds()
-        AdGsManager.instance.loadAd(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_APP_OPEN)
+        AdGsManager.instance.loadAd(adPlaceName = adPlaceName)
+    }
+
+    private fun startNewActivityHome() {
+        val intent = Intent(this@SplashActivity2, TestAdsActivity::class.java)
+        intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP)
+        startActivity(intent)
+        finish()
+    }
+
+    private fun goToHome() {
+        if (timerVirus.isRunning) {
+            timerVirus.stopTimer()
+        }
+        if (isAppPaused) {
+            shouldGoToMain = true
+            return
+        }
+        if (isTaskRoot) {
+            startNewActivityHome()
+        } else {
+            finish()
+        }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        isAppPaused = true
+        if (timerVirus.isRunning) timerVirus.pauseTimer()
+        if (timerDelay?.isRunning == true) timerDelay?.pauseTimer()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        if (timerVirus.isPaused) timerVirus.resumeTimer()
+        if (timerDelay?.isPaused == true) timerDelay?.resumeTimer()
+    }
+
+    override fun onStart() {
+        super.onStart()
+        if (shouldGoToMain) {
+            startNewActivityHome()
+        }
     }
 }

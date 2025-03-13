@@ -64,6 +64,9 @@ class AdGsManager {
 
     private var isPause = false
 
+    /**
+     * Bắt buộc phải khởi tạo ở Application nếu không thì sẽ không thể tải được quảng cáo nào cả
+     */
     fun registerCoroutineScope(
         application: Application, coroutineScope: CoroutineScope,
         callbackStartLifecycle: ((activity: AppCompatActivity) -> Unit)? = null,
@@ -559,6 +562,11 @@ class AdGsManager {
         }
     }
 
+    /**
+     * Đăng ký sự kiện khi tải quảng cáo
+     * @param adPlaceName : Cấu hình cho quảng cáo
+     * @param adGsListener : Các sự kiện được trả về
+     */
     fun registerAdsListener(adPlaceName: AdPlaceName, adGsListener: AdGsListener) {
         val adGsData = getAdGsData(adPlaceName = adPlaceName)
         // update listener
@@ -566,6 +574,9 @@ class AdGsManager {
         adGsDataMap[adPlaceName] = adGsData
     }
 
+    /**
+     * Xóa đăng ký sự kiện khi tải quảng cáo
+     */
     fun removeAdsListener(adPlaceName: AdPlaceName) {
         adGsDataMap[adPlaceName]?.listener = null
     }
@@ -595,7 +606,7 @@ class AdGsManager {
     /**
      *  Xóa hết shimmer đi
      */
-    fun clearShimmer() {
+    fun clearAllShimmer() {
         shimmerMap.clear()
     }
 
@@ -676,6 +687,7 @@ class AdGsManager {
 
     /**
      * Đăng ký danh sách quảng cáo đươc sử dụng trong activity -> mục đích là khi thay đổi vip hoặc thay đổi kết nối mạng sẽ kiểm tra để tự động tải lại các quảng cáo này
+     * Thường là banner và native
      */
     fun activeAd(adPlaceName: AdPlaceName) {
         if (!activeAdList.contains(adPlaceName)) {
@@ -692,8 +704,10 @@ class AdGsManager {
 
         // hủy tất cả các listener
         adGsDataMap.forEach {
-            it.value.listener = null
+            removeAdsListener(it.key)
         }
+
+        clearAllShimmer()
     }
 
     companion object {

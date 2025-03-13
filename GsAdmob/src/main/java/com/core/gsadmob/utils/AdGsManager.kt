@@ -191,7 +191,7 @@ class AdGsManager {
             }
 
             override fun onAdLoaded(appOpenAd: AppOpenAd) {
-                adGsData.lastTime = System.currentTimeMillis()
+                adGsData.lastTime = System.currentTimeMillis() // khi tải được quảng cáo mới lưu lastTime
 
                 if (isVipFlow.value) {
                     clearWithAdPlaceName(adPlaceName = adPlaceName)
@@ -201,6 +201,8 @@ class AdGsManager {
                     notifyAds()
                     //
                     adGsData.listener?.let {
+                        it.onAdSuccess()
+
                         showOrCancelAd(adPlaceName = adPlaceName, adGsData = adGsData)
                     }
                     adGsData.appOpenAd?.fullScreenContentCallback = object : FullScreenContentCallback() {

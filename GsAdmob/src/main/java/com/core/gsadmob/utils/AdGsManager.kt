@@ -18,8 +18,8 @@ import com.core.gsadmob.model.NativeAdGsData
 import com.core.gsadmob.model.RewardedAdGsData
 import com.core.gsadmob.model.RewardedInterstitialAdGsData
 import com.core.gsadmob.utils.extensions.isWebViewEnabled
-import com.core.gsadmob.utils.livedata.LiveDataNetworkStatus
-import com.core.gsadmob.utils.network.NetworkUtils
+import com.core.gscore.utils.network.LiveDataNetworkStatus
+import com.core.gscore.utils.network.NetworkUtils
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader

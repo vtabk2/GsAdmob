@@ -21,4 +21,9 @@ interface AdGsListener {
      *  Dùng cho quảng cáo trả thưởng
      */
     fun onShowFinishSuccess() {}
+
+    /**
+     * Quảng cáo đang hiển thị
+     */
+    fun onAdShowing() {}
 }

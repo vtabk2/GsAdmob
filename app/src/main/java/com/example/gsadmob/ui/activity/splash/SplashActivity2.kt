@@ -61,11 +61,13 @@ class SplashActivity2 : AppCompatActivity() {
                                 isAdLoaded = true
                                 Log.d("TAG5", "onAdSuccess: ")
                             }
+
+                            override fun onAdShowing() {
+                                Log.d("TAG5", "onCreate: onAdShowing")
+                            }
                         })
 
-                        AdGsManager.instance.showAd(adPlaceName = adPlaceName, callbackShow = {
-                            Log.d("TAG5", "onCreate: callbackShow")
-                        })
+                        AdGsManager.instance.showAd(adPlaceName = adPlaceName)
 
                         NetworkUtils.hasInternetAccessCheck(doTask = {
                             // nothing

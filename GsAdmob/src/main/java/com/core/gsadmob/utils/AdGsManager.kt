@@ -203,7 +203,7 @@ class AdGsManager {
                     adGsData.listener?.let {
                         it.onAdSuccess()
 
-                        showOrCancelAd(adPlaceName = adPlaceName, adGsData = adGsData)
+                        showOrCancelAd(adGsData = adGsData)
                     }
                     adGsData.appOpenAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
                         override fun onAdDismissedFullScreenContent() {
@@ -220,6 +220,10 @@ class AdGsManager {
                             notifyAds()
                             //
                             loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
+                        }
+
+                        override fun onAdShowedFullScreenContent() {
+                            adGsData.listener?.onAdShowing()
                         }
 
                         override fun onAdClicked() {
@@ -272,6 +276,10 @@ class AdGsManager {
                             notifyAds()
                             //
                             loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
+                        }
+
+                        override fun onAdShowedFullScreenContent() {
+                            adGsData.listener?.onAdShowing()
                         }
 
                         override fun onAdClicked() {
@@ -336,7 +344,7 @@ class AdGsManager {
                     notifyAds()
                     //
                     adGsData.listener?.let {
-                        showOrCancelAd(adPlaceName = adPlaceName, adGsData = adGsData)
+                        showOrCancelAd(adGsData = adGsData)
                     }
                     adGsData.rewardedAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
                         override fun onAdDismissedFullScreenContent() {
@@ -353,6 +361,10 @@ class AdGsManager {
                             notifyAds()
                             //
                             loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
+                        }
+
+                        override fun onAdShowedFullScreenContent() {
+                            adGsData.listener?.onAdShowing()
                         }
 
                         override fun onAdClicked() {
@@ -389,7 +401,7 @@ class AdGsManager {
                     notifyAds()
                     //
                     adGsData.listener?.let {
-                        showOrCancelAd(adPlaceName = adPlaceName, adGsData = adGsData)
+                        showOrCancelAd(adGsData = adGsData)
                     }
                     adGsData.rewardedInterstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
                         override fun onAdDismissedFullScreenContent() {
@@ -408,6 +420,10 @@ class AdGsManager {
                             loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
                         }
 
+                        override fun onAdShowedFullScreenContent() {
+                            adGsData.listener?.onAdShowing()
+                        }
+
                         override fun onAdClicked() {
                             adGsData.listener?.onAdClicked()
                         }
@@ -421,7 +437,7 @@ class AdGsManager {
      * Hiển thị quảng cáo nếu được
      * Nếu không có quảng cáo sẽ tự động tải
      */
-    fun showAd(adPlaceName: AdPlaceName, requiredLoadNewAds: Boolean = false, callbackShow: (() -> Unit)? = null) {
+    fun showAd(adPlaceName: AdPlaceName, requiredLoadNewAds: Boolean = false) {
         adGsDataMap[adPlaceName]?.let { adGsData ->
             val canShow = when (adPlaceName.adGsType) {
                 AdGsType.APP_OPEN_AD -> (adGsData as? AppOpenAdGsData)?.appOpenAd != null
@@ -431,8 +447,7 @@ class AdGsManager {
                 else -> false
             }
             if (canShow) {
-                showOrCancelAd(adPlaceName = adPlaceName, adGsData = adGsData)
-                callbackShow?.invoke()
+                showOrCancelAd(adGsData = adGsData)
             } else {
                 // chưa có thì load
                 loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
@@ -443,13 +458,9 @@ class AdGsManager {
         }
     }
 
-    private fun showOrCancelAd(adPlaceName: AdPlaceName, adGsData: BaseAdGsData) {
+    private fun showOrCancelAd(adGsData: BaseAdGsData) {
         currentActivity?.let {
             when (adGsData) {
-                is InterstitialAdGsData -> {
-                    adGsData.interstitialAd?.show(it)
-                }
-
                 is BaseRewardedAdGsData -> {
                     if (adGsData.isCancel) {
                         adGsData.listener = null
@@ -457,15 +468,24 @@ class AdGsManager {
                     }
                     if (adGsData.isShowing) return
                     adGsData.isShowing = true
-                    when (adPlaceName.adGsType) {
-                        AdGsType.REWARDED -> {
-                            (adGsData as? RewardedAdGsData)?.rewardedAd?.show(it) {
+
+                    when (adGsData) {
+                        is AppOpenAdGsData -> {
+                            adGsData.appOpenAd?.show(it)
+                        }
+
+                        is InterstitialAdGsData -> {
+                            adGsData.interstitialAd?.show(it)
+                        }
+
+                        is RewardedAdGsData -> {
+                            adGsData.rewardedAd?.show(it) {
                                 adGsData.listener?.onShowFinishSuccess()
                             }
                         }
 
-                        AdGsType.REWARDED_INTERSTITIAL -> {
-                            (adGsData as? RewardedInterstitialAdGsData)?.rewardedInterstitialAd?.show(it) {
+                        is RewardedInterstitialAdGsData -> {
+                            adGsData.rewardedInterstitialAd?.show(it) {
                                 adGsData.listener?.onShowFinishSuccess()
                             }
                         }

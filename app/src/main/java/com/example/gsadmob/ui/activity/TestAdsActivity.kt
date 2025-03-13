@@ -201,11 +201,6 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
         val adPlaceName = if (isRewardedInterstitialAds) AdPlaceNameConfig.AD_PLACE_NAME_REWARDED_INTERSTITIAL else AdPlaceNameConfig.AD_PLACE_NAME_REWARDED
 
         AdGsManager.instance.registerAdsListener(adPlaceName = adPlaceName, adGsListener = object : AdGsListener {
-            override fun onShowFinishSuccess() {
-                callback(TypeShowAds.SUCCESS)
-                check.set(false)
-            }
-
             override fun onAdClose(isFailed: Boolean) {
                 if (isFailed) {
                     callback(TypeShowAds.FAILED)
@@ -216,10 +211,18 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
                     AdGsManager.instance.removeAdsListener(adPlaceName = adPlaceName)
                 }
             }
+
+            override fun onShowFinishSuccess() {
+                callback(TypeShowAds.SUCCESS)
+                check.set(false)
+            }
+
+            override fun onAdShowing() {
+                check.set(false)
+            }
         })
-        AdGsManager.instance.showAd(adPlaceName = adPlaceName, callbackShow = {
-            check.set(false)
-        })
+        AdGsManager.instance.showAd(adPlaceName = adPlaceName)
+
         NetworkUtils.hasInternetAccessCheck(doTask = {
             // nothing
         }, doException = { networkError ->

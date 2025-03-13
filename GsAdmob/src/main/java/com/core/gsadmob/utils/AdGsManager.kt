@@ -5,6 +5,7 @@ import android.app.Activity
 import android.app.Application
 import android.app.Application.ActivityLifecycleCallbacks
 import android.os.Bundle
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.MutableLiveData
 import com.core.gsadmob.callback.AdGsListener
 import com.core.gsadmob.model.AdGsType
@@ -203,7 +204,7 @@ class AdGsManager {
                     adGsData.listener?.let {
                         it.onAdSuccess()
 
-                        showOrCancelAd(adGsData = adGsData)
+                        showOrCancelAd(adPlaceName = adPlaceName, adGsData = adGsData, requiredLoadNewAds = requiredLoadNewAds)
                     }
                     adGsData.appOpenAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
                         override fun onAdDismissedFullScreenContent() {
@@ -344,7 +345,7 @@ class AdGsManager {
                     notifyAds()
                     //
                     adGsData.listener?.let {
-                        showOrCancelAd(adGsData = adGsData)
+                        showOrCancelAd(adPlaceName = adPlaceName, adGsData = adGsData, requiredLoadNewAds = requiredLoadNewAds)
                     }
                     adGsData.rewardedAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
                         override fun onAdDismissedFullScreenContent() {
@@ -401,7 +402,7 @@ class AdGsManager {
                     notifyAds()
                     //
                     adGsData.listener?.let {
-                        showOrCancelAd(adGsData = adGsData)
+                        showOrCancelAd(adPlaceName = adPlaceName, adGsData = adGsData, requiredLoadNewAds = requiredLoadNewAds)
                     }
                     adGsData.rewardedInterstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
                         override fun onAdDismissedFullScreenContent() {
@@ -457,7 +458,7 @@ class AdGsManager {
             }
             callbackCanShow?.invoke(canShow)
             if (canShow) {
-                showOrCancelAd(adGsData = adGsData)
+                showOrCancelAd(adPlaceName = adPlaceName, adGsData = adGsData, requiredLoadNewAds = requiredLoadNewAds)
             } else {
                 // chưa có thì load
                 loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
@@ -469,7 +470,7 @@ class AdGsManager {
         }
     }
 
-    private fun showOrCancelAd(adGsData: BaseShowAdGsData) {
+    private fun showOrCancelAd(adPlaceName: AdPlaceName, adGsData: BaseShowAdGsData, requiredLoadNewAds: Boolean) {
         currentActivity?.let {
             if (adGsData.isCancel) {
                 adGsData.listener = null
@@ -480,7 +481,24 @@ class AdGsManager {
 
             when (adGsData) {
                 is AppOpenAdGsData -> {
-                    adGsData.appOpenAd?.show(it)
+                    if (adPlaceName.fragmentTagAppOpenResumeResId == 0) {
+                        adGsData.appOpenAd?.show(it)
+                    } else {
+                        (it as? AppCompatActivity)?.supportFragmentManager?.let { fragmentManager ->
+                            val bottomDialogFragment = fragmentManager.findFragmentByTag(it.getString(adPlaceName.fragmentTagAppOpenResumeResId))
+                            if (bottomDialogFragment != null && bottomDialogFragment.isVisible) {
+                                // ResumeDialogFragment đang hiển thị
+                                adGsData.appOpenAd?.show(it)
+                            } else {
+                                // ResumeDialogFragment không hiển thị
+                                adGsData.listener?.onAdClose()
+                                adGsData.clearData(isResetReload = true)
+                                notifyAds()
+                                //
+                                loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
+                            }
+                        }
+                    }
                 }
 
                 is InterstitialAdGsData -> {

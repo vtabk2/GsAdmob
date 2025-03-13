@@ -90,7 +90,9 @@ class AdGsManager {
 
             override fun onActivitySaveInstanceState(activity: Activity, bundle: Bundle) {}
 
-            override fun onActivityDestroyed(activity: Activity) {}
+            override fun onActivityDestroyed(activity: Activity) {
+                currentActivity = null
+            }
         })
 
         val resumeLifecycleObserver = object : DefaultLifecycleObserver {

@@ -6,7 +6,10 @@ import android.app.Application
 import android.app.Application.ActivityLifecycleCallbacks
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ProcessLifecycleOwner
 import com.core.gsadmob.callback.AdGsListener
 import com.core.gsadmob.model.AdGsType
 import com.core.gsadmob.model.AdPlaceName
@@ -59,7 +62,14 @@ class AdGsManager {
     private var isWebViewEnabled = true
     private var application: Application? = null
 
-    fun registerCoroutineScope(application: Application, coroutineScope: CoroutineScope) {
+    private var isPause = false
+
+    fun registerCoroutineScope(
+        application: Application, coroutineScope: CoroutineScope,
+        callbackStartLifecycle: ((activity: AppCompatActivity) -> Unit)? = null,
+        callbackPauseLifecycle: ((activity: AppCompatActivity) -> Unit)? = null,
+        callbackNothingLifecycle: (() -> Unit)? = null
+    ) {
         this.application = application
 
         application.registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacks {
@@ -82,6 +92,31 @@ class AdGsManager {
 
             override fun onActivityDestroyed(activity: Activity) {}
         })
+
+        val resumeLifecycleObserver = object : DefaultLifecycleObserver {
+            override fun onStart(owner: LifecycleOwner) {
+                super.onStart(owner)
+                (currentActivity as? AppCompatActivity)?.let { activity ->
+                    if (!isPause) return
+                    if (isVipFlow.value) return
+                    isPause = false
+                    callbackStartLifecycle?.invoke(activity)
+                }
+            }
+
+            override fun onPause(owner: LifecycleOwner) {
+                super.onPause(owner)
+                (currentActivity as? AppCompatActivity)?.let { activity ->
+                    callbackPauseLifecycle?.invoke(activity)
+                }
+
+                isPause = true
+
+                callbackNothingLifecycle?.invoke()
+            }
+        }
+
+        ProcessLifecycleOwner.get().lifecycle.addObserver(resumeLifecycleObserver)
 
         val liveDataNetworkStatus = LiveDataNetworkStatus(application)
         liveDataNetworkStatus.observeForever { connect ->

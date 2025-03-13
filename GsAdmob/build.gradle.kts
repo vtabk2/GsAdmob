@@ -53,4 +53,6 @@ dependencies {
     implementation(libs.shimmer)
 
     implementation(libs.gscore)
+
+    implementation(libs.androidx.lifecycle.process)
 }

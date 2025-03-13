@@ -11,6 +11,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.fragment.app.FragmentManager
+import com.core.gsadmob.callback.AdGsListener
+import com.core.gsadmob.utils.AdGsManager
+import com.core.gsadmob.utils.AdPlaceNameConfig
 import com.example.gsadmob.databinding.FragmentResumeBinding
 import com.google.android.material.R
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -34,6 +37,8 @@ class ResumeDialogFragment : BottomSheetDialogFragment() {
     private var viewRoot: ViewGroup? = null
     private var timerLoading: Hourglass? = null
     private var timerDelay: Hourglass? = null
+
+    private val adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_APP_OPEN
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -91,14 +96,17 @@ class ResumeDialogFragment : BottomSheetDialogFragment() {
             }
 
             override fun onTimerFinish() {
-//                activity?.let {
-//                    MyApplication.applicationContext().showResumeAdIfAvailable(activity = it, tag = TAG, isVip = it.config.isFullVersion(), callbackFailed = { error ->
-//                        if (!error) {
-//                            timerLoading?.onTimerFinish()
-//                            dismissAllowingStateLoss()
-//                        }
-//                    })
-//                }
+                activity?.let {
+                    AdGsManager.instance.registerAdsListener(adPlaceName = adPlaceName, adGsListener = object : AdGsListener {
+                        override fun onAdClose(isFailed: Boolean) {
+                            if (!isFailed) {
+                                timerLoading?.onTimerFinish()
+                                dismissAllowingStateLoss()
+                            }
+                        }
+                    })
+                    AdGsManager.instance.showAd(adPlaceName = adPlaceName)
+                }
             }
         }
         timerDelay?.startTimer()

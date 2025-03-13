@@ -7,6 +7,7 @@ gscore = "1.0.2"
 kotlin = "2.1.10"
 coreKtx = "1.13.1"
 appcompat = "1.7.0"
+lifecycleProcess = "2.8.7"
 lottie = "6.6.2"
 material = "1.12.0"
 constraintlayout = "2.2.1"
@@ -18,6 +19,7 @@ shimmer = "0.5.0"
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
+androidx-lifecycle-process = { module = "androidx.lifecycle:lifecycle-process", version.ref = "lifecycleProcess" }
 androidx-preference-ktx = { module = "androidx.preference:preference-ktx", version.ref = "preferenceKtx" }
 baseandroid = { module = "com.github.vtabk2:BaseAndroid", version.ref = "baseandroid" }
 blurview = { module = "com.github.Dimezis:BlurView", version.ref = "blurview" }

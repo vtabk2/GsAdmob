@@ -4,7 +4,11 @@ import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.Application
 import android.app.Application.ActivityLifecycleCallbacks
+import android.content.Context
+import android.os.Build
 import android.os.Bundle
+import android.view.ViewGroup
+import android.view.WindowMetrics
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
@@ -14,6 +18,7 @@ import com.core.gsadmob.callback.AdGsListener
 import com.core.gsadmob.model.AdGsType
 import com.core.gsadmob.model.AdPlaceName
 import com.core.gsadmob.model.AppOpenAdGsData
+import com.core.gsadmob.model.BannerAdGsData
 import com.core.gsadmob.model.BaseAdGsData
 import com.core.gsadmob.model.BaseShowAdGsData
 import com.core.gsadmob.model.InterstitialAdGsData
@@ -23,10 +28,13 @@ import com.core.gsadmob.model.RewardedInterstitialAdGsData
 import com.core.gsadmob.utils.extensions.isWebViewEnabled
 import com.core.gscore.utils.network.LiveDataNetworkStatus
 import com.core.gscore.utils.network.NetworkUtils
+import com.google.ads.mediation.admob.AdMobAdapter
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
+import com.google.android.gms.ads.AdSize
+import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
 import com.google.android.gms.ads.appopen.AppOpenAd
@@ -184,8 +192,7 @@ class AdGsManager {
             } else {
                 when (adPlaceName.adGsType) {
                     AdGsType.APP_OPEN_AD -> (adGsData as? AppOpenAdGsData)?.appOpenAd
-                    AdGsType.BANNER -> null
-                    AdGsType.BANNER_COLLAPSIBLE -> null
+                    AdGsType.BANNER, AdGsType.BANNER_COLLAPSIBLE -> (adGsData as? BannerAdGsData)?.bannerAdView
                     AdGsType.INTERSTITIAL -> (adGsData as? InterstitialAdGsData)?.interstitialAd
                     AdGsType.NATIVE -> (adGsData as? NativeAdGsData)?.nativeAd
                     AdGsType.REWARDED -> (adGsData as? RewardedAdGsData)?.rewardedAd
@@ -210,8 +217,7 @@ class AdGsManager {
 
                 when (adPlaceName.adGsType) {
                     AdGsType.APP_OPEN_AD -> loadAppOpenAd(app = it, adPlaceName = adPlaceName, adGsData = adGsData as AppOpenAdGsData, requiredLoadNewAds = requiredLoadNewAds)
-                    AdGsType.BANNER -> {}
-                    AdGsType.BANNER_COLLAPSIBLE -> {}
+                    AdGsType.BANNER, AdGsType.BANNER_COLLAPSIBLE -> loadBannerAd(app = it, adPlaceName = adPlaceName, adGsData = adGsData as BannerAdGsData)
                     AdGsType.INTERSTITIAL -> loadInterstitialAd(app = it, adPlaceName = adPlaceName, adGsData = adGsData as InterstitialAdGsData, requiredLoadNewAds = requiredLoadNewAds)
                     AdGsType.NATIVE -> loadNativeAd(app = it, adPlaceName = adPlaceName, adGsData = adGsData as NativeAdGsData)
                     AdGsType.REWARDED -> loadRewardedAd(app = it, adPlaceName = adPlaceName, adGsData = adGsData as RewardedAdGsData, requiredLoadNewAds = requiredLoadNewAds)
@@ -278,6 +284,69 @@ class AdGsManager {
                 }
             }
         })
+    }
+
+    private fun loadBannerAd(app: Application, adPlaceName: AdPlaceName, adGsData: BannerAdGsData) {
+        val bannerAdView = AdView(app)
+        bannerAdView.adUnitId = app.getString(adPlaceName.adUnitId)
+        bannerAdView.descendantFocusability = ViewGroup.FOCUS_BLOCK_DESCENDANTS
+
+        val adSize = getAdSize(app)
+        bannerAdView.setAdSize(adSize)
+
+        // Create an extra parameter that aligns the bottom of the expanded ad to
+        // the bottom of the bannerView.
+        val extras = Bundle()
+        if (adGsData.isCollapsible) {
+            extras.putString("collapsible", "bottom")
+        }
+
+        val adRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).addNetworkExtrasBundle(AdMobAdapter::class.java, extras).build()
+
+        bannerAdView.loadAd(adRequest)
+        bannerAdView.adListener = object : AdListener() {
+            override fun onAdFailedToLoad(loadAdError: LoadAdError) {
+                adGsData.listener?.onAdClose(isFailed = true)
+                adGsData.clearData(isResetReload = false)
+                notifyAds()
+            }
+
+            override fun onAdLoaded() {
+                adGsData.lastTime = System.currentTimeMillis()
+
+                if (isVipFlow.value) {
+                    clearWithAdPlaceName(adPlaceName = adPlaceName)
+                } else {
+                    adGsData.bannerAdView = bannerAdView
+                    adGsData.isLoading = false
+                    notifyAds()
+
+                    adGsData.listener?.onAdSuccess()
+                }
+            }
+
+            override fun onAdClicked() {
+                adGsData.listener?.onAdClicked()
+            }
+        }
+    }
+
+    private fun getAdSize(context: Context): AdSize {
+        val displayMetrics = context.resources.displayMetrics
+        val adWidthPixels = try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
+                val windowMetrics: WindowMetrics = (context as Activity).windowManager.currentWindowMetrics
+                windowMetrics.bounds.width()
+            } else {
+                displayMetrics.widthPixels
+            }
+        } catch (e: Exception) {
+            e.printStackTrace()
+            displayMetrics.widthPixels
+        }
+        val density = displayMetrics.density
+        val adWidth = (adWidthPixels / density).toInt()
+        return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(context, adWidth)
     }
 
     /**
@@ -589,8 +658,8 @@ class AdGsManager {
         return adGsDataMap[adPlaceName] ?: run {
             when (adPlaceName.adGsType) {
                 AdGsType.APP_OPEN_AD -> AppOpenAdGsData()
-                AdGsType.BANNER -> BaseAdGsData()
-                AdGsType.BANNER_COLLAPSIBLE -> BaseAdGsData()
+                AdGsType.BANNER -> BannerAdGsData()
+                AdGsType.BANNER_COLLAPSIBLE -> BannerAdGsData(isCollapsible = true)
                 AdGsType.INTERSTITIAL -> InterstitialAdGsData()
                 AdGsType.NATIVE -> NativeAdGsData()
                 AdGsType.REWARDED -> RewardedAdGsData()
@@ -644,6 +713,7 @@ class AdGsManager {
                 adGsDataMap[it]?.let { adGsData ->
                     when (adGsData) {
                         is AppOpenAdGsData -> newData[it] = adGsData.copy()
+                        is BannerAdGsData -> newData[it] = adGsData.copy()
                         is InterstitialAdGsData -> newData[it] = adGsData.copy()
                         is NativeAdGsData -> newData[it] = adGsData.copy()
                         is RewardedAdGsData -> newData[it] = adGsData.copy()

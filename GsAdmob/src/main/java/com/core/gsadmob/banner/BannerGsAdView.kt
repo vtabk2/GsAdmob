@@ -1,162 +1,59 @@
 package com.core.gsadmob.banner
 
-import android.app.Activity
 import android.content.Context
-import android.os.Build
-import android.os.Bundle
-import android.text.TextUtils
 import android.util.AttributeSet
 import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
-import android.view.WindowMetrics
 import android.widget.FrameLayout
-import com.core.gsadmob.R
-import com.core.gsadmob.databinding.AdBannerShimmerBinding
+import com.core.gsadmob.databinding.AdBannerGsAdViewBinding
 import com.core.gscore.utils.extensions.gone
 import com.core.gscore.utils.extensions.invisible
 import com.core.gscore.utils.extensions.visible
-import com.facebook.shimmer.ShimmerFrameLayout
-import com.google.ads.mediation.admob.AdMobAdapter
-import com.google.android.gms.ads.AdListener
-import com.google.android.gms.ads.AdRequest
-import com.google.android.gms.ads.AdSize
+import com.core.gscore.utils.extensions.visibleIf
 import com.google.android.gms.ads.AdView
-import com.google.android.gms.ads.LoadAdError
 
-class BannerGsAdView(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs) {
-    private var bannerAds: AdView? = null
-    private var shimmerView: ShimmerFrameLayout? = null
+class BannerGsAdView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
+    private var binding = AdBannerGsAdViewBinding.inflate(LayoutInflater.from(context), this, true)
 
-    private var delayTime = 0L
-    private var lastTime = 0L
+    fun setBannerAdView(bannerView: AdView?, bannerConfig: BannerConfig = BannerConfig()) {
+        binding.apply {
+            adsBannerView.removeAllViews()
+            stopShimmer(bannerConfig)
 
-    // delay thời gian load lại banner tính bằng giây
-    fun registerDelayTime(time: Long) {
-        delayTime = time
-    }
-
-    init {
-        bannerAds = AdView(context)
-        bannerAds?.descendantFocusability = ViewGroup.FOCUS_BLOCK_DESCENDANTS
-        val params = LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT)
-        params.gravity = Gravity.BOTTOM
-        addView(bannerAds, params)
-
-        val adSize = getAdSize(context)
-        bannerAds?.setAdSize(adSize)
-
-        val binding = AdBannerShimmerBinding.inflate(LayoutInflater.from(context))
-        shimmerView = binding.adShimmerBanner
-        shimmerView?.let {
-            addView(shimmerView)
-        }
-    }
-
-    fun loadAds(
-        isVip: Boolean, // true: vip, false: free -> sẽ hiển thị ads
-        adUnitId: Int = R.string.banner_id, // truyền id banner
-        show: Boolean = true, // true: show banner, false: không show banner
-        alwaysShow: Boolean = false, // tác dụng để banner ko gone()
-        isCollapsible: Boolean = false, // nếu muốn dùng collapsible banner
-        callbackShow: (() -> Unit)? = null, // callback khi show banner thành công
-    ) {
-        if (isVip) {
-            stopShimmer()
-            if (!alwaysShow) {
-                gone()
-            }
-            return
-        }
-
-        if (delayTime > 0) {
-            val currentTime = System.currentTimeMillis()
-            if (currentTime - lastTime < delayTime * 1000) return
-            lastTime = currentTime
-        }
-
-        startShimmer()
-
-        if (TextUtils.isEmpty(bannerAds?.adUnitId)) {
-            bannerAds?.adUnitId = context.getString(adUnitId)
-        }
-        // Create an extra parameter that aligns the bottom of the expanded ad to
-        // the bottom of the bannerView.
-        val extras = Bundle()
-        if (isCollapsible) {
-            extras.putString("collapsible", "bottom")
-        }
-        val adRequest = AdRequest.Builder().addNetworkExtrasBundle(AdMobAdapter::class.java, extras).setHttpTimeoutMillis(5000).build()
-        bannerAds?.loadAd(adRequest)
-
-        bannerAds?.adListener = object : AdListener() {
-            override fun onAdLoaded() {
-                stopShimmer()
-                if (show) {
-                    bannerAds?.visible()
-                    callbackShow?.invoke()
-                } else {
-                    if (alwaysShow) {
-                        bannerAds?.visible()
-                        callbackShow?.invoke()
-                    } else {
-                        gone()
-                    }
-                }
-            }
-
-            override fun onAdFailedToLoad(loadAdError: LoadAdError) {
-                stopShimmer()
-                if (alwaysShow) {
-                    bannerAds?.visible()
-                    callbackShow?.invoke()
+            if (bannerView == null) {
+                if (bannerConfig.alwaysShow) {
+                    invisible()
                 } else {
                     gone()
                 }
+                return
             }
+
+            visibleIf(bannerConfig.show, bannerConfig.alwaysShow)
+
+            val params = adsBannerView.layoutParams as LayoutParams
+            params.gravity = Gravity.BOTTOM
+
+            // Kiểm tra nếu view đã có parent
+            if (bannerView.parent != null) {
+                (bannerView.parent as? ViewGroup)?.removeView(bannerView) // Xóa view khỏi parent hiện tại
+            }
+            adsBannerView.addView(bannerView, params)
         }
     }
 
-    private fun getAdSize(context: Context): AdSize {
-        val displayMetrics = context.resources.displayMetrics
-        val adWidthPixels = try {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                val windowMetrics: WindowMetrics = (context as Activity).windowManager.currentWindowMetrics
-                windowMetrics.bounds.width()
-            } else {
-                displayMetrics.widthPixels
-            }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            displayMetrics.widthPixels
-        }
-        val density = displayMetrics.density
-        val adWidth = (adWidthPixels / density).toInt()
-        return AdSize.getCurrentOrientationAnchoredAdaptiveBannerAdSize(context, adWidth)
-    }
-
-    fun startShimmer() {
+    fun startShimmer(bannerConfig: BannerConfig = BannerConfig()) {
+        if (!bannerConfig.show) return
         visible() // quan trọng, nếu không visible() thì sẽ ko hiển thị đc view
-        shimmerView?.visible()
-        shimmerView?.showShimmer(true)
-        bannerAds?.invisible()
+        binding.adsShimmerBanner.visible()
+        binding.adsShimmerBanner.showShimmer(true)
+        binding.adsBannerView.invisible()
     }
 
-    fun stopShimmer() {
-        shimmerView?.hideShimmer()
-        shimmerView?.gone()
-        bannerAds?.visible()
-    }
-
-    fun resume() {
-        bannerAds?.resume()
-    }
-
-    fun pause() {
-        bannerAds?.pause()
-    }
-
-    fun destroy() {
-        bannerAds?.destroy()
+    fun stopShimmer(bannerConfig: BannerConfig = BannerConfig()) {
+        binding.adsShimmerBanner.hideShimmer()
+        binding.adsShimmerBanner.gone()
+        binding.adsBannerView.visibleIf(bannerConfig.show, bannerConfig.alwaysShow)
     }
 }

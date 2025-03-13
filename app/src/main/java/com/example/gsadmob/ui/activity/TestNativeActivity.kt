@@ -2,6 +2,8 @@ package com.example.gsadmob.ui.activity
 
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
+import com.core.gsadmob.callback.AdGsListener
+import com.core.gsadmob.model.BannerAdGsData
 import com.core.gsadmob.model.NativeAdGsData
 import com.core.gsadmob.utils.AdGsManager
 import com.core.gsadmob.utils.AdPlaceNameConfig
@@ -37,6 +39,13 @@ class FirstActivity : BaseMVVMActivity<ActivityTestNativeBinding>() {
                 AdGsManager.instance.adGsDataMapMutableStateFlow.collect {
                     it.forEach { adGsDataMap ->
                         when (adGsDataMap.key) {
+                            AdPlaceNameConfig.AD_PLACE_NAME_BANNER -> {
+                                if (adGsDataMap.value.isLoading) {
+                                    bindingView.bannerView.startShimmer()
+                                } else {
+                                    bindingView.bannerView.setBannerAdView((adGsDataMap.value as? BannerAdGsData)?.bannerAdView)
+                                }
+                            }
                             AdPlaceNameConfig.AD_PLACE_NAME_NATIVE -> {
                                 if (adGsDataMap.value.isLoading) {
                                     bindingView.nativeFrame.startShimmer()
@@ -61,6 +70,11 @@ class FirstActivity : BaseMVVMActivity<ActivityTestNativeBinding>() {
         AdGsManager.instance.shimmerLiveData.observe(this) { shimmerMap ->
             shimmerMap.forEach {
                 when (it.key) {
+                    AdPlaceNameConfig.AD_PLACE_NAME_BANNER -> {
+                        if (it.value) {
+                            bindingView.bannerView.startShimmer()
+                        }
+                    }
                     AdPlaceNameConfig.AD_PLACE_NAME_NATIVE -> {
                         if (it.value) {
                             bindingView.nativeFrame.startShimmer()
@@ -77,6 +91,11 @@ class FirstActivity : BaseMVVMActivity<ActivityTestNativeBinding>() {
             AdGsManager.instance.clearAllShimmer()
         }
 
+        AdGsManager.instance.registerAdsListener(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_BANNER, object : AdGsListener {
+            override fun onAdSuccess() {
+                // todo
+            }
+        })
         AdGsManager.instance.activeAd(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_BANNER)
         AdGsManager.instance.loadAd(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_BANNER)
     }

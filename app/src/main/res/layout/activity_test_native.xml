@@ -96,7 +96,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvNativeLanguage"/>
 
-    <com.core.gsadmob.banner.BannerGsAdView2
+    <com.core.gsadmob.banner.BannerGsAdView
         android:id="@+id/bannerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

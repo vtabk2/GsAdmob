@@ -184,6 +184,8 @@ class AdGsManager {
             } else {
                 when (adPlaceName.adGsType) {
                     AdGsType.APP_OPEN_AD -> (adGsData as? AppOpenAdGsData)?.appOpenAd
+                    AdGsType.BANNER -> null
+                    AdGsType.BANNER_COLLAPSIBLE -> null
                     AdGsType.INTERSTITIAL -> (adGsData as? InterstitialAdGsData)?.interstitialAd
                     AdGsType.NATIVE -> (adGsData as? NativeAdGsData)?.nativeAd
                     AdGsType.REWARDED -> (adGsData as? RewardedAdGsData)?.rewardedAd
@@ -208,6 +210,8 @@ class AdGsManager {
 
                 when (adPlaceName.adGsType) {
                     AdGsType.APP_OPEN_AD -> loadAppOpenAd(app = it, adPlaceName = adPlaceName, adGsData = adGsData as AppOpenAdGsData, requiredLoadNewAds = requiredLoadNewAds)
+                    AdGsType.BANNER -> {}
+                    AdGsType.BANNER_COLLAPSIBLE -> {}
                     AdGsType.INTERSTITIAL -> loadInterstitialAd(app = it, adPlaceName = adPlaceName, adGsData = adGsData as InterstitialAdGsData, requiredLoadNewAds = requiredLoadNewAds)
                     AdGsType.NATIVE -> loadNativeAd(app = it, adPlaceName = adPlaceName, adGsData = adGsData as NativeAdGsData)
                     AdGsType.REWARDED -> loadRewardedAd(app = it, adPlaceName = adPlaceName, adGsData = adGsData as RewardedAdGsData, requiredLoadNewAds = requiredLoadNewAds)
@@ -585,6 +589,8 @@ class AdGsManager {
         return adGsDataMap[adPlaceName] ?: run {
             when (adPlaceName.adGsType) {
                 AdGsType.APP_OPEN_AD -> AppOpenAdGsData()
+                AdGsType.BANNER -> BaseAdGsData()
+                AdGsType.BANNER_COLLAPSIBLE -> BaseAdGsData()
                 AdGsType.INTERSTITIAL -> InterstitialAdGsData()
                 AdGsType.NATIVE -> NativeAdGsData()
                 AdGsType.REWARDED -> RewardedAdGsData()

@@ -74,10 +74,11 @@ class FirstActivity : BaseMVVMActivity<ActivityTestNativeBinding>() {
                     }
                 }
             }
-            AdGsManager.instance.clearShimmer()
+            AdGsManager.instance.clearAllShimmer()
         }
 
-        bindingView.bannerView.loadAds(isVip = false, adUnitId = com.core.gsadmob.R.string.banner_id)
+        AdGsManager.instance.activeAd(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_BANNER)
+        AdGsManager.instance.loadAd(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_BANNER)
     }
 
     override fun initListener() {

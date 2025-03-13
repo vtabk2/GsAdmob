@@ -58,7 +58,7 @@ class AppOpenAdManager {
                  */
                 override fun onAdFailedToLoad(loadAdError: LoadAdError) {
                     isLoadingAd = false
-                    listener?.onAdFailed()
+                    listener?.onAdClose(isFailed = true)
                 }
             }
         )

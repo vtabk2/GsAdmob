@@ -55,4 +55,6 @@ dependencies {
     implementation(libs.gscore)
 
     implementation(libs.androidx.lifecycle.process)
+
+    implementation (libs.androidx.preference.ktx)
 }

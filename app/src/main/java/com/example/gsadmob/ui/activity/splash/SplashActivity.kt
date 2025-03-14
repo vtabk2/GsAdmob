@@ -7,6 +7,8 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.core.gsadmob.callback.AdGsListener
 import com.core.gsadmob.utils.AdGsManager
 import com.core.gsadmob.utils.AdPlaceNameConfig
+import com.core.gsadmob.utils.extensions.cmpUtils
+import com.core.gsadmob.utils.preferences.GoogleMobileAdsConsentManager
 import com.core.gscore.hourglass.Hourglass
 import com.core.gscore.utils.extensions.gone
 import com.core.gscore.utils.extensions.visible
@@ -16,8 +18,6 @@ import com.example.gsadmob.R
 import com.example.gsadmob.TestApplication
 import com.example.gsadmob.databinding.ActivitySplashBinding
 import com.example.gsadmob.ui.activity.TestAdsActivity
-import com.example.gsadmob.utils.extensions.cmpUtils
-import com.example.gsadmob.utils.preferences.GoogleMobileAdsConsentManager
 import java.util.concurrent.atomic.AtomicBoolean
 
 class SplashActivity : AppCompatActivity() {

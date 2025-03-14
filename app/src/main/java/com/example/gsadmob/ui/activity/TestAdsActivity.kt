@@ -5,6 +5,8 @@ import androidx.appcompat.app.AlertDialog
 import com.core.gsadmob.natives.NativeUtils
 import com.core.gsadmob.rewarded.RewardedInterstitialUtils
 import com.core.gsadmob.rewarded.RewardedUtils
+import com.core.gsadmob.utils.extensions.cmpUtils
+import com.core.gsadmob.utils.preferences.GoogleMobileAdsConsentManager
 import com.core.gscore.utils.extensions.gone
 import com.core.gscore.utils.extensions.setClickSafeAll
 import com.core.gscore.utils.network.NetworkUtils
@@ -13,9 +15,7 @@ import com.example.gsadmob.BuildConfig
 import com.example.gsadmob.R
 import com.example.gsadmob.databinding.ActivityTestAdsBinding
 import com.example.gsadmob.utils.DialogUtils
-import com.example.gsadmob.utils.extensions.cmpUtils
 import com.example.gsadmob.utils.extensions.dialogLayout
-import com.example.gsadmob.utils.preferences.GoogleMobileAdsConsentManager
 import com.google.android.ump.ConsentInformation
 import com.gs.core.ui.view.toasty.Toasty
 import java.util.concurrent.atomic.AtomicBoolean

@@ -52,8 +52,6 @@ dependencies {
 
     implementation(libs.gscore)
 
-    implementation (libs.androidx.preference.ktx)
-
     implementation (libs.baseandroid)
 
     implementation(libs.lottie)

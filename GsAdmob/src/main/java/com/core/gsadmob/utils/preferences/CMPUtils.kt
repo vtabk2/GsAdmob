@@ -1,6 +1,7 @@
-package com.example.gsadmob.utils.preferences
+package com.core.gsadmob.utils.preferences
 
 import android.content.Context
+import androidx.core.content.edit
 import androidx.preference.PreferenceManager
 
 class CMPUtils(applicationContext: Context) {
@@ -8,7 +9,7 @@ class CMPUtils(applicationContext: Context) {
 
     var isCheckGDPR: Boolean
         get() = prefs.getBoolean(CHECK_GDPR, false)
-        set(value) = prefs.edit().putBoolean(CHECK_GDPR, value).apply()
+        set(value) = prefs.edit { putBoolean(CHECK_GDPR, value) }
 
     fun requiredShowCMPDialog(): Boolean {
         val purposeConsent = prefs.getString("IABTCF_PurposeConsents", "") ?: ""

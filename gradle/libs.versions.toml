@@ -1,12 +1,14 @@
 [versions]
 agp = "8.9.0"
 baseandroid = "1.1.8"
+blurview = "version-2.0.6"
 coreSplashscreen = "1.0.1"
 gscore = "1.0.2"
 kotlin = "2.1.10"
 coreKtx = "1.13.1"
 appcompat = "1.7.0"
 lifecycleProcess = "2.8.7"
+lottie = "6.6.2"
 material = "1.12.0"
 constraintlayout = "2.2.1"
 playServicesAds = "23.6.0"
@@ -20,7 +22,9 @@ androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", versi
 androidx-lifecycle-process = { module = "androidx.lifecycle:lifecycle-process", version.ref = "lifecycleProcess" }
 androidx-preference-ktx = { module = "androidx.preference:preference-ktx", version.ref = "preferenceKtx" }
 baseandroid = { module = "com.github.vtabk2:BaseAndroid", version.ref = "baseandroid" }
+blurview = { module = "com.github.Dimezis:BlurView", version.ref = "blurview" }
 gscore = { module = "com.github.vtabk2:GsCore", version.ref = "gscore" }
+lottie = { module = "com.airbnb.android:lottie", version.ref = "lottie" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 play-services-ads = { module = "com.google.android.gms:play-services-ads", version.ref = "playServicesAds" }

@@ -55,4 +55,7 @@ dependencies {
     implementation (libs.androidx.preference.ktx)
 
     implementation (libs.baseandroid)
+
+    implementation(libs.lottie)
+    implementation(libs.blurview)
 }

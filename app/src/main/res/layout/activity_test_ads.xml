@@ -5,14 +5,14 @@
     android:layout_height="match_parent">
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvRewarded"
+        android:id="@+id/tvActiveVip"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginHorizontal="15dp"
         android:layout_marginTop="50dp"
         android:background="@drawable/selector_background_grant"
         android:gravity="center"
-        android:text="Rewarded"
+        android:text="Vip"
         android:textColor="@android:color/white"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -20,95 +20,116 @@
         app:layout_constraintTop_toTopOf="parent"/>
 
     <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvRewardedInterstitial"
+        android:id="@+id/tvInterstitial"
         android:layout_width="0dp"
         android:layout_height="40dp"
         android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/selector_background_grant"
+        android:gravity="center"
+        android:text="Interstitial"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvActiveVip"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvInterstitialWithoutVideo"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginHorizontal="15dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/selector_background_grant"
+        android:gravity="center"
+        android:text="Interstitial Without Video"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvInterstitial"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvRewarded"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/selector_background_grant"
+        android:gravity="center"
+        android:text="Rewarded"
+        android:textColor="@android:color/white"
+        android:textSize="14sp"
+        app:layout_constraintEnd_toStartOf="@id/imageRewardedClose"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvInterstitialWithoutVideo"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imageRewardedClose"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="?attr/selectableItemBackground"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="@id/tvRewarded"
+        app:layout_constraintEnd_toStartOf="@id/imageRewardedClear"
+        app:layout_constraintTop_toTopOf="@id/tvRewarded"
+        app:srcCompat="@drawable/ic_close"/>
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/imageRewardedClear"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="5dp"
+        android:background="?attr/selectableItemBackground"
+        android:padding="10dp"
+        app:layout_constraintBottom_toBottomOf="@id/tvRewarded"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/tvRewarded"
+        app:srcCompat="@drawable/ic_clear"/>
+
+    <androidx.appcompat.widget.AppCompatTextView
+        android:id="@+id/tvRewardedInterstitial"
+        android:layout_width="0dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="15dp"
         android:layout_marginTop="10dp"
         android:background="@drawable/selector_background_grant"
         android:gravity="center"
         android:text="Rewarded Interstitial"
         android:textColor="@android:color/white"
         android:textSize="14sp"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/imageRewardedInterstitialClose"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvRewarded"/>
 
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvNativeFrame"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginHorizontal="15dp"
-        android:layout_marginTop="10dp"
-        android:background="@drawable/selector_background_grant"
-        android:gravity="center"
-        android:text="Native Frame"
-        android:textColor="@android:color/white"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@id/imageFrameClose"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvRewardedInterstitial"/>
-
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/imageFrameClose"
+        android:id="@+id/imageRewardedInterstitialClose"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="15dp"
         android:background="?attr/selectableItemBackground"
         android:padding="10dp"
-        app:layout_constraintBottom_toBottomOf="@id/tvNativeFrame"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tvNativeFrame"
-        app:srcCompat="@drawable/ic_close_black"/>
-
-    <com.core.gsadmob.natives.view.NativeGsAdView
-        android:id="@+id/nativeFrame"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:visibility="gone"
-        app:adsNativeMode="frame"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvNativeFrame"
-        app:layout_constraintWidth_percent="0.5"/>
-
-    <androidx.appcompat.widget.AppCompatTextView
-        android:id="@+id/tvNativeLanguage"
-        android:layout_width="0dp"
-        android:layout_height="40dp"
-        android:layout_marginHorizontal="15dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/selector_background_grant"
-        android:gravity="center"
-        android:text="Native Language"
-        android:textColor="@android:color/white"
-        android:textSize="14sp"
-        app:layout_constraintEnd_toStartOf="@id/imageLanguageClose"
-        app:layout_constraintHorizontal_bias="0.517"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/nativeFrame"/>
+        app:layout_constraintBottom_toBottomOf="@id/tvRewardedInterstitial"
+        app:layout_constraintEnd_toStartOf="@id/imageRewardedInterstitialClear"
+        app:layout_constraintTop_toTopOf="@id/tvRewardedInterstitial"
+        app:srcCompat="@drawable/ic_close"/>
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:id="@+id/imageLanguageClose"
+        android:id="@+id/imageRewardedInterstitialClear"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="15dp"
+        android:layout_marginEnd="5dp"
         android:background="?attr/selectableItemBackground"
         android:padding="10dp"
-        app:layout_constraintBottom_toBottomOf="@id/tvNativeLanguage"
+        app:layout_constraintBottom_toBottomOf="@id/tvRewardedInterstitial"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/tvNativeLanguage"
-        app:srcCompat="@drawable/ic_close_black"/>
+        app:layout_constraintTop_toTopOf="@id/tvRewardedInterstitial"
+        app:srcCompat="@drawable/ic_clear"/>
 
-    <com.core.gsadmob.natives.view.NativeGsAdView
-        android:id="@+id/nativeLanguage"
-        android:layout_width="0dp"
+    <com.core.gsadmob.banner.BannerGsAdView
+        android:id="@+id/bannerView"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:visibility="gone"
-        app:adsNativeMode="language"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tvNativeLanguage"/>
-
+        app:layout_constraintStart_toStartOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

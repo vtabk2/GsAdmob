@@ -16,7 +16,7 @@
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_close_black"/>
+        app:srcCompat="@drawable/ic_close"/>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvGdprMessage"

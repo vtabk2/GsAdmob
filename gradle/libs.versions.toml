@@ -1,8 +1,8 @@
 [versions]
-agp = "8.8.2"
-baseandroid = "1.1.3"
+agp = "8.9.0"
+baseandroid = "1.1.8"
 coreSplashscreen = "1.0.1"
-gscore = "1.0.1"
+gscore = "1.0.2"
 kotlin = "2.1.10"
 coreKtx = "1.13.1"
 appcompat = "1.7.0"

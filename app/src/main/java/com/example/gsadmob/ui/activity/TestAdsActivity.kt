@@ -7,6 +7,7 @@ import com.core.gsadmob.rewarded.RewardedInterstitialUtils
 import com.core.gsadmob.rewarded.RewardedUtils
 import com.core.gscore.utils.extensions.gone
 import com.core.gscore.utils.extensions.setClickSafeAll
+import com.core.gscore.utils.network.NetworkUtils
 import com.core.gsmvvm.ui.activity.BaseMVVMActivity
 import com.example.gsadmob.BuildConfig
 import com.example.gsadmob.R
@@ -17,7 +18,6 @@ import com.example.gsadmob.utils.extensions.dialogLayout
 import com.example.gsadmob.utils.preferences.GoogleMobileAdsConsentManager
 import com.google.android.ump.ConsentInformation
 import com.gs.core.ui.view.toasty.Toasty
-import com.gs.core.utils.network.NetworkUtils
 import java.util.concurrent.atomic.AtomicBoolean
 
 class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {

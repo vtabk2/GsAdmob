@@ -4,11 +4,11 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
+import com.core.gscore.utils.network.NetworkUtils
 import com.example.gsadmob.BuildConfig
 import com.example.gsadmob.utils.extensions.cmpUtils
 import com.example.gsadmob.utils.preferences.GoogleMobileAdsConsentManager
 import com.google.android.gms.ads.MobileAds
-import com.gs.core.utils.network.NetworkUtils
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

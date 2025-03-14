@@ -67,7 +67,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:visibility="gone"
-        app:adsMode="frame"
+        app:adsNativeMode="frame"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvNativeFrame"
         app:layout_constraintWidth_percent="0.5"/>
@@ -106,7 +106,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:visibility="gone"
-        app:adsMode="language"
+        app:adsNativeMode="language"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvNativeLanguage"/>

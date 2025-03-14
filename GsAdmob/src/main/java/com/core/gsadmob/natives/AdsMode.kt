@@ -1,6 +1,6 @@
 package com.core.gsadmob.natives
 
-enum class AdsMode {
+enum class AdsNativeMode {
     NONE,
     ALBUM,
     FONT,

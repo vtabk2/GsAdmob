@@ -97,7 +97,7 @@ Add it in your root build.gradle at the end of repositories:
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            app:adsMode="custom"/>
+            app:adsNativeMode="custom"/>
 ```
 
 - Cách 1: Giữ id gốc chỉ đổi id layout

@@ -10,7 +10,7 @@ import android.widget.ImageView
 import android.widget.RatingBar
 import androidx.appcompat.widget.AppCompatTextView
 import com.core.gsadmob.R
-import com.core.gsadmob.natives.AdsMode
+import com.core.gsadmob.natives.AdsNativeMode
 import com.core.gsadmob.natives.NativeDefaultConfig
 import com.core.gscore.utils.extensions.gone
 import com.core.gscore.utils.extensions.invisible
@@ -46,51 +46,51 @@ abstract class BaseNativeAdView(context: Context, attrs: AttributeSet?) : FrameL
         }
     }
 
-    private fun checkBuilderWithAdsMode() {
-        when (builder.adsMode) {
-            AdsMode.ALBUM -> {
+    private fun checkBuilderWithAdsNativeMode() {
+        when (builder.adsNativeMode) {
+            AdsNativeMode.ALBUM -> {
                 if (builder.adsLayoutId == R.layout.ad_native_custom) {
                     builder = NativeDefaultConfig.BUILDER_ALBUM
                 }
             }
 
-            AdsMode.FONT -> {
+            AdsNativeMode.FONT -> {
                 if (builder.adsLayoutId == R.layout.ad_native_custom) {
                     builder = NativeDefaultConfig.BUILDER_FONT
                 }
             }
 
-            AdsMode.FRAME -> {
+            AdsNativeMode.FRAME -> {
                 if (builder.adsLayoutId == R.layout.ad_native_custom) {
                     builder = NativeDefaultConfig.BUILDER_FRAME
                 }
             }
 
-            AdsMode.LANGUAGE -> {
+            AdsNativeMode.LANGUAGE -> {
                 if (builder.adsLayoutId == R.layout.ad_native_custom) {
                     builder = NativeDefaultConfig.BUILDER_LANGUAGE
                 }
             }
 
-            AdsMode.SHARE -> {
+            AdsNativeMode.SHARE -> {
                 if (builder.adsLayoutId == R.layout.ad_native_custom) {
                     builder = NativeDefaultConfig.BUILDER_SHARE
                 }
             }
 
-            AdsMode.STICKER -> {
+            AdsNativeMode.STICKER -> {
                 if (builder.adsLayoutId == R.layout.ad_native_custom) {
                     builder = NativeDefaultConfig.BUILDER_STICKER
                 }
             }
 
-            AdsMode.TEMPLATE -> {
+            AdsNativeMode.TEMPLATE -> {
                 if (builder.adsLayoutId == R.layout.ad_native_custom) {
                     builder = NativeDefaultConfig.BUILDER_TEMPLATE
                 }
             }
 
-            AdsMode.VIP -> {
+            AdsNativeMode.VIP -> {
                 if (builder.adsLayoutId == R.layout.ad_native_custom) {
                     builder = NativeDefaultConfig.BUILDER_VIP
                 }
@@ -137,8 +137,8 @@ abstract class BaseNativeAdView(context: Context, attrs: AttributeSet?) : FrameL
         nativeAd.starRating?.let { starRating ->
             starView?.rating = starRating.toFloat()
             starView?.visible()
-            when (builder.adsMode) {
-                AdsMode.ALBUM -> {
+            when (builder.adsNativeMode) {
+                AdsNativeMode.ALBUM -> {
                     subTitleView?.invisible()
                 }
 
@@ -147,8 +147,8 @@ abstract class BaseNativeAdView(context: Context, attrs: AttributeSet?) : FrameL
                 }
             }
         } ?: run {
-            when (builder.adsMode) {
-                AdsMode.STICKER -> {
+            when (builder.adsNativeMode) {
+                AdsNativeMode.STICKER -> {
                     if (icon != null) {
                         starView?.invisible()
                     } else {
@@ -156,11 +156,11 @@ abstract class BaseNativeAdView(context: Context, attrs: AttributeSet?) : FrameL
                     }
                 }
 
-                AdsMode.ALBUM -> {
+                AdsNativeMode.ALBUM -> {
                     starView?.gone()
                     subTitleView?.visible()
                 }
-                AdsMode.SHARE -> {
+                AdsNativeMode.SHARE -> {
                     if (icon != null) {
                         starView?.invisible()
                     } else {
@@ -210,7 +210,7 @@ abstract class BaseNativeAdView(context: Context, attrs: AttributeSet?) : FrameL
     }
 
     fun applyBuilder(builder: Builder) {
-        if (builder.adsMode == AdsMode.NONE) return
+        if (builder.adsNativeMode == AdsNativeMode.NONE) return
         this.builder = builder
         initViewWithMode()
     }
@@ -220,8 +220,8 @@ abstract class BaseNativeAdView(context: Context, attrs: AttributeSet?) : FrameL
     }
 
     private fun setupBuilderWithTypedArray(typedArray: TypedArray) {
-        if (typedArray.hasValue(R.styleable.BaseNativeAdView_adsMode)) {
-            builder.adsMode = AdsMode.entries.toTypedArray()[typedArray.getInt(R.styleable.BaseNativeAdView_adsMode, 0)]
+        if (typedArray.hasValue(R.styleable.BaseNativeAdView_adsNativeMode)) {
+            builder.adsNativeMode = AdsNativeMode.entries.toTypedArray()[typedArray.getInt(R.styleable.BaseNativeAdView_adsNativeMode, 0)]
         }
         if (typedArray.hasValue(R.styleable.BaseNativeAdView_adsLayoutId)) {
             builder.adsLayoutId = typedArray.getResourceId(R.styleable.BaseNativeAdView_adsLayoutId, builder.adsLayoutId)
@@ -256,7 +256,7 @@ abstract class BaseNativeAdView(context: Context, attrs: AttributeSet?) : FrameL
         if (typedArray.hasValue(R.styleable.BaseNativeAdView_adsNativeViewRoot)) {
             builder.adsNativeViewRoot = typedArray.getResourceId(R.styleable.BaseNativeAdView_adsNativeViewRoot, builder.adsNativeViewRoot)
         }
-        checkBuilderWithAdsMode()
+        checkBuilderWithAdsNativeMode()
         typedArray.recycle()
 
         applyBuilder(builder)
@@ -274,6 +274,6 @@ abstract class BaseNativeAdView(context: Context, attrs: AttributeSet?) : FrameL
         var adsMediaViewId: Int = R.id.ad_media_custom,
         var adsShimmerId: Int = R.id.ad_shimmer_custom,
         var adsNativeViewRoot: Int = R.style.ads_BaseNativeAdViewRoot,
-        var adsMode: AdsMode = AdsMode.NONE
+        var adsNativeMode: AdsNativeMode = AdsNativeMode.NONE
     )
 }

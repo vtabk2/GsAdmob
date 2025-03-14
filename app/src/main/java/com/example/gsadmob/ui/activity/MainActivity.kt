@@ -6,7 +6,7 @@ import android.os.Looper
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.core.gsadmob.interstitial.InterstitialGsWithDelayUtils
-import com.core.gsadmob.natives.AdsMode
+import com.core.gsadmob.natives.AdsNativeMode
 import com.core.gsadmob.natives.NativeUtils
 import com.core.gsadmob.natives.view.BaseNativeAdView
 import com.core.gsadmob.utils.extensions.getAndroidId
@@ -42,7 +42,7 @@ class MainActivity : AppCompatActivity() {
             adsViewId = R.id.ad_view_test
             adsShimmerId = R.id.ad_view_test_shimmer
             adsNativeViewRoot = R.style.ads_NativeTestRoot
-            adsMode = AdsMode.CUSTOM
+            adsNativeMode = AdsNativeMode.CUSTOM
         }
 //        bindingView.nativeTest1.applyBuilder(builder)
 

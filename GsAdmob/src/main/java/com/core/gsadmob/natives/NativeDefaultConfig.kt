@@ -16,7 +16,7 @@ object NativeDefaultConfig {
         adsViewId = R.id.ad_view_album
         adsShimmerId = R.id.ad_shimmer_album
         adsNativeViewRoot = R.style.ads_NativeAlbumRoot
-        adsMode = AdsMode.ALBUM
+        adsNativeMode = AdsNativeMode.ALBUM
     }
 
     val BUILDER_FONT = BaseNativeAdView.Builder().apply {
@@ -30,7 +30,7 @@ object NativeDefaultConfig {
         adsViewId = R.id.ad_view_font
         adsShimmerId = R.id.ad_shimmer_font
         adsNativeViewRoot = R.style.ads_NativeFontRoot
-        adsMode = AdsMode.FONT
+        adsNativeMode = AdsNativeMode.FONT
     }
 
     val BUILDER_FRAME = BaseNativeAdView.Builder().apply {
@@ -45,7 +45,7 @@ object NativeDefaultConfig {
         adsMediaViewId = R.id.ad_media_frame
         adsShimmerId = R.id.ad_shimmer_frame
         adsNativeViewRoot = R.style.ads_NativeFrameRoot
-        adsMode = AdsMode.FRAME
+        adsNativeMode = AdsNativeMode.FRAME
     }
 
     val BUILDER_LANGUAGE = BaseNativeAdView.Builder().apply {
@@ -60,7 +60,7 @@ object NativeDefaultConfig {
         adsMediaViewId = R.id.ad_media_language
         adsShimmerId = R.id.ad_shimmer_language
         adsNativeViewRoot = R.style.ads_NativeLanguageRoot
-        adsMode = AdsMode.LANGUAGE
+        adsNativeMode = AdsNativeMode.LANGUAGE
     }
 
     val BUILDER_SHARE = BaseNativeAdView.Builder().apply {
@@ -75,7 +75,7 @@ object NativeDefaultConfig {
         adsMediaViewId = R.id.ad_media_share
         adsShimmerId = R.id.ad_shimmer_share
         adsNativeViewRoot = R.style.ads_NativeShareRoot
-        adsMode = AdsMode.SHARE
+        adsNativeMode = AdsNativeMode.SHARE
     }
 
     val BUILDER_STICKER = BaseNativeAdView.Builder().apply {
@@ -89,7 +89,7 @@ object NativeDefaultConfig {
         adsViewId = R.id.ad_view_sticker
         adsShimmerId = R.id.ad_shimmer_sticker
         adsNativeViewRoot = R.style.ads_NativeStickerRoot
-        adsMode = AdsMode.STICKER
+        adsNativeMode = AdsNativeMode.STICKER
     }
 
     val BUILDER_TEMPLATE = BaseNativeAdView.Builder().apply {
@@ -103,7 +103,7 @@ object NativeDefaultConfig {
         adsViewId = R.id.ad_view_template
         adsShimmerId = R.id.ad_shimmer_template
         adsNativeViewRoot = R.style.ads_NativeTemplateRoot
-        adsMode = AdsMode.TEMPLATE
+        adsNativeMode = AdsNativeMode.TEMPLATE
     }
 
     val BUILDER_VIP = BaseNativeAdView.Builder().apply {
@@ -117,6 +117,6 @@ object NativeDefaultConfig {
         adsMediaViewId = R.id.ad_media_vip
         adsShimmerId = R.id.ad_shimmer_vip
         adsNativeViewRoot = R.style.ads_NativeVipRoot
-        adsMode = AdsMode.VIP
+        adsNativeMode = AdsNativeMode.VIP
     }
 }

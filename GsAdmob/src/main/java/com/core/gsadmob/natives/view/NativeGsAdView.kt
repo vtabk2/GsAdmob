@@ -6,7 +6,7 @@ import android.util.AttributeSet
 import android.widget.ImageView
 import android.widget.RatingBar
 import androidx.appcompat.widget.AppCompatTextView
-import com.core.gsadmob.natives.AdsMode
+import com.core.gsadmob.natives.AdsNativeMode
 import com.core.gsadmob.utils.extensions.setMarginExtensionFunction
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.gms.ads.nativead.MediaView
@@ -15,65 +15,65 @@ import androidx.core.content.withStyledAttributes
 
 class NativeGsAdView(context: Context, attrs: AttributeSet? = null) : BaseNativeAdView(context, attrs) {
     override val titleView: AppCompatTextView? by lazy {
-        when (builder.adsMode) {
-            AdsMode.NONE -> null
+        when (builder.adsNativeMode) {
+            AdsNativeMode.NONE -> null
             else -> customView?.findViewById(builder.adsHeadlineId)
         }
     }
 
     override val subTitleView: AppCompatTextView? by lazy {
-        when (builder.adsMode) {
-            AdsMode.NONE -> null
+        when (builder.adsNativeMode) {
+            AdsNativeMode.NONE -> null
             else -> customView?.findViewById(builder.adsBodyId)
         }
     }
 
     override val starView: RatingBar? by lazy {
-        when (builder.adsMode) {
-            AdsMode.NONE -> null
+        when (builder.adsNativeMode) {
+            AdsNativeMode.NONE -> null
             else -> customView?.findViewById(builder.adsStarsId)
         }
     }
 
     override val iconView: ImageView? by lazy {
-        when (builder.adsMode) {
-            AdsMode.NONE -> null
+        when (builder.adsNativeMode) {
+            AdsNativeMode.NONE -> null
             else -> customView?.findViewById(builder.adsAppIconId)
         }
     }
 
     override val callActionButtonView: AppCompatTextView? by lazy {
-        when (builder.adsMode) {
-            AdsMode.NONE -> null
+        when (builder.adsNativeMode) {
+            AdsNativeMode.NONE -> null
             else -> customView?.findViewById(builder.adsCallToActionId)
         }
     }
 
     override val adView: NativeAdView? by lazy {
-        when (builder.adsMode) {
-            AdsMode.NONE -> null
+        when (builder.adsNativeMode) {
+            AdsNativeMode.NONE -> null
             else -> customView?.findViewById(builder.adsViewId)
         }
     }
 
     override val mediaView: MediaView? by lazy {
-        when (builder.adsMode) {
-            AdsMode.NONE -> null
+        when (builder.adsNativeMode) {
+            AdsNativeMode.NONE -> null
             else -> customView?.findViewById(builder.adsMediaViewId)
         }
     }
 
     override val shimmerView: ShimmerFrameLayout? by lazy {
-        when (builder.adsMode) {
-            AdsMode.NONE -> null
+        when (builder.adsNativeMode) {
+            AdsNativeMode.NONE -> null
             else -> customShimmerView?.findViewById(builder.adsShimmerId)
         }
     }
 
     @SuppressLint("ResourceType")
     override fun initViewWithMode() {
-        when (builder.adsMode) {
-            AdsMode.NONE -> {
+        when (builder.adsNativeMode) {
+            AdsNativeMode.NONE -> {
                 // nothing
             }
 

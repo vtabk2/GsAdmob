@@ -363,7 +363,7 @@
         <item name="adsMediaViewId">@id/ad_media_custom</item>
         <item name="adsShimmerId">@id/ad_shimmer_custom</item>
         <item name="adsNativeViewRoot">@style/ads_BaseNativeAdViewRoot</item>
-        <item name="adsMode">custom</item>
+        <item name="adsNativeMode">custom</item>
     </style>
 
     <!--    album-->
@@ -378,7 +378,7 @@
         <item name="adsViewId">@id/ad_view_album</item>
         <item name="adsShimmerId">@id/ad_shimmer_album</item>
         <item name="adsNativeViewRoot">@style/ads_NativeAlbumRoot</item>
-        <item name="adsMode">album</item>
+        <item name="adsNativeMode">album</item>
     </style>
 
     <!--    font-->
@@ -393,7 +393,7 @@
         <item name="adsViewId">@id/ad_view_font</item>
         <item name="adsShimmerId">@id/ad_shimmer_font</item>
         <item name="adsNativeViewRoot">@style/ads_NativeFontRoot</item>
-        <item name="adsMode">font</item>
+        <item name="adsNativeMode">font</item>
     </style>
 
     <!--    frame-->
@@ -409,7 +409,7 @@
         <item name="adsMediaViewId">@id/ad_media_frame</item>
         <item name="adsShimmerId">@id/ad_shimmer_frame</item>
         <item name="adsNativeViewRoot">@style/ads_NativeFrameRoot</item>
-        <item name="adsMode">frame</item>
+        <item name="adsNativeMode">frame</item>
     </style>
 
     <!--    language-->
@@ -425,7 +425,7 @@
         <item name="adsMediaViewId">@id/ad_media_language</item>
         <item name="adsShimmerId">@id/ad_shimmer_language</item>
         <item name="adsNativeViewRoot">@style/ads_NativeLanguageRoot</item>
-        <item name="adsMode">language</item>
+        <item name="adsNativeMode">language</item>
     </style>
 
     <!--    share-->
@@ -441,7 +441,7 @@
         <item name="adsMediaViewId">@id/ad_media_share</item>
         <item name="adsShimmerId">@id/ad_shimmer_share</item>
         <item name="adsNativeViewRoot">@style/ads_NativeShareRoot</item>
-        <item name="adsMode">share</item>
+        <item name="adsNativeMode">share</item>
     </style>
 
     <!--    sticker-->
@@ -456,7 +456,7 @@
         <item name="adsViewId">@id/ad_view_sticker</item>
         <item name="adsShimmerId">@id/ad_shimmer_sticker</item>
         <item name="adsNativeViewRoot">@style/ads_NativeStickerRoot</item>
-        <item name="adsMode">sticker</item>
+        <item name="adsNativeMode">sticker</item>
     </style>
 
     <!--    template-->
@@ -471,7 +471,7 @@
         <item name="adsViewId">@id/ad_view_template</item>
         <item name="adsShimmerId">@id/ad_shimmer_template</item>
         <item name="adsNativeViewRoot">@style/ads_NativeTemplateRoot</item>
-        <item name="adsMode">template</item>
+        <item name="adsNativeMode">template</item>
     </style>
 
     <!--    vip-->
@@ -486,7 +486,7 @@
         <item name="adsMediaViewId">@id/ad_media_vip</item>
         <item name="adsShimmerId">@id/ad_shimmer_vip</item>
         <item name="adsNativeViewRoot">@style/ads_NativeVipRoot</item>
-        <item name="adsMode">vip</item>
+        <item name="adsNativeMode">vip</item>
     </style>
 
     <style name="ads_RatingBar" parent="Theme.AppCompat">

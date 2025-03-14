@@ -93,15 +93,38 @@ class AdGsManager {
                 }
             }
 
-            override fun onActivityResumed(activity: Activity) {}
+            override fun onActivityResumed(activity: Activity) {
+                try {
+                    activeAdList.forEach { adPlaceName ->
+                        (adGsDataMap[adPlaceName] as? BannerAdGsData)?.bannerAdView?.resume()
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
 
-            override fun onActivityPaused(activity: Activity) {}
+            override fun onActivityPaused(activity: Activity) {
+                try {
+                    activeAdList.forEach { adPlaceName ->
+                        (adGsDataMap[adPlaceName] as? BannerAdGsData)?.bannerAdView?.pause()
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
+            }
 
             override fun onActivityStopped(activity: Activity) {}
 
             override fun onActivitySaveInstanceState(activity: Activity, bundle: Bundle) {}
 
             override fun onActivityDestroyed(activity: Activity) {
+                try {
+                    activeAdList.forEach { adPlaceName ->
+                        (adGsDataMap[adPlaceName] as? BannerAdGsData)?.bannerAdView?.destroy()
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
+                }
                 currentActivity = null
             }
         })
@@ -640,11 +663,17 @@ class AdGsManager {
      * @param adPlaceName : Cấu hình cho quảng cáo
      * @param adGsListener : Các sự kiện được trả về
      */
-    fun registerAdsListener(adPlaceName: AdPlaceName, adGsListener: AdGsListener) {
+    fun registerAdsListener(adPlaceName: AdPlaceName, adGsListener: AdGsListener? = null) {
         val adGsData = getAdGsData(adPlaceName = adPlaceName)
         // update listener
         adGsData.listener = adGsListener
         adGsDataMap[adPlaceName] = adGsData
+    }
+
+    fun registerAds(adPlaceName: AdPlaceName, adGsListener: AdGsListener? = null) {
+        registerAdsListener(adPlaceName = adPlaceName, adGsListener = adGsListener)
+        activeAd(adPlaceName = adPlaceName)
+        loadAd(adPlaceName = adPlaceName)
     }
 
     /**

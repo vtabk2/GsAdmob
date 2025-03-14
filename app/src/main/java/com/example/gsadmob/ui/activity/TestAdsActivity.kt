@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
 import com.core.gsadmob.callback.AdGsListener
+import com.core.gsadmob.model.BannerAdGsData
 import com.core.gsadmob.utils.AdGsManager
 import com.core.gsadmob.utils.AdPlaceNameConfig
 import com.core.gsmvvm.ui.activity.BaseMVVMActivity
@@ -18,6 +19,7 @@ import com.example.gsadmob.utils.preferences.GoogleMobileAdsConsentManager
 import com.google.android.ump.ConsentInformation
 import com.gs.core.ui.view.toasty.Toasty
 import com.gs.core.utils.network.NetworkUtils
+import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import java.util.concurrent.atomic.AtomicBoolean
 
@@ -35,15 +37,48 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
         super.setupView(savedInstanceState)
 
         lifecycleScope.launch {
-            AdGsManager.instance.isVipFlow.collect {
-                isVip = it
-                if (isVip) {
-                    bindingView.tvActiveVip.text = "Vip Active"
-                } else {
-                    bindingView.tvActiveVip.text = "Vip Inactive"
+            async {
+                AdGsManager.instance.isVipFlow.collect {
+                    isVip = it
+                    if (isVip) {
+                        bindingView.tvActiveVip.text = "Vip Active"
+                    } else {
+                        bindingView.tvActiveVip.text = "Vip Inactive"
+                    }
+                }
+            }
+
+            async {
+                AdGsManager.instance.adGsDataMapMutableStateFlow.collect {
+                    it.forEach { adGsDataMap ->
+                        when (adGsDataMap.key) {
+                            AdPlaceNameConfig.AD_PLACE_NAME_BANNER_HOME -> {
+                                if (adGsDataMap.value.isLoading) {
+                                    bindingView.bannerView.startShimmer()
+                                } else {
+                                    bindingView.bannerView.setBannerAdView((adGsDataMap.value as? BannerAdGsData)?.bannerAdView)
+                                }
+                            }
+                        }
+                    }
                 }
             }
         }
+
+        AdGsManager.instance.shimmerLiveData.observe(this) { shimmerMap ->
+            shimmerMap.forEach {
+                when (it.key) {
+                    AdPlaceNameConfig.AD_PLACE_NAME_BANNER_HOME -> {
+                        if (it.value) {
+                            bindingView.bannerView.startShimmer()
+                        }
+                    }
+                }
+            }
+            AdGsManager.instance.clearAllShimmer()
+        }
+
+        AdGsManager.instance.registerAds(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_BANNER_HOME)
     }
 
     override fun initListener() {

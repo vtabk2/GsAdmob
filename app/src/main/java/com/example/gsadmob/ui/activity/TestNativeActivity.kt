@@ -91,13 +91,7 @@ class FirstActivity : BaseMVVMActivity<ActivityTestNativeBinding>() {
             AdGsManager.instance.clearAllShimmer()
         }
 
-        AdGsManager.instance.registerAdsListener(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_BANNER, object : AdGsListener {
-            override fun onAdSuccess() {
-                // todo
-            }
-        })
-        AdGsManager.instance.activeAd(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_BANNER)
-        AdGsManager.instance.loadAd(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_BANNER)
+        AdGsManager.instance.registerAds(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_BANNER)
     }
 
     override fun initListener() {

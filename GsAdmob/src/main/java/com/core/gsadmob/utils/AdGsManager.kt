@@ -8,19 +8,17 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ProcessLifecycleOwner
 import com.core.gsadmob.callback.AdGsListener
 import com.core.gsadmob.model.AdGsType
 import com.core.gsadmob.model.AdPlaceName
 import com.core.gsadmob.model.appopen.AppOpenAdGsData
+import com.core.gsadmob.model.base.BaseAdGsData
+import com.core.gsadmob.model.base.BaseShowAdGsData
 import com.core.gsadmob.model.interstitial.InterstitialAdGsData
 import com.core.gsadmob.model.rewarded.RewardedAdGsData
 import com.core.gsadmob.model.rewarded.RewardedInterstitialAdGsData
-import com.core.gsadmob.model.base.BaseAdGsData
-import com.core.gsadmob.model.base.BaseShowAdGsData
 import com.core.gsadmob.utils.extensions.isWebViewEnabled
-import com.core.gscore.utils.network.LiveDataNetworkStatus
 import com.core.gscore.utils.network.NetworkUtils
 import com.google.android.gms.ads.AdError
 import com.google.android.gms.ads.AdRequest
@@ -41,17 +39,11 @@ import kotlinx.coroutines.launch
 
 class AdGsManager {
     private val adGsDataMap = HashMap<AdPlaceName, BaseAdGsData>()
-    val adGsDataMapMutableStateFlow = MutableStateFlow(HashMap<AdPlaceName, BaseAdGsData>())
-
-    private val shimmerMap = HashMap<AdPlaceName, Boolean>()
-    val shimmerLiveData = MutableLiveData<HashMap<AdPlaceName, Boolean>>()
 
     private val backupDelayTimeMap = HashMap<AdPlaceName, Long>()
 
     private val isVipMutableStateFlow = MutableStateFlow(false)
     var isVipFlow = isVipMutableStateFlow.asStateFlow()
-
-    private val activeAdList = mutableListOf<AdPlaceName>()
 
     private var defaultScope: CoroutineScope? = null
     private var currentActivity: Activity? = null
@@ -120,13 +112,6 @@ class AdGsManager {
 
         ProcessLifecycleOwner.get().lifecycle.addObserver(resumeLifecycleObserver)
 
-        val liveDataNetworkStatus = LiveDataNetworkStatus(application)
-        liveDataNetworkStatus.observeForever { connect ->
-            if (connect) {
-                tryReloadAd()
-            }
-        }
-
         defaultScope = coroutineScope
 
         defaultScope?.launch {
@@ -134,22 +119,8 @@ class AdGsManager {
                 if (isVip) {
                     clearAll()
                 } else {
-                    if (NetworkUtils.isInternetAvailable(application)) {
-                        tryReloadAd()
-                    }
+                    // nothing
                 }
-            }
-        }
-    }
-
-    /**
-     *  Thử tải lại những quảng cáo được dùng trong activity hiện tại mà có cấu hình tự động tải lại
-     *  Dựa vào isReloadIfNeed config trong AdPlaceName (thường là native và banner vì chúng cần cập nhật trên UI luôn)
-     */
-    private fun tryReloadAd() {
-        activeAdList.forEach { adPlaceName ->
-            if (adPlaceName.isReloadIfNeed) {
-                loadAd(adPlaceName = adPlaceName)
             }
         }
     }
@@ -199,9 +170,6 @@ class AdGsManager {
             if (NetworkUtils.isInternetAvailable(it)) {
                 adGsData.isLoading = true
 
-                shimmerMap[adPlaceName] = true
-                shimmerLiveData.postValue(shimmerMap)
-
                 when (adPlaceName.adGsType) {
                     AdGsType.APP_OPEN_AD -> loadAppOpenAd(app = it, adPlaceName = adPlaceName, adGsData = adGsData as AppOpenAdGsData, requiredLoadNewAds = requiredLoadNewAds)
                     AdGsType.INTERSTITIAL -> loadInterstitialAd(app = it, adPlaceName = adPlaceName, adGsData = adGsData as InterstitialAdGsData, requiredLoadNewAds = requiredLoadNewAds)
@@ -223,7 +191,6 @@ class AdGsManager {
             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
                 adGsData.listener?.onAdClose(isFailed = true)
                 adGsData.clearData(isResetReload = false)
-                notifyAds()
             }
 
             override fun onAdLoaded(appOpenAd: AppOpenAd) {
@@ -234,7 +201,6 @@ class AdGsManager {
                 } else {
                     adGsData.appOpenAd = appOpenAd
                     adGsData.isLoading = false
-                    notifyAds()
                     //
                     adGsData.listener?.let {
                         it.onAdSuccess()
@@ -245,7 +211,6 @@ class AdGsManager {
                         override fun onAdDismissedFullScreenContent() {
                             adGsData.listener?.onAdClose()
                             adGsData.clearData(isResetReload = true)
-                            notifyAds()
                             //
                             loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
                         }
@@ -253,7 +218,6 @@ class AdGsManager {
                         override fun onAdFailedToShowFullScreenContent(adError: AdError) {
                             adGsData.listener?.onAdClose()
                             adGsData.clearData(isResetReload = true)
-                            notifyAds()
                             //
                             loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
                         }
@@ -279,7 +243,6 @@ class AdGsManager {
         InterstitialAd.load(app, app.getString(adPlaceName.adUnitId), adRequest, object : InterstitialAdLoadCallback() {
             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
                 adGsData.clearData(isResetReload = false)
-                notifyAds()
 
                 if (!adGsData.isReload) {
                     adGsData.isReload = true
@@ -295,13 +258,11 @@ class AdGsManager {
                 } else {
                     adGsData.interstitialAd = interstitialAd
                     adGsData.isLoading = false
-                    notifyAds()
 
                     adGsData.interstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
                         override fun onAdDismissedFullScreenContent() {
                             adGsData.listener?.onAdClose()
                             adGsData.clearData(isResetReload = true)
-                            notifyAds()
                             //
                             loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
                         }
@@ -309,7 +270,6 @@ class AdGsManager {
                         override fun onAdFailedToShowFullScreenContent(adError: AdError) {
                             adGsData.listener?.onAdClose(isFailed = true)
                             adGsData.clearData(isResetReload = true)
-                            notifyAds()
                             //
                             loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
                         }
@@ -333,7 +293,6 @@ class AdGsManager {
             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
                 adGsData.listener?.onAdClose(isFailed = true)
                 adGsData.clearData(isResetReload = false)
-                notifyAds()
                 //
                 if (!adGsData.isReload) {
                     adGsData.isReload = true
@@ -349,7 +308,6 @@ class AdGsManager {
                 } else {
                     adGsData.rewardedAd = rewardedAd
                     adGsData.isLoading = false
-                    notifyAds()
                     //
                     adGsData.listener?.let {
                         showOrCancelAd(adPlaceName = adPlaceName, adGsData = adGsData, requiredLoadNewAds = requiredLoadNewAds)
@@ -358,7 +316,6 @@ class AdGsManager {
                         override fun onAdDismissedFullScreenContent() {
                             adGsData.listener?.onAdClose()
                             adGsData.clearData(isResetReload = true)
-                            notifyAds()
                             //
                             loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
                         }
@@ -366,7 +323,6 @@ class AdGsManager {
                         override fun onAdFailedToShowFullScreenContent(adError: AdError) {
                             adGsData.listener?.onAdClose()
                             adGsData.clearData(isResetReload = true)
-                            notifyAds()
                             //
                             loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
                         }
@@ -390,7 +346,6 @@ class AdGsManager {
             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
                 adGsData.listener?.onAdClose(isFailed = true)
                 adGsData.clearData(isResetReload = false)
-                notifyAds()
                 //
                 if (!adGsData.isReload) {
                     adGsData.isReload = true
@@ -406,7 +361,6 @@ class AdGsManager {
                 } else {
                     adGsData.rewardedInterstitialAd = rewardedInterstitialAd
                     adGsData.isLoading = false
-                    notifyAds()
                     //
                     adGsData.listener?.let {
                         showOrCancelAd(adPlaceName = adPlaceName, adGsData = adGsData, requiredLoadNewAds = requiredLoadNewAds)
@@ -415,7 +369,6 @@ class AdGsManager {
                         override fun onAdDismissedFullScreenContent() {
                             adGsData.listener?.onAdClose()
                             adGsData.clearData(isResetReload = true)
-                            notifyAds()
                             //
                             loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
                         }
@@ -423,7 +376,6 @@ class AdGsManager {
                         override fun onAdFailedToShowFullScreenContent(adError: AdError) {
                             adGsData.listener?.onAdClose()
                             adGsData.clearData(isResetReload = true)
-                            notifyAds()
                             //
                             loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
                         }
@@ -461,7 +413,6 @@ class AdGsManager {
                 AdGsType.INTERSTITIAL -> (adGsData as? InterstitialAdGsData)?.interstitialAd != null
                 AdGsType.REWARDED -> (adGsData as? RewardedAdGsData)?.rewardedAd != null
                 AdGsType.REWARDED_INTERSTITIAL -> (adGsData as? RewardedInterstitialAdGsData)?.rewardedInterstitialAd != null
-                else -> false
             }
             callbackCanShow?.invoke(canShow)
             if (canShow) {
@@ -500,7 +451,6 @@ class AdGsManager {
                                 // ResumeDialogFragment không hiển thị
                                 adGsData.listener?.onAdClose()
                                 adGsData.clearData(isResetReload = true)
-                                notifyAds()
                                 //
                                 loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
                             }
@@ -543,7 +493,6 @@ class AdGsManager {
 
     fun registerAds(adPlaceName: AdPlaceName, adGsListener: AdGsListener? = null) {
         registerAdsListener(adPlaceName = adPlaceName, adGsListener = adGsListener)
-        activeAd(adPlaceName = adPlaceName)
         loadAd(adPlaceName = adPlaceName)
     }
 
@@ -576,18 +525,10 @@ class AdGsManager {
     }
 
     /**
-     *  Xóa hết shimmer đi
-     */
-    fun clearAllShimmer() {
-        shimmerMap.clear()
-    }
-
-    /**
      * Xóa 1 ad cụ thể
      */
     fun clearWithAdPlaceName(adPlaceName: AdPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_FULL) {
         adGsDataMap[adPlaceName]?.clearData(isResetReload = true)
-        notifyAds()
     }
 
     /**
@@ -596,27 +537,6 @@ class AdGsManager {
     fun clearAll() {
         adGsDataMap.forEach { data ->
             data.value.clearData(isResetReload = true)
-        }
-        notifyAds()
-    }
-
-    /**
-     * Cập nhật trạng thái các quảng cáo được active ở activity này
-     */
-    private fun notifyAds() {
-        defaultScope?.launch {
-            val newData = HashMap<AdPlaceName, BaseAdGsData>()
-            activeAdList.forEach {
-                adGsDataMap[it]?.let { adGsData ->
-                    when (adGsData) {
-                        is AppOpenAdGsData -> newData[it] = adGsData.copy()
-                        is InterstitialAdGsData -> newData[it] = adGsData.copy()
-                        is RewardedAdGsData -> newData[it] = adGsData.copy()
-                        is RewardedInterstitialAdGsData -> newData[it] = adGsData.copy()
-                    }
-                }
-            }
-            adGsDataMapMutableStateFlow.emit(newData)
         }
     }
 
@@ -655,30 +575,14 @@ class AdGsManager {
         }
     }
 
-
-    /**
-     * Đăng ký danh sách quảng cáo đươc sử dụng trong activity -> mục đích là khi thay đổi vip hoặc thay đổi kết nối mạng sẽ kiểm tra để tự động tải lại các quảng cáo này
-     * Thường là banner và native
-     */
-    fun activeAd(adPlaceName: AdPlaceName) {
-        if (!activeAdList.contains(adPlaceName)) {
-            activeAdList.add(adPlaceName)
-        }
-    }
-
     /**
      * Xóa danh sách quảng cáo sử dụng trong activity hiện tại
      * Xóa các listener đăng ký trong activity hiện tại
      */
     fun destroyActivity() {
-        activeAdList.clear()
-
-        // hủy tất cả các listener
         adGsDataMap.forEach {
             removeAdsListener(it.key)
         }
-
-        clearAllShimmer()
     }
 
     companion object {

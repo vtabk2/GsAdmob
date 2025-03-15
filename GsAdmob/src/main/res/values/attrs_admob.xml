@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <declare-styleable name="BannerGsAdView">
+        <attr name="adsAutoStartShimmer" format="boolean"/>
+        <attr name="adsAlwaysShow" format="boolean"/>
+        <attr name="adsShow" format="boolean"/>
+    </declare-styleable>
+
     <declare-styleable name="BaseNativeAdView">
         <attr name="adsNativeMode" format="enum">
             <enum name="none" value="0"/>

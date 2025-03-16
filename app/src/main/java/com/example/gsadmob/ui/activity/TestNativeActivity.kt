@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import com.core.gsadmob.model.AdPlaceName
 import com.core.gsadmob.model.banner.BannerAdGsData
-import com.core.gsadmob.natives.NativeUtils
+import com.core.gsadmob.model.nativead.NativeAdGsData
 import com.core.gsadmob.utils.AdGsManager
 import com.core.gsadmob.utils.AdPlaceNameConfig
 import com.core.gsmvvm.ui.activity.BaseMVVMActivity
@@ -46,6 +46,22 @@ class TestNativeActivity : BaseMVVMActivity<ActivityTestNativeBinding>() {
                                     bindingView.bannerView.setBannerAdView((adGsDataMap.value as? BannerAdGsData)?.bannerAdView)
                                 }
                             }
+
+                            AdPlaceNameConfig.AD_PLACE_NAME_NATIVE -> {
+                                if (adGsDataMap.value.isLoading) {
+                                    bindingView.nativeFrame.startShimmer()
+                                } else {
+                                    bindingView.nativeFrame.setNativeAd((adGsDataMap.value as? NativeAdGsData)?.nativeAd)
+                                }
+                            }
+
+                            AdPlaceNameConfig.AD_PLACE_NAME_NATIVE_LANGUAGE -> {
+                                if (adGsDataMap.value.isLoading) {
+                                    bindingView.nativeLanguage.startShimmer()
+                                } else {
+                                    bindingView.nativeLanguage.setNativeAd((adGsDataMap.value as? NativeAdGsData)?.nativeAd)
+                                }
+                            }
                         }
                     }
                 }
@@ -54,10 +70,18 @@ class TestNativeActivity : BaseMVVMActivity<ActivityTestNativeBinding>() {
 
         AdGsManager.instance.startShimmerLiveData.observe(this) { shimmerMap ->
             shimmerMap.forEach {
-                when (it.key) {
-                    AdPlaceNameConfig.AD_PLACE_NAME_BANNER -> {
-                        if (it.value) {
+                if (it.value) {
+                    when (it.key) {
+                        AdPlaceNameConfig.AD_PLACE_NAME_BANNER -> {
                             bindingView.bannerView.startShimmer()
+                        }
+
+                        AdPlaceNameConfig.AD_PLACE_NAME_NATIVE -> {
+                            bindingView.nativeFrame.startShimmer()
+                        }
+
+                        AdPlaceNameConfig.AD_PLACE_NAME_NATIVE_LANGUAGE -> {
+                            bindingView.nativeLanguage.startShimmer()
                         }
                     }
                 }
@@ -75,41 +99,29 @@ class TestNativeActivity : BaseMVVMActivity<ActivityTestNativeBinding>() {
         }
 
         bindingView.tvNativeFrame.setOnClickListener {
-            NativeUtils.loadNativeAds(lifecycleOwner = this@TestNativeActivity, activity = this@TestNativeActivity, nativeId = com.core.gsadmob.R.string.native_id, isVip = isVip, callbackStart = {
-                bindingView.nativeFrame.startShimmer()
-            }, callback = { nativeAd ->
-                bindingView.nativeFrame.setNativeAd(if (isVip) null else nativeAd)
-            })
+            AdGsManager.instance.registerAds(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_NATIVE)
         }
 
         bindingView.imageFrameClear.setOnClickListener {
-            bindingView.nativeFrame.setNativeAd(null)
+            AdGsManager.instance.clearWithAdPlaceName(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_NATIVE)
         }
 
         bindingView.tvNativeLanguage.setOnClickListener {
-            NativeUtils.loadNativeAds(
-                lifecycleOwner = this@TestNativeActivity,
-                activity = this@TestNativeActivity,
-                nativeId = com.core.gsadmob.R.string.native_id_language,
-                isVip = isVip,
-                callbackStart = {
-                    bindingView.nativeLanguage.startShimmer()
-                },
-                callback = { nativeAd ->
-                    bindingView.nativeLanguage.setNativeAd(if (isVip) null else nativeAd)
-                })
+            AdGsManager.instance.registerAds(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_NATIVE_LANGUAGE)
         }
 
         bindingView.imageLanguageClear.setOnClickListener {
-            bindingView.nativeLanguage.setNativeAd(null)
+            AdGsManager.instance.clearWithAdPlaceName(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_NATIVE_LANGUAGE)
         }
     }
 
     override fun onDestroy() {
         AdGsManager.instance.destroyActivity()
 
-        AdGsManager.instance.removeActive(mutableListOf<AdPlaceName>().apply {
+        AdGsManager.instance.clearAndRemoveActive(mutableListOf<AdPlaceName>().apply {
             add(AdPlaceNameConfig.AD_PLACE_NAME_BANNER)
+            add(AdPlaceNameConfig.AD_PLACE_NAME_NATIVE)
+            add(AdPlaceNameConfig.AD_PLACE_NAME_NATIVE_LANGUAGE)
         })
         super.onDestroy()
     }

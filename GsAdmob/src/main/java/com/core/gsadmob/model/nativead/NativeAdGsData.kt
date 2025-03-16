@@ -11,6 +11,7 @@ class NativeAdGsData(var nativeAd: NativeAd? = null) : BaseActiveAdGsData() {
 
     fun copy(): NativeAdGsData {
         val nativeAdGsData = NativeAdGsData(nativeAd = nativeAd)
+        nativeAdGsData.isActive = isActive
         applyBaseAdGsData(nativeAdGsData)
         return nativeAdGsData
     }

@@ -298,7 +298,7 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
 
         AdGsManager.instance.destroyActivity()
 
-        AdGsManager.instance.removeActive(mutableListOf<AdPlaceName>().apply {
+        AdGsManager.instance.clearAndRemoveActive(mutableListOf<AdPlaceName>().apply {
             add(AdPlaceNameConfig.AD_PLACE_NAME_BANNER_HOME)
         })
 

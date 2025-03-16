@@ -170,6 +170,7 @@ class AdGsManager {
     /**
      * Tải quảng cáo
      * @param requiredLoadNewAds = true sẽ yêu cầu tải quảng cáo mới không quan tâm đã có quảng cáo cũ rồi
+     * Chú ý : Hàm này ít được dùng , thay vào dó hãy dùng hàm registerAds vì nó có hỗ trợ đăng ký báo lỗi và kích hoạt quảng cáo tự tải lại
      */
     fun loadAd(adPlaceName: AdPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_FULL, requiredLoadNewAds: Boolean = false, callbackError: ((errorVip: Boolean) -> Unit)? = null) {
         application?.let {
@@ -768,6 +769,7 @@ class AdGsManager {
                     is NativeAdGsData -> if (adGsData.isActive) newData[it.key] = adGsData.copy()
                 }
             }
+
             adGsDataMapMutableStateFlow.emit(newData)
         }
     }
@@ -815,11 +817,10 @@ class AdGsManager {
         (adGsDataMap[adPlaceName] as? BaseActiveAdGsData)?.isActive = true
     }
 
-    /**
-     * Bỏ active đi
-     */
-    fun removeActive(adPlaceNameList: MutableList<AdPlaceName>) {
+    fun clearAndRemoveActive(adPlaceNameList: MutableList<AdPlaceName>) {
         adPlaceNameList.forEach { adPlaceName ->
+            clearWithAdPlaceName(adPlaceName = adPlaceName)
+
             (adGsDataMap[adPlaceName] as? BaseActiveAdGsData)?.isActive = false
         }
     }

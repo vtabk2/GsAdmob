@@ -11,6 +11,7 @@ class BannerAdGsData(var bannerAdView: AdView? = null, var isCollapsible: Boolea
 
     fun copy(): BannerAdGsData {
         val bannerAdGsData = BannerAdGsData(bannerAdView = bannerAdView, isCollapsible = isCollapsible)
+        bannerAdGsData.isActive = isActive
         applyBaseAdGsData(bannerAdGsData)
         return bannerAdGsData
     }

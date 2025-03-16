@@ -38,7 +38,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class AdGsManager {
-    private val adShowGsDataMap = HashMap<AdPlaceName, BaseAdGsData>()
+    private val adGsDataMap = HashMap<AdPlaceName, BaseAdGsData>()
 
     private val backupDelayTimeMap = HashMap<AdPlaceName, Long>()
 
@@ -145,7 +145,7 @@ class AdGsManager {
                 return
             }
             val adGsData = getAdGsData(adPlaceName = adPlaceName)
-            adShowGsDataMap[adPlaceName] = adGsData
+            adGsDataMap[adPlaceName] = adGsData
 
             if (adGsData.isLoading) {
                 return
@@ -441,7 +441,7 @@ class AdGsManager {
      * Nếu không có quảng cáo sẽ tự động tải
      */
     fun showAd(adPlaceName: AdPlaceName, requiredLoadNewAds: Boolean = false, callbackCanShow: ((canShow: Boolean) -> Unit)? = null, callbackError: ((errorVip: Boolean) -> Unit)? = null) {
-        (adShowGsDataMap[adPlaceName] as? BaseShowAdGsData)?.let { adGsData ->
+        (adGsDataMap[adPlaceName] as? BaseShowAdGsData)?.let { adGsData ->
             val canShow = if (adGsData.isCancel) {
                 false
             } else if (adGsData.isShowing) {
@@ -528,7 +528,7 @@ class AdGsManager {
         val adGsData = getAdGsData(adPlaceName = adPlaceName)
         // update listener
         adGsData.listener = adGsListener
-        adShowGsDataMap[adPlaceName] = adGsData
+        adGsDataMap[adPlaceName] = adGsData
     }
 
     fun registerAds(adPlaceName: AdPlaceName, adGsListener: AdGsListener? = null, callbackError: (errorVip: Boolean) -> Unit) {
@@ -540,17 +540,16 @@ class AdGsManager {
      * Xóa đăng ký sự kiện khi tải quảng cáo
      */
     fun removeAdsListener(adPlaceName: AdPlaceName) {
-        adShowGsDataMap[adPlaceName]?.listener = null
+        adGsDataMap[adPlaceName]?.listener = null
     }
 
     private fun getAdGsData(adPlaceName: AdPlaceName): BaseAdGsData {
-        return adShowGsDataMap[adPlaceName] ?: run {
+        return adGsDataMap[adPlaceName] ?: run {
             when (adPlaceName.adGsType) {
                 AdGsType.APP_OPEN_AD -> AppOpenAdGsData()
                 AdGsType.INTERSTITIAL -> InterstitialAdGsData()
                 AdGsType.REWARDED -> RewardedAdGsData()
                 AdGsType.REWARDED_INTERSTITIAL -> RewardedInterstitialAdGsData()
-
             }.apply {
                 delayTime = backupDelayTimeMap[adPlaceName] ?: 0L
             }
@@ -568,14 +567,14 @@ class AdGsManager {
      * Xóa 1 ad cụ thể
      */
     fun clearWithAdPlaceName(adPlaceName: AdPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_FULL) {
-        adShowGsDataMap[adPlaceName]?.clearData(isResetReload = true)
+        adGsDataMap[adPlaceName]?.clearData(isResetReload = true)
     }
 
     /**
      * Xóa hết quảng cáo đi (thường dùng cho trường hợp đã mua vip)
      */
     fun clearAll() {
-        adShowGsDataMap.forEach { data ->
+        adGsDataMap.forEach { data ->
             data.value.clearData(isResetReload = true)
         }
     }
@@ -599,9 +598,9 @@ class AdGsManager {
         when (adPlaceName.adGsType) {
             AdGsType.REWARDED, AdGsType.REWARDED_INTERSTITIAL -> {
                 if (isCancel) {
-                    adShowGsDataMap[adPlaceName]?.listener = null
+                    adGsDataMap[adPlaceName]?.listener = null
                 }
-                (adShowGsDataMap[adPlaceName] as? BaseShowAdGsData)?.isCancel = isCancel
+                (adGsDataMap[adPlaceName] as? BaseShowAdGsData)?.isCancel = isCancel
             }
 
             else -> {
@@ -615,7 +614,7 @@ class AdGsManager {
      * @param isCancel = true -> cancel ads và hủy listener đi
      */
     fun cancelAllRewardAd(isCancel: Boolean = true) {
-        adShowGsDataMap.forEach {
+        adGsDataMap.forEach {
             cancelRewardAd(adPlaceName = it.key, isCancel = isCancel)
         }
     }
@@ -625,7 +624,7 @@ class AdGsManager {
      * Xóa các listener đăng ký trong activity hiện tại
      */
     fun destroyActivity() {
-        adShowGsDataMap.forEach {
+        adGsDataMap.forEach {
             removeAdsListener(it.key)
         }
     }

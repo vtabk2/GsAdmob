@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
 import com.core.gsadmob.callback.AdGsListener
+import com.core.gsadmob.model.banner.BannerAdGsData
 import com.core.gsadmob.utils.AdGsManager
 import com.core.gsadmob.utils.AdPlaceNameConfig
 import com.core.gsadmob.utils.extensions.cmpUtils
@@ -46,7 +47,37 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
                     }
                 }
             }
+
+            async {
+                AdGsManager.instance.adGsDataMapMutableStateFlow.collect {
+                    it.forEach { adGsDataMap ->
+                        when (adGsDataMap.key) {
+                            AdPlaceNameConfig.AD_PLACE_NAME_BANNER_HOME -> {
+                                if (adGsDataMap.value.isLoading) {
+                                    bindingView.bannerView.startShimmer()
+                                } else {
+                                    bindingView.bannerView.setBannerAdView((adGsDataMap.value as? BannerAdGsData)?.bannerAdView)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
+
+        AdGsManager.instance.startShimmerLiveData.observe(this) { shimmerMap ->
+            shimmerMap.forEach {
+                when (it.key) {
+                    AdPlaceNameConfig.AD_PLACE_NAME_BANNER_HOME -> {
+                        if (it.value) {
+                            bindingView.bannerView.startShimmer()
+                        }
+                    }
+                }
+            }
+        }
+
+        AdGsManager.instance.registerAds(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_BANNER_HOME)
     }
 
     override fun initListener() {
@@ -224,6 +255,7 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
                 check.set(false)
             }
         })
+
         AdGsManager.instance.showAd(adPlaceName = adPlaceName, callbackCanShow = {
 
         }, callbackError = { errorVip ->

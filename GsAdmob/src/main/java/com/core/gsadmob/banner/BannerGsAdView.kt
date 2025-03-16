@@ -21,7 +21,7 @@ class BannerGsAdView @JvmOverloads constructor(context: Context, attrs: Attribut
 
     private var adsAlwaysShow: Boolean = false
 
-    var adsShow: Boolean = false
+    var adsShow: Boolean = true
         set(value) {
             field = value
 

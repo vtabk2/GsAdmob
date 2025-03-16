@@ -437,11 +437,17 @@ class AdGsManager {
      */
     fun showAd(adPlaceName: AdPlaceName, requiredLoadNewAds: Boolean = false, callbackCanShow: ((canShow: Boolean) -> Unit)? = null, callbackError: ((errorVip: Boolean) -> Unit)? = null) {
         (adGsDataMap[adPlaceName] as? BaseShowAdGsData)?.let { adGsData ->
-            val canShow = when (adPlaceName.adGsType) {
-                AdGsType.APP_OPEN_AD -> (adGsData as? AppOpenAdGsData)?.appOpenAd != null && wasLoadTimeLessThanNHoursAgo(adGsData, 4)
-                AdGsType.INTERSTITIAL -> (adGsData as? InterstitialAdGsData)?.interstitialAd != null
-                AdGsType.REWARDED -> (adGsData as? RewardedAdGsData)?.rewardedAd != null
-                AdGsType.REWARDED_INTERSTITIAL -> (adGsData as? RewardedInterstitialAdGsData)?.rewardedInterstitialAd != null
+            val canShow = if (adGsData.isCancel) {
+                false
+            } else if (adGsData.isShowing) {
+                false
+            } else {
+                when (adPlaceName.adGsType) {
+                    AdGsType.APP_OPEN_AD -> (adGsData as? AppOpenAdGsData)?.appOpenAd != null && wasLoadTimeLessThanNHoursAgo(adGsData, 4)
+                    AdGsType.INTERSTITIAL -> (adGsData as? InterstitialAdGsData)?.interstitialAd != null
+                    AdGsType.REWARDED -> (adGsData as? RewardedAdGsData)?.rewardedAd != null
+                    AdGsType.REWARDED_INTERSTITIAL -> (adGsData as? RewardedInterstitialAdGsData)?.rewardedInterstitialAd != null
+                }
             }
             callbackCanShow?.invoke(canShow)
             if (canShow) {

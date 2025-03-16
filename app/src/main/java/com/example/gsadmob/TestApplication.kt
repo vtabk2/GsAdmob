@@ -33,7 +33,7 @@ class TestApplication : GsApplication() {
             callbackStartLifecycle = { activity ->
                 if (canShowAppOpenResume && activity !is SplashActivity) {
                     if (adPlaceName.fragmentTagAppOpenResumeResId == 0) return@registerCoroutineScope
-                    AdGsManager.instance.showAd(adPlaceName = adPlaceName, callbackCanShow = { canShow ->
+                    AdGsManager.instance.showAd(adPlaceName = adPlaceName, callbackCanShow = { canShow, hasAdsError ->
                         activity.supportFragmentManager.let { fragmentManager ->
                             val tag = activity.getString(adPlaceName.fragmentTagAppOpenResumeResId)
                             val bottomDialogFragment = fragmentManager.findFragmentByTag(tag) as? ResumeDialogFragment

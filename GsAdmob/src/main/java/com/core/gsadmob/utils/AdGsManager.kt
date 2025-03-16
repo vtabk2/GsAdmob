@@ -602,7 +602,7 @@ class AdGsManager {
      * Hiển thị quảng cáo nếu được
      * Nếu không có quảng cáo sẽ tự động tải
      */
-    fun showAd(adPlaceName: AdPlaceName, requiredLoadNewAds: Boolean = false, callbackCanShow: ((canShow: Boolean) -> Unit)? = null, callbackError: ((errorVip: Boolean) -> Unit)? = null) {
+    fun showAd(adPlaceName: AdPlaceName, requiredLoadNewAds: Boolean = false, callbackCanShow: ((canShow: Boolean, hasAdsError: Boolean) -> Unit)? = null, callbackError: ((errorVip: Boolean) -> Unit)? = null) {
         (adGsDataMap[adPlaceName] as? BaseShowAdGsData)?.let { adGsData ->
             val canShow = if (adGsData.isCancel) {
                 false
@@ -617,7 +617,7 @@ class AdGsManager {
                     else -> false
                 }
             }
-            callbackCanShow?.invoke(canShow)
+            callbackCanShow?.invoke(canShow, !isWebViewEnabled || isVipFlow.value)
             if (canShow) {
                 showOrCancelAd(adPlaceName = adPlaceName, adGsData = adGsData, requiredLoadNewAds = requiredLoadNewAds, callbackError = callbackError)
             } else {
@@ -625,7 +625,7 @@ class AdGsManager {
                 loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, callbackError = callbackError)
             }
         } ?: run {
-            callbackCanShow?.invoke(false)
+            callbackCanShow?.invoke(false, !isWebViewEnabled || isVipFlow.value)
             // chưa có thì load
             loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, callbackError = callbackError)
         }

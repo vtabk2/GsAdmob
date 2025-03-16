@@ -24,7 +24,6 @@ class SplashActivity : AppCompatActivity() {
     private var shouldGoToMain = false
     private var isAdLoaded: Boolean = false
     private var isAppPaused: Boolean = false
-    private var timerDelay: Hourglass? = null
     private var adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_APP_OPEN
 
     // Use an atomic boolean to initialize the Google Mobile Ads SDK and load ads once.
@@ -76,7 +75,6 @@ class SplashActivity : AppCompatActivity() {
 
                             override fun onAdSuccess() {
                                 isAdLoaded = true
-                                delayShowAds()
                             }
 
                             override fun onAdShowing() {
@@ -87,9 +85,14 @@ class SplashActivity : AppCompatActivity() {
                             }
                         })
 
-                        AdGsManager.instance.showAd(adPlaceName = adPlaceName, callbackCanShow = { canShow ->
+                        AdGsManager.instance.showAd(adPlaceName = adPlaceName, callbackCanShow = { canShow, hasAdsError ->
+                            if (!hasAdsError) {
+                                bindingView?.apply {
+                                    clBlur.visible()
+                                }
+                            }
                             if (canShow) {
-                                delayShowAds()
+                                //
                             } else {
                                 timerVirus.startTimer()
                             }
@@ -110,30 +113,6 @@ class SplashActivity : AppCompatActivity() {
                     goToHome()
                 }, context = this@SplashActivity
             )
-        }
-    }
-
-    private fun delayShowAds() {
-        bindingView?.apply {
-            clBlur.visible()
-
-            timerDelay = object : Hourglass(1000, 500) {
-                override fun onTimerTick(timeRemaining: Long) {
-                    // nothing
-                }
-
-                override fun onTimerFinish() {
-                    AdGsManager.instance.showAd(adPlaceName = adPlaceName, callbackCanShow = { canShow ->
-                        if (canShow) {
-                            isAppPaused = false
-                        } else {
-                            clBlur.gone()
-                            goToHome()
-                        }
-                    })
-                }
-            }
-            timerDelay?.startTimer()
         }
     }
 
@@ -171,13 +150,11 @@ class SplashActivity : AppCompatActivity() {
         super.onPause()
         isAppPaused = true
         if (timerVirus.isRunning) timerVirus.pauseTimer()
-        if (timerDelay?.isRunning == true) timerDelay?.pauseTimer()
     }
 
     override fun onResume() {
         super.onResume()
         if (timerVirus.isPaused) timerVirus.resumeTimer()
-        if (timerDelay?.isPaused == true) timerDelay?.resumeTimer()
     }
 
     override fun onStart() {

@@ -257,7 +257,7 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
             }
         })
 
-        AdGsManager.instance.showAd(adPlaceName = adPlaceName, callbackCanShow = { canShow ->
+        AdGsManager.instance.showAd(adPlaceName = adPlaceName, callbackCanShow = { canShow, hasAdsError ->
 
         }, callbackError = { errorVip ->
             if (errorVip) {

@@ -73,7 +73,7 @@ class TestNativeActivity : BaseMVVMActivity<ActivityTestNativeBinding>() {
                 if (it.value) {
                     when (it.key) {
                         AdPlaceNameConfig.AD_PLACE_NAME_BANNER -> {
-                            bindingView.bannerView.startShimmer()
+                            bindingView.bannerView.startShimmer(ignore = !isVip)
                         }
 
                         AdPlaceNameConfig.AD_PLACE_NAME_NATIVE -> {
@@ -115,7 +115,19 @@ class TestNativeActivity : BaseMVVMActivity<ActivityTestNativeBinding>() {
         }
     }
 
+    override fun onPause() {
+        bindingView.bannerView.pause()
+        super.onPause()
+    }
+
+    override fun onResume() {
+        bindingView.bannerView.resume()
+        super.onResume()
+    }
+
     override fun onDestroy() {
+        bindingView.bannerView.destroy()
+
         AdGsManager.instance.destroyActivity()
 
         AdGsManager.instance.clearAndRemoveActive(mutableListOf<AdPlaceName>().apply {

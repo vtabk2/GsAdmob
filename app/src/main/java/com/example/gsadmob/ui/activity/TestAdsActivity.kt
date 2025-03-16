@@ -68,9 +68,9 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
 
         AdGsManager.instance.startShimmerLiveData.observe(this) { shimmerMap ->
             shimmerMap.forEach {
-                when (it.key) {
-                    AdPlaceNameConfig.AD_PLACE_NAME_BANNER_HOME -> {
-                        if (it.value) {
+                if (it.value) {
+                    when (it.key) {
+                        AdPlaceNameConfig.AD_PLACE_NAME_BANNER_HOME -> {
                             bindingView.bannerView.startShimmer(ignore = !isVip)
                         }
                     }
@@ -292,9 +292,21 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
         CANCEL,
     }
 
+    override fun onPause() {
+        bindingView.bannerView.pause()
+        super.onPause()
+    }
+
+    override fun onResume() {
+        bindingView.bannerView.resume()
+        super.onResume()
+    }
+
     override fun onDestroy() {
         gdprPermissionsDialog?.dismiss()
         gdprPermissionsDialog = null
+
+        bindingView.bannerView.destroy()
 
         AdGsManager.instance.destroyActivity()
 

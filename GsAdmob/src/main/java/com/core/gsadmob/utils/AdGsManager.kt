@@ -135,7 +135,7 @@ class AdGsManager {
         val liveDataNetworkStatus = LiveDataNetworkStatus(application)
         liveDataNetworkStatus.observeForever { connect ->
             if (connect) {
-                tryReloadAd()
+                tryReloadAd(isChangeNetwork = true)
             }
         }
 
@@ -146,7 +146,7 @@ class AdGsManager {
                 if (isVip) {
                     clearAll(clearFull = false)
                 } else {
-                    tryReloadAd()
+                    tryReloadAd(isChangeNetwork = false)
                 }
             }
         }
@@ -154,9 +154,10 @@ class AdGsManager {
 
     /**
      *  Thử tải lại những quảng cáo được dùng trong activity hiện tại mà có cấu hình tự động tải lại
-     *  Dựa vào isReloadIfNeed config trong AdPlaceName (thường là native và banner vì chúng cần cập nhật trên UI luôn)
+     *  @param isChangeNetwork mục đích là xác định việc tải lại là do thay đổi mạng hay thay đổi vip
+     *  Dựa vào isActive = true tức là nó được đăng ký dùng (thường là native và banner vì chúng cần cập nhật trên UI luôn)
      */
-    private fun tryReloadAd() {
+    private fun tryReloadAd(isChangeNetwork: Boolean) {
         adGsDataMap.forEach {
             val adGsData = it.value
             if (adGsData is BaseActiveAdGsData) {
@@ -171,6 +172,7 @@ class AdGsManager {
      * Tải quảng cáo
      * @param requiredLoadNewAds = true sẽ yêu cầu tải quảng cáo mới không quan tâm đã có quảng cáo cũ rồi
      * Chú ý : Hàm này ít được dùng , thay vào dó hãy dùng hàm registerAds vì nó có hỗ trợ đăng ký báo lỗi và kích hoạt quảng cáo tự tải lại
+     * Hàm này được dùng trực tiếp cho app open ở màn splash
      */
     fun loadAd(adPlaceName: AdPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_FULL, requiredLoadNewAds: Boolean = false, callbackError: ((errorVip: Boolean) -> Unit)? = null) {
         application?.let {

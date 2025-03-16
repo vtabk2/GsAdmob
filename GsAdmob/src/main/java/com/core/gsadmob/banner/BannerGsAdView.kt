@@ -89,11 +89,19 @@ class BannerGsAdView @JvmOverloads constructor(context: Context, attrs: Attribut
     }
 
     fun pause() {
-        bannerView?.pause()
+        try {
+            bannerView?.pause()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     fun resume() {
-        bannerView?.resume()
+        try {
+            bannerView?.resume()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     fun destroy() {

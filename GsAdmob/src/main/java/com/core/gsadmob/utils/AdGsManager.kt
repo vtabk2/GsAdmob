@@ -82,7 +82,11 @@ class AdGsManager {
 
             override fun onActivitySaveInstanceState(activity: Activity, bundle: Bundle) {}
 
-            override fun onActivityDestroyed(activity: Activity) {}
+            override fun onActivityDestroyed(activity: Activity) {
+                if (currentActivity == activity) {
+                    currentActivity = null
+                }
+            }
         })
 
         val resumeLifecycleObserver = object : DefaultLifecycleObserver {
@@ -194,6 +198,7 @@ class AdGsManager {
                         requiredLoadNewAds = requiredLoadNewAds,
                         callbackError = callbackError
                     )
+
                     AdGsType.REWARDED_INTERSTITIAL -> loadRewardedInterstitialAd(
                         app = it,
                         adPlaceName = adPlaceName,
@@ -586,27 +591,32 @@ class AdGsManager {
     }
 
     /**
-     * Hủy quảng cáo không cho hiển thị nữa (đa phần là rewardAd khi đang tải thì tắt -> không cho show nữa)
-     * @param adPlaceName ad cần cancel
+     * Hủy quảng cáo trả thưởng không cho hiển thị nữa (rewardAd khi đang tải thì tắt -> không cho show nữa)
+     * @param adPlaceName ad trả thưởng cần cancel
      * @param isCancel = true -> cancel ads và hủy listener đi
      */
-    fun cancelAd(adPlaceName: AdPlaceName, isCancel: Boolean = true) {
-        if (isCancel) {
-            adShowGsDataMap[adPlaceName]?.listener = null
+    fun cancelRewardAd(adPlaceName: AdPlaceName, isCancel: Boolean = true) {
+        when (adPlaceName.adGsType) {
+            AdGsType.REWARDED, AdGsType.REWARDED_INTERSTITIAL -> {
+                if (isCancel) {
+                    adShowGsDataMap[adPlaceName]?.listener = null
+                }
+                (adShowGsDataMap[adPlaceName] as? BaseShowAdGsData)?.isCancel = isCancel
+            }
+
+            else -> {
+
+            }
         }
-        (adShowGsDataMap[adPlaceName] as? BaseShowAdGsData)?.isCancel = isCancel
     }
 
     /**
-     * Hủy tất cả quảng cáo không cho show nữa (đa phần là rewardAd khi đang tải thì tắt -> không cho show nữa)
+     * Hủy tất cả quảng cáo trả thưởng không cho hiển thị nữa (rewardAd khi đang tải thì tắt -> không cho show nữa)
      * @param isCancel = true -> cancel ads và hủy listener đi
      */
-    fun cancelAllAd(isCancel: Boolean = true) {
+    fun cancelAllRewardAd(isCancel: Boolean = true) {
         adShowGsDataMap.forEach {
-            if (isCancel) {
-                it.value.listener = null
-            }
-            (it.value as? BaseShowAdGsData)?.isCancel = isCancel
+            cancelRewardAd(adPlaceName = it.key, isCancel = isCancel)
         }
     }
 

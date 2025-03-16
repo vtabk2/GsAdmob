@@ -60,18 +60,18 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
             startActivity(Intent(this, TestNativeActivity::class.java))
             AdGsManager.instance.showAd(AdPlaceNameConfig.AD_PLACE_NAME_FULL)
             // chuyển màn thì cần cancel tất cả các rewarded đi
-            AdGsManager.instance.cancelAllAd()
+            AdGsManager.instance.cancelAllRewardAd()
         }
 
         bindingView.tvInterstitialWithoutVideo.setOnClickListener {
             startActivity(Intent(this, TestNativeActivity::class.java))
             AdGsManager.instance.showAd(AdPlaceNameConfig.AD_PLACE_NAME_FULL_WITHOUT_VIDEO)
             // chuyển màn thì cần cancel tất cả các rewarded đi
-            AdGsManager.instance.cancelAllAd()
+            AdGsManager.instance.cancelAllRewardAd()
         }
 
         bindingView.tvRewarded.setOnClickListener {
-            AdGsManager.instance.cancelAd(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_REWARDED, isCancel = false)
+            AdGsManager.instance.cancelRewardAd(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_REWARDED, isCancel = false)
             checkShowRewardedAds(callback = { typeShowAds ->
                 when (typeShowAds) {
                     TypeShowAds.SUCCESS -> {
@@ -95,7 +95,7 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
         }
 
         bindingView.imageRewardedClose.setOnClickListener {
-            AdGsManager.instance.cancelAd(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_REWARDED)
+            AdGsManager.instance.cancelRewardAd(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_REWARDED)
         }
 
         bindingView.imageRewardedClear.setOnClickListener {
@@ -103,7 +103,7 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
         }
 
         bindingView.tvRewardedInterstitial.setOnClickListener {
-            AdGsManager.instance.cancelAd(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_REWARDED_INTERSTITIAL, isCancel = false)
+            AdGsManager.instance.cancelRewardAd(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_REWARDED_INTERSTITIAL, isCancel = false)
             checkShowRewardedAds(callback = { typeShowAds ->
                 when (typeShowAds) {
                     TypeShowAds.SUCCESS -> {
@@ -127,7 +127,7 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
         }
 
         bindingView.imageRewardedInterstitialClose.setOnClickListener {
-            AdGsManager.instance.cancelAd(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_REWARDED_INTERSTITIAL)
+            AdGsManager.instance.cancelRewardAd(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_REWARDED_INTERSTITIAL)
         }
 
         bindingView.imageRewardedInterstitialClear.setOnClickListener {
@@ -224,7 +224,15 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
                 check.set(false)
             }
         })
-        AdGsManager.instance.showAd(adPlaceName = adPlaceName)
+        AdGsManager.instance.showAd(adPlaceName = adPlaceName, callbackCanShow = {
+
+        }, callbackError = { errorVip ->
+            if (errorVip) {
+                Toasty.showToast(this, "Bạn đã là vip", Toasty.WARNING)
+            } else {
+                Toasty.showToast(this, "Điện thoại không bật Android System WebView. Vui lòng kiểm tra Cài dặt -> Ứng dụng -> Android System WebView", Toasty.WARNING)
+            }
+        })
 
         NetworkUtils.hasInternetAccessCheck(doTask = {
             // nothing

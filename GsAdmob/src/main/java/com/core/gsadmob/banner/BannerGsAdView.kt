@@ -59,7 +59,7 @@ class BannerGsAdView @JvmOverloads constructor(context: Context, attrs: Attribut
     }
 
     fun startShimmer() {
-        setupVisible()
+        setupVisible(start = true)
 
         binding.adsShimmerBanner.visible()
         binding.adsShimmerBanner.showShimmer(true)
@@ -74,10 +74,23 @@ class BannerGsAdView @JvmOverloads constructor(context: Context, attrs: Attribut
         binding.adsBannerView.visible()
     }
 
-    private fun setupVisible() {
+    private fun setupVisible(start: Boolean = false) {
         when (showType) {
-            ShowType.SHOW_IF_SUCCESS -> visibleIf(bannerView != null)
-            ShowType.ALWAYS_SHOW -> visible()
+            ShowType.SHOW_IF_SUCCESS -> {
+                if (start) {
+                    visible()
+                } else {
+                    visibleIf(bannerView != null)
+                }
+            }
+
+            ShowType.ALWAYS_SHOW -> {
+                if (start) {
+                    visible()
+                } else {
+                    visibleIf(bannerView != null, true)
+                }
+            }
             ShowType.HIDE -> invisible()
             ShowType.NOT_SHOW -> gone()
         }

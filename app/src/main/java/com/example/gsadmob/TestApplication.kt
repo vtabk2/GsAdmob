@@ -8,7 +8,6 @@ import com.example.gsadmob.ui.activity.splash.SplashActivity
 import com.example.gsadmob.ui.fragment.ResumeDialogFragment
 import com.gs.core.GsApplication
 import kotlinx.coroutines.MainScope
-import kotlin.let
 
 class TestApplication : GsApplication() {
     var canShowAppOpenResume: Boolean = true
@@ -34,7 +33,7 @@ class TestApplication : GsApplication() {
             callbackStartLifecycle = { activity ->
                 if (canShowAppOpenResume && activity !is SplashActivity) {
                     if (adPlaceName.fragmentTagAppOpenResumeResId == 0) return@registerCoroutineScope
-                    AdGsManager.instance.showAd(adPlaceName = adPlaceName, callbackCanShow = {
+                    AdGsManager.instance.showAd(adPlaceName = adPlaceName, callbackCanShow = { canShow ->
                         activity.supportFragmentManager.let { fragmentManager ->
                             val tag = activity.getString(adPlaceName.fragmentTagAppOpenResumeResId)
                             val bottomDialogFragment = fragmentManager.findFragmentByTag(tag) as? ResumeDialogFragment

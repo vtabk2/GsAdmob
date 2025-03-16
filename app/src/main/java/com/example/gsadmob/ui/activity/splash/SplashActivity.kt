@@ -93,6 +93,9 @@ class SplashActivity : AppCompatActivity() {
                             } else {
                                 timerVirus.startTimer()
                             }
+                        }, callbackError = { errorVip ->
+                            isAdLoaded = true
+                            goToHome()
                         })
                     }, onDisableAds = {
                         goToHome()

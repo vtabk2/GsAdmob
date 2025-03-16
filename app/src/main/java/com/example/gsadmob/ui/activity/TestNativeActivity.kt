@@ -73,7 +73,7 @@ class TestNativeActivity : BaseMVVMActivity<ActivityTestNativeBinding>() {
                 if (it.value) {
                     when (it.key) {
                         AdPlaceNameConfig.AD_PLACE_NAME_BANNER -> {
-                            bindingView.bannerView.startShimmer(ignore = !isVip)
+                            bindingView.bannerView.startShimmer()
                         }
 
                         AdPlaceNameConfig.AD_PLACE_NAME_NATIVE -> {

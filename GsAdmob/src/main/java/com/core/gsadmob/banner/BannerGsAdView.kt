@@ -12,6 +12,7 @@ import com.core.gsadmob.databinding.AdBannerGsAdViewBinding
 import com.core.gscore.utils.extensions.gone
 import com.core.gscore.utils.extensions.invisible
 import com.core.gscore.utils.extensions.visible
+import com.core.gscore.utils.extensions.visibleIf
 import com.google.android.gms.ads.AdView
 
 class BannerGsAdView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
@@ -22,13 +23,15 @@ class BannerGsAdView @JvmOverloads constructor(context: Context, attrs: Attribut
         set(value) {
             field = value
 
-            setupVisible(ignore = false)
+            setupVisible()
         }
 
     init {
         attrs?.let {
             context.withStyledAttributes(it, R.styleable.BannerGsAdView) {
                 showType = ShowType.entries.toTypedArray()[getInt(R.styleable.BannerGsAdView_adsShowType, 0)]
+
+                setupVisible()
             }
         }
     }
@@ -40,7 +43,7 @@ class BannerGsAdView @JvmOverloads constructor(context: Context, attrs: Attribut
             adsBannerView.removeAllViews()
             stopShimmer()
 
-            setupVisible(ignore = false)
+            setupVisible()
 
             val params = adsBannerView.layoutParams as LayoutParams
             params.gravity = Gravity.BOTTOM
@@ -55,8 +58,8 @@ class BannerGsAdView @JvmOverloads constructor(context: Context, attrs: Attribut
         }
     }
 
-    fun startShimmer(ignore: Boolean = true) {
-        setupVisible(ignore = ignore)
+    fun startShimmer() {
+        setupVisible()
 
         binding.adsShimmerBanner.visible()
         binding.adsShimmerBanner.showShimmer(true)
@@ -64,27 +67,19 @@ class BannerGsAdView @JvmOverloads constructor(context: Context, attrs: Attribut
     }
 
     fun stopShimmer() {
-        setupVisible(ignore = false)
+        setupVisible()
 
         binding.adsShimmerBanner.gone()
         binding.adsShimmerBanner.hideShimmer()
         binding.adsBannerView.visible()
     }
 
-    private fun setupVisible(ignore: Boolean) {
-        if (bannerView == null && !ignore) {
-            if (showType == ShowType.ALWAYS_SHOW) {
-                invisible()
-            } else {
-                gone()
-            }
-        } else {
-            when (showType) {
-                ShowType.SHOW_IF_SUCCESS -> visible()
-                ShowType.ALWAYS_SHOW -> visible()
-                ShowType.HIDE -> invisible()
-                ShowType.NOT_SHOW -> gone()
-            }
+    private fun setupVisible() {
+        when (showType) {
+            ShowType.SHOW_IF_SUCCESS -> visibleIf(bannerView != null)
+            ShowType.ALWAYS_SHOW -> visible()
+            ShowType.HIDE -> invisible()
+            ShowType.NOT_SHOW -> gone()
         }
     }
 

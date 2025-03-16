@@ -12,47 +12,23 @@ import com.core.gsadmob.databinding.AdBannerGsAdViewBinding
 import com.core.gscore.utils.extensions.gone
 import com.core.gscore.utils.extensions.invisible
 import com.core.gscore.utils.extensions.visible
-import com.core.gscore.utils.extensions.visibleIf
 import com.google.android.gms.ads.AdView
 
 class BannerGsAdView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
     private var binding = AdBannerGsAdViewBinding.inflate(LayoutInflater.from(context), this, true)
     private var bannerView: AdView? = null
 
-    private var adsAlwaysShow: Boolean = false
-
-    var adsShow: Boolean = true
+    var showType = ShowType.SHOW_IF_SUCCESS
         set(value) {
             field = value
 
-            if (bannerView == null) {
-                if (adsAlwaysShow) {
-                    invisible()
-                } else {
-                    gone()
-                }
-                return
-            }
-
-            visibleIf(adsShow, adsAlwaysShow)
-        }
-
-    private var adsAutoStartShimmer: Boolean = true
-        set(value) {
-            field = value
-            if (field) {
-                startShimmer()
-            } else {
-                stopShimmer()
-            }
+            setupVisible(ignore = false)
         }
 
     init {
         attrs?.let {
             context.withStyledAttributes(it, R.styleable.BannerGsAdView) {
-                adsAlwaysShow = getBoolean(R.styleable.BannerGsAdView_adsAlwaysShow, adsAlwaysShow)
-                adsShow = getBoolean(R.styleable.BannerGsAdView_adsShow, adsShow)
-                adsAutoStartShimmer = getBoolean(R.styleable.BannerGsAdView_adsAutoStartShimmer, adsAutoStartShimmer)
+                showType = ShowType.entries.toTypedArray()[getInt(R.styleable.BannerGsAdView_adsShowType, 0)]
             }
         }
     }
@@ -64,40 +40,52 @@ class BannerGsAdView @JvmOverloads constructor(context: Context, attrs: Attribut
             adsBannerView.removeAllViews()
             stopShimmer()
 
-            if (bannerView == null) {
-                if (adsAlwaysShow) {
-                    invisible()
-                } else {
-                    gone()
-                }
-                return
-            }
-
-            visibleIf(adsShow, adsAlwaysShow)
+            setupVisible(ignore = false)
 
             val params = adsBannerView.layoutParams as LayoutParams
             params.gravity = Gravity.BOTTOM
 
-            // Kiểm tra nếu view đã có parent
-            if (bannerView?.parent != null) {
-                (bannerView?.parent as? ViewGroup)?.removeView(bannerView) // Xóa view khỏi parent hiện tại
+            bannerView?.let {
+                // Kiểm tra nếu view đã có parent
+                if (it.parent != null) {
+                    (it.parent as? ViewGroup)?.removeView(it) // Xóa view khỏi parent hiện tại
+                }
+                adsBannerView.addView(it, params)
             }
-            adsBannerView.addView(bannerView, params)
         }
     }
 
-    fun startShimmer() {
-        if (!adsShow) return
-        visible() // quan trọng, nếu không visible() thì sẽ ko hiển thị đc view
+    fun startShimmer(ignore: Boolean = true) {
+        setupVisible(ignore = ignore)
+
         binding.adsShimmerBanner.visible()
         binding.adsShimmerBanner.showShimmer(true)
         binding.adsBannerView.invisible()
     }
 
     fun stopShimmer() {
-        binding.adsShimmerBanner.hideShimmer()
+        setupVisible(ignore = false)
+
         binding.adsShimmerBanner.gone()
-        binding.adsBannerView.visibleIf(adsShow, adsAlwaysShow)
+        binding.adsShimmerBanner.hideShimmer()
+        binding.adsBannerView.visible()
+    }
+
+    private fun setupVisible(ignore: Boolean) {
+        if (bannerView == null && !ignore) {
+            if (showType == ShowType.ALWAYS_SHOW) {
+                invisible()
+            } else {
+                gone()
+            }
+        } else {
+            when (showType) {
+                ShowType.SHOW_IF_SUCCESS -> visible()
+                ShowType.ALWAYS_SHOW -> visible()
+                ShowType.HIDE -> invisible()
+                ShowType.NOT_SHOW -> gone()
+            }
+        }
     }
 
     fun pause() {

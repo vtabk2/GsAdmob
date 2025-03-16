@@ -144,7 +144,7 @@ class AdGsManager {
         defaultScope?.launch {
             isVipFlow.collect { isVip ->
                 if (isVip) {
-                    clearAll()
+                    clearAll(clearFull = false)
                 } else {
                     tryReloadAd()
                 }
@@ -175,12 +175,12 @@ class AdGsManager {
         application?.let {
 
             if (!isWebViewEnabled) {
-                clearAll()
+                clearAll(clearFull = false)
                 callbackError?.invoke(false)
                 return
             }
             if (isVipFlow.value) {
-                clearAll()
+                clearAll(clearFull = false)
                 callbackError?.invoke(true)
                 return
             }
@@ -693,6 +693,7 @@ class AdGsManager {
 
     fun registerAds(adPlaceName: AdPlaceName, adGsListener: AdGsListener? = null, callbackError: ((errorVip: Boolean) -> Unit)? = null) {
         registerAdsListener(adPlaceName = adPlaceName, adGsListener = adGsListener)
+        activeAd(adPlaceName = adPlaceName)
         loadAd(adPlaceName = adPlaceName, callbackError = callbackError)
     }
 
@@ -740,16 +741,19 @@ class AdGsManager {
 
     /**
      * Xóa hết quảng cáo đi (thường dùng cho trường hợp đã mua vip)
+     * @param clearFull = true -> reset về ban đầu
      */
-    fun clearAll() {
+    fun clearAll(clearFull: Boolean = true) {
         adGsDataMap.forEach {
             val adGsData = it.value
             adGsData.clearData(isResetReload = true)
 
-            if (adGsData is BaseActiveAdGsData) {
-                adGsData.isActive = false
-            } else if (adGsData is BaseShowAdGsData) {
-                adGsData.isCancel = false
+            if (clearFull) {
+                if (adGsData is BaseActiveAdGsData) {
+                    adGsData.isActive = false
+                } else if (adGsData is BaseShowAdGsData) {
+                    adGsData.isCancel = false
+                }
             }
         }
         notifyAds()
@@ -805,6 +809,10 @@ class AdGsManager {
         adGsDataMap.forEach {
             cancelRewardAd(adPlaceName = it.key, isCancel = true)
         }
+    }
+
+    fun activeAd(adPlaceName: AdPlaceName) {
+        (adGsDataMap[adPlaceName] as? BaseActiveAdGsData)?.isActive = true
     }
 
     /**

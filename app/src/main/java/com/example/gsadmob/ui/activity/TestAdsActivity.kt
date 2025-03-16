@@ -55,7 +55,7 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
                         when (adGsDataMap.key) {
                             AdPlaceNameConfig.AD_PLACE_NAME_BANNER_HOME -> {
                                 if (adGsDataMap.value.isLoading) {
-                                    bindingView.bannerView.startShimmer()
+                                    bindingView.bannerView.startShimmer(ignore = !isVip)
                                 } else {
                                     bindingView.bannerView.setBannerAdView((adGsDataMap.value as? BannerAdGsData)?.bannerAdView)
                                 }
@@ -71,7 +71,7 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
                 when (it.key) {
                     AdPlaceNameConfig.AD_PLACE_NAME_BANNER_HOME -> {
                         if (it.value) {
-                            bindingView.bannerView.startShimmer()
+                            bindingView.bannerView.startShimmer(ignore = !isVip)
                         }
                     }
                 }

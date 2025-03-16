@@ -742,8 +742,15 @@ class AdGsManager {
      * Xóa hết quảng cáo đi (thường dùng cho trường hợp đã mua vip)
      */
     fun clearAll() {
-        adGsDataMap.forEach { data ->
-            data.value.clearData(isResetReload = true)
+        adGsDataMap.forEach {
+            val adGsData = it.value
+            adGsData.clearData(isResetReload = true)
+
+            if (adGsData is BaseActiveAdGsData) {
+                adGsData.isActive = false
+            } else if (adGsData is BaseShowAdGsData) {
+                adGsData.isCancel = false
+            }
         }
         notifyAds()
     }
@@ -793,20 +800,19 @@ class AdGsManager {
 
     /**
      * Hủy tất cả quảng cáo trả thưởng không cho hiển thị nữa (rewardAd khi đang tải thì tắt -> không cho show nữa)
-     * @param isCancel = true -> cancel ads và hủy listener đi
      */
-    fun cancelAllRewardAd(isCancel: Boolean = true) {
+    fun cancelAllRewardAd() {
         adGsDataMap.forEach {
-            cancelRewardAd(adPlaceName = it.key, isCancel = isCancel)
+            cancelRewardAd(adPlaceName = it.key, isCancel = true)
         }
     }
 
+    /**
+     * Bỏ active đi
+     */
     fun removeActive(adPlaceNameList: MutableList<AdPlaceName>) {
-        adGsDataMap.forEach {
-            val adGsData = it.value
-            if (adGsData is BaseActiveAdGsData) {
-                adGsData.isActive = false
-            }
+        adPlaceNameList.forEach { adPlaceName ->
+            (adGsDataMap[adPlaceName] as? BaseActiveAdGsData)?.isActive = false
         }
     }
 

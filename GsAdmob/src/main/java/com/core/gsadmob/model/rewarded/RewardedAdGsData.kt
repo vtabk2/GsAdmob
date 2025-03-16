@@ -8,10 +8,4 @@ class RewardedAdGsData(var rewardedAd: RewardedAd? = null) : BaseShowAdGsData() 
         rewardedAd = null
         super.clearData(isResetReload)
     }
-
-    fun copy(): RewardedAdGsData {
-        val rewardedAdGsData = RewardedAdGsData(rewardedAd = rewardedAd)
-        applyBaseAdGsData(rewardedAdGsData)
-        return rewardedAdGsData
-    }
 }

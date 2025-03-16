@@ -8,10 +8,4 @@ class AppOpenAdGsData(var appOpenAd: AppOpenAd? = null) : BaseShowAdGsData() {
         appOpenAd = null
         super.clearData(isResetReload)
     }
-
-    fun copy(): AppOpenAdGsData {
-        val appOpenAdGsData = AppOpenAdGsData(appOpenAd = appOpenAd)
-        applyBaseAdGsData(appOpenAdGsData)
-        return appOpenAdGsData
-    }
 }

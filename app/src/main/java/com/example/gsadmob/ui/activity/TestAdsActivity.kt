@@ -304,4 +304,12 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
 
         super.onDestroy()
     }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+
+        // tắt ứng dụng đi thì sẽ xóa hết data quảng cáo đi
+        AdGsManager.instance.clearAll()
+
+    }
 }

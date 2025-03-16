@@ -8,10 +8,4 @@ class RewardedInterstitialAdGsData(var rewardedInterstitialAd: RewardedInterstit
         rewardedInterstitialAd = null
         super.clearData(isResetReload)
     }
-
-    fun copy(): RewardedInterstitialAdGsData {
-        val rewardedInterstitialAdGsData = RewardedInterstitialAdGsData(rewardedInterstitialAd = rewardedInterstitialAd)
-        applyBaseAdGsData(rewardedInterstitialAdGsData)
-        return rewardedInterstitialAdGsData
-    }
 }

@@ -8,10 +8,4 @@ class InterstitialAdGsData(var interstitialAd: InterstitialAd? = null) : BaseSho
         interstitialAd = null
         super.clearData(isResetReload)
     }
-
-    fun copy(): InterstitialAdGsData {
-        val interstitialAdGsData = InterstitialAdGsData(interstitialAd = interstitialAd)
-        applyBaseAdGsData(interstitialAdGsData)
-        return interstitialAdGsData
-    }
 }

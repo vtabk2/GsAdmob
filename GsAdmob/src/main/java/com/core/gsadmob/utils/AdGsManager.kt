@@ -38,7 +38,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 
 class AdGsManager {
-    private val adGsDataMap = HashMap<AdPlaceName, BaseAdGsData>()
+    private val adShowGsDataMap = HashMap<AdPlaceName, BaseAdGsData>()
 
     private val backupDelayTimeMap = HashMap<AdPlaceName, Long>()
 
@@ -141,7 +141,7 @@ class AdGsManager {
                 return
             }
             val adGsData = getAdGsData(adPlaceName = adPlaceName)
-            adGsDataMap[adPlaceName] = adGsData
+            adShowGsDataMap[adPlaceName] = adGsData
 
             if (adGsData.isLoading) {
                 return
@@ -436,7 +436,7 @@ class AdGsManager {
      * Nếu không có quảng cáo sẽ tự động tải
      */
     fun showAd(adPlaceName: AdPlaceName, requiredLoadNewAds: Boolean = false, callbackCanShow: ((canShow: Boolean) -> Unit)? = null, callbackError: ((errorVip: Boolean) -> Unit)? = null) {
-        (adGsDataMap[adPlaceName] as? BaseShowAdGsData)?.let { adGsData ->
+        (adShowGsDataMap[adPlaceName] as? BaseShowAdGsData)?.let { adGsData ->
             val canShow = if (adGsData.isCancel) {
                 false
             } else if (adGsData.isShowing) {
@@ -523,7 +523,7 @@ class AdGsManager {
         val adGsData = getAdGsData(adPlaceName = adPlaceName)
         // update listener
         adGsData.listener = adGsListener
-        adGsDataMap[adPlaceName] = adGsData
+        adShowGsDataMap[adPlaceName] = adGsData
     }
 
     fun registerAds(adPlaceName: AdPlaceName, adGsListener: AdGsListener? = null, callbackError: (errorVip: Boolean) -> Unit) {
@@ -535,11 +535,11 @@ class AdGsManager {
      * Xóa đăng ký sự kiện khi tải quảng cáo
      */
     fun removeAdsListener(adPlaceName: AdPlaceName) {
-        adGsDataMap[adPlaceName]?.listener = null
+        adShowGsDataMap[adPlaceName]?.listener = null
     }
 
     private fun getAdGsData(adPlaceName: AdPlaceName): BaseAdGsData {
-        return adGsDataMap[adPlaceName] ?: run {
+        return adShowGsDataMap[adPlaceName] ?: run {
             when (adPlaceName.adGsType) {
                 AdGsType.APP_OPEN_AD -> AppOpenAdGsData()
                 AdGsType.INTERSTITIAL -> InterstitialAdGsData()
@@ -563,14 +563,14 @@ class AdGsManager {
      * Xóa 1 ad cụ thể
      */
     fun clearWithAdPlaceName(adPlaceName: AdPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_FULL) {
-        adGsDataMap[adPlaceName]?.clearData(isResetReload = true)
+        adShowGsDataMap[adPlaceName]?.clearData(isResetReload = true)
     }
 
     /**
      * Xóa hết quảng cáo đi (thường dùng cho trường hợp đã mua vip)
      */
     fun clearAll() {
-        adGsDataMap.forEach { data ->
+        adShowGsDataMap.forEach { data ->
             data.value.clearData(isResetReload = true)
         }
     }
@@ -592,9 +592,9 @@ class AdGsManager {
      */
     fun cancelAd(adPlaceName: AdPlaceName, isCancel: Boolean = true) {
         if (isCancel) {
-            adGsDataMap[adPlaceName]?.listener = null
+            adShowGsDataMap[adPlaceName]?.listener = null
         }
-        (adGsDataMap[adPlaceName] as? BaseShowAdGsData)?.isCancel = isCancel
+        (adShowGsDataMap[adPlaceName] as? BaseShowAdGsData)?.isCancel = isCancel
     }
 
     /**
@@ -602,7 +602,7 @@ class AdGsManager {
      * @param isCancel = true -> cancel ads và hủy listener đi
      */
     fun cancelAllAd(isCancel: Boolean = true) {
-        adGsDataMap.forEach {
+        adShowGsDataMap.forEach {
             if (isCancel) {
                 it.value.listener = null
             }
@@ -615,7 +615,7 @@ class AdGsManager {
      * Xóa các listener đăng ký trong activity hiện tại
      */
     fun destroyActivity() {
-        adGsDataMap.forEach {
+        adShowGsDataMap.forEach {
             removeAdsListener(it.key)
         }
     }

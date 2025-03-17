@@ -603,26 +603,28 @@ class AdGsManager {
             isVipFlow.value -> callbackShow?.invoke(AdShowStatus.ERROR_VIP)
             else -> {
                 (adGsDataMap[adPlaceName] as? BaseShowAdGsData)?.let { adGsData ->
-                    val canShow = if (adGsData.isCancel) {
-                        false
+                    if (adGsData.isCancel) {
+                        callbackShow?.invoke(AdShowStatus.CANCEL)
+                        return
                     } else if (adGsData.isShowing) {
-                        false
+                        callbackShow?.invoke(AdShowStatus.SHOWING)
+                        return
                     } else {
-                        when (adPlaceName.adGsType) {
+                        val canShow = when (adPlaceName.adGsType) {
                             AdGsType.APP_OPEN_AD -> (adGsData as? AppOpenAdGsData)?.appOpenAd != null && wasLoadTimeLessThanNHoursAgo(adGsData, 4)
                             AdGsType.INTERSTITIAL -> (adGsData as? InterstitialAdGsData)?.interstitialAd != null
                             AdGsType.REWARDED -> (adGsData as? RewardedAdGsData)?.rewardedAd != null
                             AdGsType.REWARDED_INTERSTITIAL -> (adGsData as? RewardedInterstitialAdGsData)?.rewardedInterstitialAd != null
                             else -> false
                         }
-                    }
-                    if (canShow) {
-                        callbackShow?.invoke(AdShowStatus.CAN_SHOW)
-                        showOrCancelAd(adPlaceName = adPlaceName, adGsData = adGsData, requiredLoadNewAds = requiredLoadNewAds)
-                    } else {
-                        callbackShow?.invoke(AdShowStatus.REQUIRE_LOAD)
-                        // chưa có thì load
-                        loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
+                        if (canShow) {
+                            callbackShow?.invoke(AdShowStatus.CAN_SHOW)
+                            showOrCancelAd(adPlaceName = adPlaceName, adGsData = adGsData, requiredLoadNewAds = requiredLoadNewAds)
+                        } else {
+                            callbackShow?.invoke(AdShowStatus.REQUIRE_LOAD)
+                            // chưa có thì load
+                            loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
+                        }
                     }
                 } ?: run {
                     callbackShow?.invoke(AdShowStatus.REQUIRE_LOAD)

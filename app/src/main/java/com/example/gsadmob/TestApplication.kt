@@ -2,6 +2,7 @@ package com.example.gsadmob
 
 import android.annotation.SuppressLint
 import android.view.ViewGroup
+import com.core.gsadmob.model.AdShowStatus
 import com.core.gsadmob.utils.AdGsManager
 import com.core.gsadmob.utils.AdPlaceNameConfig
 import com.example.gsadmob.ui.activity.splash.SplashActivity
@@ -34,16 +35,24 @@ class TestApplication : GsApplication() {
                 if (canShowAppOpenResume && activity !is SplashActivity) {
                     if (adPlaceName.fragmentTagAppOpenResumeResId == 0) return@registerCoroutineScope
                     AdGsManager.instance.showAd(adPlaceName = adPlaceName, callbackShow = { adShowStatus ->
-                        activity.supportFragmentManager.let { fragmentManager ->
-                            val tag = activity.getString(adPlaceName.fragmentTagAppOpenResumeResId)
-                            val bottomDialogFragment = fragmentManager.findFragmentByTag(tag) as? ResumeDialogFragment
-                            if (bottomDialogFragment != null && bottomDialogFragment.isVisible) {
-                                // BottomDialogFragment đang hiển thị
-                                bottomDialogFragment.onShowAds("onResume")
-                            } else {
-                                // BottomDialogFragment không hiển thị
-                                val fragment = (activity.window.decorView.rootView as? ViewGroup)?.let { ResumeDialogFragment.newInstance(it) }
-                                fragment?.show(fragmentManager, tag)
+                        when (adShowStatus) {
+                            AdShowStatus.CAN_SHOW, AdShowStatus.REQUIRE_LOAD -> {
+                                activity.supportFragmentManager.let { fragmentManager ->
+                                    val tag = activity.getString(adPlaceName.fragmentTagAppOpenResumeResId)
+                                    val bottomDialogFragment = fragmentManager.findFragmentByTag(tag) as? ResumeDialogFragment
+                                    if (bottomDialogFragment != null && bottomDialogFragment.isVisible) {
+                                        // BottomDialogFragment đang hiển thị
+                                        bottomDialogFragment.onShowAds("onResume")
+                                    } else {
+                                        // BottomDialogFragment không hiển thị
+                                        val fragment = (activity.window.decorView.rootView as? ViewGroup)?.let { ResumeDialogFragment.newInstance(it) }
+                                        fragment?.show(fragmentManager, tag)
+                                    }
+                                }
+                            }
+
+                            else -> {
+
                             }
                         }
                     })

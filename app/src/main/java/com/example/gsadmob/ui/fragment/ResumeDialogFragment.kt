@@ -105,7 +105,8 @@ class ResumeDialogFragment : BottomSheetDialogFragment() {
                             }
                         }
                     })
-                    AdGsManager.instance.showAd(adPlaceName = adPlaceName)
+                    AdGsManager.instance.showAd(adPlaceName = adPlaceName, callbackShow = { adShowStatus ->
+                    })
                 }
             }
         }

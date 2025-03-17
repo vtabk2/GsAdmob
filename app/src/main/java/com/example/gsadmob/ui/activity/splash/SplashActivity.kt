@@ -88,16 +88,16 @@ class SplashActivity : AppCompatActivity() {
 
                         AdGsManager.instance.showAd(adPlaceName = adPlaceName, callbackShow = { adShowStatus ->
                             when (adShowStatus) {
-                                AdShowStatus.ERROR_VIP, AdShowStatus.ERROR_WEB_VIEW -> {
-                                    isAdLoaded = true
-                                    goToHome()
-                                }
-
-                                else -> {
+                                AdShowStatus.CAN_SHOW, AdShowStatus.REQUIRE_LOAD -> {
                                     bindingView?.apply {
                                         clBlur.visible()
                                     }
                                     timerVirus.startTimer()
+                                }
+
+                                else -> {
+                                    isAdLoaded = true
+                                    goToHome()
                                 }
                             }
                         })

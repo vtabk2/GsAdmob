@@ -6,6 +6,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
 import com.core.gsadmob.callback.AdGsListener
 import com.core.gsadmob.model.AdPlaceName
+import com.core.gsadmob.model.AdShowStatus
 import com.core.gsadmob.model.banner.BannerAdGsData
 import com.core.gsadmob.utils.AdGsManager
 import com.core.gsadmob.utils.AdPlaceNameConfig
@@ -90,14 +91,14 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
 
         bindingView.tvInterstitial.setOnClickListener {
             startActivity(Intent(this, TestNativeActivity::class.java))
-            AdGsManager.instance.showAd(AdPlaceNameConfig.AD_PLACE_NAME_FULL)
+            AdGsManager.instance.showAd(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_FULL)
             // chuyển màn thì cần cancel tất cả các rewarded đi
             AdGsManager.instance.cancelAllRewardAd()
         }
 
         bindingView.tvInterstitialWithoutVideo.setOnClickListener {
             startActivity(Intent(this, TestNativeActivity::class.java))
-            AdGsManager.instance.showAd(AdPlaceNameConfig.AD_PLACE_NAME_FULL_WITHOUT_VIDEO)
+            AdGsManager.instance.showAd(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_FULL_WITHOUT_VIDEO)
             // chuyển màn thì cần cancel tất cả các rewarded đi
             AdGsManager.instance.cancelAllRewardAd()
         }
@@ -257,13 +258,19 @@ class TestAdsActivity : BaseMVVMActivity<ActivityTestAdsBinding>() {
             }
         })
 
-        AdGsManager.instance.showAd(adPlaceName = adPlaceName, callbackCanShow = { canShow, hasAdsError ->
+        AdGsManager.instance.showAd(adPlaceName = adPlaceName, callbackShow = { adShowStatus ->
+            when (adShowStatus) {
+                AdShowStatus.ERROR_WEB_VIEW -> {
+                    Toasty.showToast(this, "Điện thoại không bật Android System WebView. Vui lòng kiểm tra Cài dặt -> Ứng dụng -> Android System WebView", Toasty.WARNING)
+                }
 
-        }, callbackError = { errorVip ->
-            if (errorVip) {
-                Toasty.showToast(this, "Bạn đã là vip", Toasty.WARNING)
-            } else {
-                Toasty.showToast(this, "Điện thoại không bật Android System WebView. Vui lòng kiểm tra Cài dặt -> Ứng dụng -> Android System WebView", Toasty.WARNING)
+                AdShowStatus.ERROR_VIP -> {
+                    Toasty.showToast(this, "Bạn đã là vip", Toasty.WARNING)
+                }
+
+                else -> {
+
+                }
             }
         })
 

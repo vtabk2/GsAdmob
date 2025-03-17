@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.core.gsadmob.callback.AdGsListener
+import com.core.gsadmob.model.AdShowStatus
 import com.core.gsadmob.utils.AdGsManager
 import com.core.gsadmob.utils.AdPlaceNameConfig
 import com.core.gsadmob.utils.extensions.cmpUtils
@@ -85,20 +86,20 @@ class SplashActivity : AppCompatActivity() {
                             }
                         })
 
-                        AdGsManager.instance.showAd(adPlaceName = adPlaceName, callbackCanShow = { canShow, hasAdsError ->
-                            if (!hasAdsError) {
-                                bindingView?.apply {
-                                    clBlur.visible()
+                        AdGsManager.instance.showAd(adPlaceName = adPlaceName, callbackShow = { adShowStatus ->
+                            when (adShowStatus) {
+                                AdShowStatus.ERROR_VIP, AdShowStatus.ERROR_WEB_VIEW -> {
+                                    isAdLoaded = true
+                                    goToHome()
+                                }
+
+                                else -> {
+                                    bindingView?.apply {
+                                        clBlur.visible()
+                                    }
+                                    timerVirus.startTimer()
                                 }
                             }
-                            if (canShow) {
-                                //
-                            } else {
-                                timerVirus.startTimer()
-                            }
-                        }, callbackError = { errorVip ->
-                            isAdLoaded = true
-                            goToHome()
                         })
                     }, onDisableAds = {
                         goToHome()
@@ -121,7 +122,6 @@ class SplashActivity : AppCompatActivity() {
             return
         }
         TestApplication.applicationContext().initMobileAds()
-        AdGsManager.instance.loadAd(adPlaceName = adPlaceName)
     }
 
     private fun startNewActivityHome() {

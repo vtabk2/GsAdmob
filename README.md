@@ -15,81 +15,35 @@ Add it in your root build.gradle at the end of repositories:
 **Step 2.** Add the dependency
 ```css
         dependencies {
-                    implementation 'com.github.vtabk2:GsAdmob:1.1.20'
+                    implementation 'com.github.vtabk2:GsAdmob:1.2.1'
             }
 ```
 
 - admob : cấu hình trong config_admob
 
+***Banner***
 
-**BannerUtils**
+- Chú ý adsShowType có các kiểu hiển thị khác nhau
 
--  Cách 1:
-
-```css
-        BannerUtils.initBannerAds(activity = this, flBannerAds = bindingView.flBannerAds, isVip = false, show = true, alwaysShow = true, callbackAdMob = { adView ->
-            adBanner = adView
-        })
-```
-
--  Cách 2:
+    showIfSuccess: Quảng cáo chỉ chiếm kích thước và hiển thị khi quảng cáo được tải thành công
+    alwaysShow: Quảng cáo luôn chiếm kích thước và hiển thị nếu quảng cáo đươc tải thành công
+    hide: Ẩn quảng cáo đi nhưng vẫn chiếm kích thước và không hiển thị ngay cả khi quảng cáo được tải thành công (được dùng khi đang show quảng cáo app open hiển thị thì tạm ẩn banner đi chẳng hạn)
+    gone: Ân quảng cáo đi không chiếm kích thước và không hiển thị ngày cả khi quảng cáo được tải thành công
 
 ```css
         <com.core.gsadmob.banner.BannerGsAdView
-            android:id="@+id/bannerView"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"/>
+        android:id="@+id/bannerView"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        app:adsShowType="alwaysShow"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
 ```
 
-**Load banner**
+**Native Ads**
 
-```css
-        bindingView.bannerView.loadAds(isVip = false, alwaysShow = true)
-       
-       
-        bindingView.bannerView.loadAds(isVip = false)
-```
-
-- Nếu muốn có thời gian delay giữa các lần load lại banner
-
-```css
-        bindingView.bannerView.registerDelayTime(10)
-```
-
-**InterstitialWithDelayUtils**
-
-  dùng khi cần load InterstitialAds có delay load giữa các lần
-
-```css
-        InterstitialWithDelayUtils.instance.registerDelayTime(10)
-        
-        InterstitialWithDelayUtils.instance.showInterstitialAd(activity = this, isVip = false, listener = object : InterstitialWithDelayUtils.AdCloseListener {
-                override fun onAdClose() {
-                    // todo
-                }
-
-                override fun onAdCloseIfFailed() {
-                    // todo
-                }
-            })
-```
-**InterstitialUtils**
-
-```css
-        InterstitialUtils.instance.showInterstitialAd(activity = this, isVip = false, listener = object : InterstitialUtils.AdCloseListener {
-                override fun onAdClose() {
-                    // todo
-                }
-
-                override fun onAdCloseIfFailed() {
-                    // todo
-                }
-            })
-```
-
-**NativeUtils**
-
-- Tùy biến NativeAdView thì chọn ad_mode = custom
+- Tùy biến NativeAdView thì chọn adsNativeMode = custom
 
 ```css
         <com.core.gsadmob.natives.view.NativeGsAdView
@@ -171,20 +125,326 @@ hoặc
         
         bindingView.nativeTest1.setStyle(R.style.NativeTest)
 ```
-- Cách load native
+
+**Hướng dẫn GDPR xem ở SplashActivity**
+
+**Cách load quảng cáo cũ**
 
 ```css
+        Banner:
+        
+        bindingView.bannerView.loadAds(isVip = false, alwaysShow = true)
+       
+       
+        bindingView.bannerView.loadAds(isVip = false)
+        
+        Native: 
+        
         NativeUtils.loadNativeAds(this, this, isVip = false, callbackStart = {
             bindingView.nativeCustom.startShimmer()
         }, callback = { nativeAd ->
             bindingView.nativeCustom.setNativeAd(nativeAd)
         })
+       
+       
+       Interstitial:
+       
+       InterstitialUtils.instance.showInterstitialAd(activity = this, isVip = false, listener = object : AdGsListener {
+                override fun onAdClose(isFailed: Boolean) {
+                    // todo
+                }             
+            })
 ```
 
-**RewardedInterstitialUtils**
+**Cách load quảng cáo mới từ bản 1.2.1**
 
-**AppOpenAdManager**
+Config AdPlaceName trước giống cấu trúc ở AdPlaceNameConfig
 
-**AppResumeAdManager**
+- Show quảng cáo xen kẽ nếu có
 
-**Hướng dẫn GDPR xem ở TestAdsActivity**
+```css
+        bindingView.tvInterstitial.setOnClickListener {
+            startActivity(Intent(this, TestNativeActivity::class.java))
+            AdGsManager.instance.showAd(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_FULL)
+            // chuyển màn thì cần cancel tất cả các rewarded đi
+            AdGsManager.instance.cancelAllRewardAd()
+        }
+```
+
+- Quảng cáo banner
+
+```css
+
+        lifecycleScope.launch {
+            async {
+                AdGsManager.instance.isVipFlow.collect {
+                    isVip = it
+                    if (isVip) {
+                        bindingView.tvActiveVip.text = "Vip Active"
+                    } else {
+                        bindingView.tvActiveVip.text = "Vip Inactive"
+                    }
+                }
+            }
+
+            async {
+                AdGsManager.instance.adGsDataMapMutableStateFlow.collect {
+                    it.forEach { adGsDataMap ->
+                        when (adGsDataMap.key) {
+                            AdPlaceNameConfig.AD_PLACE_NAME_BANNER_HOME -> {
+                                if (adGsDataMap.value.isLoading) {
+                                    bindingView.bannerView.startShimmer()
+                                } else {
+                                    bindingView.bannerView.setBannerAdView((adGsDataMap.value as? BannerAdGsData)?.bannerAdView)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+         AdGsManager.instance.startShimmerLiveData.observe(this) { shimmerMap ->
+            shimmerMap.forEach {
+                if (it.value) {
+                    when (it.key) {
+                        AdPlaceNameConfig.AD_PLACE_NAME_BANNER_HOME -> {
+                            bindingView.bannerView.startShimmer()
+                        }
+                    }
+                }
+            }
+        }
+        
+         AdGsManager.instance.registerAds(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_BANNER_HOME)
+```
+
+- Quảng cáo native
+
+```css
+        lifecycleScope.launch {
+            async {
+                AdGsManager.instance.isVipFlow.collect {
+                    isVip = it
+                    if (isVip) {
+                        bindingView.tvActiveVip.text = "Vip Active"
+                    } else {
+                        bindingView.tvActiveVip.text = "Vip Inactive"
+                    }
+                }
+            }
+
+            async {
+                AdGsManager.instance.adGsDataMapMutableStateFlow.collect {
+                    it.forEach { adGsDataMap ->
+                        when (adGsDataMap.key) {
+                            AdPlaceNameConfig.AD_PLACE_NAME_BANNER -> {
+                                if (adGsDataMap.value.isLoading) {
+                                    bindingView.bannerView.startShimmer()
+                                } else {
+                                    bindingView.bannerView.setBannerAdView((adGsDataMap.value as? BannerAdGsData)?.bannerAdView)
+                                }
+                            }
+
+                            AdPlaceNameConfig.AD_PLACE_NAME_NATIVE -> {
+                                if (adGsDataMap.value.isLoading) {
+                                    bindingView.nativeFrame.startShimmer()
+                                } else {
+                                    bindingView.nativeFrame.setNativeAd((adGsDataMap.value as? NativeAdGsData)?.nativeAd)
+                                }
+                            }
+
+                            AdPlaceNameConfig.AD_PLACE_NAME_NATIVE_LANGUAGE -> {
+                                if (adGsDataMap.value.isLoading) {
+                                    bindingView.nativeLanguage.startShimmer()
+                                } else {
+                                    bindingView.nativeLanguage.setNativeAd((adGsDataMap.value as? NativeAdGsData)?.nativeAd)
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        AdGsManager.instance.startShimmerLiveData.observe(this) { shimmerMap ->
+            shimmerMap.forEach {
+                if (it.value) {
+                    when (it.key) {
+                        AdPlaceNameConfig.AD_PLACE_NAME_BANNER -> {
+                            bindingView.bannerView.startShimmer()
+                        }
+
+                        AdPlaceNameConfig.AD_PLACE_NAME_NATIVE -> {
+                            bindingView.nativeFrame.startShimmer()
+                        }
+
+                        AdPlaceNameConfig.AD_PLACE_NAME_NATIVE_LANGUAGE -> {
+                            bindingView.nativeLanguage.startShimmer()
+                        }
+                    }
+                }
+            }
+        }
+
+        AdGsManager.instance.registerAds(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_BANNER)
+```
+- Quảng cáo trả thưởng
+
+```css  
+
+        bindingView.tvRewardedInterstitial.setOnClickListener {
+            AdGsManager.instance.cancelRewardAd(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_REWARDED_INTERSTITIAL, isCancel = false)
+            checkShowRewardedAds(callback = { typeShowAds ->
+                when (typeShowAds) {
+                    TypeShowAds.SUCCESS -> {
+                        Toasty.showToast(this@TestAdsActivity, "Rewarded Interstitial SUCCESS", Toasty.SUCCESS)
+                    }
+
+                    TypeShowAds.FAILED -> {
+                        Toasty.showToast(this@TestAdsActivity, "Rewarded Interstitial FAILED", Toasty.ERROR)
+                    }
+
+                    TypeShowAds.TIMEOUT -> {
+                        Toasty.showToast(this@TestAdsActivity, "Rewarded Interstitial TIMEOUT", Toasty.WARNING)
+                    }
+
+                    TypeShowAds.CANCEL -> {
+                        // xử lý khi đóng ads thì làm gì ko quan trọng đã thành công hay không
+                        Toasty.showToast(this@TestAdsActivity, "Rewarded Interstitial CANCEL", Toasty.WARNING)
+                    }
+                }
+            })
+        }
+        
+        private fun checkShowRewardedAds(callback: (typeShowAds: TypeShowAds) -> Unit, isRewardedInterstitialAds: Boolean = true, requireCheck: Boolean = true) {
+        NetworkUtils.hasInternetAccessCheck(doTask = {
+            if (googleMobileAdsConsentManager == null) {
+                googleMobileAdsConsentManager = GoogleMobileAdsConsentManager.getInstance(this)
+            }
+            when (googleMobileAdsConsentManager?.privacyOptionsRequirementStatus) {
+                ConsentInformation.PrivacyOptionsRequirementStatus.REQUIRED -> {
+                    if (cmpUtils.requiredShowCMPDialog()) {
+                        if (cmpUtils.isCheckGDPR) {
+                            googleMobileAdsConsentManager?.gatherConsent(this, onCanShowAds = {
+                                loadAndShowRewardedAds(isRewardedInterstitialAds = isRewardedInterstitialAds, callback = callback)
+                            }, onDisableAds = {
+                                callback(TypeShowAds.CANCEL)
+                            }, isDebug = BuildConfig.DEBUG, timeout = 0)
+                        } else {
+                            gdprPermissionsDialog?.dismiss()
+                            gdprPermissionsDialog = DialogUtils.initGdprPermissionDialog(this, callback = { granted ->
+                                if (granted) {
+                                    googleMobileAdsConsentManager?.gatherConsent(this, onCanShowAds = {
+                                        loadAndShowRewardedAds(isRewardedInterstitialAds = isRewardedInterstitialAds, callback = callback)
+                                    }, onDisableAds = {
+                                        callback(TypeShowAds.CANCEL)
+                                    }, isDebug = BuildConfig.DEBUG, timeout = 0)
+                                } else {
+                                    callback(TypeShowAds.CANCEL)
+                                }
+                            })
+                            gdprPermissionsDialog?.show()
+                            dialogLayout(gdprPermissionsDialog)
+                        }
+                    } else {
+                        loadAndShowRewardedAds(isRewardedInterstitialAds = isRewardedInterstitialAds, callback = callback)
+                    }
+                }
+
+                ConsentInformation.PrivacyOptionsRequirementStatus.NOT_REQUIRED -> {
+                    loadAndShowRewardedAds(isRewardedInterstitialAds = isRewardedInterstitialAds, callback = callback)
+                }
+
+                else -> {
+                    // mục đích chỉ check 1 lần không được thì thôi
+                    if (requireCheck) {
+                        googleMobileAdsConsentManager?.requestPrivacyOptionsRequirementStatus(this, isDebug = BuildConfig.DEBUG, callback = { _ ->
+                            checkShowRewardedAds(callback, isRewardedInterstitialAds, requireCheck = false)
+                        })
+                    } else {
+                        loadAndShowRewardedAds(isRewardedInterstitialAds = isRewardedInterstitialAds, callback = callback)
+                    }
+                }
+            }
+        }, doException = { networkError ->
+            callback(TypeShowAds.TIMEOUT)
+            when (networkError) {
+                NetworkUtils.NetworkError.SSL_HANDSHAKE -> {
+                    Toasty.showToast(this, R.string.text_please_check_time, Toasty.WARNING)
+                }
+
+                else -> {
+                    Toasty.showToast(this, R.string.check_network_connection, Toasty.WARNING)
+                }
+            }
+        }, context = this)
+    }
+
+    private fun loadAndShowRewardedAds(isRewardedInterstitialAds: Boolean, callback: (typeShowAds: TypeShowAds) -> Unit) {
+        val check = AtomicBoolean(true)
+        val adPlaceName = if (isRewardedInterstitialAds) AdPlaceNameConfig.AD_PLACE_NAME_REWARDED_INTERSTITIAL else AdPlaceNameConfig.AD_PLACE_NAME_REWARDED
+
+        AdGsManager.instance.registerAdsListener(adPlaceName = adPlaceName, adGsListener = object : AdGsListener {
+            override fun onAdClose(isFailed: Boolean) {
+                if (isFailed) {
+                    callback(TypeShowAds.FAILED)
+                    check.set(false)
+                } else {
+                    callback(TypeShowAds.CANCEL)
+                    check.set(false)
+                    AdGsManager.instance.removeAdsListener(adPlaceName = adPlaceName)
+                }
+            }
+
+            override fun onShowFinishSuccess() {
+                callback(TypeShowAds.SUCCESS)
+                check.set(false)
+            }
+
+            override fun onAdShowing() {
+                check.set(false)
+            }
+        })
+
+        AdGsManager.instance.showAd(adPlaceName = adPlaceName, callbackShow = { adShowStatus ->
+            when (adShowStatus) {
+                AdShowStatus.ERROR_WEB_VIEW -> {
+                    Toasty.showToast(this, "Điện thoại không bật Android System WebView. Vui lòng kiểm tra Cài dặt -> Ứng dụng -> Android System WebView", Toasty.WARNING)
+                }
+
+                AdShowStatus.ERROR_VIP -> {
+                    Toasty.showToast(this, "Bạn đã là vip", Toasty.WARNING)
+                }
+
+                else -> {
+
+                }
+            }
+        })
+
+        NetworkUtils.hasInternetAccessCheck(doTask = {
+            // nothing
+        }, doException = { networkError ->
+            if (!check.get()) return@hasInternetAccessCheck
+            callback(TypeShowAds.TIMEOUT)
+            AdGsManager.instance.removeAdsListener(adPlaceName = adPlaceName)
+            when (networkError) {
+                NetworkUtils.NetworkError.SSL_HANDSHAKE -> {
+                    Toasty.showToast(this, R.string.text_please_check_time, Toasty.WARNING)
+                }
+
+                else -> {
+                    Toasty.showToast(this, R.string.check_network_connection, Toasty.WARNING)
+                }
+            }
+        }, this)
+    }
+
+    enum class TypeShowAds {
+        SUCCESS,
+        FAILED,
+        TIMEOUT,
+        CANCEL,
+    }
+```

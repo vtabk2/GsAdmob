@@ -735,7 +735,10 @@ class AdGsManager {
      * Đăng ký thời gian tối thiểu giữa các lần tải ad
      */
     fun registerDelayTime(delayTime: Long, adPlaceName: AdPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_FULL) {
+        // lưu lại cho trường hơp chưa tạo adPlaceName
         backupDelayTimeMap[adPlaceName] = delayTime
+        // thử set delayTime cho adPlaceName
+        adGsDataMap[adPlaceName]?.delayTime = delayTime
     }
 
     /**

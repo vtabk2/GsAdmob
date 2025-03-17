@@ -23,12 +23,12 @@ Add it in your root build.gradle at the end of repositories:
 
 ***Banner***
 
-- Chú ý adsShowType có các kiểu hiển thị khác nhau
+Chú ý adsShowType có các kiểu hiển thị khác nhau
 
-+    showIfSuccess: Quảng cáo chỉ chiếm kích thước và hiển thị khi quảng cáo được tải thành công
-+    alwaysShow: Quảng cáo luôn chiếm kích thước và hiển thị nếu quảng cáo đươc tải thành công
-+    hide: Ẩn quảng cáo đi nhưng vẫn chiếm kích thước và không hiển thị ngay cả khi quảng cáo được tải thành công (được dùng khi đang show quảng cáo app open hiển thị thì tạm ẩn banner đi chẳng hạn)
-+    gone: Ân quảng cáo đi không chiếm kích thước và không hiển thị ngày cả khi quảng cáo được tải thành công
+-   showIfSuccess: Quảng cáo chỉ chiếm kích thước và hiển thị khi quảng cáo được tải thành công
+-   alwaysShow: Quảng cáo luôn chiếm kích thước và hiển thị nếu quảng cáo đươc tải thành công
+-   hide: Ẩn quảng cáo đi nhưng vẫn chiếm kích thước và không hiển thị ngay cả khi quảng cáo được tải thành công (được dùng khi đang show quảng cáo app open hiển thị thì tạm ẩn banner đi chẳng hạn)
+-   gone: Ẩn quảng cáo đi không chiếm kích thước và không hiển thị ngày cả khi quảng cáo được tải thành công
 
 ```css
         <com.core.gsadmob.banner.BannerGsAdView

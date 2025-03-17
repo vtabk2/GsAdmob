@@ -2,7 +2,6 @@ package com.core.gsadmob.banner
 
 import android.content.Context
 import android.util.AttributeSet
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.FrameLayout
@@ -45,15 +44,12 @@ class BannerGsAdView @JvmOverloads constructor(context: Context, attrs: Attribut
 
             setupVisible()
 
-            val params = adsBannerView.layoutParams as LayoutParams
-            params.gravity = Gravity.BOTTOM
-
             bannerView?.let {
                 // Kiểm tra nếu view đã có parent
                 if (it.parent != null) {
                     (it.parent as? ViewGroup)?.removeView(it) // Xóa view khỏi parent hiện tại
                 }
-                adsBannerView.addView(it, params)
+                adsBannerView.addView(it)
             }
         }
     }

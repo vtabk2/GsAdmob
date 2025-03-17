@@ -69,7 +69,7 @@ class InterstitialUtils {
         val adRequest: AdRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
         InterstitialAd.load(
             context,
-            context.getString(R.string.full_without_video),
+            context.getString(R.string.full_id_without_video),
             adRequest,
             object : InterstitialAdLoadCallback() {
                 override fun onAdFailedToLoad(adError: LoadAdError) {

@@ -828,10 +828,14 @@ class AdGsManager {
 
     fun clearAndRemoveActive(adPlaceNameList: MutableList<AdPlaceName>) {
         adPlaceNameList.forEach { adPlaceName ->
-            clearWithAdPlaceName(adPlaceName = adPlaceName)
-
-            (adGsDataMap[adPlaceName] as? BaseActiveAdGsData)?.isActive = false
+            clearAndRemoveActive(adPlaceName = adPlaceName)
         }
+    }
+
+    fun clearAndRemoveActive(adPlaceName: AdPlaceName) {
+        clearWithAdPlaceName(adPlaceName = adPlaceName)
+
+        (adGsDataMap[adPlaceName] as? BaseActiveAdGsData)?.isActive = false
     }
 
     /**

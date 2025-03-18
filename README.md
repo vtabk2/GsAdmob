@@ -21,6 +21,14 @@ Add it in your root build.gradle at the end of repositories:
 
 - admob : cấu hình trong config_admob
 
+***BaseAdsActivity***
+
+Các hàm cơ bản được dùng trong đây
+
+- setupNative override để xử lý cho từng activity
+- startNativeShimmer override để bắt đầu chạy shimmer load cho từng activity
+- registerAds nếu không muốn load tất cả quảng cáo thì có thể override lại
+
 ***Banner***
 
 Chú ý adsShowType có các kiểu hiển thị khác nhau

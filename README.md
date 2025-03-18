@@ -40,13 +40,13 @@ Chú ý adsShowType có các kiểu hiển thị khác nhau
 
 ```css
         <com.core.gsadmob.banner.BannerGsAdView
-        android:id="@+id/bannerView"
-        android:layout_width="match_parent"
-        android:layout_height="60dp"
-        app:adsShowType="alwaysShow"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"/>
+            android:id="@+id/bannerView"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            app:adsShowType="alwaysShow"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
 ```
 
 **Native Ads**

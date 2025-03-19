@@ -97,15 +97,14 @@ class ResumeDialogFragment : BottomSheetDialogFragment() {
 
             override fun onTimerFinish() {
                 activity?.let {
-                    AdGsManager.instance.registerAdsListener(adPlaceName = adPlaceName, adGsListener = object : AdGsListener {
+                    AdGsManager.instance.registerAndShowAds(adPlaceName = adPlaceName, adGsListener = object : AdGsListener {
                         override fun onAdClose(isFailed: Boolean) {
                             if (!isFailed) {
                                 timerLoading?.onTimerFinish()
                                 dismissAllowingStateLoss()
                             }
                         }
-                    })
-                    AdGsManager.instance.showAd(adPlaceName = adPlaceName, callbackShow = { adShowStatus ->
+                    }, callbackShow = { adShowStatus ->
                     })
                 }
             }

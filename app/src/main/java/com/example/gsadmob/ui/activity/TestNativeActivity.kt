@@ -53,7 +53,7 @@ class TestNativeActivity : BaseAdsActivity<ActivityTestNativeBinding>() {
         }
 
         bindingView.tvNativeFrame.setOnClickListener {
-            AdGsManager.instance.registerAds(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_NATIVE)
+            AdGsManager.instance.registerActiveAndLoadAds(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_NATIVE)
         }
 
         bindingView.imageFrameClear.setOnClickListener {
@@ -61,7 +61,7 @@ class TestNativeActivity : BaseAdsActivity<ActivityTestNativeBinding>() {
         }
 
         bindingView.tvNativeLanguage.setOnClickListener {
-            AdGsManager.instance.registerAds(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_NATIVE_LANGUAGE)
+            AdGsManager.instance.registerActiveAndLoadAds(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_NATIVE_LANGUAGE)
         }
 
         bindingView.imageLanguageClear.setOnClickListener {

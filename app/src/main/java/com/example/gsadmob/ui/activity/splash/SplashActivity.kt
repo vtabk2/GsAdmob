@@ -65,7 +65,7 @@ class SplashActivity : AppCompatActivity() {
                     googleMobileAdsConsentManager?.gatherConsent(this@SplashActivity, onCanShowAds = {
                         initializeMobileAdsSdk()
 
-                        AdGsManager.instance.registerAdsListener(adPlaceName = adPlaceName, adGsListener = object : AdGsListener {
+                        AdGsManager.instance.registerAndShowAds(adPlaceName = adPlaceName, adGsListener = object : AdGsListener {
                             override fun onAdClose(isFailed: Boolean) {
                                 if (isFailed) {
                                     isAdLoaded = true
@@ -84,9 +84,7 @@ class SplashActivity : AppCompatActivity() {
                                     clBlur.gone()
                                 }
                             }
-                        })
-
-                        AdGsManager.instance.showAd(adPlaceName = adPlaceName, callbackShow = { adShowStatus ->
+                        }, callbackShow = { adShowStatus ->
                             when (adShowStatus) {
                                 AdShowStatus.CAN_SHOW, AdShowStatus.REQUIRE_LOAD -> {
                                     bindingView?.apply {

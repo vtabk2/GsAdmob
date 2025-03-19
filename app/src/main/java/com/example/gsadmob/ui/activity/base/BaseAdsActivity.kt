@@ -96,7 +96,7 @@ abstract class BaseAdsActivity<B : ViewBinding> : BaseMVVMActivity<B>() {
 
     open fun registerAds() {
         getAdPlaceNameList().forEach { adPlaceName ->
-            AdGsManager.instance.registerAds(adPlaceName = adPlaceName)
+            AdGsManager.instance.registerActiveAndLoadAds(adPlaceName = adPlaceName)
         }
     }
 
@@ -176,7 +176,7 @@ abstract class BaseAdsActivity<B : ViewBinding> : BaseMVVMActivity<B>() {
         val check = AtomicBoolean(true)
         val adPlaceName = if (isRewardedInterstitialAds) AdPlaceNameConfig.AD_PLACE_NAME_REWARDED_INTERSTITIAL else AdPlaceNameConfig.AD_PLACE_NAME_REWARDED
 
-        AdGsManager.instance.registerAdsListener(adPlaceName = adPlaceName, adGsListener = object : AdGsListener {
+        AdGsManager.instance.registerAndShowAds(adPlaceName = adPlaceName, adGsListener = object : AdGsListener {
             override fun onAdClose(isFailed: Boolean) {
                 if (isFailed) {
                     callback(TypeShowAds.FAILED)
@@ -196,9 +196,7 @@ abstract class BaseAdsActivity<B : ViewBinding> : BaseMVVMActivity<B>() {
             override fun onAdShowing() {
                 check.set(false)
             }
-        })
-
-        AdGsManager.instance.showAd(adPlaceName = adPlaceName, callbackShow = { adShowStatus ->
+        }, callbackShow = { adShowStatus ->
             when (adShowStatus) {
                 AdShowStatus.ERROR_WEB_VIEW -> {
                     Toasty.showToast(this, "Điện thoại không bật Android System WebView. Vui lòng kiểm tra Cài dặt -> Ứng dụng -> Android System WebView", Toasty.WARNING)

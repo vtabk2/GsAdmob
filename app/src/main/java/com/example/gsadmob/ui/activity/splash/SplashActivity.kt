@@ -161,4 +161,10 @@ class SplashActivity : AppCompatActivity() {
             startNewActivityHome()
         }
     }
+
+    override fun onDestroy() {
+        AdGsManager.instance.destroyActivity()
+        AdGsManager.instance.clearAndRemoveActive(adPlaceName = adPlaceName)
+        super.onDestroy()
+    }
 }

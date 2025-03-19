@@ -525,8 +525,7 @@ class AdGsManager {
         app: Application,
         adPlaceName: AdPlaceName,
         adGsData: RewardedInterstitialAdGsData,
-        requiredLoadNewAds: Boolean,
-        callbackError: ((errorVip: Boolean) -> Unit)? = null
+        requiredLoadNewAds: Boolean
     ) {
         val adRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
         RewardedInterstitialAd.load(app, app.getString(adPlaceName.adUnitId), adRequest, object : RewardedInterstitialAdLoadCallback() {
@@ -631,6 +630,9 @@ class AdGsManager {
         }
     }
 
+    /**
+     * Hiển thị quảng cáo có kiểm tra điều kiện có hủy hay không
+     */
     private fun showOrCancelAd(adPlaceName: AdPlaceName, adGsData: BaseShowAdGsData, requiredLoadNewAds: Boolean) {
         currentActivity?.let {
             if (adGsData.isCancel) {
@@ -694,10 +696,21 @@ class AdGsManager {
         adGsDataMap[adPlaceName] = adGsData
     }
 
-    fun registerAds(adPlaceName: AdPlaceName, requiredLoadNewAds: Boolean = false, adGsListener: AdGsListener? = null) {
+    /**
+     * Đăng kí sự kiện và tải quảng cáo
+     */
+    fun registerActiveAndLoadAds(adPlaceName: AdPlaceName, requiredLoadNewAds: Boolean = false, adGsListener: AdGsListener? = null) {
         registerAdsListener(adPlaceName = adPlaceName, adGsListener = adGsListener)
         activeAd(adPlaceName = adPlaceName)
         loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
+    }
+
+    /**
+     * Đăng kí sự kiện và hiển thị quảng cáo
+     */
+    fun registerAndShowAds(adPlaceName: AdPlaceName, requiredLoadNewAds: Boolean = false, adGsListener: AdGsListener? = null, callbackShow: ((AdShowStatus) -> Unit)? = null) {
+        registerAdsListener(adPlaceName = adPlaceName, adGsListener = adGsListener)
+        showAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, callbackShow = callbackShow)
     }
 
     /**
@@ -707,6 +720,9 @@ class AdGsManager {
         adGsDataMap[adPlaceName]?.listener = null
     }
 
+    /**
+     * Lấy 1 quảng cáo theo adPlaceName hoặc tạo mới nếu cần
+     */
     private fun getAdGsData(adPlaceName: AdPlaceName): BaseAdGsData {
         return adGsDataMap[adPlaceName] ?: run {
             when (adPlaceName.adGsType) {
@@ -738,7 +754,7 @@ class AdGsManager {
     }
 
     /**
-     * Xóa 1 ad cụ thể
+     * Xóa 1 quảng cáo cụ thể
      */
     fun clearWithAdPlaceName(adPlaceName: AdPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_FULL) {
         adGsDataMap[adPlaceName]?.clearData(isResetReload = true)
@@ -765,6 +781,9 @@ class AdGsManager {
         notifyAds()
     }
 
+    /**
+     * Gửi các thay đổi các quảng cáo đã kích hoạt
+     */
     private fun notifyAds() {
         defaultScope?.launch {
             val newData = HashMap<AdPlaceName, BaseActiveAdGsData>()
@@ -818,16 +837,25 @@ class AdGsManager {
         }
     }
 
+    /**
+     * Kích hoạt tự động tải lại cho các quảng cáo active
+     */
     fun activeAd(adPlaceName: AdPlaceName) {
         (adGsDataMap[adPlaceName] as? BaseActiveAdGsData)?.isActive = true
     }
 
+    /**
+     * Xóa danh sách quảng cáo và xóa kích hoạt tự động tải lại quảng cáo nếu có
+     */
     fun clearAndRemoveActive(adPlaceNameList: MutableList<AdPlaceName>) {
         adPlaceNameList.forEach { adPlaceName ->
             clearAndRemoveActive(adPlaceName = adPlaceName)
         }
     }
 
+    /**
+     * Xóa quảng cáo và xóa kích hoạt tự động tải lại quảng cáo nếu có
+     */
     fun clearAndRemoveActive(adPlaceName: AdPlaceName) {
         clearWithAdPlaceName(adPlaceName = adPlaceName)
 

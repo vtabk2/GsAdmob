@@ -8,7 +8,6 @@ import android.content.Context
 import android.os.Build
 import android.os.Bundle
 import android.view.ViewGroup
-import android.view.WindowMetrics
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
@@ -372,8 +371,11 @@ class AdGsManager {
         val displayMetrics = context.resources.displayMetrics
         val adWidthPixels = try {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.R) {
-                val windowMetrics: WindowMetrics = (context as Activity).windowManager.currentWindowMetrics
-                windowMetrics.bounds.width()
+                if (context is Activity) {
+                    context.windowManager.currentWindowMetrics.bounds.width()
+                } else {
+                    currentActivity?.windowManager?.currentWindowMetrics?.bounds?.width() ?: displayMetrics.widthPixels
+                }
             } else {
                 displayMetrics.widthPixels
             }

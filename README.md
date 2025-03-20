@@ -15,7 +15,7 @@ Add it in your root build.gradle at the end of repositories:
 **Step 2.** Add the dependency
 ```css
         dependencies {
-                    implementation 'com.github.vtabk2:GsAdmob:1.2.9'
+                    implementation 'com.github.vtabk2:GsAdmob:1.2.10'
             }
 ```
 
@@ -136,35 +136,7 @@ hoặc
 
 **Hướng dẫn GDPR xem ở SplashActivity**
 
-**Cách load quảng cáo cũ**
-
-```css
-        Banner:
-        
-        bindingView.bannerView.loadAds(isVip = false, alwaysShow = true)
-       
-       
-        bindingView.bannerView.loadAds(isVip = false)
-        
-        Native: 
-        
-        NativeUtils.loadNativeAds(this, this, isVip = false, callbackStart = {
-            bindingView.nativeCustom.startShimmer()
-        }, callback = { nativeAd ->
-            bindingView.nativeCustom.setNativeAd(nativeAd)
-        })
-       
-       
-       Interstitial:
-       
-       InterstitialUtils.instance.showInterstitialAd(activity = this, isVip = false, listener = object : AdGsListener {
-                override fun onAdClose(isFailed: Boolean) {
-                    // todo
-                }             
-            })
-```
-
-**Cách load quảng cáo mới từ bản 1.2.1**
+**Cách load quảng cáo**
 
 Config AdPlaceName trước giống cấu trúc ở AdPlaceNameConfig
 
@@ -326,133 +298,133 @@ Config AdPlaceName trước giống cấu trúc ở AdPlaceNameConfig
         }
         
         private fun checkShowRewardedAds(callback: (typeShowAds: TypeShowAds) -> Unit, isRewardedInterstitialAds: Boolean = true, requireCheck: Boolean = true) {
-        NetworkUtils.hasInternetAccessCheck(doTask = {
-            if (googleMobileAdsConsentManager == null) {
-                googleMobileAdsConsentManager = GoogleMobileAdsConsentManager.getInstance(this)
-            }
-            when (googleMobileAdsConsentManager?.privacyOptionsRequirementStatus) {
-                ConsentInformation.PrivacyOptionsRequirementStatus.REQUIRED -> {
-                    if (cmpUtils.requiredShowCMPDialog()) {
-                        if (cmpUtils.isCheckGDPR) {
-                            googleMobileAdsConsentManager?.gatherConsent(this, onCanShowAds = {
-                                loadAndShowRewardedAds(isRewardedInterstitialAds = isRewardedInterstitialAds, callback = callback)
-                            }, onDisableAds = {
-                                callback(TypeShowAds.CANCEL)
-                            }, isDebug = BuildConfig.DEBUG, timeout = 0)
-                        } else {
-                            gdprPermissionsDialog?.dismiss()
-                            gdprPermissionsDialog = DialogUtils.initGdprPermissionDialog(this, callback = { granted ->
-                                if (granted) {
-                                    googleMobileAdsConsentManager?.gatherConsent(this, onCanShowAds = {
-                                        loadAndShowRewardedAds(isRewardedInterstitialAds = isRewardedInterstitialAds, callback = callback)
-                                    }, onDisableAds = {
-                                        callback(TypeShowAds.CANCEL)
-                                    }, isDebug = BuildConfig.DEBUG, timeout = 0)
-                                } else {
+            NetworkUtils.hasInternetAccessCheck(doTask = {
+                if (googleMobileAdsConsentManager == null) {
+                    googleMobileAdsConsentManager = GoogleMobileAdsConsentManager.getInstance(this)
+                }
+                when (googleMobileAdsConsentManager?.privacyOptionsRequirementStatus) {
+                    ConsentInformation.PrivacyOptionsRequirementStatus.REQUIRED -> {
+                        if (cmpUtils.requiredShowCMPDialog()) {
+                            if (cmpUtils.isCheckGDPR) {
+                                googleMobileAdsConsentManager?.gatherConsent(this, onCanShowAds = {
+                                    loadAndShowRewardedAds(isRewardedInterstitialAds = isRewardedInterstitialAds, callback = callback)
+                                }, onDisableAds = {
                                     callback(TypeShowAds.CANCEL)
-                                }
-                            })
-                            gdprPermissionsDialog?.show()
-                            dialogLayout(gdprPermissionsDialog)
+                                }, isDebug = BuildConfig.DEBUG, timeout = 0)
+                            } else {
+                                gdprPermissionsDialog?.dismiss()
+                                gdprPermissionsDialog = DialogUtils.initGdprPermissionDialog(this, callback = { granted ->
+                                    if (granted) {
+                                        googleMobileAdsConsentManager?.gatherConsent(this, onCanShowAds = {
+                                            loadAndShowRewardedAds(isRewardedInterstitialAds = isRewardedInterstitialAds, callback = callback)
+                                        }, onDisableAds = {
+                                            callback(TypeShowAds.CANCEL)
+                                        }, isDebug = BuildConfig.DEBUG, timeout = 0)
+                                    } else {
+                                        callback(TypeShowAds.CANCEL)
+                                    }
+                                })
+                                gdprPermissionsDialog?.show()
+                                dialogLayout(gdprPermissionsDialog)
+                            }
+                        } else {
+                            loadAndShowRewardedAds(isRewardedInterstitialAds = isRewardedInterstitialAds, callback = callback)
                         }
-                    } else {
+                    }
+    
+                    ConsentInformation.PrivacyOptionsRequirementStatus.NOT_REQUIRED -> {
                         loadAndShowRewardedAds(isRewardedInterstitialAds = isRewardedInterstitialAds, callback = callback)
                     }
-                }
-
-                ConsentInformation.PrivacyOptionsRequirementStatus.NOT_REQUIRED -> {
-                    loadAndShowRewardedAds(isRewardedInterstitialAds = isRewardedInterstitialAds, callback = callback)
-                }
-
-                else -> {
-                    // mục đích chỉ check 1 lần không được thì thôi
-                    if (requireCheck) {
-                        googleMobileAdsConsentManager?.requestPrivacyOptionsRequirementStatus(this, isDebug = BuildConfig.DEBUG, callback = { _ ->
-                            checkShowRewardedAds(callback, isRewardedInterstitialAds, requireCheck = false)
-                        })
-                    } else {
-                        loadAndShowRewardedAds(isRewardedInterstitialAds = isRewardedInterstitialAds, callback = callback)
+    
+                    else -> {
+                        // mục đích chỉ check 1 lần không được thì thôi
+                        if (requireCheck) {
+                            googleMobileAdsConsentManager?.requestPrivacyOptionsRequirementStatus(this, isDebug = BuildConfig.DEBUG, callback = { _ ->
+                                checkShowRewardedAds(callback, isRewardedInterstitialAds, requireCheck = false)
+                            })
+                        } else {
+                            loadAndShowRewardedAds(isRewardedInterstitialAds = isRewardedInterstitialAds, callback = callback)
+                        }
                     }
                 }
-            }
-        }, doException = { networkError ->
-            callback(TypeShowAds.TIMEOUT)
-            when (networkError) {
-                NetworkUtils.NetworkError.SSL_HANDSHAKE -> {
-                    Toasty.showToast(this, R.string.text_please_check_time, Toasty.WARNING)
+            }, doException = { networkError ->
+                callback(TypeShowAds.TIMEOUT)
+                when (networkError) {
+                    NetworkUtils.NetworkError.SSL_HANDSHAKE -> {
+                        Toasty.showToast(this, R.string.text_please_check_time, Toasty.WARNING)
+                    }
+    
+                    else -> {
+                        Toasty.showToast(this, R.string.check_network_connection, Toasty.WARNING)
+                    }
                 }
+            }, context = this)
+        }
 
-                else -> {
-                    Toasty.showToast(this, R.string.check_network_connection, Toasty.WARNING)
+        private fun loadAndShowRewardedAds(isRewardedInterstitialAds: Boolean, callback: (typeShowAds: TypeShowAds) -> Unit) {
+            val check = AtomicBoolean(true)
+            val adPlaceName = if (isRewardedInterstitialAds) AdPlaceNameConfig.AD_PLACE_NAME_REWARDED_INTERSTITIAL else AdPlaceNameConfig.AD_PLACE_NAME_REWARDED
+    
+            AdGsManager.instance.registerAdsListener(adPlaceName = adPlaceName, adGsListener = object : AdGsListener {
+                override fun onAdClose(isFailed: Boolean) {
+                    if (isFailed) {
+                        callback(TypeShowAds.FAILED)
+                        check.set(false)
+                    } else {
+                        callback(TypeShowAds.CANCEL)
+                        check.set(false)
+                        AdGsManager.instance.removeAdsListener(adPlaceName = adPlaceName)
+                    }
                 }
-            }
-        }, context = this)
-    }
-
-    private fun loadAndShowRewardedAds(isRewardedInterstitialAds: Boolean, callback: (typeShowAds: TypeShowAds) -> Unit) {
-        val check = AtomicBoolean(true)
-        val adPlaceName = if (isRewardedInterstitialAds) AdPlaceNameConfig.AD_PLACE_NAME_REWARDED_INTERSTITIAL else AdPlaceNameConfig.AD_PLACE_NAME_REWARDED
-
-        AdGsManager.instance.registerAdsListener(adPlaceName = adPlaceName, adGsListener = object : AdGsListener {
-            override fun onAdClose(isFailed: Boolean) {
-                if (isFailed) {
-                    callback(TypeShowAds.FAILED)
+    
+                override fun onShowFinishSuccess() {
+                    callback(TypeShowAds.SUCCESS)
                     check.set(false)
-                } else {
-                    callback(TypeShowAds.CANCEL)
+                }
+    
+                override fun onAdShowing() {
                     check.set(false)
-                    AdGsManager.instance.removeAdsListener(adPlaceName = adPlaceName)
                 }
-            }
-
-            override fun onShowFinishSuccess() {
-                callback(TypeShowAds.SUCCESS)
-                check.set(false)
-            }
-
-            override fun onAdShowing() {
-                check.set(false)
-            }
-        })
-
-        AdGsManager.instance.showAd(adPlaceName = adPlaceName, callbackShow = { adShowStatus ->
-            when (adShowStatus) {
-                AdShowStatus.ERROR_WEB_VIEW -> {
-                    Toasty.showToast(this, "Điện thoại không bật Android System WebView. Vui lòng kiểm tra Cài dặt -> Ứng dụng -> Android System WebView", Toasty.WARNING)
+            })
+    
+            AdGsManager.instance.showAd(adPlaceName = adPlaceName, callbackShow = { adShowStatus ->
+                when (adShowStatus) {
+                    AdShowStatus.ERROR_WEB_VIEW -> {
+                        Toasty.showToast(this, "Điện thoại không bật Android System WebView. Vui lòng kiểm tra Cài dặt -> Ứng dụng -> Android System WebView", Toasty.WARNING)
+                    }
+    
+                    AdShowStatus.ERROR_VIP -> {
+                        Toasty.showToast(this, "Bạn đã là vip", Toasty.WARNING)
+                    }
+    
+                    else -> {
+    
+                    }
                 }
-
-                AdShowStatus.ERROR_VIP -> {
-                    Toasty.showToast(this, "Bạn đã là vip", Toasty.WARNING)
+            })
+    
+            NetworkUtils.hasInternetAccessCheck(doTask = {
+                // nothing
+            }, doException = { networkError ->
+                if (!check.get()) return@hasInternetAccessCheck
+                callback(TypeShowAds.TIMEOUT)
+                AdGsManager.instance.removeAdsListener(adPlaceName = adPlaceName)
+                when (networkError) {
+                    NetworkUtils.NetworkError.SSL_HANDSHAKE -> {
+                        Toasty.showToast(this, R.string.text_please_check_time, Toasty.WARNING)
+                    }
+    
+                    else -> {
+                        Toasty.showToast(this, R.string.check_network_connection, Toasty.WARNING)
+                    }
                 }
-
-                else -> {
-
-                }
-            }
-        })
-
-        NetworkUtils.hasInternetAccessCheck(doTask = {
-            // nothing
-        }, doException = { networkError ->
-            if (!check.get()) return@hasInternetAccessCheck
-            callback(TypeShowAds.TIMEOUT)
-            AdGsManager.instance.removeAdsListener(adPlaceName = adPlaceName)
-            when (networkError) {
-                NetworkUtils.NetworkError.SSL_HANDSHAKE -> {
-                    Toasty.showToast(this, R.string.text_please_check_time, Toasty.WARNING)
-                }
-
-                else -> {
-                    Toasty.showToast(this, R.string.check_network_connection, Toasty.WARNING)
-                }
-            }
-        }, this)
-    }
-
-    enum class TypeShowAds {
-        SUCCESS,
-        FAILED,
-        TIMEOUT,
-        CANCEL,
-    }
+            }, this)
+        }
+    
+        enum class TypeShowAds {
+            SUCCESS,
+            FAILED,
+            TIMEOUT,
+            CANCEL,
+        }
 ```

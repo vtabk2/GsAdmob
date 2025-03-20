@@ -649,20 +649,29 @@ class AdGsManager {
                     }
                     if (canShow) {
                         currentActivity?.let {
-                            callbackShow?.invoke(AdShowStatus.CAN_SHOW)
-                            adGsData.isShowing = true
-
                             when (adGsData) {
                                 is AppOpenAdGsData -> {
                                     if (adPlaceName.fragmentTagAppOpenResumeResId == 0) {
+                                        callbackShow?.invoke(AdShowStatus.CAN_SHOW)
+                                        adGsData.isShowing = true
+                                        //
                                         adGsData.appOpenAd?.show(it)
                                     } else {
                                         (it as? AppCompatActivity)?.supportFragmentManager?.let { fragmentManager ->
                                             val bottomDialogFragment = fragmentManager.findFragmentByTag(it.getString(adPlaceName.fragmentTagAppOpenResumeResId))
                                             if (bottomDialogFragment != null && bottomDialogFragment.isVisible) {
+                                                callbackShow?.invoke(AdShowStatus.CAN_SHOW)
+                                                adGsData.isShowing = true
+                                                //
                                                 // ResumeDialogFragment đang hiển thị
                                                 adGsData.appOpenAd?.show(it)
                                             } else {
+                                                if (onlyShow) {
+                                                    callbackShow?.invoke(AdShowStatus.ONLY_SHOW)
+                                                    return
+                                                }
+                                                callbackShow?.invoke(AdShowStatus.REQUIRE_LOAD)
+                                                //
                                                 // ResumeDialogFragment không hiển thị
                                                 adGsData.listener?.onAdClose()
                                                 adGsData.clearData(isResetReload = true)
@@ -674,16 +683,25 @@ class AdGsManager {
                                 }
 
                                 is InterstitialAdGsData -> {
+                                    callbackShow?.invoke(AdShowStatus.CAN_SHOW)
+                                    adGsData.isShowing = true
+                                    //
                                     adGsData.interstitialAd?.show(it)
                                 }
 
                                 is RewardedAdGsData -> {
+                                    callbackShow?.invoke(AdShowStatus.CAN_SHOW)
+                                    adGsData.isShowing = true
+                                    //
                                     adGsData.rewardedAd?.show(it) {
                                         adGsData.listener?.onShowFinishSuccess()
                                     }
                                 }
 
                                 is RewardedInterstitialAdGsData -> {
+                                    callbackShow?.invoke(AdShowStatus.CAN_SHOW)
+                                    adGsData.isShowing = true
+                                    //
                                     adGsData.rewardedInterstitialAd?.show(it) {
                                         adGsData.listener?.onShowFinishSuccess()
                                     }

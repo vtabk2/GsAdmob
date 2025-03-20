@@ -752,7 +752,7 @@ class AdGsManager {
                 AdGsType.REWARDED -> RewardedAdGsData()
                 AdGsType.REWARDED_INTERSTITIAL -> RewardedInterstitialAdGsData()
             }.apply {
-                delayTime = backupDelayTimeMap[adPlaceName] ?: 0L
+                delayTime = backupDelayTimeMap[adPlaceName] ?: adPlaceName.delayTime
 
                 if (this is BaseActiveAdGsData) {
                     isActive = true

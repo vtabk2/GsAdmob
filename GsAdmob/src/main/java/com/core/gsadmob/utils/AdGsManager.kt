@@ -290,7 +290,7 @@ class AdGsManager {
                     adGsData.listener?.let {
                         it.onAdSuccess()
 
-                        showOrCancelAd(adPlaceName = adPlaceName, adGsData = adGsData, requiredLoadNewAds = requiredLoadNewAds)
+                        showAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, onlyShow = true)
                     }
                     adGsData.appOpenAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
                         override fun onAdDismissedFullScreenContent() {
@@ -501,7 +501,8 @@ class AdGsManager {
                     adGsData.isLoading = false
                     //
                     adGsData.listener?.let {
-                        showOrCancelAd(adPlaceName = adPlaceName, adGsData = adGsData, requiredLoadNewAds = requiredLoadNewAds)
+
+                        showAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, onlyShow = true)
                     }
                     adGsData.rewardedAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
                         override fun onAdDismissedFullScreenContent() {
@@ -563,7 +564,8 @@ class AdGsManager {
                     adGsData.isLoading = false
                     //
                     adGsData.listener?.let {
-                        showOrCancelAd(adPlaceName = adPlaceName, adGsData = adGsData, requiredLoadNewAds = requiredLoadNewAds)
+
+                        showAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, onlyShow = true)
                     }
                     adGsData.rewardedInterstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
                         override fun onAdDismissedFullScreenContent() {
@@ -610,7 +612,7 @@ class AdGsManager {
      * Hiển thị quảng cáo nếu được
      * Nếu không có quảng cáo sẽ tự động tải
      */
-    fun showAd(adPlaceName: AdPlaceName, requiredLoadNewAds: Boolean = false, callbackShow: ((adShowStatus: AdShowStatus) -> Unit)? = null) {
+    fun showAd(adPlaceName: AdPlaceName, requiredLoadNewAds: Boolean = false, onlyShow: Boolean = false, callbackShow: ((adShowStatus: AdShowStatus) -> Unit)? = null) {
         when {
             !isWebViewEnabled -> callbackShow?.invoke(AdShowStatus.ERROR_WEB_VIEW)
             isVipFlow.value -> callbackShow?.invoke(AdShowStatus.ERROR_VIP)
@@ -630,6 +632,7 @@ class AdGsManager {
                 }
                 (adGsDataMap[adPlaceName] as? BaseShowAdGsData)?.let { adGsData ->
                     if (adGsData.isCancel) {
+                        adGsData.listener = null
                         callbackShow?.invoke(AdShowStatus.CANCEL)
                         return
                     }
@@ -645,72 +648,70 @@ class AdGsManager {
                         else -> false
                     }
                     if (canShow) {
-                        callbackShow?.invoke(AdShowStatus.CAN_SHOW)
-                        showOrCancelAd(adPlaceName = adPlaceName, adGsData = adGsData, requiredLoadNewAds = requiredLoadNewAds)
+                        currentActivity?.let {
+                            callbackShow?.invoke(AdShowStatus.CAN_SHOW)
+                            adGsData.isShowing = true
+
+                            when (adGsData) {
+                                is AppOpenAdGsData -> {
+                                    if (adPlaceName.fragmentTagAppOpenResumeResId == 0) {
+                                        adGsData.appOpenAd?.show(it)
+                                    } else {
+                                        (it as? AppCompatActivity)?.supportFragmentManager?.let { fragmentManager ->
+                                            val bottomDialogFragment = fragmentManager.findFragmentByTag(it.getString(adPlaceName.fragmentTagAppOpenResumeResId))
+                                            if (bottomDialogFragment != null && bottomDialogFragment.isVisible) {
+                                                // ResumeDialogFragment đang hiển thị
+                                                adGsData.appOpenAd?.show(it)
+                                            } else {
+                                                // ResumeDialogFragment không hiển thị
+                                                adGsData.listener?.onAdClose()
+                                                adGsData.clearData(isResetReload = true)
+                                                //
+                                                loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
+                                            }
+                                        }
+                                    }
+                                }
+
+                                is InterstitialAdGsData -> {
+                                    adGsData.interstitialAd?.show(it)
+                                }
+
+                                is RewardedAdGsData -> {
+                                    adGsData.rewardedAd?.show(it) {
+                                        adGsData.listener?.onShowFinishSuccess()
+                                    }
+                                }
+
+                                is RewardedInterstitialAdGsData -> {
+                                    adGsData.rewardedInterstitialAd?.show(it) {
+                                        adGsData.listener?.onShowFinishSuccess()
+                                    }
+                                }
+
+                                else -> {}
+                            }
+                        } ?: run {
+                            callbackShow?.invoke(AdShowStatus.NO_ACTIVITY)
+                        }
                     } else {
+                        if (onlyShow) {
+                            callbackShow?.invoke(AdShowStatus.ONLY_SHOW)
+                            return
+                        }
                         callbackShow?.invoke(AdShowStatus.REQUIRE_LOAD)
                         // chưa có thì load
                         loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
                     }
                 } ?: run {
+                    if (onlyShow) {
+                        callbackShow?.invoke(AdShowStatus.ONLY_SHOW)
+                        return
+                    }
                     callbackShow?.invoke(AdShowStatus.REQUIRE_LOAD)
                     // chưa có thì load
                     loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
                 }
-            }
-        }
-    }
-
-    /**
-     * Hiển thị quảng cáo có kiểm tra điều kiện có hủy hay không
-     */
-    private fun showOrCancelAd(adPlaceName: AdPlaceName, adGsData: BaseShowAdGsData, requiredLoadNewAds: Boolean) {
-        currentActivity?.let {
-            if (adGsData.isCancel) {
-                adGsData.listener = null
-                return
-            }
-            if (adGsData.isShowing) return
-            adGsData.isShowing = true
-
-            when (adGsData) {
-                is AppOpenAdGsData -> {
-                    if (adPlaceName.fragmentTagAppOpenResumeResId == 0) {
-                        adGsData.appOpenAd?.show(it)
-                    } else {
-                        (it as? AppCompatActivity)?.supportFragmentManager?.let { fragmentManager ->
-                            val bottomDialogFragment = fragmentManager.findFragmentByTag(it.getString(adPlaceName.fragmentTagAppOpenResumeResId))
-                            if (bottomDialogFragment != null && bottomDialogFragment.isVisible) {
-                                // ResumeDialogFragment đang hiển thị
-                                adGsData.appOpenAd?.show(it)
-                            } else {
-                                // ResumeDialogFragment không hiển thị
-                                adGsData.listener?.onAdClose()
-                                adGsData.clearData(isResetReload = true)
-                                //
-                                loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
-                            }
-                        }
-                    }
-                }
-
-                is InterstitialAdGsData -> {
-                    adGsData.interstitialAd?.show(it)
-                }
-
-                is RewardedAdGsData -> {
-                    adGsData.rewardedAd?.show(it) {
-                        adGsData.listener?.onShowFinishSuccess()
-                    }
-                }
-
-                is RewardedInterstitialAdGsData -> {
-                    adGsData.rewardedInterstitialAd?.show(it) {
-                        adGsData.listener?.onShowFinishSuccess()
-                    }
-                }
-
-                else -> {}
             }
         }
     }
@@ -739,9 +740,9 @@ class AdGsManager {
     /**
      * Đăng kí sự kiện và hiển thị quảng cáo
      */
-    fun registerAndShowAds(adPlaceName: AdPlaceName, requiredLoadNewAds: Boolean = false, adGsListener: AdGsListener? = null, callbackShow: ((AdShowStatus) -> Unit)? = null) {
+    fun registerAndShowAds(adPlaceName: AdPlaceName, requiredLoadNewAds: Boolean = false, adGsListener: AdGsListener? = null, onlyShow: Boolean = false, callbackShow: ((AdShowStatus) -> Unit)? = null) {
         registerAdsListener(adPlaceName = adPlaceName, adGsListener = adGsListener)
-        showAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, callbackShow = callbackShow)
+        showAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, onlyShow = onlyShow, callbackShow = callbackShow)
     }
 
     /**

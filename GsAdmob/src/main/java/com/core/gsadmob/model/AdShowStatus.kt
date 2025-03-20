@@ -2,7 +2,7 @@ package com.core.gsadmob.model
 
 enum class AdShowStatus {
     /**
-     * Có thể hiển thị quảng co
+     * Có thể hiển thị quảng cáo
      */
     CAN_SHOW,
 

@@ -611,6 +611,8 @@ class AdGsManager {
     /**
      * Hiển thị quảng cáo nếu được
      * Nếu không có quảng cáo sẽ tự động tải
+     * @param onlyShow = true sẽ chỉ hiển thị quảng cáo nếu có thể
+     * @param onlyShow = false sẽ tải quảng cáo nếu không có quảng cáo sẵn
      */
     fun showAd(adPlaceName: AdPlaceName, requiredLoadNewAds: Boolean = false, onlyShow: Boolean = false, callbackShow: ((adShowStatus: AdShowStatus) -> Unit)? = null) {
         when {

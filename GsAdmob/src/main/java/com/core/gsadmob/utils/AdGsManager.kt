@@ -297,14 +297,18 @@ class AdGsManager {
                             adGsData.listener?.onAdClose()
                             adGsData.clearData(isResetReload = true)
                             //
-                            loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
+                            if (adPlaceName.autoReloadWhenDismiss) {
+                                loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
+                            }
                         }
 
                         override fun onAdFailedToShowFullScreenContent(adError: AdError) {
                             adGsData.listener?.onAdClose()
                             adGsData.clearData(isResetReload = true)
                             //
-                            loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
+                            if (adPlaceName.autoReloadWhenDismiss) {
+                                loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
+                            }
                         }
 
                         override fun onAdShowedFullScreenContent() {
@@ -417,14 +421,18 @@ class AdGsManager {
                             adGsData.listener?.onAdClose()
                             adGsData.clearData(isResetReload = true)
                             //
-                            loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
+                            if (adPlaceName.autoReloadWhenDismiss) {
+                                loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
+                            }
                         }
 
                         override fun onAdFailedToShowFullScreenContent(adError: AdError) {
                             adGsData.listener?.onAdClose(isFailed = true)
                             adGsData.clearData(isResetReload = true)
                             //
-                            loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
+                            if (adPlaceName.autoReloadWhenDismiss) {
+                                loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
+                            }
                         }
 
                         override fun onAdShowedFullScreenContent() {
@@ -500,14 +508,18 @@ class AdGsManager {
                             adGsData.listener?.onAdClose()
                             adGsData.clearData(isResetReload = true)
                             //
-                            loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
+                            if (adPlaceName.autoReloadWhenDismiss) {
+                                loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
+                            }
                         }
 
                         override fun onAdFailedToShowFullScreenContent(adError: AdError) {
                             adGsData.listener?.onAdClose()
                             adGsData.clearData(isResetReload = true)
                             //
+                            if (adPlaceName.autoReloadWhenDismiss) {
                             loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
+                            }
                         }
 
                         override fun onAdShowedFullScreenContent() {
@@ -558,14 +570,18 @@ class AdGsManager {
                             adGsData.listener?.onAdClose()
                             adGsData.clearData(isResetReload = true)
                             //
-                            loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
+                            if (adPlaceName.autoReloadWhenDismiss) {
+                                loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
+                            }
                         }
 
                         override fun onAdFailedToShowFullScreenContent(adError: AdError) {
                             adGsData.listener?.onAdClose()
                             adGsData.clearData(isResetReload = true)
                             //
-                            loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
+                            if (adPlaceName.autoReloadWhenDismiss) {
+                                loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
+                            }
                         }
 
                         override fun onAdShowedFullScreenContent() {

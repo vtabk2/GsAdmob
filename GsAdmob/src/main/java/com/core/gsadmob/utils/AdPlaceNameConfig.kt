@@ -9,7 +9,6 @@ object AdPlaceNameConfig {
     val AD_PLACE_NAME_APP_OPEN_RESUME = AdPlaceName(
         name = "App open resume",
         adUnitId = R.string.app_open_id_resume,
-        fragmentTagAppOpenResumeResId = R.string.fragment_tag_app_open_resume,
         autoReloadWhenDismiss = true,
         adGsType = AdGsType.APP_OPEN_AD
     )

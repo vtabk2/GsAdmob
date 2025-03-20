@@ -10,10 +10,6 @@ data class AdPlaceName(
      */
     var adUnitId: Int = 0,
     /**
-     * Cái này dùng cho quảng cáo app open resume, cái fragment mà app open resume cần mở lên trước
-     */
-    var fragmentTagAppOpenResumeResId: Int = 0,
-    /**
      * Có tự động tải lại quảng cáo khi đóng không dùng cho quảng cáo loại BaseShowAdGsData (app open, interstitial, rewarded, rewarded interstitial)
      */
     var autoReloadWhenDismiss: Boolean = false,

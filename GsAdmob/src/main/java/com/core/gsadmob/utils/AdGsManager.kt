@@ -653,35 +653,10 @@ class AdGsManager {
                         currentActivity?.let {
                             when (adGsData) {
                                 is AppOpenAdGsData -> {
-                                    if (adPlaceName.fragmentTagAppOpenResumeResId == 0) {
-                                        callbackShow?.invoke(AdShowStatus.CAN_SHOW)
-                                        adGsData.isShowing = true
-                                        //
-                                        adGsData.appOpenAd?.show(it)
-                                    } else {
-                                        (it as? AppCompatActivity)?.supportFragmentManager?.let { fragmentManager ->
-                                            val bottomDialogFragment = fragmentManager.findFragmentByTag(it.getString(adPlaceName.fragmentTagAppOpenResumeResId))
-                                            if (bottomDialogFragment != null && bottomDialogFragment.isVisible) {
-                                                callbackShow?.invoke(AdShowStatus.CAN_SHOW)
-                                                adGsData.isShowing = true
-                                                //
-                                                // ResumeDialogFragment đang hiển thị
-                                                adGsData.appOpenAd?.show(it)
-                                            } else {
-                                                if (onlyShow) {
-                                                    callbackShow?.invoke(AdShowStatus.ONLY_SHOW)
-                                                    return
-                                                }
-                                                callbackShow?.invoke(AdShowStatus.REQUIRE_LOAD)
-                                                //
-                                                // ResumeDialogFragment không hiển thị
-                                                adGsData.listener?.onAdClose()
-                                                adGsData.clearData(isResetReload = true)
-                                                //
-                                                loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
-                                            }
-                                        }
-                                    }
+                                    callbackShow?.invoke(AdShowStatus.CAN_SHOW)
+                                    adGsData.isShowing = true
+                                    //
+                                    adGsData.appOpenAd?.show(it)
                                 }
 
                                 is InterstitialAdGsData -> {

@@ -27,18 +27,17 @@ class TestApplication : GsApplication() {
 
     override fun initConfig() {
         val adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_APP_OPEN_RESUME
+        val tag = ResumeDialogFragment.javaClass.simpleName
 
         AdGsManager.instance.registerCoroutineScope(
             application = this,
             coroutineScope = MainScope(),
             callbackStartLifecycle = { activity ->
                 if (canShowAppOpenResume && activity !is SplashActivity) {
-                    if (adPlaceName.fragmentTagAppOpenResumeResId == 0) return@registerCoroutineScope
                     AdGsManager.instance.showAd(adPlaceName = adPlaceName, callbackShow = { adShowStatus ->
                         when (adShowStatus) {
                             AdShowStatus.CAN_SHOW, AdShowStatus.REQUIRE_LOAD -> {
                                 activity.supportFragmentManager.let { fragmentManager ->
-                                    val tag = activity.getString(adPlaceName.fragmentTagAppOpenResumeResId)
                                     val bottomDialogFragment = fragmentManager.findFragmentByTag(tag) as? ResumeDialogFragment
                                     if (bottomDialogFragment != null && bottomDialogFragment.isVisible) {
                                         // BottomDialogFragment đang hiển thị
@@ -59,8 +58,7 @@ class TestApplication : GsApplication() {
                 }
             },
             callbackPauseLifecycle = { activity ->
-                if (adPlaceName.fragmentTagAppOpenResumeResId == 0) return@registerCoroutineScope
-                val bottomDialogFragment = activity.supportFragmentManager.findFragmentByTag(activity.getString(adPlaceName.fragmentTagAppOpenResumeResId)) as? ResumeDialogFragment
+                val bottomDialogFragment = activity.supportFragmentManager.findFragmentByTag(tag) as? ResumeDialogFragment
                 if (bottomDialogFragment != null && bottomDialogFragment.isVisible) {
                     // BottomDialogFragment đang hiển thị
                     activity.runOnUiThread {

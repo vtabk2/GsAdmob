@@ -611,10 +611,21 @@ class AdGsManager {
     /**
      * Hiển thị quảng cáo nếu được
      * Nếu không có quảng cáo sẽ tự động tải
+     * @param requiredLoadNewAds = true sẽ yêu tải quảng cáo mới trong khi đã có quảng cáo sẵn rồi
      * @param onlyShow = true sẽ chỉ hiển thị quảng cáo nếu có thể
      * @param onlyShow = false sẽ tải quảng cáo nếu không có quảng cáo sẵn
+     * @param onlyCheckNotShow = true sẽ kiểm tra xem quảng cáo ở trạng thái nào mà không hiển thị nếu đủ điều kiện
+     * @param onlyCheckNotShow = false sẽ kiểm tra xem quảng cáo ở trạng thái nào và sẽ hiển thị nếu đủ điều kiện
+     * @param callbackShow trả về trạng thái của quảng cáo
+     *
      */
-    fun showAd(adPlaceName: AdPlaceName, requiredLoadNewAds: Boolean = false, onlyShow: Boolean = false, callbackShow: ((adShowStatus: AdShowStatus) -> Unit)? = null) {
+    fun showAd(
+        adPlaceName: AdPlaceName,
+        requiredLoadNewAds: Boolean = false,
+        onlyShow: Boolean = false,
+        onlyCheckNotShow: Boolean = false,
+        callbackShow: ((adShowStatus: AdShowStatus) -> Unit)? = null
+    ) {
         when {
             !isWebViewEnabled -> callbackShow?.invoke(AdShowStatus.ERROR_WEB_VIEW)
             isVipFlow.value -> callbackShow?.invoke(AdShowStatus.ERROR_VIP)
@@ -654,6 +665,9 @@ class AdGsManager {
                             when (adGsData) {
                                 is AppOpenAdGsData -> {
                                     callbackShow?.invoke(AdShowStatus.CAN_SHOW)
+                                    if (onlyCheckNotShow) { // chặn hiển thị quảng cáo
+                                        return
+                                    }
                                     adGsData.isShowing = true
                                     //
                                     adGsData.appOpenAd?.show(it)
@@ -661,6 +675,9 @@ class AdGsManager {
 
                                 is InterstitialAdGsData -> {
                                     callbackShow?.invoke(AdShowStatus.CAN_SHOW)
+                                    if (onlyCheckNotShow) {
+                                        return
+                                    }
                                     adGsData.isShowing = true
                                     //
                                     adGsData.interstitialAd?.show(it)
@@ -668,6 +685,9 @@ class AdGsManager {
 
                                 is RewardedAdGsData -> {
                                     callbackShow?.invoke(AdShowStatus.CAN_SHOW)
+                                    if (onlyCheckNotShow) {
+                                        return
+                                    }
                                     adGsData.isShowing = true
                                     //
                                     adGsData.rewardedAd?.show(it) {
@@ -677,6 +697,9 @@ class AdGsManager {
 
                                 is RewardedInterstitialAdGsData -> {
                                     callbackShow?.invoke(AdShowStatus.CAN_SHOW)
+                                    if (onlyCheckNotShow) {
+                                        return
+                                    }
                                     adGsData.isShowing = true
                                     //
                                     adGsData.rewardedInterstitialAd?.show(it) {

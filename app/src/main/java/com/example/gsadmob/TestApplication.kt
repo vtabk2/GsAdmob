@@ -34,7 +34,7 @@ class TestApplication : GsApplication() {
             coroutineScope = MainScope(),
             callbackStartLifecycle = { activity ->
                 if (canShowAppOpenResume && activity !is SplashActivity) {
-                    AdGsManager.instance.showAd(adPlaceName = adPlaceName, callbackShow = { adShowStatus ->
+                    AdGsManager.instance.showAd(adPlaceName = adPlaceName, onlyCheckNotShow = true, callbackShow = { adShowStatus ->
                         when (adShowStatus) {
                             AdShowStatus.CAN_SHOW, AdShowStatus.REQUIRE_LOAD -> {
                                 activity.supportFragmentManager.let { fragmentManager ->

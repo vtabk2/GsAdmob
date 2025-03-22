@@ -85,6 +85,7 @@ class ResumeDialogFragment : BottomSheetDialogFragment() {
             }
 
             override fun onTimerFinish() {
+                AdGsManager.instance.clearWithAdPlaceName(adPlaceName = adPlaceName)
                 dismissAllowingStateLoss()
             }
         }

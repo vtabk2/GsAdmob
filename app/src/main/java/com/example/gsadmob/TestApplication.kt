@@ -18,7 +18,6 @@ class TestApplication : GsApplication() {
     var canShowAppOpenResume: Boolean = true
 
     private val mainScope = MainScope()
-    private val keyVipList = mutableListOf(VipPreferences.KEY_IS_PRO, VipPreferences.KEY_IS_PRO_BY_YEAR, VipPreferences.KEY_IS_PRO_BY_MONTH)
 
     init {
         instance = this
@@ -39,8 +38,8 @@ class TestApplication : GsApplication() {
         VipPreferences.instance.initVipPreferences(this, BuildConfig.APPLICATION_ID)
 
         mainScope.launch {
-            VipPreferences.instance.getVipChangeFlow(keyVipList)
-                .stateIn(mainScope, SharingStarted.Eagerly, VipPreferences.instance.isFullVersion(keyVipList))
+            VipPreferences.instance.getVipChangeFlow()
+                .stateIn(mainScope, SharingStarted.Eagerly, VipPreferences.instance.isFullVersion())
                 .collect { isVip ->
                     AdGsManager.instance.notifyVip(isVip)
                 }

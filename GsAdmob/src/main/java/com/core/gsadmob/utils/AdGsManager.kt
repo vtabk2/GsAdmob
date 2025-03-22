@@ -270,6 +270,9 @@ class AdGsManager {
         }
     }
 
+    /**
+     * Tải quảng cáo app open
+     */
     private fun loadAppOpenAd(app: Application, adPlaceName: AdPlaceName, adGsData: AppOpenAdGsData, requiredLoadNewAds: Boolean) {
         val adRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
         AppOpenAd.load(app, app.getString(adPlaceName.adUnitId), adRequest, object : AppOpenAdLoadCallback() {
@@ -324,6 +327,9 @@ class AdGsManager {
         })
     }
 
+    /**
+     * Tải quảng cáo banner
+     */
     private fun loadBannerAd(app: Application, adPlaceName: AdPlaceName, adGsData: BannerAdGsData) {
         val bannerAdView = AdView(app)
         bannerAdView.adUnitId = app.getString(adPlaceName.adUnitId)
@@ -371,6 +377,9 @@ class AdGsManager {
         }
     }
 
+    /**
+     * Tính toán kích thước của quảng cáo banner
+     */
     private fun getAdSize(context: Context): AdSize {
         val displayMetrics = context.resources.displayMetrics
         val adWidthPixels = try {

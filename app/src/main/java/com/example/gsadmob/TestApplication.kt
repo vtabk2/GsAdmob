@@ -5,9 +5,9 @@ import android.view.ViewGroup
 import com.core.gsadmob.model.AdShowStatus
 import com.core.gsadmob.utils.AdGsManager
 import com.core.gsadmob.utils.AdPlaceNameConfig
+import com.core.gsadmob.utils.preferences.VipPreferences
 import com.example.gsadmob.ui.activity.splash.SplashActivity
 import com.example.gsadmob.ui.fragment.ResumeDialogFragment
-import com.example.gsadmob.utils.extensions.config
 import com.gs.core.GsApplication
 import kotlinx.coroutines.MainScope
 import kotlinx.coroutines.flow.SharingStarted
@@ -18,6 +18,7 @@ class TestApplication : GsApplication() {
     var canShowAppOpenResume: Boolean = true
 
     private val mainScope = MainScope()
+    private val keyVipList = mutableListOf(KEY_IS_PRO, KEY_IS_PRO_BY_YEAR, KEY_IS_PRO_BY_MONTH)
 
     init {
         instance = this
@@ -35,9 +36,11 @@ class TestApplication : GsApplication() {
         val adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_APP_OPEN_RESUME
         val tag = ResumeDialogFragment.javaClass.simpleName
 
+        VipPreferences.instance.initVipPreferences(this, BuildConfig.APPLICATION_ID)
+
         mainScope.launch {
-            config.getVipChangeFlow()
-                .stateIn(mainScope, SharingStarted.Eagerly, config.isFullVersion())
+            VipPreferences.instance.getVipChangeFlow(keyVipList)
+                .stateIn(mainScope, SharingStarted.Eagerly, VipPreferences.instance.isFullVersion(keyVipList))
                 .collect { isVip ->
                     AdGsManager.instance.notifyVip(isVip)
                 }
@@ -88,6 +91,12 @@ class TestApplication : GsApplication() {
     }
 
     companion object {
+        const val KEY_IS_PRO = "KEY_IS_PRO"
+
+        const val KEY_IS_PRO_BY_YEAR = "KEY_IS_PRO_BY_YEAR"
+
+        const val KEY_IS_PRO_BY_MONTH = "KEY_IS_PRO_BY_MONTH"
+
         @SuppressLint("StaticFieldLeak")
         private var instance: TestApplication? = null
 

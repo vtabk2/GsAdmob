@@ -7,9 +7,10 @@ import com.core.gsadmob.banner.BannerGsAdView
 import com.core.gsadmob.model.AdPlaceName
 import com.core.gsadmob.utils.AdGsManager
 import com.core.gsadmob.utils.AdPlaceNameConfig
+import com.core.gsadmob.utils.preferences.VipPreferences
+import com.example.gsadmob.TestApplication
 import com.example.gsadmob.databinding.ActivityTestAdsBinding
 import com.example.gsadmob.ui.activity.base.BaseAdsActivity
-import com.example.gsadmob.utils.extensions.config
 import com.gs.core.ui.view.toasty.Toasty
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -46,7 +47,7 @@ class TestAdsActivity : BaseAdsActivity<ActivityTestAdsBinding>() {
         super.initListener()
 
         bindingView.tvActiveVip.setOnClickListener {
-            config.isPro = !config.isPro
+            VipPreferences.instance.save(TestApplication.KEY_IS_PRO, !VipPreferences.instance.load(TestApplication.KEY_IS_PRO))
         }
 
         bindingView.tvInterstitial.setOnClickListener {

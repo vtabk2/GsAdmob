@@ -9,6 +9,7 @@ import com.core.gsadmob.utils.AdGsManager
 import com.core.gsadmob.utils.AdPlaceNameConfig
 import com.example.gsadmob.databinding.ActivityTestAdsBinding
 import com.example.gsadmob.ui.activity.base.BaseAdsActivity
+import com.example.gsadmob.utils.extensions.config
 import com.gs.core.ui.view.toasty.Toasty
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -21,8 +22,6 @@ class TestAdsActivity : BaseAdsActivity<ActivityTestAdsBinding>() {
         }
     }
 
-    private var isVip: Boolean = false
-
     override fun getViewBinding(): ActivityTestAdsBinding {
         return ActivityTestAdsBinding.inflate(layoutInflater)
     }
@@ -32,8 +31,7 @@ class TestAdsActivity : BaseAdsActivity<ActivityTestAdsBinding>() {
 
         lifecycleScope.launch {
             async {
-                AdGsManager.instance.isVipFlow.collect {
-                    isVip = it
+                AdGsManager.instance.isVipFlow.collect { isVip ->
                     if (isVip) {
                         bindingView.tvActiveVip.text = "Vip Active"
                     } else {
@@ -48,7 +46,7 @@ class TestAdsActivity : BaseAdsActivity<ActivityTestAdsBinding>() {
         super.initListener()
 
         bindingView.tvActiveVip.setOnClickListener {
-            AdGsManager.instance.notifyVip(isVip = !isVip)
+            config.isPro = !config.isPro
         }
 
         bindingView.tvInterstitial.setOnClickListener {

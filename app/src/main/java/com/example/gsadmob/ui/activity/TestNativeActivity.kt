@@ -9,20 +9,15 @@ import com.core.gsadmob.utils.AdGsManager
 import com.core.gsadmob.utils.AdPlaceNameConfig
 import com.example.gsadmob.databinding.ActivityTestNativeBinding
 import com.example.gsadmob.ui.activity.base.BaseAdsActivity
+import com.example.gsadmob.utils.extensions.config
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class TestNativeActivity : BaseAdsActivity<ActivityTestNativeBinding>() {
     override val bannerGsAdView: BannerGsAdView by lazy { bindingView.bannerView }
     override fun getAdPlaceNameList(): MutableList<AdPlaceName> {
-        return mutableListOf<AdPlaceName>().apply {
-            add(AdPlaceNameConfig.AD_PLACE_NAME_BANNER)
-            add(AdPlaceNameConfig.AD_PLACE_NAME_NATIVE)
-            add(AdPlaceNameConfig.AD_PLACE_NAME_NATIVE_LANGUAGE)
-        }
+        return mutableListOf<AdPlaceName>(AdPlaceNameConfig.AD_PLACE_NAME_BANNER, AdPlaceNameConfig.AD_PLACE_NAME_NATIVE, AdPlaceNameConfig.AD_PLACE_NAME_NATIVE_LANGUAGE)
     }
-
-    private var isVip: Boolean = false
 
     override fun getViewBinding(): ActivityTestNativeBinding {
         return ActivityTestNativeBinding.inflate(layoutInflater)
@@ -33,8 +28,7 @@ class TestNativeActivity : BaseAdsActivity<ActivityTestNativeBinding>() {
 
         lifecycleScope.launch {
             async {
-                AdGsManager.instance.isVipFlow.collect {
-                    isVip = it
+                AdGsManager.instance.isVipFlow.collect { isVip ->
                     if (isVip) {
                         bindingView.tvActiveVip.text = "Vip Active"
                     } else {
@@ -49,7 +43,7 @@ class TestNativeActivity : BaseAdsActivity<ActivityTestNativeBinding>() {
         super.initListener()
 
         bindingView.tvActiveVip.setOnClickListener {
-            AdGsManager.instance.notifyVip(isVip = !isVip)
+            config.isPro = !config.isPro
         }
 
         bindingView.tvNativeFrame.setOnClickListener {

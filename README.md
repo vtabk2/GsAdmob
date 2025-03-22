@@ -12,6 +12,7 @@ Add it in your root build.gradle at the end of repositories:
                 }
             }
 ```
+
 **Step 2.** Add the dependency
 ```css
         dependencies {
@@ -19,7 +20,8 @@ Add it in your root build.gradle at the end of repositories:
             }
 ```
 
-- admob : cấu hình trong config_admob
+***Cấu hình quảng cáo*** 
+- Thay đổi cấu hình quảng cáo trong config_admob.xml
 
 ***BaseAdsActivity***
 
@@ -86,6 +88,16 @@ Chú ý adsShowType có các kiểu hiển thị khác nhau
             app:layout_constraintStart_toStartOf="parent"/>
 ```
 
+- Cách truyền dữ liệu
+```css
+        bannerGsAdView?.setBannerAdView()
+```
+
+- Cách chạy shimmer
+```css
+        bannerGsAdView?.startShimmer()
+```
+
 **Native Ads**
 
 - Tùy biến NativeAdView thì chọn adsNativeMode = custom
@@ -147,12 +159,10 @@ Chú ý adsShowType có các kiểu hiển thị khác nhau
             <item name="adsLayoutId">@layout/ad_native_test</item>
             <item name="adsLayoutShimmerId">@layout/ad_native_test_shimmer</item>
             <item name="adsHeadlineId">@id/ad_headline_test</item>
-            <!--        <item name="adsBodyId">@id/ad_body_test</item>-->
             <item name="adsStarsId">@id/ad_stars_test</item>
             <item name="adsAppIconId">@id/ad_app_icon_test</item>
             <item name="adsCallToActionId">@id/ad_call_to_action_test</item>
             <item name="adsViewId">@id/ad_view_test</item>
-            <!--        <item name="adsMediaViewId">@id/ad_media_test</item>-->
             <item name="adsShimmerId">@id/ad_view_test_shimmer</item>
         </style>
         
@@ -165,9 +175,11 @@ Chú ý adsShowType có các kiểu hiển thị khác nhau
 
 ```css
         bindingView.nativeTest1.setStyle(com.core.gsadmob.R.style.NativeVip)
-        
+```
+
 hoặc
-        
+
+```css        
         bindingView.nativeTest1.setStyle(R.style.NativeTest)
 ```
 
@@ -175,7 +187,7 @@ hoặc
 
 **Cách load quảng cáo**
 
-Config AdPlaceName trước giống cấu trúc ở AdPlaceNameConfig
+Tạo cách AdPlaceName trước giống cấu trúc ở AdPlaceNameConfig
 
 - Show quảng cáo xen kẽ nếu có
 
@@ -241,8 +253,7 @@ Config AdPlaceName trước giống cấu trúc ở AdPlaceNameConfig
 ```css
         lifecycleScope.launch {
             async {
-                AdGsManager.instance.isVipFlow.collect {
-                    isVip = it
+                AdGsManager.instance.isVipFlow.collect { isVip->
                     if (isVip) {
                         bindingView.tvActiveVip.text = "Vip Active"
                     } else {

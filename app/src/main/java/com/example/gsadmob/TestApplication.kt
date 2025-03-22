@@ -10,9 +10,6 @@ import com.example.gsadmob.ui.activity.splash.SplashActivity
 import com.example.gsadmob.ui.fragment.ResumeDialogFragment
 import com.gs.core.GsApplication
 import kotlinx.coroutines.MainScope
-import kotlinx.coroutines.flow.SharingStarted
-import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 
 class TestApplication : GsApplication() {
     var canShowAppOpenResume: Boolean = true
@@ -35,19 +32,11 @@ class TestApplication : GsApplication() {
         val adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_APP_OPEN_RESUME
         val tag = ResumeDialogFragment.javaClass.simpleName
 
-        VipPreferences.instance.initVipPreferences(this, BuildConfig.APPLICATION_ID)
-
-        mainScope.launch {
-            VipPreferences.instance.getVipChangeFlow()
-                .stateIn(mainScope, SharingStarted.Eagerly, VipPreferences.instance.isFullVersion())
-                .collect { isVip ->
-                    AdGsManager.instance.notifyVip(isVip)
-                }
-        }
-
         AdGsManager.instance.registerCoroutineScope(
             application = this,
             coroutineScope = mainScope,
+            applicationId = BuildConfig.APPLICATION_ID,
+            keyVipList = VipPreferences.defaultKeyVipList,
             callbackStartLifecycle = { activity ->
                 if (canShowAppOpenResume && activity !is SplashActivity) {
                     AdGsManager.instance.showAd(adPlaceName = adPlaceName, onlyCheckNotShow = true, callbackShow = { adShowStatus ->

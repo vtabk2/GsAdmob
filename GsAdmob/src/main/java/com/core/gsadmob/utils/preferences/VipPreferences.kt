@@ -102,7 +102,7 @@ class VipPreferences {
         /**
          * Danh sách keyVipList mặc định sẽ gồm 3 loại
          */
-        private val defaultKeyVipList = mutableListOf(KEY_IS_PRO, KEY_IS_PRO_BY_YEAR, KEY_IS_PRO_BY_MONTH)
+        val defaultKeyVipList = mutableListOf(KEY_IS_PRO, KEY_IS_PRO_BY_YEAR, KEY_IS_PRO_BY_MONTH)
 
         @SuppressLint("StaticFieldLeak")
         private var singleton: VipPreferences? = null

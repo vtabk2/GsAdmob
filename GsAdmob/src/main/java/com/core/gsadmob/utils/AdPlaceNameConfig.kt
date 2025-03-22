@@ -6,12 +6,7 @@ import com.core.gsadmob.model.AdPlaceName
 
 object AdPlaceNameConfig {
     val AD_PLACE_NAME_APP_OPEN = AdPlaceName(name = "App open", adUnitId = R.string.app_open_id, adGsType = AdGsType.APP_OPEN_AD)
-    val AD_PLACE_NAME_APP_OPEN_RESUME = AdPlaceName(
-        name = "App open resume",
-        adUnitId = R.string.app_open_id_resume,
-        autoReloadWhenDismiss = true,
-        adGsType = AdGsType.APP_OPEN_AD
-    )
+    val AD_PLACE_NAME_APP_OPEN_RESUME = AdPlaceName(name = "App open resume", adUnitId = R.string.app_open_id_resume, autoReloadWhenDismiss = true, adGsType = AdGsType.APP_OPEN_AD)
 
     val AD_PLACE_NAME_BANNER = AdPlaceName(name = "Banner", adUnitId = R.string.banner_id, adGsType = AdGsType.BANNER)
     val AD_PLACE_NAME_BANNER_HOME = AdPlaceName(name = "Banner home", adUnitId = R.string.banner_id_home, adGsType = AdGsType.BANNER)

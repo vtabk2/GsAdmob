@@ -27,6 +27,7 @@ import com.core.gsadmob.model.nativead.NativeAdGsData
 import com.core.gsadmob.model.rewarded.RewardedAdGsData
 import com.core.gsadmob.model.rewarded.RewardedInterstitialAdGsData
 import com.core.gsadmob.utils.extensions.isWebViewEnabled
+import com.core.gsadmob.utils.preferences.VipPreferences
 import com.core.gscore.utils.network.LiveDataNetworkStatus
 import com.core.gscore.utils.network.NetworkUtils
 import com.google.ads.mediation.admob.AdMobAdapter
@@ -47,8 +48,11 @@ import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.google.android.gms.ads.rewardedinterstitial.RewardedInterstitialAd
 import com.google.android.gms.ads.rewardedinterstitial.RewardedInterstitialAdLoadCallback
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
 class AdGsManager {
@@ -75,7 +79,10 @@ class AdGsManager {
      * Bắt buộc phải khởi tạo ở Application nếu không thì sẽ không thể tải được quảng cáo nào cả
      */
     fun registerCoroutineScope(
-        application: Application, coroutineScope: CoroutineScope,
+        application: Application,
+        coroutineScope: CoroutineScope,
+        applicationId: String,
+        keyVipList: MutableList<String> = VipPreferences.defaultKeyVipList,
         callbackStartLifecycle: ((activity: AppCompatActivity) -> Unit)? = null,
         callbackPauseLifecycle: ((activity: AppCompatActivity) -> Unit)? = null,
         callbackNothingLifecycle: (() -> Unit)? = null
@@ -128,7 +135,7 @@ class AdGsManager {
 
         ProcessLifecycleOwner.get().lifecycle.addObserver(resumeLifecycleObserver)
 
-        val liveDataNetworkStatus = LiveDataNetworkStatus(application)
+        val liveDataNetworkStatus = LiveDataNetworkStatus(context = application)
         liveDataNetworkStatus.observeForever { connect ->
             if (connect) {
                 tryReloadAd(isChangeNetwork = true)
@@ -138,11 +145,24 @@ class AdGsManager {
         defaultScope = coroutineScope
 
         defaultScope?.launch {
-            isVipFlow.collect { isVip ->
-                if (isVip) {
-                    clearAll(clearFull = false)
-                } else {
-                    tryReloadAd(isChangeNetwork = false)
+
+            VipPreferences.instance.initVipPreferences(context = application, applicationId = applicationId)
+
+            async {
+                VipPreferences.instance.getVipChangeFlow(keyVipList = keyVipList)
+                    .stateIn(this, SharingStarted.Eagerly, VipPreferences.instance.isFullVersion(keyVipList = keyVipList))
+                    .collect { isVip ->
+                        notifyVip(isVip)
+                    }
+            }
+
+            async {
+                isVipFlow.collect { isVip ->
+                    if (isVip) {
+                        clearAll(clearFull = false)
+                    } else {
+                        tryReloadAd(isChangeNetwork = false)
+                    }
                 }
             }
         }

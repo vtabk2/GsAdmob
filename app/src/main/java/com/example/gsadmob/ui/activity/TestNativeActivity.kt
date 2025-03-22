@@ -8,7 +8,6 @@ import com.core.gsadmob.model.nativead.NativeAdGsData
 import com.core.gsadmob.utils.AdGsManager
 import com.core.gsadmob.utils.AdPlaceNameConfig
 import com.core.gsadmob.utils.preferences.VipPreferences
-import com.example.gsadmob.TestApplication
 import com.example.gsadmob.databinding.ActivityTestNativeBinding
 import com.example.gsadmob.ui.activity.base.BaseAdsActivity
 import kotlinx.coroutines.async
@@ -44,7 +43,8 @@ class TestNativeActivity : BaseAdsActivity<ActivityTestNativeBinding>() {
         super.initListener()
 
         bindingView.tvActiveVip.setOnClickListener {
-            VipPreferences.instance.save(TestApplication.KEY_IS_PRO, !VipPreferences.instance.load(TestApplication.KEY_IS_PRO))
+//            VipPreferences.instance.save(VipPreferences.KEY_IS_PRO, !VipPreferences.instance.load(VipPreferences.KEY_IS_PRO))
+            VipPreferences.instance.isPro = !VipPreferences.instance.isPro
         }
 
         bindingView.tvNativeFrame.setOnClickListener {

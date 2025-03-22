@@ -8,7 +8,6 @@ import com.core.gsadmob.model.AdPlaceName
 import com.core.gsadmob.utils.AdGsManager
 import com.core.gsadmob.utils.AdPlaceNameConfig
 import com.core.gsadmob.utils.preferences.VipPreferences
-import com.example.gsadmob.TestApplication
 import com.example.gsadmob.databinding.ActivityTestAdsBinding
 import com.example.gsadmob.ui.activity.base.BaseAdsActivity
 import com.gs.core.ui.view.toasty.Toasty
@@ -47,7 +46,8 @@ class TestAdsActivity : BaseAdsActivity<ActivityTestAdsBinding>() {
         super.initListener()
 
         bindingView.tvActiveVip.setOnClickListener {
-            VipPreferences.instance.save(TestApplication.KEY_IS_PRO, !VipPreferences.instance.load(TestApplication.KEY_IS_PRO))
+//            VipPreferences.instance.save(VipPreferences.KEY_IS_PRO, !VipPreferences.instance.load(VipPreferences.KEY_IS_PRO))
+            VipPreferences.instance.isPro = !VipPreferences.instance.isPro
         }
 
         bindingView.tvInterstitial.setOnClickListener {

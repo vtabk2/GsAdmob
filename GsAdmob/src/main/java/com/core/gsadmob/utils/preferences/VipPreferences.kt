@@ -3,6 +3,7 @@ package com.core.gsadmob.utils.preferences
 import android.annotation.SuppressLint
 import android.content.Context
 import android.content.SharedPreferences
+import androidx.core.content.edit
 import kotlinx.coroutines.channels.Channel
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.buffer
@@ -39,6 +40,24 @@ class VipPreferences {
         prefs?.edit()?.putBoolean(key, value)?.apply()
     }
 
+    var isPro: Boolean
+        get() = prefs?.getBoolean(KEY_IS_PRO, false) == true
+        set(value) {
+            prefs?.edit { putBoolean(KEY_IS_PRO, value) }
+        }
+
+    var isProByYear: Boolean
+        get() = prefs?.getBoolean(KEY_IS_PRO_BY_YEAR, false) == true
+        set(value) {
+            prefs?.edit { putBoolean(KEY_IS_PRO_BY_YEAR, value) }
+        }
+
+    var isProByMonth: Boolean
+        get() = prefs?.getBoolean(KEY_IS_PRO_BY_MONTH, false) == true
+        set(value) {
+            prefs?.edit { putBoolean(KEY_IS_PRO_BY_MONTH, value) }
+        }
+
     fun isFullVersion(keyVipList: MutableList<String>): Boolean {
         var isVip = false
         for (keyVip in keyVipList) {
@@ -50,6 +69,12 @@ class VipPreferences {
     }
 
     companion object {
+        const val KEY_IS_PRO = "KEY_IS_PRO"
+
+        const val KEY_IS_PRO_BY_YEAR = "KEY_IS_PRO_BY_YEAR"
+
+        const val KEY_IS_PRO_BY_MONTH = "KEY_IS_PRO_BY_MONTH"
+
         @SuppressLint("StaticFieldLeak")
         private var singleton: VipPreferences? = null
 

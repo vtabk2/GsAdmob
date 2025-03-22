@@ -18,7 +18,7 @@ class TestApplication : GsApplication() {
     var canShowAppOpenResume: Boolean = true
 
     private val mainScope = MainScope()
-    private val keyVipList = mutableListOf(KEY_IS_PRO, KEY_IS_PRO_BY_YEAR, KEY_IS_PRO_BY_MONTH)
+    private val keyVipList = mutableListOf(VipPreferences.KEY_IS_PRO, VipPreferences.KEY_IS_PRO_BY_YEAR, VipPreferences.KEY_IS_PRO_BY_MONTH)
 
     init {
         instance = this
@@ -91,12 +91,6 @@ class TestApplication : GsApplication() {
     }
 
     companion object {
-        const val KEY_IS_PRO = "KEY_IS_PRO"
-
-        const val KEY_IS_PRO_BY_YEAR = "KEY_IS_PRO_BY_YEAR"
-
-        const val KEY_IS_PRO_BY_MONTH = "KEY_IS_PRO_BY_MONTH"
-
         @SuppressLint("StaticFieldLeak")
         private var instance: TestApplication? = null
 

@@ -476,3 +476,7 @@ Tạo cách AdPlaceName trước giống cấu trúc ở AdPlaceNameConfig
             CANCEL,
         }
 ```
+
+***BaseWithAdsAdapter*** Adapter chứa quảng cáo native
+
+

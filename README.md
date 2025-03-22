@@ -29,6 +29,43 @@ Các hàm cơ bản được dùng trong đây
 - startNativeShimmer override để bắt đầu chạy shimmer load cho từng activity
 - registerAds nếu không muốn load tất cả quảng cáo thì có thể override lại
 
+***VipPreferences*** Nơi lưu trạng thái đã mua vip
+
+- Khởi tạo ở Application
+
+```css
+        VipPreferences.instance.initVipPreferences(this, BuildConfig.APPLICATION_ID)
+```
+
+- Đăng ký thay đổi trạng thái mua vip ở Application (keyVipList là danh sách key vip của ứng dụng)
+
+```css
+        private val mainScope = MainScope()
+        
+        mainScope.launch {
+            VipPreferences.instance.getVipChangeFlow(keyVipList)
+                .stateIn(mainScope, SharingStarted.Eagerly, VipPreferences.instance.isFullVersion(keyVipList))
+                .collect { isVip ->
+                    AdGsManager.instance.notifyVip(isVip)
+                }
+        }
+```
+
+- Lưu 1 key mới
+
+```css
+         fun save(key: String, value: Boolean) {}
+```
+
+- Lấy giá trị từ 1 key mới
+
+```css
+        fun load(key: String, valueDefault: Boolean = false){}
+```
+
+- Có thể dùng các key mặc định như isPro, isProByYear, isProByMonth
+
+
 ***Banner***
 
 Chú ý adsShowType có các kiểu hiển thị khác nhau

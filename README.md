@@ -67,6 +67,7 @@ Các hàm cơ bản được dùng trong đây
 
 - Có thể dùng các key mặc định như isPro, isProByYear, isProByMonth
 
+- Từ bản 1.2.15 đã cải tiến tích hợp vào registerCoroutineScope của AdGsManager
 
 ***Banner***
 

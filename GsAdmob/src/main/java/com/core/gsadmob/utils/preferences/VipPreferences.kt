@@ -86,11 +86,8 @@ class VipPreferences {
      * Kiểm tra xem trong danh sách truyền vào có vip nào được kích hoạt không
      */
     fun isFullVersion(): Boolean {
-        val keyVipList = currentKeyVipList.ifEmpty {
-            defaultKeyVipList
-        }
         var isVip = false
-        for (keyVip in keyVipList) {
+        for (keyVip in currentKeyVipList) {
             if (load(keyVip, false)) {
                 isVip = true
             }

@@ -34,6 +34,7 @@ Thư viện được tạo ra với mục đích quản lý và tùy chỉnh gia
 Thay đổi cấu hình quảng cáo trong [config_admob](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/res/values/config_admob.xml)
 
 **Step 1** Trong ứng dụng tạo 1 file config_admob.xml ở values
+
 **Step 2** Tùy chỉnh config_admob
 
 - Ở trên cùng là app id và các id của quảng cáo dùng trong ứng dụng. Hiện tại có cấu hình 11 id quảng cáo cho 5 loại quảng cáo

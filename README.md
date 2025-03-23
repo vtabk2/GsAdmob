@@ -144,12 +144,14 @@ Các hàm cơ bản được dùng trong đây
 
 # Banner
 
-Chú ý adsShowType có các kiểu hiển thị khác nhau
+Chú ý adsShowType có các kiểu hiển thị khác nhau: 
 
--   showIfSuccess: Quảng cáo chỉ chiếm kích thước và hiển thị khi quảng cáo được tải thành công
--   alwaysShow: Quảng cáo luôn chiếm kích thước và hiển thị nếu quảng cáo đươc tải thành công
--   hide: Ẩn quảng cáo đi nhưng vẫn chiếm kích thước và không hiển thị ngay cả khi quảng cáo được tải thành công (được dùng khi đang show quảng cáo app open hiển thị thì tạm ẩn banner đi chẳng hạn)
--   gone: Ẩn quảng cáo đi không chiếm kích thước và không hiển thị ngày cả khi quảng cáo được tải thành công
+| adsShowType   | Trạng thái |
+|---------------| ---------- |
+| showIfSuccess | Quảng cáo chỉ chiếm kích thước và hiển thị khi quảng cáo được tải thành công |
+| alwaysShow    | Quảng cáo luôn chiếm kích thước và hiển thị nếu quảng cáo đươc tải thành công |
+| hide          | Ẩn quảng cáo đi nhưng vẫn chiếm kích thước và không hiển thị ngay cả khi quảng cáo được tải thành công (được dùng khi đang show quảng cáo app open hiển thị thì tạm ẩn banner đi chẳng hạn) |
+| hide          | Ẩn quảng cáo đi không chiếm kích thước và không hiển thị ngày cả khi quảng cáo được tải thành công |
 
 ```css
         <com.core.gsadmob.banner.BannerGsAdView
@@ -327,7 +329,7 @@ Tạo cách AdPlaceName trước giống cấu trúc ở AdPlaceNameConfig
 ```css
         lifecycleScope.launch {
             async {
-                AdGsManager.instance.isVipFlow.collect { isVip->
+                AdGsManager.instance.isVipFlow.collect { isVip ->
                     if (isVip) {
                         bindingView.tvActiveVip.text = "Vip Active"
                     } else {

@@ -9,9 +9,9 @@ Thư viện được tạo ra với mục đích quản lý và tùy chỉnh gia
 - Có hỗ trợ kiểm tra CMP/GDPR
 - Có BaseWithAdsAdapter để dùng adapter có chứa quảng cáo native  
 
-# Gradle
-**Step 1.** Add the JitPack repository to your build file
-Add it in your root build.gradle at the end of repositories:
+# Cấu hình Gradle gồm 2 bước
+
+**Step 1.** Add the JitPack repository to your build file. Add it in your root build.gradle at the end of repositories:
 ```css
         dependencyResolutionManagement {
                 repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
@@ -30,7 +30,71 @@ Add it in your root build.gradle at the end of repositories:
 ```
 
 # Cấu hình quảng cáo
-- Thay đổi cấu hình quảng cáo trong [config_admob](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/res/values/config_admob.xml)
+
+Thay đổi cấu hình quảng cáo trong [config_admob](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/res/values/config_admob.xml)
+
+**Step 1** Trong ứng dụng tạo 1 file config_admob.xml ở values
+**Step 2** Tùy chỉnh config_admob
+
+- Ở trên cùng là app id và các id của quảng cáo dùng trong ứng dụng. Hiện tại có cấu hình 11 id quảng cáo cho 5 loại quảng cáo
+- Tiếp theo là cấu hình các thuộc tính có thể thay đổi của các mẫu quảng cáo native cấu hình sẵn (album, font, frame, language, share, sticker, template, vip)
+- Tiêp theo là cấu hình các thuộc tính của shimmer
+- Cấu hình view root của các quảng cáo native(thường là khi là 1 item trong recyclerview)
+
+Ví dụ : Thêm margin cho quảng cáo native album
+
+```css
+         <style name="ads_NativeAlbumRoot" parent="ads_BaseNativeAdViewRoot">
+            <item name="android:layout_marginStart">6dp</item>
+            <item name="android:layout_marginEnd">6dp</item>
+            <item name="android:layout_marginBottom">8dp</item>
+        </style>
+```
+
+- Tạo style mới cho quảng cáo native 
+
+```css
+            <!--    album-->
+        <style name="NativeAlbum" parent="ads_BaseNativeCustom">
+            <item name="adsLayoutId">@layout/ad_native_album</item>
+            <item name="adsLayoutShimmerId">@layout/ad_native_album_shimmer</item>
+            <item name="adsHeadlineId">@id/ad_headline_album</item>
+            <item name="adsBodyId">@id/ad_body_album</item>
+            <item name="adsStarsId">@id/ad_stars_album</item>
+            <item name="adsAppIconId">@id/ad_app_icon_album</item>
+            <item name="adsCallToActionId">@id/ad_call_to_action_album</item>
+            <item name="adsViewId">@id/ad_view_album</item>
+            <item name="adsShimmerId">@id/ad_shimmer_album</item>
+            <item name="adsNativeViewRoot">@style/ads_NativeAlbumRoot</item>
+            <item name="adsNativeMode">album</item>
+        </style>
+```
+
+Khi dùng : có thể thay trong code
+```css
+        bindingView.nativeTest1.setStyle(R.style.NativeAlbum)
+```
+
+hoặc khởi tạo sẵn trong xml
+```css
+        <com.core.gsadmob.natives.view.NativeGsAdView
+            android:id="@+id/nativeCustom"
+            style="@style/NativeAlbum"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"/>
+
+```
+
+
+- Cấu hình ngôi sao rating ở ads_RatingBar
+```css
+        <style name="ads_RatingBar" parent="Theme.AppCompat">
+            <item name="colorControlNormal">#FFBF1C</item>
+            <item name="colorControlActivated">#FFBF1C</item>
+        </style>
+```
+
 
 # [BaseAdsActivity](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/ui/activity/base/BaseAdsActivity.kt)
 

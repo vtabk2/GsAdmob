@@ -329,17 +329,6 @@ Tạo cách AdPlaceName trước giống cấu trúc ở AdPlaceNameConfig
 
         lifecycleScope.launch {
             async {
-                AdGsManager.instance.isVipFlow.collect {
-                    isVip = it
-                    if (isVip) {
-                        bindingView.tvActiveVip.text = "Vip Active"
-                    } else {
-                        bindingView.tvActiveVip.text = "Vip Inactive"
-                    }
-                }
-            }
-
-            async {
                 AdGsManager.instance.adGsDataMapMutableStateFlow.collect {
                     it.forEach { adGsDataMap ->
                         when (adGsDataMap.key) {
@@ -374,29 +363,11 @@ Tạo cách AdPlaceName trước giống cấu trúc ở AdPlaceNameConfig
 **Quảng cáo native**
 
 ```css
-        lifecycleScope.launch {
-            async {
-                AdGsManager.instance.isVipFlow.collect { isVip ->
-                    if (isVip) {
-                        bindingView.tvActiveVip.text = "Vip Active"
-                    } else {
-                        bindingView.tvActiveVip.text = "Vip Inactive"
-                    }
-                }
-            }
-
+        lifecycleScope.launch {          
             async {
                 AdGsManager.instance.adGsDataMapMutableStateFlow.collect {
                     it.forEach { adGsDataMap ->
-                        when (adGsDataMap.key) {
-                            AdPlaceNameConfig.AD_PLACE_NAME_BANNER -> {
-                                if (adGsDataMap.value.isLoading) {
-                                    bindingView.bannerView.startShimmer()
-                                } else {
-                                    bindingView.bannerView.setBannerAdView((adGsDataMap.value as? BannerAdGsData)?.bannerAdView)
-                                }
-                            }
-
+                        when (adGsDataMap.key) {                         
                             AdPlaceNameConfig.AD_PLACE_NAME_NATIVE -> {
                                 if (adGsDataMap.value.isLoading) {
                                     bindingView.nativeFrame.startShimmer()
@@ -421,11 +392,7 @@ Tạo cách AdPlaceName trước giống cấu trúc ở AdPlaceNameConfig
         AdGsManager.instance.startShimmerLiveData.observe(this) { shimmerMap ->
             shimmerMap.forEach {
                 if (it.value) {
-                    when (it.key) {
-                        AdPlaceNameConfig.AD_PLACE_NAME_BANNER -> {
-                            bindingView.bannerView.startShimmer()
-                        }
-
+                    when (it.key) {                     
                         AdPlaceNameConfig.AD_PLACE_NAME_NATIVE -> {
                             bindingView.nativeFrame.startShimmer()
                         }
@@ -606,8 +573,13 @@ Gồm 2 loại :
 
 - Quảng cáo 1 lần khi mở ứng dụng
 
+Hướng dẫn chi tiết ở [SplashActivity](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/ui/activity/splash/SplashActivity.kt)
 
 - Quảng cáo khi trở lại ứng dụng
+
+Hướng dẫn chi tiết ở [TestApplication](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/TestApplication.kt)
+
+Trong hàm initConfig() là các tạo và đăng ký quảng cáo
 
 # BaseWithAdsAdapter Adapter chứa quảng cáo native
 

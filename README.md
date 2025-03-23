@@ -1,6 +1,15 @@
 # GsAdmob
 
-**Gradle**
+Thư viện được tạo ra với mục đích quản lý và tùy chỉnh giao diện của các quảng cáo trong ứng dụng 1 cách dễ dàng :
+
+- Có lưu trạng thái vip của ứng dụng ở VipPreferences
+- Có xử lý việc thay đổi trạng thái vip
+- Tùy chỉnh dễ dàng giao diện quảng cáo Native
+- Có thêm trạng thái đang tải quảng cáo
+- Có hỗ trợ kiểm tra CMP/GDPR
+- Có BaseWithAdsAdapter để dùng adapter có chứa quảng cáo native  
+
+# Gradle
 **Step 1.** Add the JitPack repository to your build file
 Add it in your root build.gradle at the end of repositories:
 ```css
@@ -20,10 +29,10 @@ Add it in your root build.gradle at the end of repositories:
             }
 ```
 
-***Cấu hình quảng cáo*** 
-- Thay đổi cấu hình quảng cáo trong config_admob.xml
+# Cấu hình quảng cáo
+- Thay đổi cấu hình quảng cáo trong [config_admob](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/res/values/config_admob.xml)
 
-***BaseAdsActivity***
+# [BaseAdsActivity](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/ui/activity/base/BaseAdsActivity.kt)
 
 Các hàm cơ bản được dùng trong đây
 
@@ -31,7 +40,7 @@ Các hàm cơ bản được dùng trong đây
 - startNativeShimmer override để bắt đầu chạy shimmer load cho từng activity
 - registerAds nếu không muốn load tất cả quảng cáo thì có thể override lại
 
-***VipPreferences*** Nơi lưu trạng thái đã mua vip
+# [VipPreferences](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/preferences/VipPreferences.kt) Nơi lưu trạng thái đã mua vip
 
 - Khởi tạo ở Application
 
@@ -69,7 +78,7 @@ Các hàm cơ bản được dùng trong đây
 
 - Từ ***Version 1.2.15*** đã cải tiến tích hợp vào registerCoroutineScope của AdGsManager
 
-***Banner***
+# Banner
 
 Chú ý adsShowType có các kiểu hiển thị khác nhau
 
@@ -99,7 +108,7 @@ Chú ý adsShowType có các kiểu hiển thị khác nhau
         bannerGsAdView?.startShimmer()
 ```
 
-**Native Ads**
+# Native Ads
 
 - Tùy biến NativeAdView thì chọn adsNativeMode = custom
 
@@ -184,13 +193,13 @@ hoặc
         bindingView.nativeTest1.setStyle(R.style.NativeTest)
 ```
 
-**Hướng dẫn GDPR xem ở SplashActivity**
+# Hướng dẫn GDPR xem ở SplashActivity
 
-**Cách load quảng cáo**
+# Cách load quảng cáo
 
 Tạo cách AdPlaceName trước giống cấu trúc ở AdPlaceNameConfig
 
-- Show quảng cáo xen kẽ nếu có
+**Show quảng cáo xen kẽ**
 
 ```css
         bindingView.tvInterstitial.setOnClickListener {
@@ -201,7 +210,7 @@ Tạo cách AdPlaceName trước giống cấu trúc ở AdPlaceNameConfig
         }
 ```
 
-- Quảng cáo banner
+**Quảng cáo banner**
 
 ```css
 
@@ -249,7 +258,7 @@ Tạo cách AdPlaceName trước giống cấu trúc ở AdPlaceNameConfig
          AdGsManager.instance.registerAds(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_BANNER_HOME)
 ```
 
-- Quảng cáo native
+**Quảng cáo native**
 
 ```css
         lifecycleScope.launch {
@@ -318,7 +327,8 @@ Tạo cách AdPlaceName trước giống cấu trúc ở AdPlaceNameConfig
 
         AdGsManager.instance.registerAds(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_BANNER)
 ```
-- Quảng cáo trả thưởng
+
+**Quảng cáo trả thưởng**
 
 ```css  
 
@@ -478,6 +488,14 @@ Tạo cách AdPlaceName trước giống cấu trúc ở AdPlaceNameConfig
         }
 ```
 
-***BaseWithAdsAdapter*** Adapter chứa quảng cáo native
+**Quảng cáo app open**
+Gồm 2 loại :
+
+- Quảng cáo 1 lần khi mở ứng dụng
+
+
+- Quảng cáo khi trở lại ứng dụng
+
+# BaseWithAdsAdapter Adapter chứa quảng cáo native
 
 

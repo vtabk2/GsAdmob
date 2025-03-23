@@ -1,6 +1,7 @@
 package com.example.gsadmob.ui.activity.base
 
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
@@ -21,6 +22,7 @@ import com.example.gsadmob.BuildConfig
 import com.example.gsadmob.R
 import com.example.gsadmob.utils.DialogUtils
 import com.example.gsadmob.utils.extensions.dialogLayout
+import com.google.android.gms.ads.rewarded.RewardItem
 import com.google.android.ump.ConsentInformation
 import com.gs.core.ui.view.toasty.Toasty
 import kotlinx.coroutines.launch
@@ -188,7 +190,9 @@ abstract class BaseAdsActivity<B : ViewBinding> : BaseMVVMActivity<B>() {
                 }
             }
 
-            override fun onShowFinishSuccess() {
+            override fun onShowFinishSuccess(rewardItem: RewardItem) {
+                Log.d("TAG5", "BaseAdsActivity_onShowFinishSuccess: rewardItem.type = " + rewardItem.type)
+                Log.d("TAG5", "BaseAdsActivity_onShowFinishSuccess: rewardItem.amount = " + rewardItem.amount)
                 callback(TypeShowAds.SUCCESS)
                 check.set(false)
             }

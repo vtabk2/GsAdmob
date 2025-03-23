@@ -719,8 +719,8 @@ class AdGsManager {
                                     }
                                     adGsData.isShowing = true
                                     //
-                                    adGsData.rewardedAd?.show(it) {
-                                        adGsData.listener?.onShowFinishSuccess()
+                                    adGsData.rewardedAd?.show(it) { rewardItem ->
+                                        adGsData.listener?.onShowFinishSuccess(rewardItem)
                                     }
                                 }
 
@@ -731,8 +731,8 @@ class AdGsManager {
                                     }
                                     adGsData.isShowing = true
                                     //
-                                    adGsData.rewardedInterstitialAd?.show(it) {
-                                        adGsData.listener?.onShowFinishSuccess()
+                                    adGsData.rewardedInterstitialAd?.show(it) { rewardItem ->
+                                        adGsData.listener?.onShowFinishSuccess(rewardItem)
                                     }
                                 }
 

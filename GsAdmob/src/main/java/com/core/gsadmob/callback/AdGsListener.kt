@@ -1,5 +1,7 @@
 package com.core.gsadmob.callback
 
+import com.google.android.gms.ads.rewarded.RewardItem
+
 interface AdGsListener {
     /**
      * Gom 3 trường hợp tải lỗi, không hiển thị được quảng cáo và tắt quảng cáo lại isFailed = true cho trường hợp tải quảng cáo lỗi
@@ -20,7 +22,7 @@ interface AdGsListener {
     /**
      *  Dùng cho quảng cáo trả thưởng
      */
-    fun onShowFinishSuccess() {}
+    fun onShowFinishSuccess(rewardItem: RewardItem) {}
 
     /**
      * Quảng cáo đang hiển thị

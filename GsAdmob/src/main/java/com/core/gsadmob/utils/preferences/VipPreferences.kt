@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.callbackFlow
 
 class VipPreferences {
     private var prefs: SharedPreferences? = null
+    private var currentKeyVipList = mutableListOf<String>()
 
     /**
      * Khởi tạo VipPreferences
@@ -22,16 +23,18 @@ class VipPreferences {
     /**
      * Bắt sự kiện thay đổi vip dựa vào keyVipList truyền vào, nếu không thì sẽ dùng danh sách mặc định
      */
-    fun getVipChangeFlow(keyVipList: MutableList<String> = defaultKeyVipList) = callbackFlow<Boolean> {
+    fun getVipChangeFlow(keyVipList: MutableList<String> = defaultKeyVipList) = callbackFlow {
+        currentKeyVipList = keyVipList
+
         val listener = SharedPreferences.OnSharedPreferenceChangeListener { _, key ->
             if (keyVipList.contains(key)) {
-                trySend(isFullVersion(keyVipList))
+                trySend(isFullVersion())
             }
         }
         prefs?.registerOnSharedPreferenceChangeListener(listener)
         for (keyVip in keyVipList) {
             if (prefs?.contains(keyVip) == true) {
-                send(isFullVersion(keyVipList)) // if you want to emit an initial pre-existing value
+                send(isFullVersion()) // if you want to emit an initial pre-existing value
                 break
             }
         }
@@ -82,7 +85,10 @@ class VipPreferences {
     /**
      * Kiểm tra xem trong danh sách truyền vào có vip nào được kích hoạt không
      */
-    fun isFullVersion(keyVipList: MutableList<String> = defaultKeyVipList): Boolean {
+    fun isFullVersion(): Boolean {
+        val keyVipList = currentKeyVipList.ifEmpty {
+            defaultKeyVipList
+        }
         var isVip = false
         for (keyVip in keyVipList) {
             if (load(keyVip, false)) {

@@ -150,7 +150,7 @@ class AdGsManager {
 
             async {
                 VipPreferences.instance.getVipChangeFlow(keyVipList = keyVipList)
-                    .stateIn(this, SharingStarted.Eagerly, VipPreferences.instance.isFullVersion(keyVipList = keyVipList))
+                    .stateIn(this, SharingStarted.Eagerly, VipPreferences.instance.isFullVersion())
                     .collect { isVip ->
                         notifyVip(isVip)
                     }

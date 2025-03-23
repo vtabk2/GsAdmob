@@ -25,7 +25,7 @@ Thư viện được tạo ra với mục đích quản lý và tùy chỉnh gia
 **Step 2.** Add the dependency
 ```css
         dependencies {
-                    implementation 'com.github.vtabk2:GsAdmob:1.2.15'
+                    implementation 'com.github.vtabk2:GsAdmob:1.2.16'
             }
 ```
 
@@ -120,7 +120,7 @@ Các hàm cơ bản được dùng trong đây
         
         mainScope.launch {
             VipPreferences.instance.getVipChangeFlow(keyVipList)
-                .stateIn(mainScope, SharingStarted.Eagerly, VipPreferences.instance.isFullVersion(keyVipList))
+                .stateIn(mainScope, SharingStarted.Eagerly, VipPreferences.instance.isFullVersion())
                 .collect { isVip ->
                     AdGsManager.instance.notifyVip(isVip)
                 }
@@ -142,6 +142,52 @@ Các hàm cơ bản được dùng trong đây
 - Có thể dùng các key mặc định như isPro, isProByYear, isProByMonth
 
 - Từ ***Version 1.2.15*** đã cải tiến tích hợp vào registerCoroutineScope của AdGsManager
+```css
+        AdGsManager.instance.registerCoroutineScope(
+            application = this,
+            coroutineScope = mainScope,
+            applicationId = BuildConfig.APPLICATION_ID,
+            keyVipList = VipPreferences.defaultKeyVipList,
+            callbackStartLifecycle = { activity ->
+                if (canShowAppOpenResume && activity !is SplashActivity) {
+                    AdGsManager.instance.showAd(adPlaceName = adPlaceName, onlyCheckNotShow = true, callbackShow = { adShowStatus ->
+                        when (adShowStatus) {
+                            AdShowStatus.CAN_SHOW, AdShowStatus.REQUIRE_LOAD -> {
+                                activity.supportFragmentManager.let { fragmentManager ->
+                                    val bottomDialogFragment = fragmentManager.findFragmentByTag(tag) as? ResumeDialogFragment
+                                    if (bottomDialogFragment != null && bottomDialogFragment.isVisible) {
+                                        // BottomDialogFragment đang hiển thị
+                                        bottomDialogFragment.onShowAds("onResume")
+                                    } else {
+                                        // BottomDialogFragment không hiển thị
+                                        val fragment = (activity.window.decorView.rootView as? ViewGroup)?.let { ResumeDialogFragment.newInstance(it) }
+                                        fragment?.show(fragmentManager, tag)
+                                    }
+                                }
+                            }
+
+                            else -> {
+
+                            }
+                        }
+                    })
+                }
+            },
+            callbackPauseLifecycle = { activity ->
+                val bottomDialogFragment = activity.supportFragmentManager.findFragmentByTag(tag) as? ResumeDialogFragment
+                if (bottomDialogFragment != null && bottomDialogFragment.isVisible) {
+                    // BottomDialogFragment đang hiển thị
+                    activity.runOnUiThread {
+                        bottomDialogFragment.dismissAllowingStateLoss()
+                    }
+                } else {
+                    // BottomDialogFragment không hiển thị
+                }
+            }, callbackNothingLifecycle = {
+                // 1 số logic cần thiết khác (ví dụ retry vip hoặc Lingver)
+            }
+        )
+```
 
 # Banner
 

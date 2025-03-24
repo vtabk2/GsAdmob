@@ -77,6 +77,8 @@ class AdGsManager {
 
     /**
      * Bắt buộc phải khởi tạo ở Application nếu không thì sẽ không thể tải được quảng cáo nào cả
+     * @param applicationId dùng để tạo VipPreferences
+     * @param keyVipList đây là danh sách các key lưu giá trị vip của ứng dụng( kiểu có nhiều loại vip như vip tháng, vip năm hay vip toàn bộ)
      */
     fun registerCoroutineScope(
         application: Application,
@@ -186,8 +188,9 @@ class AdGsManager {
 
     /**
      * Tải quảng cáo
+     * @param adPlaceName đây là cấu hình quảng cáo muốn được tải
      * @param requiredLoadNewAds = true sẽ yêu cầu tải quảng cáo mới không quan tâm đã có quảng cáo cũ rồi
-     * Chú ý : Hàm này ít được dùng , thay vào dó hãy dùng hàm registerAds vì nó có hỗ trợ đăng ký báo lỗi và kích hoạt quảng cáo tự tải lại
+     * Chú ý : Hàm này ít được dùng , thay vào dó hãy dùng hàm registerActiveAndLoadAds hoặc registerAndShowAds vì nó có hỗ trợ đăng ký báo lỗi và kích hoạt quảng cáo tự tải lại
      * Hàm này được dùng trực tiếp cho app open ở màn splash
      */
     private fun loadAd(adPlaceName: AdPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_FULL, requiredLoadNewAds: Boolean) {
@@ -292,6 +295,9 @@ class AdGsManager {
 
     /**
      * Tải quảng cáo app open
+     * @param adPlaceName cấu hình quảng cáo muốn được tải
+     * @param adGsData nơi chứa quảng cáo
+     * @param requiredLoadNewAds = true sẽ yêu cầu tải quảng cáo mới
      */
     private fun loadAppOpenAd(app: Application, adPlaceName: AdPlaceName, adGsData: AppOpenAdGsData, requiredLoadNewAds: Boolean) {
         val adRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
@@ -477,6 +483,9 @@ class AdGsManager {
         })
     }
 
+    /**
+     * Tải quảng cáo native
+     */
     private fun loadNativeAd(app: Application, adPlaceName: AdPlaceName, adGsData: NativeAdGsData) {
         val adRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
         val adLoader = AdLoader.Builder(app, app.getString(adPlaceName.adUnitId))
@@ -507,6 +516,9 @@ class AdGsManager {
         adLoader.loadAd(adRequest)
     }
 
+    /**
+     * Tải quảng cáo trả thưởng
+     */
     private fun loadRewardedAd(app: Application, adPlaceName: AdPlaceName, adGsData: RewardedAdGsData, requiredLoadNewAds: Boolean) {
         val adRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
         RewardedAd.load(app, app.getString(adPlaceName.adUnitId), adRequest, object : RewardedAdLoadCallback() {
@@ -565,6 +577,9 @@ class AdGsManager {
         })
     }
 
+    /**
+     * Tải quảng cáo trả thưởng xen kẽ
+     */
     private fun loadRewardedInterstitialAd(
         app: Application,
         adPlaceName: AdPlaceName,
@@ -841,8 +856,8 @@ class AdGsManager {
     }
 
     /**
-     * Xóa hết quảng cáo đi (thường dùng cho trường hợp đã mua vip)
-     * @param clearFull = true -> reset về ban đầu
+     * Xóa hết quảng cáo đi(thường dùng cho trường hợp đã mua vip)
+     * @param clearFull = true -> reset về ban đầu(thường được dùng ở activity home khi ấn back thoát ứng dụng hoặc có thể viết ở onDestroy() của home)
      */
     fun clearAll(clearFull: Boolean = true) {
         adGsDataMap.forEach {

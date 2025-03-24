@@ -7,6 +7,11 @@ import com.core.gsadmob.utils.preferences.CMPUtils
 
 val Context.cmpUtils: CMPUtils get() = CMPUtils.newInstance(applicationContext)
 
+/**
+ * Kiểm tra xem thiết bị có bật ứng dụng web view hay không
+ * @return true có bật web view -> có thể hiển thị quảng cáo
+ * @return false không bật web view -> không thể hiển thị quảng cáo
+ */
 fun Context.isWebViewEnabled(): Boolean {
     val webViewPackageInfo = WebViewCompat.getCurrentWebViewPackage(this)
     val isWebViewEnabled = webViewPackageInfo != null

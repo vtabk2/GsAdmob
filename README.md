@@ -33,9 +33,9 @@ Thư viện được tạo ra với mục đích quản lý và tùy chỉnh gia
 
 Thay đổi cấu hình quảng cáo trong [config_admob](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/res/values/config_admob.xml)
 
-**Step 1** Trong ứng dụng tạo 1 file config_admob.xml ở values
+**Step 1.** Trong ứng dụng tạo 1 file config_admob.xml ở values
 
-**Step 2** Tùy chỉnh config_admob
+**Step 2.** Tùy chỉnh config_admob
 
 - Ở trên cùng là app id và các id của quảng cáo dùng trong ứng dụng. Hiện tại có cấu hình 11 id quảng cáo cho 5 loại quảng cáo
 - Tiếp theo là cấu hình các thuộc tính có thể thay đổi của các mẫu quảng cáo native cấu hình sẵn (album, font, frame, language, share, sticker, template, vip)
@@ -185,6 +185,10 @@ Các hàm cơ bản được dùng trong đây
                 }
             }, callbackNothingLifecycle = {
                 // 1 số logic cần thiết khác (ví dụ retry vip hoặc Lingver)
+            }, callbackChangeVip = { currentActivity, isVip ->
+                if (currentActivity is BaseAdsActivity<*>) {
+                    currentActivity.updateUiWithVip(isVip = isVip)
+                }
             }
         )
 ```
@@ -582,5 +586,16 @@ Hướng dẫn chi tiết ở [TestApplication](https://github.com/vtabk2/GsAdmo
 Trong hàm initConfig() là các tạo và đăng ký quảng cáo
 
 # BaseWithAdsAdapter Adapter chứa quảng cáo native
+
+# Lịch sử cập nhật
+
+**Version 1.2.18**
+- Thêm callbackChangeVip ở registerCoroutineScope để có thể xử lý cập nhật giao diện khi thay đổi vip
+- Ở BaseAdsActivity thêm hàm updateUiWithVip để cập nhật giao diện khi thay đổi vip
+- Thêm RewardItem vào onShowFinishSuccess() để có thể lấy đuợc cấu hình phần thưởng sau khi xem quảng cáo trả thưởng
+
+**Version 1.2.17**
+- Lưu lại currentKeyVipList khi khởi tạo để isFullVersion không cần truyền keyVipList vào nữa mà dùng currentKeyVipList luôn
+
 
 

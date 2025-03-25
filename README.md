@@ -589,13 +589,13 @@ Trong hàm initConfig() là các tạo và đăng ký quảng cáo
 
 # Lịch sử cập nhật
 
-**Version 1.2.18**
+**Version: 1.2.18**
 - Thêm callbackChangeVip ở registerCoroutineScope để có thể xử lý cập nhật giao diện khi thay đổi vip
 - Ở BaseAdsActivity thêm hàm updateUiWithVip để cập nhật giao diện khi thay đổi vip
 - Thêm RewardItem vào onShowFinishSuccess() để có thể lấy đuợc cấu hình phần thưởng sau khi xem quảng cáo trả thưởng
 
-**Version 1.2.17**
-- Lưu lại currentKeyVipList khi khởi tạo để isFullVersion không cần truyền keyVipList vào nữa mà dùng currentKeyVipList luôn
+**Version: 1.2.17**
+- Lưu lại currentKeyVipList khi khởi tạo để khi dùng hàm kiểm tra vip isFullVersion() không cần truyền keyVipList vào nữa mà dùng currentKeyVipList luôn
 
 
 

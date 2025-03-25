@@ -230,6 +230,14 @@ abstract class BaseAdsActivity<B : ViewBinding> : BaseMVVMActivity<B>() {
         }, this)
     }
 
+    fun updateUiWithVip(isVip: Boolean) {
+        if (isVip) {
+            Toasty.showToast(this, "Bạn đã là thành viên vip", Toasty.SUCCESS)
+        } else {
+            Toasty.showToast(this, "Bạn chưa là thành viên vip", Toasty.WARNING)
+        }
+    }
+
     override fun onPause() {
         try {
             bannerGsAdView?.pause()

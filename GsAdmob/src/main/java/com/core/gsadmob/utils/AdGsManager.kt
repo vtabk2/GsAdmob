@@ -79,6 +79,10 @@ class AdGsManager {
      * Bắt buộc phải khởi tạo ở Application nếu không thì sẽ không thể tải được quảng cáo nào cả
      * @param applicationId dùng để tạo VipPreferences
      * @param keyVipList đây là danh sách các key lưu giá trị vip của ứng dụng( kiểu có nhiều loại vip như vip tháng, vip năm hay vip toàn bộ)
+     * @param callbackStartLifecycle trả kết quả khi quay trở lại ứng dụng(được dùng cho quảng cáo app open resume)
+     * @param callbackPauseLifecycle trả kết quả khi ứng dụng vào trạng thái tạm dừng
+     * @param callbackNothingLifecycle thường dùng để thiết lập 1 số logic khác (ví dụ retry vip hoặc Lingver)
+     * @param callbackChangeVip trả về activity hiện tại và trạng thái vip hiện tại(mục đích là để cập nhật giao diện cho ứng dụng)
      */
     fun registerCoroutineScope(
         application: Application,
@@ -87,7 +91,8 @@ class AdGsManager {
         keyVipList: MutableList<String> = VipPreferences.defaultKeyVipList,
         callbackStartLifecycle: ((activity: AppCompatActivity) -> Unit)? = null,
         callbackPauseLifecycle: ((activity: AppCompatActivity) -> Unit)? = null,
-        callbackNothingLifecycle: (() -> Unit)? = null
+        callbackNothingLifecycle: (() -> Unit)? = null,
+        callbackChangeVip: ((currentActivity: Activity?, isVip: Boolean) -> Unit)? = null
     ) {
         this.application = application
 
@@ -155,6 +160,7 @@ class AdGsManager {
                     .stateIn(this, SharingStarted.Eagerly, VipPreferences.instance.isFullVersion())
                     .collect { isVip ->
                         notifyVip(isVip)
+                        callbackChangeVip?.invoke(currentActivity, isVip)
                     }
             }
 
@@ -174,6 +180,7 @@ class AdGsManager {
      *  Thử tải lại những quảng cáo được dùng trong activity hiện tại mà có cấu hình tự động tải lại
      *  @param isChangeNetwork mục đích là xác định việc tải lại là do thay đổi mạng hay thay đổi vip
      *  Dựa vào isActive = true tức là nó được đăng ký dùng (thường là native và banner vì chúng cần cập nhật trên UI luôn)
+     *  Chỉ tải laại những quảng cáo đã active nhưng chưa tải được vì mặc định requiredLoadNewAds = false
      */
     private fun tryReloadAd(isChangeNetwork: Boolean) {
         adGsDataMap.forEach {

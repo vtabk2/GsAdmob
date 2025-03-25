@@ -6,6 +6,7 @@ import com.core.gsadmob.model.AdShowStatus
 import com.core.gsadmob.utils.AdGsManager
 import com.core.gsadmob.utils.AdPlaceNameConfig
 import com.core.gsadmob.utils.preferences.VipPreferences
+import com.example.gsadmob.ui.activity.base.BaseAdsActivity
 import com.example.gsadmob.ui.activity.splash.SplashActivity
 import com.example.gsadmob.ui.fragment.ResumeDialogFragment
 import com.gs.core.GsApplication
@@ -74,6 +75,10 @@ class TestApplication : GsApplication() {
                 }
             }, callbackNothingLifecycle = {
                 // 1 số logic cần thiết khác (ví dụ retry vip hoặc Lingver)
+            }, callbackChangeVip = { currentActivity, isVip ->
+                if (currentActivity is BaseAdsActivity<*>) {
+                    currentActivity.updateUiWithVip(isVip = isVip)
+                }
             }
         )
     }

@@ -1,6 +1,6 @@
 [versions]
 agp = "8.9.0"
-baseandroid = "1.1.8"
+baseandroid = "1.1.9"
 blurview = "version-2.0.6"
 coreSplashscreen = "1.0.1"
 gscore = "1.0.2"

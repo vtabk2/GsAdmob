@@ -14,16 +14,10 @@ import com.gs.core.ui.view.toasty.Toasty
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
-class TestAdsActivity : BaseAdsActivity<ActivityTestAdsBinding>() {
+class TestAdsActivity : BaseAdsActivity<ActivityTestAdsBinding>(ActivityTestAdsBinding::inflate) {
     override val bannerGsAdView: BannerGsAdView by lazy { bindingView.bannerView }
     override fun getAdPlaceNameList(): MutableList<AdPlaceName> {
-        return mutableListOf<AdPlaceName>().apply {
-            add(AdPlaceNameConfig.AD_PLACE_NAME_BANNER_HOME)
-        }
-    }
-
-    override fun getViewBinding(): ActivityTestAdsBinding {
-        return ActivityTestAdsBinding.inflate(layoutInflater)
+        return mutableListOf(AdPlaceNameConfig.AD_PLACE_NAME_BANNER_HOME)
     }
 
     override fun setupView(savedInstanceState: Bundle?) {

@@ -13,14 +13,10 @@ import com.example.gsadmob.ui.activity.base.BaseAdsActivity
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
-class TestNativeActivity : BaseAdsActivity<ActivityTestNativeBinding>() {
+class TestNativeActivity : BaseAdsActivity<ActivityTestNativeBinding>(ActivityTestNativeBinding::inflate) {
     override val bannerGsAdView: BannerGsAdView by lazy { bindingView.bannerView }
     override fun getAdPlaceNameList(): MutableList<AdPlaceName> {
-        return mutableListOf<AdPlaceName>(AdPlaceNameConfig.AD_PLACE_NAME_BANNER, AdPlaceNameConfig.AD_PLACE_NAME_NATIVE, AdPlaceNameConfig.AD_PLACE_NAME_NATIVE_LANGUAGE)
-    }
-
-    override fun getViewBinding(): ActivityTestNativeBinding {
-        return ActivityTestNativeBinding.inflate(layoutInflater)
+        return mutableListOf(AdPlaceNameConfig.AD_PLACE_NAME_BANNER, AdPlaceNameConfig.AD_PLACE_NAME_NATIVE, AdPlaceNameConfig.AD_PLACE_NAME_NATIVE_LANGUAGE)
     }
 
     override fun setupView(savedInstanceState: Bundle?) {

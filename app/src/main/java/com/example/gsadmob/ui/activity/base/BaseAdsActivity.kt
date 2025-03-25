@@ -2,6 +2,7 @@ package com.example.gsadmob.ui.activity.base
 
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
 import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
@@ -28,7 +29,7 @@ import com.gs.core.ui.view.toasty.Toasty
 import kotlinx.coroutines.launch
 import java.util.concurrent.atomic.AtomicBoolean
 
-abstract class BaseAdsActivity<B : ViewBinding> : BaseMVVMActivity<B>() {
+abstract class BaseAdsActivity<VB : ViewBinding>(inflateBinding: (LayoutInflater) -> VB) : BaseMVVMActivity<VB>(inflateBinding) {
     abstract val bannerGsAdView: BannerGsAdView?
     abstract fun getAdPlaceNameList(): MutableList<AdPlaceName>
 

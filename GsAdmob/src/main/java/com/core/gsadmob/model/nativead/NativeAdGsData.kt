@@ -5,6 +5,7 @@ import com.google.android.gms.ads.nativead.NativeAd
 
 class NativeAdGsData(var nativeAd: NativeAd? = null) : BaseActiveAdGsData() {
     override fun clearData(isResetReload: Boolean) {
+        nativeAd?.destroy()
         nativeAd = null
         super.clearData(isResetReload)
     }

@@ -5,6 +5,7 @@ import com.google.android.gms.ads.AdView
 
 class BannerAdGsData(var bannerAdView: AdView? = null, var isCollapsible: Boolean = false) : BaseActiveAdGsData() {
     override fun clearData(isResetReload: Boolean) {
+        bannerAdView?.destroy()
         bannerAdView = null
         super.clearData(isResetReload)
     }

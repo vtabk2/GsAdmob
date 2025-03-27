@@ -7,6 +7,7 @@ import android.app.Application.ActivityLifecycleCallbacks
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.DefaultLifecycleObserver
@@ -289,7 +290,10 @@ class AdGsManager {
                     )
                 }
             } else {
+                shimmerMap[adPlaceName] = false
                 adGsData.listener?.onAdClose(isFailed = true)
+                adGsData.clearData(isResetReload = false)
+                notifyAds()
             }
         }
     }
@@ -304,6 +308,7 @@ class AdGsManager {
         val adRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
         AppOpenAd.load(app, app.getString(adPlaceName.adUnitId), adRequest, object : AppOpenAdLoadCallback() {
             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
+                Log.d("AdGsManager", "loadAppOpenAd_onAdFailedToLoad: message = " + loadAdError.message)
                 adGsData.listener?.onAdClose(isFailed = true)
                 adGsData.clearData(isResetReload = false)
             }
@@ -380,6 +385,7 @@ class AdGsManager {
         bannerAdView.loadAd(adRequest)
         bannerAdView.adListener = object : AdListener() {
             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
+                Log.d("AdGsManager", "loadBannerAd_onAdFailedToLoad: message = " + loadAdError.message)
                 shimmerMap[adPlaceName] = false
                 adGsData.listener?.onAdClose(isFailed = true)
                 adGsData.clearData(isResetReload = false)
@@ -438,6 +444,7 @@ class AdGsManager {
         val adRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
         InterstitialAd.load(app, app.getString(adPlaceName.adUnitId), adRequest, object : InterstitialAdLoadCallback() {
             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
+                adGsData.listener?.onAdClose(isFailed = true)
                 adGsData.clearData(isResetReload = false)
 
                 if (!adGsData.isReload) {
@@ -498,6 +505,7 @@ class AdGsManager {
         val adLoader = AdLoader.Builder(app, app.getString(adPlaceName.adUnitId))
             .withAdListener(object : AdListener() {
                 override fun onAdFailedToLoad(loadAdError: LoadAdError) {
+                    Log.d("AdGsManager", "loadNativeAd_onAdFailedToLoad: message = " + loadAdError.message)
                     shimmerMap[adPlaceName] = false
                     adGsData.listener?.onAdClose(isFailed = true)
                     adGsData.clearData(isResetReload = false)
@@ -530,6 +538,7 @@ class AdGsManager {
         val adRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
         RewardedAd.load(app, app.getString(adPlaceName.adUnitId), adRequest, object : RewardedAdLoadCallback() {
             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
+                Log.d("AdGsManager", "loadRewardedAd_onAdFailedToLoad: message = " + loadAdError.message)
                 adGsData.listener?.onAdClose(isFailed = true)
                 adGsData.clearData(isResetReload = false)
                 //
@@ -596,6 +605,7 @@ class AdGsManager {
         val adRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
         RewardedInterstitialAd.load(app, app.getString(adPlaceName.adUnitId), adRequest, object : RewardedInterstitialAdLoadCallback() {
             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
+                Log.d("AdGsManager", "loadRewardedInterstitialAd_onAdFailedToLoad: message = " + loadAdError.message)
                 adGsData.listener?.onAdClose(isFailed = true)
                 adGsData.clearData(isResetReload = false)
                 //

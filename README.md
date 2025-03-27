@@ -25,7 +25,7 @@ Thư viện được tạo ra với mục đích quản lý và tùy chỉnh gia
 **Step 2.** Add the dependency
 ```css
         dependencies {
-                    implementation 'com.github.vtabk2:GsAdmob:1.2.18'
+                    implementation 'com.github.vtabk2:GsAdmob:1.2.19'
             }
 ```
 
@@ -588,6 +588,11 @@ Trong hàm initConfig() là các tạo và đăng ký quảng cáo
 # BaseWithAdsAdapter Adapter chứa quảng cáo native
 
 # Lịch sử cập nhật
+
+**Version: 1.2.19**
+- Thêm log error load quảng cáo
+- Thêm destroy của banner và native
+- Thêm NATIVE_AD_DEBUGGER_ENABLED
 
 **Version: 1.2.18**
 - Thêm callbackChangeVip ở registerCoroutineScope để có thể xử lý cập nhật giao diện khi thay đổi vip

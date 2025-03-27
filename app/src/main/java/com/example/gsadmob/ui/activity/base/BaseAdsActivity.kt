@@ -4,7 +4,6 @@ import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
-import androidx.lifecycle.lifecycleScope
 import androidx.viewbinding.ViewBinding
 import com.core.gsadmob.banner.BannerGsAdView
 import com.core.gsadmob.callback.AdGsListener
@@ -17,6 +16,7 @@ import com.core.gsadmob.utils.AdGsManager
 import com.core.gsadmob.utils.AdPlaceNameConfig
 import com.core.gsadmob.utils.extensions.cmpUtils
 import com.core.gsadmob.utils.preferences.GoogleMobileAdsConsentManager
+import com.core.gscore.utils.extensions.launchWhenResumed
 import com.core.gscore.utils.network.NetworkUtils
 import com.core.gsmvvm.ui.activity.BaseMVVMActivity
 import com.example.gsadmob.BuildConfig
@@ -26,7 +26,6 @@ import com.example.gsadmob.utils.extensions.dialogLayout
 import com.google.android.gms.ads.rewarded.RewardItem
 import com.google.android.ump.ConsentInformation
 import com.gs.core.ui.view.toasty.Toasty
-import kotlinx.coroutines.launch
 import java.util.concurrent.atomic.AtomicBoolean
 
 abstract class BaseAdsActivity<VB : ViewBinding>(inflateBinding: (LayoutInflater) -> VB) : BaseMVVMActivity<VB>(inflateBinding) {
@@ -43,7 +42,7 @@ abstract class BaseAdsActivity<VB : ViewBinding>(inflateBinding: (LayoutInflater
     }
 
     private fun initAdGs() {
-        lifecycleScope.launch {
+        launchWhenResumed {
             AdGsManager.instance.adGsDataMapMutableStateFlow.collect {
                 it.forEach { adGsDataMap ->
                     if (getAdPlaceNameList().contains(adGsDataMap.key)) {

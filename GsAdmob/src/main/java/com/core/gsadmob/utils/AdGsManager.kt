@@ -252,9 +252,6 @@ class AdGsManager {
                     )
 
                     AdGsType.BANNER, AdGsType.BANNER_COLLAPSIBLE -> {
-                        shimmerMap[adPlaceName] = true
-                        startShimmerLiveData.postValue(shimmerMap)
-
                         loadBannerAd(
                             app = it,
                             adPlaceName = adPlaceName,
@@ -270,9 +267,6 @@ class AdGsManager {
                     )
 
                     AdGsType.NATIVE -> {
-                        shimmerMap[adPlaceName] = true
-                        startShimmerLiveData.postValue(shimmerMap)
-
                         loadNativeAd(
                             app = it,
                             adPlaceName = adPlaceName,
@@ -364,6 +358,9 @@ class AdGsManager {
      * Tải quảng cáo banner
      */
     private fun loadBannerAd(app: Application, adPlaceName: AdPlaceName, adGsData: BannerAdGsData) {
+        shimmerMap[adPlaceName] = true
+        startShimmerLiveData.postValue(shimmerMap)
+
         val bannerAdView = AdView(app)
         bannerAdView.adUnitId = app.getString(adPlaceName.adUnitId)
         bannerAdView.descendantFocusability = ViewGroup.FOCUS_BLOCK_DESCENDANTS
@@ -494,6 +491,9 @@ class AdGsManager {
      * Tải quảng cáo native
      */
     private fun loadNativeAd(app: Application, adPlaceName: AdPlaceName, adGsData: NativeAdGsData) {
+        shimmerMap[adPlaceName] = true
+        startShimmerLiveData.postValue(shimmerMap)
+
         val adRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
         val adLoader = AdLoader.Builder(app, app.getString(adPlaceName.adUnitId))
             .withAdListener(object : AdListener() {

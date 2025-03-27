@@ -331,7 +331,7 @@ Tạo cách AdPlaceName trước giống cấu trúc ở AdPlaceNameConfig
 
 ```css
 
-        lifecycleScope.launch {
+        launchWhenResumed {
             async {
                 AdGsManager.instance.adGsDataMapMutableStateFlow.collect {
                     it.forEach { adGsDataMap ->
@@ -367,7 +367,7 @@ Tạo cách AdPlaceName trước giống cấu trúc ở AdPlaceNameConfig
 **Quảng cáo native**
 
 ```css
-        lifecycleScope.launch {          
+        launchWhenResumed {          
             async {
                 AdGsManager.instance.adGsDataMapMutableStateFlow.collect {
                     it.forEach { adGsDataMap ->

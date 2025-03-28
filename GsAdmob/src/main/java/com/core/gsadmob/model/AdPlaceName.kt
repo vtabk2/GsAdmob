@@ -10,7 +10,7 @@ data class AdPlaceName(
      */
     var adUnitId: Int = 0,
     /**
-     * Có tự động tải lại quảng cáo khi đóng không dùng cho quảng cáo loại BaseShowAdGsData (app open, interstitial, rewarded, rewarded interstitial)
+     * Có tự động tải lại quảng cáo khi đóng không dùng cho quảng cáo loại BaseShowAdGsData(app open, interstitial, rewarded, rewarded interstitial)
      */
     var autoReloadWhenDismiss: Boolean = false,
     /**
@@ -18,7 +18,7 @@ data class AdPlaceName(
      */
     var delayTime: Long = 0L,
     /**
-     * Tên Activity chứa quảng cáo này
+     * Tên Activity chứa quảng cáo này thường dùng để xử lý pause(), resume(), destroy() banner
      */
     var tagActivity: String = "",
     /**

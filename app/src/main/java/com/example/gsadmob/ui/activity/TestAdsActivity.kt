@@ -17,7 +17,9 @@ import kotlinx.coroutines.launch
 class TestAdsActivity : BaseAdsActivity<ActivityTestAdsBinding>(ActivityTestAdsBinding::inflate) {
     override val bannerGsAdView: BannerGsAdView by lazy { bindingView.bannerView }
     override fun getAdPlaceNameList(): MutableList<AdPlaceName> {
-        return mutableListOf(AdPlaceNameConfig.AD_PLACE_NAME_BANNER_HOME)
+        return mutableListOf(AdPlaceNameConfig.AD_PLACE_NAME_BANNER_HOME.apply {
+            tagActivity = TestAdsActivity::class.java.simpleName
+        })
     }
 
     override fun setupView(savedInstanceState: Bundle?) {

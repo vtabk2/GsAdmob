@@ -18,6 +18,14 @@ data class AdPlaceName(
      */
     var delayTime: Long = 0L,
     /**
+     * Tên Activity chứa quảng cáo này
+     */
+    var tagActivity: String = "",
+    /**
+     * Tên Fragment chứa quảng cáo này
+     */
+    var tagFragment: String = "",
+    /**
      * Loại quảng cáo được cấu hình ở AdGsType
      */
     var adGsType: AdGsType = AdGsType.INTERSTITIAL

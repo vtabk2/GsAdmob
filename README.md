@@ -25,7 +25,7 @@ Thư viện được tạo ra với mục đích quản lý và tùy chỉnh gia
 **Step 2.** Add the dependency
 ```css
         dependencies {
-                    implementation 'com.github.vtabk2:GsAdmob:1.2.19'
+                    implementation 'com.github.vtabk2:GsAdmob:1.2.20'
             }
 ```
 
@@ -588,6 +588,13 @@ Trong hàm initConfig() là các tạo và đăng ký quảng cáo
 # BaseWithAdsAdapter Adapter chứa quảng cáo native
 
 # Lịch sử cập nhật
+
+**Version 1.2.20**
+- Thêm biến showLog ở registerCoroutineScope() để có thể hiển thị log nội bộ của AdGsManager
+- Cải tiến clearAndRemoveActive() khi truyền 1 danh sách vào thì chỉ notify 1 lần thôi
+- Thêm BannerLife
+- Thêm tagActivity ở AdPlaceName để xác định tên của Activity đang dùng AdPlaceName này để tự động BannerLife
+- Thêm log
 
 **Version: 1.2.19**
 - Thêm log error load quảng cáo

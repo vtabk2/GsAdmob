@@ -82,11 +82,12 @@ class AdGsManager {
     /**
      * Bắt buộc phải khởi tạo ở Application nếu không thì sẽ không thể tải được quảng cáo nào cả
      * @param applicationId dùng để tạo VipPreferences
-     * @param keyVipList đây là danh sách các key lưu giá trị vip của ứng dụng( kiểu có nhiều loại vip như vip tháng, vip năm hay vip toàn bộ)
+     * @param keyVipList đây là danh sách các key lưu giá trị vip của ứng dụng(kiểu có nhiều loại vip như vip tháng, vip năm hay vip toàn bộ)
      * @param callbackStartLifecycle trả kết quả khi quay trở lại ứng dụng(được dùng cho quảng cáo app open resume)
      * @param callbackPauseLifecycle trả kết quả khi ứng dụng vào trạng thái tạm dừng
-     * @param callbackNothingLifecycle thường dùng để thiết lập 1 số logic khác (ví dụ retry vip hoặc Lingver)
+     * @param callbackNothingLifecycle thường dùng để thiết lập 1 số logic khác(ví dụ retry vip hoặc Lingver)
      * @param callbackChangeVip trả về activity hiện tại và trạng thái vip hiện tại(mục đích là để cập nhật giao diện cho ứng dụng)
+     * @param showLog có muốn hiển thị log không?
      */
     fun registerCoroutineScope(
         application: Application,
@@ -188,6 +189,9 @@ class AdGsManager {
         }
     }
 
+    /**
+     * @param bannerLife để xử lý cho các trường hợp pause(), resume() hoặc destroy()
+     */
     private fun setupBannerLife(activity: Activity, bannerLife: BannerLife) {
         val nameActivity = activity.javaClass.simpleName
         adGsDataMap.forEach {

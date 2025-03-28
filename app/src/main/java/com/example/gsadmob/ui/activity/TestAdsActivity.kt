@@ -89,7 +89,7 @@ class TestAdsActivity : BaseAdsActivity<ActivityTestAdsBinding>(ActivityTestAdsB
         }
 
         bindingView.imageRewardedClear.setOnClickListener {
-            AdGsManager.instance.clearWithAdPlaceName(AdPlaceNameConfig.AD_PLACE_NAME_REWARDED)
+            AdGsManager.instance.clearWithAdPlaceName(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_REWARDED)
         }
 
         bindingView.tvRewardedInterstitial.setOnClickListener {
@@ -121,7 +121,7 @@ class TestAdsActivity : BaseAdsActivity<ActivityTestAdsBinding>(ActivityTestAdsB
         }
 
         bindingView.imageRewardedInterstitialClear.setOnClickListener {
-            AdGsManager.instance.clearWithAdPlaceName(AdPlaceNameConfig.AD_PLACE_NAME_REWARDED_INTERSTITIAL)
+            AdGsManager.instance.clearWithAdPlaceName(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_REWARDED_INTERSTITIAL)
         }
     }
 

@@ -340,7 +340,7 @@ class AdGsManager {
                 adGsData.lastTime = System.currentTimeMillis() // khi tải được quảng cáo mới lưu lastTime
 
                 if (isVipFlow.value) {
-                    clearWithAdPlaceName(adPlaceName = adPlaceName)
+                    clearWithAdPlaceName(adPlaceName = adPlaceName, requiredNotify = true)
                 } else {
                     adGsData.appOpenAd = appOpenAd
                     adGsData.isLoading = false
@@ -420,7 +420,7 @@ class AdGsManager {
                 adGsData.lastTime = System.currentTimeMillis()
 
                 if (isVipFlow.value) {
-                    clearWithAdPlaceName(adPlaceName = adPlaceName)
+                    clearWithAdPlaceName(adPlaceName = adPlaceName, requiredNotify = true)
                 } else {
                     adGsData.bannerAdView = bannerAdView
                     adGsData.isLoading = false
@@ -480,7 +480,7 @@ class AdGsManager {
                 adGsData.lastTime = System.currentTimeMillis()
 
                 if (isVipFlow.value) {
-                    clearWithAdPlaceName(adPlaceName = adPlaceName)
+                    clearWithAdPlaceName(adPlaceName = adPlaceName, requiredNotify = true)
                 } else {
                     adGsData.interstitialAd = interstitialAd
                     adGsData.isLoading = false
@@ -544,7 +544,7 @@ class AdGsManager {
                 adGsData.lastTime = System.currentTimeMillis()
 
                 if (isVipFlow.value) {
-                    clearWithAdPlaceName(adPlaceName = adPlaceName)
+                    clearWithAdPlaceName(adPlaceName = adPlaceName, requiredNotify = true)
                 } else {
                     adGsData.nativeAd = nativeAd
                     adGsData.isLoading = false
@@ -575,7 +575,7 @@ class AdGsManager {
                 adGsData.lastTime = System.currentTimeMillis()
 
                 if (isVipFlow.value) {
-                    clearWithAdPlaceName(adPlaceName = adPlaceName)
+                    clearWithAdPlaceName(adPlaceName = adPlaceName, requiredNotify = true)
                 } else {
                     adGsData.rewardedAd = rewardedAd
                     adGsData.isLoading = false
@@ -642,7 +642,7 @@ class AdGsManager {
                 adGsData.lastTime = System.currentTimeMillis()
 
                 if (isVipFlow.value) {
-                    clearWithAdPlaceName(adPlaceName = adPlaceName)
+                    clearWithAdPlaceName(adPlaceName = adPlaceName, requiredNotify = true)
                 } else {
                     adGsData.rewardedInterstitialAd = rewardedInterstitialAd
                     adGsData.isLoading = false
@@ -890,9 +890,11 @@ class AdGsManager {
     /**
      * Xóa 1 quảng cáo cụ thể
      */
-    fun clearWithAdPlaceName(adPlaceName: AdPlaceName) {
+    fun clearWithAdPlaceName(adPlaceName: AdPlaceName, requiredNotify: Boolean = true) {
         adGsDataMap[adPlaceName]?.clearData(isResetReload = true)
-        notifyAds("clearWithAdPlaceName")
+        if (requiredNotify) {
+            notifyAds("clearWithAdPlaceName")
+        }
     }
 
     /**
@@ -984,15 +986,16 @@ class AdGsManager {
      */
     fun clearAndRemoveActive(adPlaceNameList: MutableList<AdPlaceName>) {
         adPlaceNameList.forEach { adPlaceName ->
-            clearAndRemoveActive(adPlaceName = adPlaceName)
+            clearAndRemoveActive(adPlaceName = adPlaceName, requiredNotify = false)
         }
+        notifyAds("clearAndRemoveActive")
     }
 
     /**
      * Xóa quảng cáo và xóa kích hoạt tự động tải lại quảng cáo nếu có
      */
-    fun clearAndRemoveActive(adPlaceName: AdPlaceName) {
-        clearWithAdPlaceName(adPlaceName = adPlaceName)
+    fun clearAndRemoveActive(adPlaceName: AdPlaceName, requiredNotify: Boolean = true) {
+        clearWithAdPlaceName(adPlaceName = adPlaceName, requiredNotify = requiredNotify)
 
         (adGsDataMap[adPlaceName] as? BaseActiveAdGsData)?.isActive = false
     }

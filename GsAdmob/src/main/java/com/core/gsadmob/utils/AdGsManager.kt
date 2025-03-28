@@ -290,10 +290,7 @@ class AdGsManager {
                     )
                 }
             } else {
-                shimmerMap[adPlaceName] = false
                 adGsData.listener?.onAdClose(isFailed = true)
-                adGsData.clearData(isResetReload = false)
-                notifyAds()
             }
         }
     }
@@ -389,7 +386,7 @@ class AdGsManager {
                 shimmerMap[adPlaceName] = false
                 adGsData.listener?.onAdClose(isFailed = true)
                 adGsData.clearData(isResetReload = false)
-                notifyAds()
+                notifyAds("loadBannerAd.onAdFailedToLoad")
             }
 
             override fun onAdLoaded() {
@@ -401,7 +398,7 @@ class AdGsManager {
                 } else {
                     adGsData.bannerAdView = bannerAdView
                     adGsData.isLoading = false
-                    notifyAds()
+                    notifyAds("loadBannerAd.onAdLoaded")
 
                     adGsData.listener?.onAdSuccess()
                 }
@@ -509,7 +506,7 @@ class AdGsManager {
                     shimmerMap[adPlaceName] = false
                     adGsData.listener?.onAdClose(isFailed = true)
                     adGsData.clearData(isResetReload = false)
-                    notifyAds()
+                    notifyAds("loadNativeAd.onAdFailedToLoad")
                 }
 
                 override fun onAdClicked() {
@@ -525,7 +522,7 @@ class AdGsManager {
                 } else {
                     adGsData.nativeAd = nativeAd
                     adGsData.isLoading = false
-                    notifyAds()
+                    notifyAds("loadNativeAd.forNativeAd")
                 }
             }.build()
         adLoader.loadAd(adRequest)
@@ -869,7 +866,7 @@ class AdGsManager {
      */
     fun clearWithAdPlaceName(adPlaceName: AdPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_FULL) {
         adGsDataMap[adPlaceName]?.clearData(isResetReload = true)
-        notifyAds()
+        notifyAds("clearWithAdPlaceName")
     }
 
     /**
@@ -889,13 +886,14 @@ class AdGsManager {
                 }
             }
         }
-        notifyAds()
+        notifyAds("clearAll")
     }
 
     /**
      * Gửi các thay đổi các quảng cáo đã kích hoạt
      */
-    private fun notifyAds() {
+    private fun notifyAds(from: String) {
+        Log.d("AdGsManager", "notifyAds: from = $from")
         defaultScope?.launch {
             val newData = HashMap<AdPlaceName, BaseActiveAdGsData>()
             adGsDataMap.forEach {

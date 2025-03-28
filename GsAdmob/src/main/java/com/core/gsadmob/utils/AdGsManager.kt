@@ -227,7 +227,7 @@ class AdGsManager {
      * Chú ý : Hàm này ít được dùng , thay vào dó hãy dùng hàm registerActiveAndLoadAds hoặc registerAndShowAds vì nó có hỗ trợ đăng ký báo lỗi và kích hoạt quảng cáo tự tải lại
      * Hàm này được dùng trực tiếp cho app open ở màn splash
      */
-    private fun loadAd(adPlaceName: AdPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_FULL, requiredLoadNewAds: Boolean) {
+    private fun loadAd(adPlaceName: AdPlaceName, requiredLoadNewAds: Boolean) {
         application?.let {
 
             if (!isWebViewEnabled) {
@@ -880,7 +880,7 @@ class AdGsManager {
     /**
      * Đăng ký thời gian tối thiểu giữa các lần tải ad
      */
-    fun registerDelayTime(delayTime: Long, adPlaceName: AdPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_FULL) {
+    fun registerDelayTime(delayTime: Long, adPlaceName: AdPlaceName) {
         // lưu lại cho trường hơp chưa tạo adPlaceName
         backupDelayTimeMap[adPlaceName] = delayTime
         // thử set delayTime cho adPlaceName
@@ -890,7 +890,7 @@ class AdGsManager {
     /**
      * Xóa 1 quảng cáo cụ thể
      */
-    fun clearWithAdPlaceName(adPlaceName: AdPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_FULL) {
+    fun clearWithAdPlaceName(adPlaceName: AdPlaceName) {
         adGsDataMap[adPlaceName]?.clearData(isResetReload = true)
         notifyAds("clearWithAdPlaceName")
     }

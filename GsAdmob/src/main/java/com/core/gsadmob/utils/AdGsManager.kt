@@ -77,6 +77,8 @@ class AdGsManager {
 
     private var isPause = false
 
+    private var showLog: Boolean = true
+
     /**
      * Bắt buộc phải khởi tạo ở Application nếu không thì sẽ không thể tải được quảng cáo nào cả
      * @param applicationId dùng để tạo VipPreferences
@@ -94,9 +96,11 @@ class AdGsManager {
         callbackStartLifecycle: ((activity: AppCompatActivity) -> Unit)? = null,
         callbackPauseLifecycle: ((activity: AppCompatActivity) -> Unit)? = null,
         callbackNothingLifecycle: (() -> Unit)? = null,
-        callbackChangeVip: ((currentActivity: Activity?, isVip: Boolean) -> Unit)? = null
+        callbackChangeVip: ((currentActivity: Activity?, isVip: Boolean) -> Unit)? = null,
+        showLog: Boolean = true
     ) {
         this.application = application
+        this.showLog = showLog
 
         application.registerActivityLifecycleCallbacks(object : ActivityLifecycleCallbacks {
             override fun onActivityCreated(activity: Activity, bundle: Bundle?) {}
@@ -331,7 +335,7 @@ class AdGsManager {
         val adRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
         AppOpenAd.load(app, app.getString(adPlaceName.adUnitId), adRequest, object : AppOpenAdLoadCallback() {
             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
-                Log.d("AdGsManager", "loadAppOpenAd_onAdFailedToLoad: message = " + loadAdError.message)
+                log("AdGsManager", "loadAppOpenAd_onAdFailedToLoad: message = " + loadAdError.message)
                 adGsData.listener?.onAdClose(isFailed = true)
                 adGsData.clearData(isResetReload = false)
             }
@@ -408,7 +412,7 @@ class AdGsManager {
         bannerAdView.loadAd(adRequest)
         bannerAdView.adListener = object : AdListener() {
             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
-                Log.d("AdGsManager", "loadBannerAd_onAdFailedToLoad: message = " + loadAdError.message)
+                log("AdGsManager", "loadBannerAd_onAdFailedToLoad: message = " + loadAdError.message)
                 shimmerMap[adPlaceName] = false
                 adGsData.listener?.onAdClose(isFailed = true)
                 adGsData.clearData(isResetReload = false)
@@ -528,7 +532,7 @@ class AdGsManager {
         val adLoader = AdLoader.Builder(app, app.getString(adPlaceName.adUnitId))
             .withAdListener(object : AdListener() {
                 override fun onAdFailedToLoad(loadAdError: LoadAdError) {
-                    Log.d("AdGsManager", "loadNativeAd_onAdFailedToLoad: message = " + loadAdError.message)
+                    log("AdGsManager", "loadNativeAd_onAdFailedToLoad: message = " + loadAdError.message)
                     shimmerMap[adPlaceName] = false
                     adGsData.listener?.onAdClose(isFailed = true)
                     adGsData.clearData(isResetReload = false)
@@ -561,7 +565,7 @@ class AdGsManager {
         val adRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
         RewardedAd.load(app, app.getString(adPlaceName.adUnitId), adRequest, object : RewardedAdLoadCallback() {
             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
-                Log.d("AdGsManager", "loadRewardedAd_onAdFailedToLoad: message = " + loadAdError.message)
+                log("AdGsManager", "loadRewardedAd_onAdFailedToLoad: message = " + loadAdError.message)
                 adGsData.listener?.onAdClose(isFailed = true)
                 adGsData.clearData(isResetReload = false)
                 //
@@ -628,7 +632,7 @@ class AdGsManager {
         val adRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
         RewardedInterstitialAd.load(app, app.getString(adPlaceName.adUnitId), adRequest, object : RewardedInterstitialAdLoadCallback() {
             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
-                Log.d("AdGsManager", "loadRewardedInterstitialAd_onAdFailedToLoad: message = " + loadAdError.message)
+                log("AdGsManager", "loadRewardedInterstitialAd_onAdFailedToLoad: message = " + loadAdError.message)
                 adGsData.listener?.onAdClose(isFailed = true)
                 adGsData.clearData(isResetReload = false)
                 //
@@ -921,7 +925,7 @@ class AdGsManager {
      * Gửi các thay đổi các quảng cáo đã kích hoạt
      */
     private fun notifyAds(from: String) {
-        Log.d("AdGsManager", "notifyAds: from = $from")
+        log("AdGsManager", "notifyAds: from = $from")
         defaultScope?.launch {
             val newData = HashMap<AdPlaceName, BaseActiveAdGsData>()
             adGsDataMap.forEach {
@@ -1008,6 +1012,26 @@ class AdGsManager {
         adGsDataMap.forEach {
             removeAdsListener(it.key)
         }
+    }
+
+    fun log(message: String, value: Any, logType: LogType = LogType.DEBUG) {
+        if (showLog) {
+            when (logType) {
+                LogType.DEBUG -> Log.d("AdGsManager", "$message: $value")
+                LogType.ERROR -> Log.e("AdGsManager", "$message: $value")
+                LogType.INFO -> Log.i("AdGsManager", "$message: $value")
+                LogType.VERBOSE -> Log.v("AdGsManager", "$message: $value")
+                LogType.WARN -> Log.w("AdGsManager", "$message: $value")
+            }
+        }
+    }
+
+    enum class LogType {
+        DEBUG,
+        ERROR,
+        INFO,
+        VERBOSE,
+        WARN
     }
 
     companion object {

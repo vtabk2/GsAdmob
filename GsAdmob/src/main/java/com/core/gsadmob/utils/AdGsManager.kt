@@ -337,7 +337,7 @@ class AdGsManager {
      */
     private fun loadAppOpenAd(app: Application, adPlaceName: AdPlaceName, adGsData: AppOpenAdGsData, requiredLoadNewAds: Boolean) {
         val adRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
-        AppOpenAd.load(app, app.getString(adPlaceName.adUnitId), adRequest, object : AppOpenAdLoadCallback() {
+        AppOpenAd.load(app, adPlaceName.adUnitId, adRequest, object : AppOpenAdLoadCallback() {
             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
                 log("AdGsManager", "loadAppOpenAd_onAdFailedToLoad: message = " + loadAdError.message)
                 adGsData.listener?.onAdClose(isFailed = true)
@@ -398,7 +398,7 @@ class AdGsManager {
         startShimmerLiveData.postValue(shimmerMap)
 
         val bannerAdView = AdView(app)
-        bannerAdView.adUnitId = app.getString(adPlaceName.adUnitId)
+        bannerAdView.adUnitId = adPlaceName.adUnitId
         bannerAdView.descendantFocusability = ViewGroup.FOCUS_BLOCK_DESCENDANTS
 
         val adSize = getAdSize(app)
@@ -473,7 +473,7 @@ class AdGsManager {
      */
     private fun loadInterstitialAd(app: Application, adPlaceName: AdPlaceName, adGsData: InterstitialAdGsData, requiredLoadNewAds: Boolean) {
         val adRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
-        InterstitialAd.load(app, app.getString(adPlaceName.adUnitId), adRequest, object : InterstitialAdLoadCallback() {
+        InterstitialAd.load(app, adPlaceName.adUnitId, adRequest, object : InterstitialAdLoadCallback() {
             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
                 adGsData.listener?.onAdClose(isFailed = true)
                 adGsData.clearData(isResetReload = false)
@@ -533,7 +533,7 @@ class AdGsManager {
         startShimmerLiveData.postValue(shimmerMap)
 
         val adRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
-        val adLoader = AdLoader.Builder(app, app.getString(adPlaceName.adUnitId))
+        val adLoader = AdLoader.Builder(app, adPlaceName.adUnitId)
             .withAdListener(object : AdListener() {
                 override fun onAdFailedToLoad(loadAdError: LoadAdError) {
                     log("AdGsManager", "loadNativeAd_onAdFailedToLoad: message = " + loadAdError.message)
@@ -567,7 +567,7 @@ class AdGsManager {
      */
     private fun loadRewardedAd(app: Application, adPlaceName: AdPlaceName, adGsData: RewardedAdGsData, requiredLoadNewAds: Boolean) {
         val adRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
-        RewardedAd.load(app, app.getString(adPlaceName.adUnitId), adRequest, object : RewardedAdLoadCallback() {
+        RewardedAd.load(app, adPlaceName.adUnitId, adRequest, object : RewardedAdLoadCallback() {
             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
                 log("AdGsManager", "loadRewardedAd_onAdFailedToLoad: message = " + loadAdError.message)
                 adGsData.listener?.onAdClose(isFailed = true)
@@ -634,7 +634,7 @@ class AdGsManager {
         requiredLoadNewAds: Boolean
     ) {
         val adRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
-        RewardedInterstitialAd.load(app, app.getString(adPlaceName.adUnitId), adRequest, object : RewardedInterstitialAdLoadCallback() {
+        RewardedInterstitialAd.load(app, adPlaceName.adUnitId, adRequest, object : RewardedInterstitialAdLoadCallback() {
             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
                 log("AdGsManager", "loadRewardedInterstitialAd_onAdFailedToLoad: message = " + loadAdError.message)
                 adGsData.listener?.onAdClose(isFailed = true)
@@ -929,7 +929,7 @@ class AdGsManager {
      * Gửi các thay đổi các quảng cáo đã kích hoạt
      */
     private fun notifyAds(from: String) {
-        log("AdGsManager", "notifyAds: from = $from")
+        log("notifyAds_from", from)
         defaultScope?.launch {
             val newData = HashMap<AdPlaceName, BaseActiveAdGsData>()
             adGsDataMap.forEach {
@@ -1021,12 +1021,18 @@ class AdGsManager {
     fun log(message: String, value: Any, logType: LogType = LogType.DEBUG) {
         if (showLog) {
             when (logType) {
-                LogType.DEBUG -> Log.d("AdGsManager", "$message: $value")
-                LogType.ERROR -> Log.e("AdGsManager", "$message: $value")
-                LogType.INFO -> Log.i("AdGsManager", "$message: $value")
-                LogType.VERBOSE -> Log.v("AdGsManager", "$message: $value")
-                LogType.WARN -> Log.w("AdGsManager", "$message: $value")
+                LogType.DEBUG -> Log.d("AdGsManager", "$message = $value")
+                LogType.ERROR -> Log.e("AdGsManager", "$message =  $value")
+                LogType.INFO -> Log.i("AdGsManager", "$message = $value")
+                LogType.VERBOSE -> Log.v("AdGsManager", "$message = $value")
+                LogType.WARN -> Log.w("AdGsManager", "$message = $value")
             }
+        }
+    }
+
+    fun logAdGsDataKey() {
+        adGsDataMap.forEach {
+            log("adPlaceName", it.key)
         }
     }
 

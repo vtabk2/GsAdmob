@@ -38,7 +38,7 @@ class ResumeDialogFragment : BottomSheetDialogFragment() {
     private var timerLoading: Hourglass? = null
     private var timerDelay: Hourglass? = null
 
-    private val adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_APP_OPEN_RESUME
+    private val adPlaceName = AdPlaceNameConfig.instance.AD_PLACE_NAME_APP_OPEN_RESUME
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

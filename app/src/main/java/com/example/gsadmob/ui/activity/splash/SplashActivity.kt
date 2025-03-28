@@ -25,7 +25,7 @@ class SplashActivity : AppCompatActivity() {
     private var shouldGoToMain = false
     private var isAdLoaded: Boolean = false
     private var isAppPaused: Boolean = false
-    private var adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_APP_OPEN
+    private var adPlaceName = AdPlaceNameConfig.instance.AD_PLACE_NAME_APP_OPEN
 
     // Use an atomic boolean to initialize the Google Mobile Ads SDK and load ads once.
     private val isMobileAdsInitializeCalled = AtomicBoolean(false)

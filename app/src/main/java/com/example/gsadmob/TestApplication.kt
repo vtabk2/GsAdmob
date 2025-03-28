@@ -30,7 +30,9 @@ class TestApplication : GsApplication() {
     }
 
     override fun initConfig() {
-        val adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_APP_OPEN_RESUME
+        AdPlaceNameConfig.instance.initAdPlaceNameConfig(application = this)
+
+        val adPlaceName = AdPlaceNameConfig.instance.AD_PLACE_NAME_APP_OPEN_RESUME
         val tag = ResumeDialogFragment.javaClass.simpleName
 
         AdGsManager.instance.registerCoroutineScope(

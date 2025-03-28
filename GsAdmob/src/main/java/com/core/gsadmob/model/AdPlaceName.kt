@@ -8,7 +8,7 @@ data class AdPlaceName(
     /**
      * id của quảng cáo
      */
-    var adUnitId: Int = 0,
+    var adUnitId: String = "",
     /**
      * Có tự động tải lại quảng cáo khi đóng không dùng cho quảng cáo loại BaseShowAdGsData(app open, interstitial, rewarded, rewarded interstitial)
      */
@@ -25,4 +25,12 @@ data class AdPlaceName(
      * Loại quảng cáo được cấu hình ở AdGsType
      */
     var adGsType: AdGsType = AdGsType.INTERSTITIAL
-)
+) {
+
+    fun getKey(): AdPlaceNameKey {
+        return AdPlaceNameKey(
+            name = name,
+            adUnitId = adUnitId
+        )
+    }
+}

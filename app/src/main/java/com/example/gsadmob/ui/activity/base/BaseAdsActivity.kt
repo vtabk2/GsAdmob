@@ -176,7 +176,7 @@ abstract class BaseAdsActivity<VB : ViewBinding>(inflateBinding: (LayoutInflater
 
     private fun loadAndShowRewardedAds(isRewardedInterstitialAds: Boolean, callback: (typeShowAds: TypeShowAds) -> Unit) {
         val check = AtomicBoolean(true)
-        val adPlaceName = if (isRewardedInterstitialAds) AdPlaceNameConfig.AD_PLACE_NAME_REWARDED_INTERSTITIAL else AdPlaceNameConfig.AD_PLACE_NAME_REWARDED
+        val adPlaceName = if (isRewardedInterstitialAds) AdPlaceNameConfig.instance.AD_PLACE_NAME_REWARDED_INTERSTITIAL else AdPlaceNameConfig.instance.AD_PLACE_NAME_REWARDED
 
         AdGsManager.instance.registerAndShowAds(adPlaceName = adPlaceName, adGsListener = object : AdGsListener {
             override fun onAdClose(isFailed: Boolean) {

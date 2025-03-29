@@ -31,14 +31,14 @@ class AdPlaceNameConfig {
         AD_PLACE_NAME_APP_OPEN.apply {
             name = "App open"
             adUnitId = application.getString(R.string.app_open_id)
-            adGsType = AdGsType.APP_OPEN_AD
+            adGsType = AdGsType.APP_OPEN
         }
 
         AD_PLACE_NAME_APP_OPEN_RESUME.apply {
             name = "App open resume"
             adUnitId = application.getString(R.string.app_open_id_resume)
             autoReloadWhenDismiss = true
-            adGsType = AdGsType.APP_OPEN_AD
+            adGsType = AdGsType.APP_OPEN
         }
 
         AD_PLACE_NAME_BANNER.apply {

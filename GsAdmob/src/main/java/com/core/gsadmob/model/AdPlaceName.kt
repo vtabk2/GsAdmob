@@ -25,12 +25,4 @@ data class AdPlaceName(
      * Loại quảng cáo được cấu hình ở AdGsType
      */
     var adGsType: AdGsType = AdGsType.INTERSTITIAL
-) {
-
-    fun getKey(): AdPlaceNameKey {
-        return AdPlaceNameKey(
-            name = name,
-            adUnitId = adUnitId
-        )
-    }
-}
+)

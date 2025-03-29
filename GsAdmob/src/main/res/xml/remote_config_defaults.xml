@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8"?>
+<defaultsMap>
+    <entry>
+        <key>ad_splash_config</key>
+        <value>
+            [
+            {
+            "name": "app_open_splash",
+            "adUnitId": "",
+            "autoReloadWhenDismiss": false,
+            "delayTime": 30L,
+            "tagActivity": "",
+            "adGsType": "app_open"
+            "is_enable": true,
+            },
+            {
+            "name": "interstitial_splash",
+            "adUnitId": "",
+            "autoReloadWhenDismiss": false,
+            "delayTime": 30L,
+            "tagActivity": "",
+            "adGsType": "interstitial"
+            "is_enable": false,
+            }
+            ]
+        </value>
+    </entry>
+</defaultsMap>

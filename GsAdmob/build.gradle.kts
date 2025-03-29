@@ -64,4 +64,5 @@ dependencies {
     implementation(platform("com.google.firebase:firebase-bom:33.11.0"))
     // Add the dependency for the Firebase SDK for Google Analytics
     implementation("com.google.firebase:firebase-analytics")
+    implementation("com.google.firebase:firebase-config-ktx")
 }

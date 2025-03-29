@@ -257,7 +257,7 @@ class AdGsManager {
                 null
             } else {
                 when (adPlaceName.adGsType) {
-                    AdGsType.APP_OPEN_AD -> (adGsData as? AppOpenAdGsData)?.appOpenAd
+                    AdGsType.APP_OPEN -> (adGsData as? AppOpenAdGsData)?.appOpenAd
                     AdGsType.BANNER, AdGsType.BANNER_COLLAPSIBLE -> (adGsData as? BannerAdGsData)?.bannerAdView
                     AdGsType.INTERSTITIAL -> (adGsData as? InterstitialAdGsData)?.interstitialAd
                     AdGsType.NATIVE -> (adGsData as? NativeAdGsData)?.nativeAd
@@ -279,7 +279,7 @@ class AdGsManager {
                 adGsData.isLoading = true
 
                 when (adPlaceName.adGsType) {
-                    AdGsType.APP_OPEN_AD -> loadAppOpenAd(
+                    AdGsType.APP_OPEN -> loadAppOpenAd(
                         app = it,
                         adPlaceName = adPlaceName,
                         adGsData = adGsData as AppOpenAdGsData,
@@ -746,7 +746,7 @@ class AdGsManager {
                         return
                     }
                     val canShow = when (adPlaceName.adGsType) {
-                        AdGsType.APP_OPEN_AD -> (adGsData as? AppOpenAdGsData)?.appOpenAd != null && wasLoadTimeLessThanNHoursAgo(adGsData, 4)
+                        AdGsType.APP_OPEN -> (adGsData as? AppOpenAdGsData)?.appOpenAd != null && wasLoadTimeLessThanNHoursAgo(adGsData, 4)
                         AdGsType.INTERSTITIAL -> (adGsData as? InterstitialAdGsData)?.interstitialAd != null
                         AdGsType.REWARDED -> (adGsData as? RewardedAdGsData)?.rewardedAd != null
                         AdGsType.REWARDED_INTERSTITIAL -> (adGsData as? RewardedInterstitialAdGsData)?.rewardedInterstitialAd != null
@@ -868,7 +868,7 @@ class AdGsManager {
     private fun getAdGsData(adPlaceName: AdPlaceName): BaseAdGsData {
         return adGsDataMap[adPlaceName] ?: run {
             when (adPlaceName.adGsType) {
-                AdGsType.APP_OPEN_AD -> AppOpenAdGsData()
+                AdGsType.APP_OPEN -> AppOpenAdGsData()
                 AdGsType.BANNER -> BannerAdGsData()
                 AdGsType.BANNER_COLLAPSIBLE -> BannerAdGsData(isCollapsible = true)
                 AdGsType.INTERSTITIAL -> InterstitialAdGsData()

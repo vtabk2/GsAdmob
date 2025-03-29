@@ -13,8 +13,6 @@ import com.example.gsadmob.ui.fragment.ResumeDialogFragment
 import kotlinx.coroutines.MainScope
 
 class TestApplication : GsAdmobApplication() {
-    var canShowAppOpenResume: Boolean = true
-
     private val mainScope = MainScope()
 
     init {
@@ -29,11 +27,7 @@ class TestApplication : GsAdmobApplication() {
         super.setupAdMob(BuildConfig.DEBUG)
     }
 
-    override fun initConfig() {
-        initAds()
-    }
-
-    private fun initAds() {
+    override fun initAds() {
         AdPlaceNameConfig.instance.initAdPlaceNameConfig(application = this)
 
         val adPlaceName = AdPlaceNameConfig.instance.AD_PLACE_NAME_APP_OPEN_RESUME

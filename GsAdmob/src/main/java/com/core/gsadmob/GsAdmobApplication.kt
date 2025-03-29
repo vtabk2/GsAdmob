@@ -13,6 +13,8 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 abstract class GsAdmobApplication : MultiDexApplication() {
+    var canShowAppOpenResume: Boolean = true
+
     private val deviceTestList = mutableListOf<String>()
 
     override fun onCreate() {
@@ -23,6 +25,8 @@ abstract class GsAdmobApplication : MultiDexApplication() {
         setupAdMob(isDebug = false)
 
         setupLingver()
+
+        initAds()
 
         initConfig()
     }
@@ -47,6 +51,8 @@ abstract class GsAdmobApplication : MultiDexApplication() {
     }
 
     open fun setupLingver() {}
+
+    open fun initAds() {}
 
     open fun initConfig() {}
 

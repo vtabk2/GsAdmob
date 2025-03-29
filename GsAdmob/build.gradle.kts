@@ -44,7 +44,7 @@ publishing {
 }
 
 dependencies {
-    api("androidx.multidex:multidex:2.0.1")
+    implementation("androidx.multidex:multidex:2.0.1")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -59,4 +59,9 @@ dependencies {
     implementation(libs.androidx.lifecycle.process)
 
     implementation (libs.androidx.preference.ktx)
+
+    // Import the Firebase BoM
+    implementation(platform("com.google.firebase:firebase-bom:33.11.0"))
+    // Add the dependency for the Firebase SDK for Google Analytics
+    implementation("com.google.firebase:firebase-analytics")
 }

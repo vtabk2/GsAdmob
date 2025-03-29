@@ -8,9 +8,14 @@ import com.core.gsadmob.utils.extensions.getAndroidId
 import com.core.gsadmob.utils.extensions.md5
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.RequestConfiguration
+import com.google.firebase.analytics.FirebaseAnalytics
+import com.google.firebase.analytics.FirebaseAnalytics.ConsentType
+import com.google.firebase.analytics.ktx.analytics
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import java.util.EnumMap
 
 abstract class GsAdmobApplication : MultiDexApplication() {
     var canShowAppOpenResume: Boolean = true
@@ -25,6 +30,8 @@ abstract class GsAdmobApplication : MultiDexApplication() {
         setupAdMob(isDebug = false)
 
         setupLingver()
+
+        setupConsentMode()
 
         initAds()
 
@@ -62,5 +69,16 @@ abstract class GsAdmobApplication : MultiDexApplication() {
             // Initialize the Google Mobile Ads SDK on a background thread.
             MobileAds.initialize(this@GsAdmobApplication) {}
         }
+    }
+
+    private fun setupConsentMode() {
+        // Set consent types.
+        val consentMap: MutableMap<ConsentType, FirebaseAnalytics.ConsentStatus> = EnumMap(ConsentType::class.java)
+        consentMap[ConsentType.ANALYTICS_STORAGE] = FirebaseAnalytics.ConsentStatus.GRANTED
+        consentMap[ConsentType.AD_STORAGE] = FirebaseAnalytics.ConsentStatus.GRANTED
+        consentMap[ConsentType.AD_USER_DATA] = FirebaseAnalytics.ConsentStatus.GRANTED
+        consentMap[ConsentType.AD_PERSONALIZATION] = FirebaseAnalytics.ConsentStatus.GRANTED
+
+        Firebase.analytics.setConsent(consentMap)
     }
 }

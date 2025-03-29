@@ -2,6 +2,7 @@ package com.example.gsadmob
 
 import android.annotation.SuppressLint
 import android.view.ViewGroup
+import com.core.gsadmob.GsAdmobApplication
 import com.core.gsadmob.model.AdShowStatus
 import com.core.gsadmob.utils.AdGsManager
 import com.core.gsadmob.utils.AdPlaceNameConfig
@@ -9,10 +10,9 @@ import com.core.gsadmob.utils.preferences.VipPreferences
 import com.example.gsadmob.ui.activity.base.BaseAdsActivity
 import com.example.gsadmob.ui.activity.splash.SplashActivity
 import com.example.gsadmob.ui.fragment.ResumeDialogFragment
-import com.gs.core.GsApplication
 import kotlinx.coroutines.MainScope
 
-class TestApplication : GsApplication() {
+class TestApplication : GsAdmobApplication() {
     var canShowAppOpenResume: Boolean = true
 
     private val mainScope = MainScope()
@@ -30,6 +30,10 @@ class TestApplication : GsApplication() {
     }
 
     override fun initConfig() {
+        initAds()
+    }
+
+    private fun initAds() {
         AdPlaceNameConfig.instance.initAdPlaceNameConfig(application = this)
 
         val adPlaceName = AdPlaceNameConfig.instance.AD_PLACE_NAME_APP_OPEN_RESUME
@@ -81,7 +85,7 @@ class TestApplication : GsApplication() {
                 if (currentActivity is BaseAdsActivity<*>) {
                     currentActivity.updateUiWithVip(isVip = isVip)
                 }
-            }
+            }, showLog = true
         )
     }
 

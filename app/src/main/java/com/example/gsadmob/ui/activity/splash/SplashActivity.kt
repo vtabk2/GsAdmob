@@ -8,6 +8,7 @@ import com.core.gsadmob.callback.AdGsListener
 import com.core.gsadmob.model.AdShowStatus
 import com.core.gsadmob.utils.AdGsManager
 import com.core.gsadmob.utils.AdPlaceNameConfig
+import com.core.gsadmob.utils.RemoteConfigUtils
 import com.core.gsadmob.utils.extensions.cmpUtils
 import com.core.gsadmob.utils.preferences.GoogleMobileAdsConsentManager
 import com.core.gscore.hourglass.Hourglass
@@ -54,6 +55,8 @@ class SplashActivity : AppCompatActivity() {
 
         bindingView?.apply {
             setContentView(root)
+
+            RemoteConfigUtils.initRemoteConfig(this@SplashActivity)
 
             tvMessageSplash.text = String.format("%s %s", getString(R.string.app_name), getString(R.string.text_is_running))
 

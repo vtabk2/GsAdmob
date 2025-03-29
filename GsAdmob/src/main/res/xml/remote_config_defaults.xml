@@ -11,7 +11,7 @@
             "delayTime": 30L,
             "tagActivity": "",
             "adGsType": "app_open"
-            "is_enable": true,
+            "isEnable": true,
             },
             {
             "name": "interstitial_splash",
@@ -20,7 +20,7 @@
             "delayTime": 30L,
             "tagActivity": "",
             "adGsType": "interstitial"
-            "is_enable": false,
+            "isEnable": false,
             }
             ]
         </value>

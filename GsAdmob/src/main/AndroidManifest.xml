@@ -30,5 +30,21 @@
         <meta-data
             android:name="com.google.android.gms.ads.DELAY_APP_MEASUREMENT_INIT"
             android:value="true"/>
+
+        <meta-data
+            android:name="google_analytics_default_allow_analytics_storage"
+            android:value="true"/>
+
+        <meta-data
+            android:name="google_analytics_default_allow_ad_storage"
+            android:value="true"/>
+
+        <meta-data
+            android:name="google_analytics_default_allow_ad_user_data"
+            android:value="true"/>
+
+        <meta-data
+            android:name="google_analytics_default_allow_ad_personalization_signals"
+            android:value="true"/>
     </application>
 </manifest>

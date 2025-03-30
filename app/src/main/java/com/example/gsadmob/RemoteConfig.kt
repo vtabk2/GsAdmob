@@ -6,10 +6,10 @@ import com.core.gsadmob.utils.AdGsRemoteConfig
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 
 class RemoteConfig : AdGsRemoteConfig() {
-    override fun updateRemoteConfig(remoteConfig: FirebaseRemoteConfig, from: String) {
-        super.updateRemoteConfig(remoteConfig, from)
+    override fun updateRemoteConfig(remoteConfig: FirebaseRemoteConfig) {
+        super.updateRemoteConfig(remoteConfig)
         val adSplashConfigJson = remoteConfig.getString(AD_SPLASH_CONFIG)
-        Log.d("GsAdmob", "RemoteConfig_updateRemoteConfig: adSplashConfigJson = $adSplashConfigJson")
+        Log.d("GsAdmobLib", "RemoteConfig_updateRemoteConfig: adSplashConfigJson = $adSplashConfigJson")
         if (adSplashConfigJson.isNotEmpty()) {
             // update AdPlaceNameConfig
         } else {

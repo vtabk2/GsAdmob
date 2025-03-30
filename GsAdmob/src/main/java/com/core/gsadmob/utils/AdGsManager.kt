@@ -903,6 +903,7 @@ class AdGsManager {
     fun clearWithAdPlaceName(adPlaceName: AdPlaceName, requiredNotify: Boolean = true) {
         adGsDataMap[adPlaceName]?.clearData(isResetReload = true)
         if (requiredNotify) {
+            log("clearWithAdPlaceName.adPlaceName", adPlaceName)
             notifyAds("clearWithAdPlaceName")
         }
     }
@@ -1023,11 +1024,11 @@ class AdGsManager {
     fun log(message: String, value: Any, logType: LogType = LogType.DEBUG) {
         if (showLog) {
             when (logType) {
-                LogType.DEBUG -> Log.d("GsAdmob", "$message: $value")
-                LogType.ERROR -> Log.e("GsAdmob", "$message: $value")
-                LogType.INFO -> Log.i("GsAdmob", "$message: $value")
-                LogType.VERBOSE -> Log.v("GsAdmob", "$message: $value")
-                LogType.WARN -> Log.w("GsAdmob", "$message: $value")
+                LogType.DEBUG -> Log.d("GsAdmobLib", "$message = $value")
+                LogType.ERROR -> Log.e("GsAdmobLib", "$message = $value")
+                LogType.INFO -> Log.i("GsAdmobLib", "$message = $value")
+                LogType.VERBOSE -> Log.v("GsAdmobLib", "$message = $value")
+                LogType.WARN -> Log.w("GsAdmobLib", "$message = $value")
             }
         }
     }

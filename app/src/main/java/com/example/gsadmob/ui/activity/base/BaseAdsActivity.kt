@@ -191,8 +191,8 @@ abstract class BaseAdsActivity<VB : ViewBinding>(inflateBinding: (LayoutInflater
             }
 
             override fun onShowFinishSuccess(rewardItem: RewardItem) {
-                Log.d("GsAdmob", "BaseAdsActivity_onShowFinishSuccess: rewardItem.type = " + rewardItem.type)
-                Log.d("GsAdmob", "BaseAdsActivity_onShowFinishSuccess: rewardItem.amount = " + rewardItem.amount)
+                Log.d("GsAdmobLib", "BaseAdsActivity_onShowFinishSuccess: rewardItem.type = " + rewardItem.type)
+                Log.d("GsAdmobLib", "BaseAdsActivity_onShowFinishSuccess: rewardItem.amount = " + rewardItem.amount)
                 callback(TypeShowAds.SUCCESS)
                 check.set(false)
             }

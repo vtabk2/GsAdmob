@@ -12,6 +12,7 @@ import com.google.firebase.remoteconfig.remoteConfig
 
 abstract class AdGsRemoteConfig {
     fun initRemoteConfig(activity: Activity, remoteConfigDefaultsId: Int) {
+        Log.d("GsAdmob", "AdGsRemoteConfig_initRemoteConfig: ")
         // [START get_remote_config_instance]
         val remoteConfig: FirebaseRemoteConfig = Firebase.remoteConfig
         // [END get_remote_config_instance]
@@ -40,6 +41,7 @@ abstract class AdGsRemoteConfig {
         // [START add_config_update_listener]
         remoteConfig.addOnConfigUpdateListener(object : ConfigUpdateListener {
             override fun onUpdate(configUpdate: ConfigUpdate) {
+                Log.d("GsAdmob", "AdGsRemoteConfig_onUpdate: updatedKeys = " + configUpdate.updatedKeys)
                 updateRemoteConfig(remoteConfig, "onUpdate")
             }
 
@@ -48,6 +50,6 @@ abstract class AdGsRemoteConfig {
     }
 
     open fun updateRemoteConfig(remoteConfig: FirebaseRemoteConfig, from: String) {
-        Log.d("TAG5", "RemoteConfigUtils_updateRemoteConfig: from = $from")
+        Log.d("GsAdmob", "RemoteConfigUtils_updateRemoteConfig: from = $from")
     }
 }

@@ -16,6 +16,7 @@ import com.core.gscore.utils.extensions.visible
 import com.core.gscore.utils.network.NetworkUtils
 import com.example.gsadmob.BuildConfig
 import com.example.gsadmob.R
+import com.example.gsadmob.RemoteConfig
 import com.example.gsadmob.TestApplication
 import com.example.gsadmob.databinding.ActivitySplashBinding
 import com.example.gsadmob.ui.activity.TestAdsActivity
@@ -49,6 +50,8 @@ class SplashActivity : AppCompatActivity() {
         val splashScreen = installSplashScreen()
 
         super.onCreate(savedInstanceState)
+
+        RemoteConfig.instance.initRemoteConfig(this, R.xml.remote_config_defaults)
 
         bindingView = ActivitySplashBinding.inflate(layoutInflater)
 

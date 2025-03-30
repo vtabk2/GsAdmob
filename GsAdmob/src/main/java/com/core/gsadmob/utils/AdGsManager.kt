@@ -341,7 +341,7 @@ class AdGsManager {
         val adRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
         AppOpenAd.load(app, adPlaceName.adUnitId, adRequest, object : AppOpenAdLoadCallback() {
             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
-                log("AdGsManager", "loadAppOpenAd_onAdFailedToLoad: message = " + loadAdError.message)
+                log("loadAppOpenAd_onAdFailedToLoad: message", loadAdError.message)
                 adGsData.listener?.onAdClose(isFailed = true)
                 adGsData.clearData(isResetReload = false)
             }
@@ -418,7 +418,7 @@ class AdGsManager {
         bannerAdView.loadAd(adRequest)
         bannerAdView.adListener = object : AdListener() {
             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
-                log("AdGsManager", "loadBannerAd_onAdFailedToLoad: message = " + loadAdError.message)
+                log("loadBannerAd_onAdFailedToLoad: message", loadAdError.message)
                 shimmerMap[adPlaceName] = false
                 adGsData.listener?.onAdClose(isFailed = true)
                 adGsData.clearData(isResetReload = false)
@@ -538,7 +538,7 @@ class AdGsManager {
         val adLoader = AdLoader.Builder(app, adPlaceName.adUnitId)
             .withAdListener(object : AdListener() {
                 override fun onAdFailedToLoad(loadAdError: LoadAdError) {
-                    log("AdGsManager", "loadNativeAd_onAdFailedToLoad: message = " + loadAdError.message)
+                    log("loadNativeAd_onAdFailedToLoad: message", loadAdError.message)
                     shimmerMap[adPlaceName] = false
                     adGsData.listener?.onAdClose(isFailed = true)
                     adGsData.clearData(isResetReload = false)
@@ -571,7 +571,7 @@ class AdGsManager {
         val adRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
         RewardedAd.load(app, adPlaceName.adUnitId, adRequest, object : RewardedAdLoadCallback() {
             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
-                log("AdGsManager", "loadRewardedAd_onAdFailedToLoad: message = " + loadAdError.message)
+                log("loadRewardedAd_onAdFailedToLoad: message", loadAdError.message)
                 adGsData.listener?.onAdClose(isFailed = true)
                 adGsData.clearData(isResetReload = false)
                 //
@@ -638,7 +638,7 @@ class AdGsManager {
         val adRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
         RewardedInterstitialAd.load(app, adPlaceName.adUnitId, adRequest, object : RewardedInterstitialAdLoadCallback() {
             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
-                log("AdGsManager", "loadRewardedInterstitialAd_onAdFailedToLoad: message = " + loadAdError.message)
+                log("loadRewardedInterstitialAd_onAdFailedToLoad: message", loadAdError.message)
                 adGsData.listener?.onAdClose(isFailed = true)
                 adGsData.clearData(isResetReload = false)
                 //
@@ -931,7 +931,7 @@ class AdGsManager {
      * Gửi các thay đổi các quảng cáo đã kích hoạt
      */
     private fun notifyAds(from: String) {
-        log("AdGsManager", "notifyAds: from = $from")
+        log("notifyAds: from", from)
         defaultScope?.launch {
             val newData = HashMap<AdPlaceName, BaseActiveAdGsData>()
             adGsDataMap.forEach {
@@ -1023,11 +1023,11 @@ class AdGsManager {
     fun log(message: String, value: Any, logType: LogType = LogType.DEBUG) {
         if (showLog) {
             when (logType) {
-                LogType.DEBUG -> Log.d("AdGsManager", "$message: $value")
-                LogType.ERROR -> Log.e("AdGsManager", "$message: $value")
-                LogType.INFO -> Log.i("AdGsManager", "$message: $value")
-                LogType.VERBOSE -> Log.v("AdGsManager", "$message: $value")
-                LogType.WARN -> Log.w("AdGsManager", "$message: $value")
+                LogType.DEBUG -> Log.d("GsAdmob", "$message: $value")
+                LogType.ERROR -> Log.e("GsAdmob", "$message: $value")
+                LogType.INFO -> Log.i("GsAdmob", "$message: $value")
+                LogType.VERBOSE -> Log.v("GsAdmob", "$message: $value")
+                LogType.WARN -> Log.w("GsAdmob", "$message: $value")
             }
         }
     }

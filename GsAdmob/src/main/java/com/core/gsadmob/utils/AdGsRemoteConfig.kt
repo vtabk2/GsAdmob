@@ -10,7 +10,7 @@ import com.google.firebase.remoteconfig.FirebaseRemoteConfigException
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.google.firebase.remoteconfig.remoteConfig
 
-abstract class RemoteConfigUtils {
+abstract class AdGsRemoteConfig {
     fun initRemoteConfig(activity: Activity, remoteConfigDefaultsId: Int) {
         // [START get_remote_config_instance]
         val remoteConfig: FirebaseRemoteConfig = Firebase.remoteConfig

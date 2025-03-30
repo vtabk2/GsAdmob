@@ -16,9 +16,13 @@ import kotlinx.coroutines.launch
 class TestNativeActivity : BaseAdsActivity<ActivityTestNativeBinding>(ActivityTestNativeBinding::inflate) {
     override val bannerGsAdView: BannerGsAdView by lazy { bindingView.bannerView }
     override fun getAdPlaceNameList(): MutableList<AdPlaceName> {
-        return mutableListOf(AdPlaceNameConfig.AD_PLACE_NAME_BANNER.apply {
-            tagActivity = TestNativeActivity::class.java.simpleName
-        }, AdPlaceNameConfig.AD_PLACE_NAME_NATIVE, AdPlaceNameConfig.AD_PLACE_NAME_NATIVE_LANGUAGE)
+        return mutableListOf(
+            AdPlaceNameConfig.instance.AD_PLACE_NAME_BANNER.apply {
+                tagActivity = TestNativeActivity::class.java.simpleName
+            },
+            AdPlaceNameConfig.instance.AD_PLACE_NAME_NATIVE,
+            AdPlaceNameConfig.instance.AD_PLACE_NAME_NATIVE_LANGUAGE
+        )
     }
 
     override fun setupView(savedInstanceState: Bundle?) {
@@ -46,30 +50,30 @@ class TestNativeActivity : BaseAdsActivity<ActivityTestNativeBinding>(ActivityTe
         }
 
         bindingView.tvNativeFrame.setOnClickListener {
-            AdGsManager.instance.registerActiveAndLoadAds(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_NATIVE)
+            AdGsManager.instance.registerActiveAndLoadAds(adPlaceName = AdPlaceNameConfig.instance.AD_PLACE_NAME_NATIVE)
         }
 
         bindingView.imageFrameClear.setOnClickListener {
-            AdGsManager.instance.clearWithAdPlaceName(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_NATIVE)
+            AdGsManager.instance.clearWithAdPlaceName(adPlaceName = AdPlaceNameConfig.instance.AD_PLACE_NAME_NATIVE)
         }
 
         bindingView.tvNativeLanguage.setOnClickListener {
-            AdGsManager.instance.registerActiveAndLoadAds(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_NATIVE_LANGUAGE)
+            AdGsManager.instance.registerActiveAndLoadAds(adPlaceName = AdPlaceNameConfig.instance.AD_PLACE_NAME_NATIVE_LANGUAGE)
         }
 
         bindingView.imageLanguageClear.setOnClickListener {
-            AdGsManager.instance.clearWithAdPlaceName(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_NATIVE_LANGUAGE)
+            AdGsManager.instance.clearWithAdPlaceName(adPlaceName = AdPlaceNameConfig.instance.AD_PLACE_NAME_NATIVE_LANGUAGE)
         }
     }
 
     override fun setupNative(adPlaceName: AdPlaceName, nativeAdGsData: NativeAdGsData?) {
         super.setupNative(adPlaceName, nativeAdGsData)
         when (adPlaceName) {
-            AdPlaceNameConfig.AD_PLACE_NAME_NATIVE -> {
+            AdPlaceNameConfig.instance.AD_PLACE_NAME_NATIVE -> {
                 bindingView.nativeFrame.setNativeAd(nativeAdGsData?.nativeAd)
             }
 
-            AdPlaceNameConfig.AD_PLACE_NAME_NATIVE_LANGUAGE -> {
+            AdPlaceNameConfig.instance.AD_PLACE_NAME_NATIVE_LANGUAGE -> {
                 bindingView.nativeLanguage.setNativeAd(nativeAdGsData?.nativeAd)
             }
         }
@@ -78,11 +82,11 @@ class TestNativeActivity : BaseAdsActivity<ActivityTestNativeBinding>(ActivityTe
     override fun startNativeShimmer(adPlaceName: AdPlaceName) {
         super.startNativeShimmer(adPlaceName)
         when (adPlaceName) {
-            AdPlaceNameConfig.AD_PLACE_NAME_NATIVE -> {
+            AdPlaceNameConfig.instance.AD_PLACE_NAME_NATIVE -> {
                 bindingView.nativeFrame.startShimmer()
             }
 
-            AdPlaceNameConfig.AD_PLACE_NAME_NATIVE_LANGUAGE -> {
+            AdPlaceNameConfig.instance.AD_PLACE_NAME_NATIVE_LANGUAGE -> {
                 bindingView.nativeLanguage.startShimmer()
             }
         }

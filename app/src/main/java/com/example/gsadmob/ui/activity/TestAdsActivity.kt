@@ -17,7 +17,7 @@ import kotlinx.coroutines.launch
 class TestAdsActivity : BaseAdsActivity<ActivityTestAdsBinding>(ActivityTestAdsBinding::inflate) {
     override val bannerGsAdView: BannerGsAdView by lazy { bindingView.bannerView }
     override fun getAdPlaceNameList(): MutableList<AdPlaceName> {
-        return mutableListOf(AdPlaceNameConfig.AD_PLACE_NAME_BANNER_HOME.apply {
+        return mutableListOf(AdPlaceNameConfig.instance.AD_PLACE_NAME_BANNER_HOME.apply {
             tagActivity = TestAdsActivity::class.java.simpleName
         })
     }
@@ -48,20 +48,20 @@ class TestAdsActivity : BaseAdsActivity<ActivityTestAdsBinding>(ActivityTestAdsB
 
         bindingView.tvInterstitial.setOnClickListener {
             startActivity(Intent(this, TestNativeActivity::class.java))
-            AdGsManager.instance.showAd(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_FULL)
+            AdGsManager.instance.showAd(adPlaceName = AdPlaceNameConfig.instance.AD_PLACE_NAME_INTERSTITIAL)
             // chuyển màn thì cần cancel tất cả các rewarded đi
             AdGsManager.instance.cancelAllRewardAd()
         }
 
         bindingView.tvInterstitialWithoutVideo.setOnClickListener {
             startActivity(Intent(this, TestNativeActivity::class.java))
-            AdGsManager.instance.showAd(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_FULL_WITHOUT_VIDEO)
+            AdGsManager.instance.showAd(adPlaceName = AdPlaceNameConfig.instance.AD_PLACE_NAME_INTERSTITIAL_WITHOUT_VIDEO)
             // chuyển màn thì cần cancel tất cả các rewarded đi
             AdGsManager.instance.cancelAllRewardAd()
         }
 
         bindingView.tvRewarded.setOnClickListener {
-            AdGsManager.instance.cancelRewardAd(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_REWARDED, isCancel = false)
+            AdGsManager.instance.cancelRewardAd(adPlaceName = AdPlaceNameConfig.instance.AD_PLACE_NAME_REWARDED, isCancel = false)
             checkShowRewardedAds(callback = { typeShowAds ->
                 when (typeShowAds) {
                     TypeShowAds.SUCCESS -> {
@@ -85,15 +85,15 @@ class TestAdsActivity : BaseAdsActivity<ActivityTestAdsBinding>(ActivityTestAdsB
         }
 
         bindingView.imageRewardedClose.setOnClickListener {
-            AdGsManager.instance.cancelRewardAd(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_REWARDED)
+            AdGsManager.instance.cancelRewardAd(adPlaceName = AdPlaceNameConfig.instance.AD_PLACE_NAME_REWARDED)
         }
 
         bindingView.imageRewardedClear.setOnClickListener {
-            AdGsManager.instance.clearWithAdPlaceName(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_REWARDED)
+            AdGsManager.instance.clearWithAdPlaceName(adPlaceName = AdPlaceNameConfig.instance.AD_PLACE_NAME_REWARDED)
         }
 
         bindingView.tvRewardedInterstitial.setOnClickListener {
-            AdGsManager.instance.cancelRewardAd(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_REWARDED_INTERSTITIAL, isCancel = false)
+            AdGsManager.instance.cancelRewardAd(adPlaceName = AdPlaceNameConfig.instance.AD_PLACE_NAME_REWARDED_INTERSTITIAL, isCancel = false)
             checkShowRewardedAds(callback = { typeShowAds ->
                 when (typeShowAds) {
                     TypeShowAds.SUCCESS -> {
@@ -117,11 +117,11 @@ class TestAdsActivity : BaseAdsActivity<ActivityTestAdsBinding>(ActivityTestAdsB
         }
 
         bindingView.imageRewardedInterstitialClose.setOnClickListener {
-            AdGsManager.instance.cancelRewardAd(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_REWARDED_INTERSTITIAL)
+            AdGsManager.instance.cancelRewardAd(adPlaceName = AdPlaceNameConfig.instance.AD_PLACE_NAME_REWARDED_INTERSTITIAL)
         }
 
         bindingView.imageRewardedInterstitialClear.setOnClickListener {
-            AdGsManager.instance.clearWithAdPlaceName(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_REWARDED_INTERSTITIAL)
+            AdGsManager.instance.clearWithAdPlaceName(adPlaceName = AdPlaceNameConfig.instance.AD_PLACE_NAME_REWARDED_INTERSTITIAL)
         }
     }
 

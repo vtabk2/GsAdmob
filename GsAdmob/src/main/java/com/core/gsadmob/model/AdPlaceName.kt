@@ -2,13 +2,13 @@ package com.core.gsadmob.model
 
 data class AdPlaceName(
     /**
-     * Tên của quảng cáo = loại quảng cáo + tên màn hình (Ví dụ : Banner home)
+     * Tên của quảng cáo = loại quảng cáo + tên màn hình(Ví dụ : banner_home)
      */
     var name: String = "",
     /**
      * id của quảng cáo
      */
-    var adUnitId: Int = 0,
+    var adUnitId: String = "",
     /**
      * Có tự động tải lại quảng cáo khi đóng không dùng cho quảng cáo loại BaseShowAdGsData(app open, interstitial, rewarded, rewarded interstitial)
      */
@@ -21,6 +21,12 @@ data class AdPlaceName(
      * Tên Activity chứa quảng cáo này thường dùng để xử lý pause(), resume(), destroy() banner
      */
     var tagActivity: String = "",
+    /**
+     * Dùng để xác định quảng cáo có được dùng không(thường dùng khi cấu hình trên firebase tắt bật)
+     * isEnable = true tức là ứng dụng có sử dụng
+     * isEnable = false tức là ứng dụng không sử dụng
+     */
+    var isEnable: Boolean = true,
     /**
      * Loại quảng cáo được cấu hình ở AdGsType
      */

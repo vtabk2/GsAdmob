@@ -1,26 +1,25 @@
 package com.example.gsadmob
 
 import android.annotation.SuppressLint
-import com.core.gsadmob.model.AdPlaceName
 import com.core.gsadmob.utils.AdGsRemoteConfig
+import com.core.gsadmob.utils.GsonUtils
 import com.core.gsadmob.utils.extensions.log
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import com.google.gson.Gson
 
 class RemoteConfig : AdGsRemoteConfig() {
     override fun updateRemoteConfig(remoteConfig: FirebaseRemoteConfig) {
         super.updateRemoteConfig(remoteConfig)
         val adSplashConfigJson = remoteConfig.getString(AD_SPLASH_CONFIG)
-        log("RemoteConfig_updateRemoteConfig: adSplashConfigJson", adSplashConfigJson)
         if (adSplashConfigJson.isNotEmpty()) {
             // update AdPlaceNameConfig
             try {
-                val adSplashConfig = Gson().fromJson(adSplashConfigJson, Array<AdPlaceName>::class.java)
-                adSplashConfig.forEach {
-                    log("RemoteConfig_updateRemoteConfig", it)
+                val adSplashConfigList = GsonUtils.parseAdPlaceNameList(adSplashConfigJson)
+                adSplashConfigList.forEach {
+                    log("RemoteConfig_updateRemoteConfig_adPlaceName", it)
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
+                log("RemoteConfig_updateRemoteConfig.error", e)
             }
         } else {
             // nothing

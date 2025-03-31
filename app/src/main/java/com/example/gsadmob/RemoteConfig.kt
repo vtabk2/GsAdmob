@@ -19,6 +19,9 @@ class RemoteConfig : AdGsRemoteConfig() {
 
         // cấu hình quảng cáo app open resume
         setupAdAppOpenResume(remoteConfig)
+
+        // cấu hình quảng cáo language
+        setupAdLanguageConfig(remoteConfig)
     }
 
 
@@ -98,6 +101,10 @@ class RemoteConfig : AdGsRemoteConfig() {
             AdGsRemoteExtraConfig.instance.adPlaceNameAppOpenResume.apply(AdPlaceNameConfig.instance.AD_PLACE_NAME_APP_OPEN_RESUME)
         }
         log("setupAdAppOpenResume", AdGsRemoteExtraConfig.instance.adPlaceNameAppOpenResume)
+    }
+
+    private fun setupAdLanguageConfig(remoteConfig: FirebaseRemoteConfig) {
+
     }
 
     private fun AdPlaceName.isValidate(): Boolean {

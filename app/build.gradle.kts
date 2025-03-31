@@ -62,4 +62,6 @@ dependencies {
     // Add the dependency for the Firebase SDK for Google Analytics
     implementation(libs.firebase.analytics)
     implementation(libs.firebase.config.ktx)
+
+    implementation(libs.gson)
 }

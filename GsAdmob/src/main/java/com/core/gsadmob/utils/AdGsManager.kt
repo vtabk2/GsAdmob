@@ -7,7 +7,6 @@ import android.app.Application.ActivityLifecycleCallbacks
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.DefaultLifecycleObserver
@@ -29,6 +28,7 @@ import com.core.gsadmob.model.nativead.NativeAdGsData
 import com.core.gsadmob.model.rewarded.RewardedAdGsData
 import com.core.gsadmob.model.rewarded.RewardedInterstitialAdGsData
 import com.core.gsadmob.utils.extensions.isWebViewEnabled
+import com.core.gsadmob.utils.extensions.log
 import com.core.gsadmob.utils.preferences.VipPreferences
 import com.core.gscore.utils.network.LiveDataNetworkStatus
 import com.core.gscore.utils.network.NetworkUtils
@@ -903,7 +903,7 @@ class AdGsManager {
     fun clearWithAdPlaceName(adPlaceName: AdPlaceName, requiredNotify: Boolean = true) {
         adGsDataMap[adPlaceName]?.clearData(isResetReload = true)
         if (requiredNotify) {
-            log("clearWithAdPlaceName.adPlaceName", adPlaceName)
+            log("clearWithAdPlaceName_adPlaceName", adPlaceName)
             notifyAds("clearWithAdPlaceName")
         }
     }
@@ -932,7 +932,7 @@ class AdGsManager {
      * Gửi các thay đổi các quảng cáo đã kích hoạt
      */
     private fun notifyAds(from: String) {
-        log("notifyAds: from", from)
+        log("notifyAds_from", from)
         defaultScope?.launch {
             val newData = HashMap<AdPlaceName, BaseActiveAdGsData>()
             adGsDataMap.forEach {
@@ -1019,26 +1019,6 @@ class AdGsManager {
         adGsDataMap.forEach {
             removeAdsListener(it.key)
         }
-    }
-
-    fun log(message: String, value: Any, logType: LogType = LogType.DEBUG) {
-        if (showLog) {
-            when (logType) {
-                LogType.DEBUG -> Log.d("GsAdmobLib", "$message = $value")
-                LogType.ERROR -> Log.e("GsAdmobLib", "$message = $value")
-                LogType.INFO -> Log.i("GsAdmobLib", "$message = $value")
-                LogType.VERBOSE -> Log.v("GsAdmobLib", "$message = $value")
-                LogType.WARN -> Log.w("GsAdmobLib", "$message = $value")
-            }
-        }
-    }
-
-    enum class LogType {
-        DEBUG,
-        ERROR,
-        INFO,
-        VERBOSE,
-        WARN
     }
 
     companion object {

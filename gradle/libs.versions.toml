@@ -5,6 +5,7 @@ blurview = "version-2.0.6"
 coreSplashscreen = "1.0.1"
 firebaseBom = "33.11.0"
 gscore = "1.0.2"
+gson = "2.12.1"
 kotlin = "2.1.10"
 coreKtx = "1.13.1"
 appcompat = "1.7.0"
@@ -30,6 +31,7 @@ firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 firebase-config-ktx = { module = "com.google.firebase:firebase-config-ktx" }
 gscore = { module = "com.github.vtabk2:GsCore", version.ref = "gscore" }
+gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 lottie = { module = "com.airbnb.android:lottie", version.ref = "lottie" }
 material = { group = "com.google.android.material", name = "material", version.ref = "material" }
 androidx-constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }

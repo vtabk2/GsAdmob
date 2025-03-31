@@ -1,7 +1,7 @@
 package com.core.gsadmob.utils
 
 import android.app.Activity
-import android.util.Log
+import com.core.gsadmob.utils.extensions.log
 import com.google.firebase.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
@@ -9,7 +9,7 @@ import com.google.firebase.remoteconfig.remoteConfig
 
 abstract class AdGsRemoteConfig {
     fun initRemoteConfig(activity: Activity, remoteConfigDefaultsId: Int) {
-        Log.d("GsAdmobLib", "AdGsRemoteConfig_initRemoteConfig: ")
+        log("AdGsRemoteConfig_initRemoteConfig", "")
         // [START get_remote_config_instance]
         val remoteConfig: FirebaseRemoteConfig = Firebase.remoteConfig
         // [END get_remote_config_instance]

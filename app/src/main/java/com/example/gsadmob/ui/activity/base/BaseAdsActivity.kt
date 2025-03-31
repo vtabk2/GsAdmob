@@ -1,7 +1,6 @@
 package com.example.gsadmob.ui.activity.base
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
 import androidx.viewbinding.ViewBinding
@@ -15,6 +14,7 @@ import com.core.gsadmob.model.nativead.NativeAdGsData
 import com.core.gsadmob.utils.AdGsManager
 import com.core.gsadmob.utils.AdPlaceNameConfig
 import com.core.gsadmob.utils.extensions.cmpUtils
+import com.core.gsadmob.utils.extensions.log
 import com.core.gsadmob.utils.preferences.GoogleMobileAdsConsentManager
 import com.core.gscore.utils.extensions.launchWhenResumed
 import com.core.gscore.utils.network.NetworkUtils
@@ -191,8 +191,8 @@ abstract class BaseAdsActivity<VB : ViewBinding>(inflateBinding: (LayoutInflater
             }
 
             override fun onShowFinishSuccess(rewardItem: RewardItem) {
-                Log.d("GsAdmobLib", "BaseAdsActivity_onShowFinishSuccess: rewardItem.type = " + rewardItem.type)
-                Log.d("GsAdmobLib", "BaseAdsActivity_onShowFinishSuccess: rewardItem.amount = " + rewardItem.amount)
+                log("BaseAdsActivity_onShowFinishSuccess: rewardItem.type", rewardItem.type)
+                log("BaseAdsActivity_onShowFinishSuccess: rewardItem.amount", rewardItem.amount)
                 callback(TypeShowAds.SUCCESS)
                 check.set(false)
             }

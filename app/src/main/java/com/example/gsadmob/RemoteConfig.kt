@@ -2,6 +2,7 @@ package com.example.gsadmob
 
 import android.annotation.SuppressLint
 import android.text.TextUtils
+import com.core.gsadmob.model.AdGsType
 import com.core.gsadmob.model.AdPlaceName
 import com.core.gsadmob.utils.AdGsRemoteConfig
 import com.core.gsadmob.utils.AdPlaceNameConfig
@@ -26,15 +27,36 @@ class RemoteConfig : AdGsRemoteConfig() {
         if (adSplashConfigJson.isNotEmpty()) {
             try {
                 val adSplashConfigList = GsonUtils.parseAdPlaceNameList(adSplashConfigJson)
-                adSplashConfigList.find { it.isEnable && it.isValidate() }?.let {
-                    AdGsRemoteExtraConfig.instance.adPlaceNameSplash.apply(it)
+                adSplashConfigList.find { it.isEnable }?.let {
+                    if (it.isValidate()) {
+                        AdGsRemoteExtraConfig.instance.adPlaceNameSplash.apply(it)
+                    } else {
+                        when (it.adGsType) {
+                            AdGsType.APP_OPEN -> {
+                                AdGsRemoteExtraConfig.instance.adPlaceNameSplash.apply(it).apply {
+                                    adUnitId = AdPlaceNameConfig.instance.AD_PLACE_NAME_APP_OPEN.adUnitId
+                                }
+                            }
+
+                            AdGsType.INTERSTITIAL -> {
+                                AdGsRemoteExtraConfig.instance.adPlaceNameSplash.apply(it).apply {
+                                    adUnitId = AdPlaceNameConfig.instance.AD_PLACE_NAME_INTERSTITIAL.adUnitId
+                                }
+                            }
+
+                            else -> {
+                                // nothing
+                            }
+                        }
+                    }
                 } ?: run {
                     // không có quảng cáo ở màn hình splash
                     AdGsRemoteExtraConfig.instance.adPlaceNameSplash.apply(AdPlaceName())
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                log("setupAdSplashConfig.error", e)
+                // nếu lỗi thì dùng mặc định
+                AdGsRemoteExtraConfig.instance.adPlaceNameSplash.apply(AdPlaceNameConfig.instance.AD_PLACE_NAME_APP_OPEN)
             }
         } else {
             AdGsRemoteExtraConfig.instance.adPlaceNameSplash.apply(AdPlaceNameConfig.instance.AD_PLACE_NAME_APP_OPEN)
@@ -47,15 +69,30 @@ class RemoteConfig : AdGsRemoteConfig() {
         if (adAppOpenResumeConfigJson.isNotEmpty()) {
             try {
                 val adAppOpenResumeConfigList = GsonUtils.parseAdPlaceNameList(adAppOpenResumeConfigJson)
-                adAppOpenResumeConfigList.find { it.isEnable && it.isValidate() }?.let {
-                    AdGsRemoteExtraConfig.instance.adPlaceNameAppOpenResume.apply(it)
+                adAppOpenResumeConfigList.find { it.isEnable }?.let {
+                    if (it.isValidate()) {
+                        AdGsRemoteExtraConfig.instance.adPlaceNameAppOpenResume.apply(it)
+                    } else {
+                        when (it.adGsType) {
+                            AdGsType.APP_OPEN -> {
+                                AdGsRemoteExtraConfig.instance.adPlaceNameAppOpenResume.apply(it).apply {
+                                    adUnitId = AdPlaceNameConfig.instance.AD_PLACE_NAME_APP_OPEN_RESUME.adUnitId
+                                }
+                            }
+
+                            else -> {
+                                // nothing
+                            }
+                        }
+                    }
                 } ?: run {
                     // không có quảng cáo ở màn hình splash
                     AdGsRemoteExtraConfig.instance.adPlaceNameAppOpenResume.apply(AdPlaceName())
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                log("setupAdSplashConfig.error", e)
+                // nếu lỗi thì dùng mặc định
+                AdGsRemoteExtraConfig.instance.adPlaceNameAppOpenResume.apply(AdPlaceNameConfig.instance.AD_PLACE_NAME_APP_OPEN_RESUME)
             }
         } else {
             AdGsRemoteExtraConfig.instance.adPlaceNameAppOpenResume.apply(AdPlaceNameConfig.instance.AD_PLACE_NAME_APP_OPEN_RESUME)
@@ -63,7 +100,7 @@ class RemoteConfig : AdGsRemoteConfig() {
         log("setupAdAppOpenResume", AdGsRemoteExtraConfig.instance.adPlaceNameAppOpenResume)
     }
 
-    fun AdPlaceName.isValidate(): Boolean {
+    private fun AdPlaceName.isValidate(): Boolean {
         return TextUtils.isEmpty(name) && TextUtils.isEmpty(adUnitId)
     }
 

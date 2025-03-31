@@ -2,21 +2,21 @@ package com.example.gsadmob.ui.activity.splash
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.core.gsadmob.callback.AdGsListener
 import com.core.gsadmob.model.AdShowStatus
 import com.core.gsadmob.utils.AdGsManager
-import com.core.gsadmob.utils.AdPlaceNameConfig
 import com.core.gsadmob.utils.extensions.cmpUtils
 import com.core.gsadmob.utils.preferences.GoogleMobileAdsConsentManager
 import com.core.gscore.hourglass.Hourglass
 import com.core.gscore.utils.extensions.gone
 import com.core.gscore.utils.extensions.visible
 import com.core.gscore.utils.network.NetworkUtils
+import com.example.gsadmob.AdGsRemoteExtraConfig
 import com.example.gsadmob.BuildConfig
 import com.example.gsadmob.R
-import com.example.gsadmob.RemoteConfig
 import com.example.gsadmob.TestApplication
 import com.example.gsadmob.databinding.ActivitySplashBinding
 import com.example.gsadmob.ui.activity.TestAdsActivity
@@ -26,7 +26,7 @@ class SplashActivity : AppCompatActivity() {
     private var shouldGoToMain = false
     private var isAdLoaded: Boolean = false
     private var isAppPaused: Boolean = false
-    private var adPlaceName = AdPlaceNameConfig.instance.AD_PLACE_NAME_APP_OPEN
+    private var adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameSplash
 
     // Use an atomic boolean to initialize the Google Mobile Ads SDK and load ads once.
     private val isMobileAdsInitializeCalled = AtomicBoolean(false)
@@ -50,8 +50,6 @@ class SplashActivity : AppCompatActivity() {
         val splashScreen = installSplashScreen()
 
         super.onCreate(savedInstanceState)
-
-        RemoteConfig.instance.initRemoteConfig(this, R.xml.remote_config_defaults)
 
         bindingView = ActivitySplashBinding.inflate(layoutInflater)
 

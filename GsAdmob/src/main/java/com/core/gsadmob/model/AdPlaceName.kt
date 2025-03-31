@@ -31,4 +31,14 @@ data class AdPlaceName(
      * Loại quảng cáo được cấu hình ở AdGsType
      */
     var adGsType: AdGsType = AdGsType.INTERSTITIAL
-)
+) {
+
+    fun apply(adPlaceName: AdPlaceName) {
+        name = adPlaceName.name
+        adUnitId = adPlaceName.adUnitId
+        autoReloadWhenDismiss = adPlaceName.autoReloadWhenDismiss
+        delayTime = adPlaceName.delayTime
+        tagActivity = adPlaceName.tagActivity
+        adGsType = adPlaceName.adGsType
+    }
+}

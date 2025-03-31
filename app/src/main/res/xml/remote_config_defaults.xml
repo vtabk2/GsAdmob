@@ -25,4 +25,45 @@
             ]
         </value>
     </entry>
+
+    <entry>
+        <key>ad_app_open_resume_config</key>
+        <value>
+            {
+            "name": "app_open_resume",
+            "adUnitId": "",
+            "autoReloadWhenDismiss": true,
+            "delayTime": 0,
+            "tagActivity": "",
+            "adGsType": "app_open",
+            "isEnable": true
+            }
+        </value>
+    </entry>
+
+    <entry>
+        <key>ad_language_config</key>
+        <value>
+            [
+            {
+            "name": "banner_language",
+            "adUnitId": "",
+            "autoReloadWhenDismiss": false,
+            "delayTime": 0,
+            "tagActivity": "",
+            "adGsType": "banner",
+            "isEnable": false
+            },
+            {
+            "name": "native_language",
+            "adUnitId": "",
+            "autoReloadWhenDismiss": false,
+            "delayTime": 0,
+            "tagActivity": "",
+            "adGsType": "native",
+            "isEnable": true
+            }
+            ]
+        </value>
+    </entry>
 </defaultsMap>

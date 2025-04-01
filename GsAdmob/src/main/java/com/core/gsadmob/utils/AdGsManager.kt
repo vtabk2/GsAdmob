@@ -268,6 +268,11 @@ class AdGsManager {
                 }
             }
 
+            if (!adPlaceName.isEnable) {
+                adGsData.listener?.onAdClose(isFailed = true)
+                return
+            }
+
             if (ads != null) return
 
             // isReload = false tức là load lần đầu mới cần check delay time
@@ -723,6 +728,7 @@ class AdGsManager {
         when {
             !isWebViewEnabled -> callbackShow?.invoke(AdShowStatus.ERROR_WEB_VIEW)
             isVipFlow.value -> callbackShow?.invoke(AdShowStatus.ERROR_VIP)
+            !adPlaceName.isEnable -> callbackShow?.invoke(AdShowStatus.ADS_DISABLE)
             else -> {
                 var isShowing = false
                 adGsDataMap.forEach {

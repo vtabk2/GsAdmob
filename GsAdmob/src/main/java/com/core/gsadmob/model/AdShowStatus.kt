@@ -39,5 +39,10 @@ enum class AdShowStatus {
     /**
      * Lỗi do không có activiy nào để hiển thị vào
      */
-    NO_ACTIVITY
+    NO_ACTIVITY,
+
+    /**
+     * Lỗi quảng cáo chưa đươc kích hoạt sử dụng
+     */
+    ADS_DISABLE
 }

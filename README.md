@@ -605,6 +605,7 @@ Trong hàm initConfig() là các tạo và đăng ký quảng cáo
             }
         )
 ```
+- Fix BlurView
 
 **Version 1.2.20**
 - Thêm biến showLog ở registerCoroutineScope() để có thể hiển thị log nội bộ của AdGsManager

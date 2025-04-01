@@ -104,16 +104,61 @@ class RemoteConfig : AdGsRemoteConfig() {
     }
 
     private fun setupAdLanguageConfig(remoteConfig: FirebaseRemoteConfig) {
+        val adLanguageConfigJson = remoteConfig.getString(AD_LANGUAGE_CONFIG)
+        if (adLanguageConfigJson.isNotEmpty()) {
+            try {
+                val adLanguageConfigList = GsonUtils.parseAdPlaceNameList(adLanguageConfigJson)
+                adLanguageConfigList.find { it.isEnable }?.let {
+                    if (it.isValidate()) {
+                        AdGsRemoteExtraConfig.instance.adPlaceNameLanguage.apply(it)
+                    } else {
+                        when (it.adGsType) {
+                            AdGsType.BANNER -> {
+                                AdGsRemoteExtraConfig.instance.adPlaceNameLanguage.apply(it).apply {
+                                    adUnitId = AdPlaceNameConfig.instance.AD_PLACE_NAME_BANNER.adUnitId
+                                }
+                            }
 
+                            AdGsType.BANNER_COLLAPSIBLE -> {
+                                AdGsRemoteExtraConfig.instance.adPlaceNameLanguage.apply(it).apply {
+                                    adUnitId = AdPlaceNameConfig.instance.AD_PLACE_NAME_BANNER_COLLAPSIBLE.adUnitId
+                                }
+                            }
+
+                            AdGsType.NATIVE -> {
+                                AdGsRemoteExtraConfig.instance.adPlaceNameLanguage.apply(it).apply {
+                                    adUnitId = AdPlaceNameConfig.instance.AD_PLACE_NAME_NATIVE_LANGUAGE.adUnitId
+                                }
+                            }
+
+                            else -> {
+                                // nothing
+                            }
+                        }
+                    }
+                } ?: run {
+                    // không có quảng cáo ở màn hình splash
+                    AdGsRemoteExtraConfig.instance.adPlaceNameLanguage.apply(AdPlaceName())
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                // nếu lỗi thì dùng mặc định
+                AdGsRemoteExtraConfig.instance.adPlaceNameLanguage.apply(AdPlaceNameConfig.instance.AD_PLACE_NAME_NATIVE_LANGUAGE)
+            }
+        } else {
+            AdGsRemoteExtraConfig.instance.adPlaceNameLanguage.apply(AdPlaceNameConfig.instance.AD_PLACE_NAME_NATIVE_LANGUAGE)
+        }
+        log("setupAdLanguageConfig", AdGsRemoteExtraConfig.instance.adPlaceNameLanguage)
     }
 
     private fun AdPlaceName.isValidate(): Boolean {
-        return TextUtils.isEmpty(name) && TextUtils.isEmpty(adUnitId)
+        return TextUtils.isEmpty(adUnitId)
     }
 
     companion object {
         const val AD_SPLASH_CONFIG = "ad_splash_config"
         const val AD_APP_OPEN_RESUME_CONFIG = "ad_app_open_resume_config"
+        const val AD_LANGUAGE_CONFIG = "ad_language_config"
 
         @SuppressLint("StaticFieldLeak")
         private var singleton: RemoteConfig? = null

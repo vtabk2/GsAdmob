@@ -14,7 +14,7 @@ class HomeActivity : BaseAdsActivity<ActivityHomeBinding>(ActivityHomeBinding::i
     override val bannerGsAdView: BannerGsAdView by lazy { bindingView.bannerView }
 
     override fun getAdPlaceNameList(): MutableList<AdPlaceName> {
-        return mutableListOf<AdPlaceName>(
+        return mutableListOf(
             AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome,
             AdGsRemoteExtraConfig.instance.adPlaceNameNativeHome
         )

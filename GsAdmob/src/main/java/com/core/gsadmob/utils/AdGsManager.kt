@@ -438,6 +438,7 @@ class AdGsManager {
                 } else {
                     adGsData.bannerAdView = bannerAdView
                     adGsData.isLoading = false
+                    log("loadBannerAd.isCollapsible", bannerAdView.isCollapsible)
                     notifyAds("loadBannerAd.onAdLoaded")
 
                     adGsData.listener?.onAdSuccess()

@@ -39,6 +39,7 @@ data class AdPlaceName(
         autoReloadWhenDismiss = adPlaceName.autoReloadWhenDismiss
         delayTime = adPlaceName.delayTime
         tagActivity = adPlaceName.tagActivity
+        isEnable = adPlaceName.isEnable
         adGsType = adPlaceName.adGsType
         return this
     }

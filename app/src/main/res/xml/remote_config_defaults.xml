@@ -66,4 +66,30 @@
             ]
         </value>
     </entry>
+
+    <entry>
+        <key>ad_home_config</key>
+        <value>
+            [
+            {
+            "name": "banner_home",
+            "adUnitId": "",
+            "autoReloadWhenDismiss": false,
+            "delayTime": 30,
+            "tagActivity": "",
+            "adGsType": "banner",
+            "isEnable": true
+            },
+            {
+            "name": "native_home",
+            "adUnitId": "",
+            "autoReloadWhenDismiss": false,
+            "delayTime": 0,
+            "tagActivity": "",
+            "adGsType": "native",
+            "isEnable": true
+            }
+            ]
+        </value>
+    </entry>
 </defaultsMap>

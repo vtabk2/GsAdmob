@@ -20,6 +20,9 @@ class RemoteConfig : AdGsRemoteConfig() {
         // cấu hình quảng cáo app open resume
         setupAdAppOpenResume(remoteConfig)
 
+        // cấu hình quảng cáo màn hình home
+        setupAdHomeConfig(remoteConfig)
+
         // cấu hình quảng cáo language
         setupAdLanguageConfig(remoteConfig)
     }
@@ -151,6 +154,45 @@ class RemoteConfig : AdGsRemoteConfig() {
         log("setupAdLanguageConfig", AdGsRemoteExtraConfig.instance.adPlaceNameLanguage)
     }
 
+    private fun setupAdHomeConfig(remoteConfig: FirebaseRemoteConfig) {
+        val adHomeConfigJson = remoteConfig.getString(AD_HOME_CONFIG)
+        if (adHomeConfigJson.isNotEmpty()) {
+            try {
+                val adHomeConfigList = GsonUtils.parseAdPlaceNameList(adHomeConfigJson)
+                adHomeConfigList.filter { it.isEnable }.forEach {
+                    if (it.isValidate()) {
+                        AdGsRemoteExtraConfig.instance.adPlaceNameHome.apply(it)
+                    } else {
+                        when (it.adGsType) {
+                            AdGsType.BANNER -> {
+                                AdGsRemoteExtraConfig.instance.adPlaceNameHome.apply(it).apply {
+                                    adUnitId = AdPlaceNameConfig.instance.AD_PLACE_NAME_BANNER.adUnitId
+                                }
+                            }
+
+                            AdGsType.NATIVE -> {
+                                AdGsRemoteExtraConfig.instance.adPlaceNameHome.apply(it).apply {
+                                    adUnitId = AdPlaceNameConfig.instance.AD_PLACE_NAME_NATIVE.adUnitId
+                                }
+                            }
+
+                            else -> {
+                                // nothing
+                            }
+                        }
+                    }
+                }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                // nếu lỗi thì dùng mặc định
+                AdGsRemoteExtraConfig.instance.adPlaceNameHome.apply(AdPlaceNameConfig.instance.AD_PLACE_NAME_APP_OPEN)
+            }
+        } else {
+            AdGsRemoteExtraConfig.instance.adPlaceNameHome.apply(AdPlaceNameConfig.instance.AD_PLACE_NAME_APP_OPEN)
+        }
+        log("setupAdHomeConfig", AdGsRemoteExtraConfig.instance.adPlaceNameHome)
+    }
+
     private fun AdPlaceName.isValidate(): Boolean {
         return TextUtils.isEmpty(adUnitId)
     }
@@ -159,6 +201,7 @@ class RemoteConfig : AdGsRemoteConfig() {
         const val AD_SPLASH_CONFIG = "ad_splash_config"
         const val AD_APP_OPEN_RESUME_CONFIG = "ad_app_open_resume_config"
         const val AD_LANGUAGE_CONFIG = "ad_language_config"
+        const val AD_HOME_CONFIG = "ad_home_config"
 
         @SuppressLint("StaticFieldLeak")
         private var singleton: RemoteConfig? = null

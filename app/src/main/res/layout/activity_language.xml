@@ -8,6 +8,7 @@
         android:id="@+id/nativeLanguage"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        app:adsNativeMode="language"
         app:layout_constraintBottom_toBottomOf="parent"/>
 
     <com.core.gsadmob.banner.BannerGsAdView

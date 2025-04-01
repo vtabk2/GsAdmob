@@ -11,7 +11,7 @@ class LanguageActivity : BaseAdsActivity<ActivityLanguageBinding>(ActivityLangua
     override val bannerGsAdView: BannerGsAdView by lazy { bindingView.bannerView }
 
     override fun getAdPlaceNameList(): MutableList<AdPlaceName> {
-        return mutableListOf<AdPlaceName>(AdGsRemoteExtraConfig.instance.adPlaceNameLanguage)
+        return mutableListOf(AdGsRemoteExtraConfig.instance.adPlaceNameLanguage)
     }
 
     override fun setupNative(adPlaceName: AdPlaceName, nativeAdGsData: NativeAdGsData?) {

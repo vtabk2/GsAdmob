@@ -362,7 +362,6 @@ class AdGsManager {
                     //
                     adGsData.listener?.let {
                         it.onAdSuccess()
-
                         showAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, onlyShow = true)
                     }
                     adGsData.appOpenAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
@@ -499,7 +498,11 @@ class AdGsManager {
                 } else {
                     adGsData.interstitialAd = interstitialAd
                     adGsData.isLoading = false
-
+                    //
+                    adGsData.listener?.let {
+                        it.onAdSuccess()
+                        showAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, onlyShow = true)
+                    }
                     adGsData.interstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
                         override fun onAdDismissedFullScreenContent() {
                             adGsData.listener?.onAdClose()
@@ -596,7 +599,6 @@ class AdGsManager {
                     adGsData.isLoading = false
                     //
                     adGsData.listener?.let {
-
                         showAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, onlyShow = true)
                     }
                     adGsData.rewardedAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
@@ -663,7 +665,6 @@ class AdGsManager {
                     adGsData.isLoading = false
                     //
                     adGsData.listener?.let {
-
                         showAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, onlyShow = true)
                     }
                     adGsData.rewardedInterstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {

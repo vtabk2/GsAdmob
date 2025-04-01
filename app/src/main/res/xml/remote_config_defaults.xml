@@ -20,7 +20,7 @@
             "delayTime": 0,
             "tagActivity": "",
             "adGsType": "interstitial",
-            "isEnable": false
+            "isEnable": true
             }
             ]
         </value>
@@ -61,7 +61,7 @@
             "delayTime": 0,
             "tagActivity": "",
             "adGsType": "native",
-            "isEnable": false
+            "isEnable": true
             }
             ]
         </value>

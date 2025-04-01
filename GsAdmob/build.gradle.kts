@@ -50,7 +50,7 @@ dependencies {
     implementation(libs.material)
 
     // admob
-    implementation(libs.play.services.ads)
+    api(libs.play.services.ads)
     api(libs.shimmer)
 
     api(libs.gscore)

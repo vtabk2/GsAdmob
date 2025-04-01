@@ -49,9 +49,6 @@ dependencies {
 
     implementation(project(":GsAdmob"))
 
-    // admob
-    implementation(libs.play.services.ads)
-
     implementation (libs.baseandroid)
 
     implementation(libs.lottie)

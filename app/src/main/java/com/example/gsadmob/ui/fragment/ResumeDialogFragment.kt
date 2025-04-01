@@ -1,9 +1,7 @@
 package com.example.gsadmob.ui.fragment
 
 import android.app.Dialog
-import android.content.Context
 import android.graphics.Color
-import android.os.Build
 import android.os.Bundle
 import android.view.KeyEvent
 import android.view.LayoutInflater
@@ -20,9 +18,6 @@ import com.google.android.material.R
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
-import eightbitlab.com.blurview.BlurView
-import eightbitlab.com.blurview.RenderEffectBlur
-import eightbitlab.com.blurview.RenderScriptBlur
 
 class ResumeDialogFragment : BottomSheetDialogFragment() {
 
@@ -65,9 +60,7 @@ class ResumeDialogFragment : BottomSheetDialogFragment() {
         binding.apply {
             onShowAds("onViewCreated")
 
-            viewRoot?.let { root ->
-                context?.let { blurView(it, binding.blurView, root) }
-            }
+            blurView()
 
             view.isFocusableInTouchMode = true
             view.requestFocus()
@@ -113,14 +106,15 @@ class ResumeDialogFragment : BottomSheetDialogFragment() {
         timerDelay?.startTimer()
     }
 
-    private fun blurView(context: Context, blurView: BlurView, viewRoot: ViewGroup) {
-        blurView.setupWith(
-            viewRoot, if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
-                RenderEffectBlur()
-            } else {
-                RenderScriptBlur(context)
-            }
-        ).setBlurRadius(5f)
+    private fun blurView() {
+        viewRoot?.let { root ->
+            val decorView = activity?.window?.decorView ?: return@let
+            val rootView = decorView.findViewById<ViewGroup>(android.R.id.content)
+            val windowBackground = decorView.background
+            binding.blurView.setupWith(rootView)
+                .setFrameClearDrawable(windowBackground)
+                .setBlurRadius(5f)
+        }
     }
 
     override fun onStart() {

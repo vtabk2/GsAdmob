@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
 
+    id("com.google.devtools.ksp")
+
     // Add the Google services Gradle plugin
     id("com.google.gms.google-services")
 }
@@ -37,6 +39,13 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
+    sourceSets {
+        getByName("main") {
+            assets {
+                srcDirs("src\\main\\assets", "src\\main\\assets")
+            }
+        }
+    }
 }
 
 dependencies {
@@ -61,4 +70,9 @@ dependencies {
     implementation(libs.firebase.config.ktx)
 
     implementation(libs.gson)
+
+    implementation(libs.androidx.activity.ktx)
+
+    implementation(libs.glide)
+    ksp("com.github.bumptech.glide:ksp:5.0.0-rc01")
 }

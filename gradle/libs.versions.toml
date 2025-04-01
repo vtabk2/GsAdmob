@@ -1,9 +1,11 @@
 [versions]
+activityKtx = "1.9.3"
 agp = "8.9.1"
 baseandroid = "1.1.9"
 blurview = "version-2.0.6"
 coreSplashscreen = "1.0.1"
 firebaseBom = "33.11.0"
+glide = "5.0.0-rc01"
 gscore = "1.0.2"
 gson = "2.12.1"
 kotlin = "2.1.10"
@@ -19,6 +21,7 @@ preferenceKtx = "1.2.1"
 shimmer = "0.5.0"
 
 [libraries]
+androidx-activity-ktx = { module = "androidx.activity:activity-ktx", version.ref = "activityKtx" }
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
 androidx-appcompat = { group = "androidx.appcompat", name = "appcompat", version.ref = "appcompat" }
 androidx-core-splashscreen = { module = "androidx.core:core-splashscreen", version.ref = "coreSplashscreen" }
@@ -30,6 +33,7 @@ blurview = { module = "com.github.Dimezis:BlurView", version.ref = "blurview" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
 firebase-config-ktx = { module = "com.google.firebase:firebase-config-ktx" }
+glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 gscore = { module = "com.github.vtabk2:GsCore", version.ref = "gscore" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }
 lottie = { module = "com.airbnb.android:lottie", version.ref = "lottie" }

@@ -1,13 +1,14 @@
 package com.example.gsadmob
 
 import android.annotation.SuppressLint
+import com.core.gsadmob.model.AdGsType
 import com.core.gsadmob.model.AdPlaceName
 
 class AdGsRemoteExtraConfig {
-    val adPlaceNameSplash = AdPlaceName()
-    val adPlaceNameAppOpenResume = AdPlaceName()
-    val adPlaceNameBannerHome = AdPlaceName()
-    val adPlaceNameNativeHome = AdPlaceName()
+    val adPlaceNameSplash = AdPlaceName(adGsType = AdGsType.APP_OPEN)
+    val adPlaceNameAppOpenResume = AdPlaceName(adGsType = AdGsType.APP_OPEN)
+    val adPlaceNameBannerHome = AdPlaceName(adGsType = AdGsType.BANNER)
+    val adPlaceNameNativeHome = AdPlaceName(adGsType = AdGsType.NATIVE)
     val adPlaceNameLanguage = AdPlaceName()
 
     companion object {

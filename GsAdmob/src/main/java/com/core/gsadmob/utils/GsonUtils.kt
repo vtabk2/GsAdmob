@@ -17,4 +17,8 @@ object GsonUtils {
         val type = object : TypeToken<List<AdPlaceName>>() {}.type
         return gson.fromJson(json, type)
     }
+
+    fun parseAdPlaceName(json: String): AdPlaceName {
+        return gson.fromJson(json, AdPlaceName::class.java)
+    }
 }

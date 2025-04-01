@@ -11,7 +11,7 @@
             "delayTime": 0,
             "tagActivity": "",
             "adGsType": "app_open",
-            "isEnable": true
+            "isEnable": false
             },
             {
             "name": "interstitial_splash",
@@ -36,7 +36,7 @@
             "delayTime": 0,
             "tagActivity": "",
             "adGsType": "app_open",
-            "isEnable": true
+            "isEnable": false
             }
         </value>
     </entry>
@@ -61,7 +61,7 @@
             "delayTime": 0,
             "tagActivity": "",
             "adGsType": "native",
-            "isEnable": true
+            "isEnable": false
             }
             ]
         </value>
@@ -78,7 +78,16 @@
             "delayTime": 30,
             "tagActivity": "",
             "adGsType": "banner",
-            "isEnable": true
+            "isEnable": false
+            },
+            {
+            "name": "banner_collapsible_home",
+            "adUnitId": "",
+            "autoReloadWhenDismiss": false,
+            "delayTime": 30,
+            "tagActivity": "",
+            "adGsType": "banner_collapsible",
+            "isEnable": false
             },
             {
             "name": "native_home",
@@ -87,7 +96,7 @@
             "delayTime": 0,
             "tagActivity": "",
             "adGsType": "native",
-            "isEnable": true
+            "isEnable": false
             }
             ]
         </value>

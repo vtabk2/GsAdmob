@@ -25,6 +25,8 @@ class RemoteConfig : AdGsRemoteConfig() {
 
         // cấu hình quảng cáo language
         setupAdLanguageConfig(remoteConfig)
+
+        log("", "-----------------------")
     }
 
 
@@ -33,6 +35,7 @@ class RemoteConfig : AdGsRemoteConfig() {
         if (adSplashConfigJson.isNotEmpty()) {
             try {
                 val adSplashConfigList = GsonUtils.parseAdPlaceNameList(adSplashConfigJson)
+                // tìm 1 quảng cáo isEnable = true để dùng
                 adSplashConfigList.find { it.isEnable }?.let {
                     if (it.isValidate()) {
                         AdGsRemoteExtraConfig.instance.adPlaceNameSplash.apply(it)
@@ -56,12 +59,14 @@ class RemoteConfig : AdGsRemoteConfig() {
                         }
                     }
                 } ?: run {
-                    // không có quảng cáo ở màn hình splash
-                    AdGsRemoteExtraConfig.instance.adPlaceNameSplash.apply(AdPlaceName())
+                    // nếu isEnable = false hết thì cho adPlaceNameSplash isEnable = false
+                    AdGsRemoteExtraConfig.instance.adPlaceNameSplash.apply {
+                        isEnable = false
+                    }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                // nếu lỗi thì dùng mặc định
+                // nếu json lỗi thì dùng mặc định
                 AdGsRemoteExtraConfig.instance.adPlaceNameSplash.apply(AdPlaceNameConfig.instance.AD_PLACE_NAME_APP_OPEN)
             }
         } else {
@@ -74,14 +79,14 @@ class RemoteConfig : AdGsRemoteConfig() {
         val adAppOpenResumeConfigJson = remoteConfig.getString(AD_APP_OPEN_RESUME_CONFIG)
         if (adAppOpenResumeConfigJson.isNotEmpty()) {
             try {
-                val adAppOpenResumeConfigList = GsonUtils.parseAdPlaceNameList(adAppOpenResumeConfigJson)
-                adAppOpenResumeConfigList.find { it.isEnable }?.let {
-                    if (it.isValidate()) {
-                        AdGsRemoteExtraConfig.instance.adPlaceNameAppOpenResume.apply(it)
+                val adAppOpenResume = GsonUtils.parseAdPlaceName(adAppOpenResumeConfigJson)
+                if (adAppOpenResume.isEnable) {
+                    if (adAppOpenResume.isValidate()) {
+                        AdGsRemoteExtraConfig.instance.adPlaceNameAppOpenResume.apply(adAppOpenResume)
                     } else {
-                        when (it.adGsType) {
+                        when (adAppOpenResume.adGsType) {
                             AdGsType.APP_OPEN -> {
-                                AdGsRemoteExtraConfig.instance.adPlaceNameAppOpenResume.apply(it).apply {
+                                AdGsRemoteExtraConfig.instance.adPlaceNameAppOpenResume.apply(adAppOpenResume).apply {
                                     adUnitId = AdPlaceNameConfig.instance.AD_PLACE_NAME_APP_OPEN_RESUME.adUnitId
                                 }
                             }
@@ -91,13 +96,15 @@ class RemoteConfig : AdGsRemoteConfig() {
                             }
                         }
                     }
-                } ?: run {
-                    // không có quảng cáo ở màn hình splash
-                    AdGsRemoteExtraConfig.instance.adPlaceNameAppOpenResume.apply(AdPlaceName())
+                } else {
+                    // nếu isEnable = false hết thì cho adPlaceNameLanguage isEnable = false
+                    AdGsRemoteExtraConfig.instance.adPlaceNameLanguage.apply {
+                        isEnable = false
+                    }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                // nếu lỗi thì dùng mặc định
+                // nếu json lỗi thì dùng mặc định
                 AdGsRemoteExtraConfig.instance.adPlaceNameAppOpenResume.apply(AdPlaceNameConfig.instance.AD_PLACE_NAME_APP_OPEN_RESUME)
             }
         } else {
@@ -111,6 +118,7 @@ class RemoteConfig : AdGsRemoteConfig() {
         if (adLanguageConfigJson.isNotEmpty()) {
             try {
                 val adLanguageConfigList = GsonUtils.parseAdPlaceNameList(adLanguageConfigJson)
+                // tìm 1 quảng cáo isEnable = true để dùng
                 adLanguageConfigList.find { it.isEnable }?.let {
                     if (it.isValidate()) {
                         AdGsRemoteExtraConfig.instance.adPlaceNameLanguage.apply(it)
@@ -140,12 +148,14 @@ class RemoteConfig : AdGsRemoteConfig() {
                         }
                     }
                 } ?: run {
-                    // không có quảng cáo ở màn hình splash
-                    AdGsRemoteExtraConfig.instance.adPlaceNameLanguage.apply(AdPlaceName())
+                    // nếu isEnable = false hết thì cho adPlaceNameLanguage isEnable = false
+                    AdGsRemoteExtraConfig.instance.adPlaceNameLanguage.apply {
+                        isEnable = false
+                    }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
-                // nếu lỗi thì dùng mặc định
+                // nếu json lỗi thì dùng mặc định
                 AdGsRemoteExtraConfig.instance.adPlaceNameLanguage.apply(AdPlaceNameConfig.instance.AD_PLACE_NAME_NATIVE_LANGUAGE)
             }
         } else {
@@ -159,24 +169,53 @@ class RemoteConfig : AdGsRemoteConfig() {
         if (adHomeConfigJson.isNotEmpty()) {
             try {
                 val adHomeConfigList = GsonUtils.parseAdPlaceNameList(adHomeConfigJson)
-                adHomeConfigList.filter { it.isEnable }.forEach {
+                // do home dùng nhiều quảng cáo
+                adHomeConfigList.forEach {
                     when (it.adGsType) {
                         AdGsType.BANNER -> {
-                            if (it.isValidate()) {
-                                AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome.apply(it)
+                            if (it.isEnable) {
+                                if (it.isValidate()) {
+                                    AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome.apply(it)
+                                } else {
+                                    AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome.apply(it).apply {
+                                        adUnitId = AdPlaceNameConfig.instance.AD_PLACE_NAME_BANNER.adUnitId
+                                    }
+                                }
                             } else {
-                                AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome.apply(it).apply {
-                                    adUnitId = AdPlaceNameConfig.instance.AD_PLACE_NAME_BANNER.adUnitId
+                                AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome.apply {
+                                    it.isEnable = false
+                                }
+                            }
+                        }
+
+                        AdGsType.BANNER_COLLAPSIBLE -> {
+                            if (it.isEnable) {
+                                if (it.isValidate()) {
+                                    AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome.apply(it)
+                                } else {
+                                    AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome.apply(it).apply {
+                                        adUnitId = AdPlaceNameConfig.instance.AD_PLACE_NAME_BANNER_COLLAPSIBLE.adUnitId
+                                    }
+                                }
+                            } else {
+                                AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome.apply {
+                                    it.isEnable = false
                                 }
                             }
                         }
 
                         AdGsType.NATIVE -> {
-                            if (it.isValidate()) {
-                                AdGsRemoteExtraConfig.instance.adPlaceNameNativeHome.apply(it)
+                            if (it.isEnable) {
+                                if (it.isValidate()) {
+                                    AdGsRemoteExtraConfig.instance.adPlaceNameNativeHome.apply(it)
+                                } else {
+                                    AdGsRemoteExtraConfig.instance.adPlaceNameNativeHome.apply(it).apply {
+                                        adUnitId = AdPlaceNameConfig.instance.AD_PLACE_NAME_NATIVE.adUnitId
+                                    }
+                                }
                             } else {
-                                AdGsRemoteExtraConfig.instance.adPlaceNameNativeHome.apply(it).apply {
-                                    adUnitId = AdPlaceNameConfig.instance.AD_PLACE_NAME_NATIVE.adUnitId
+                                AdGsRemoteExtraConfig.instance.adPlaceNameNativeHome.apply {
+                                    it.isEnable = false
                                 }
                             }
                         }

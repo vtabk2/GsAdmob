@@ -47,7 +47,7 @@ abstract class BaseAdsActivity<VB : ViewBinding>(inflateBinding: (LayoutInflater
                 it.forEach { adGsDataMap ->
                     if (getAdPlaceNameList().contains(adGsDataMap.key)) {
                         when (adGsDataMap.key.adGsType) {
-                            AdGsType.BANNER -> {
+                            AdGsType.BANNER, AdGsType.BANNER_COLLAPSIBLE -> {
                                 if (adGsDataMap.value.isLoading) {
                                     bannerGsAdView?.startShimmer()
                                 } else {
@@ -77,7 +77,7 @@ abstract class BaseAdsActivity<VB : ViewBinding>(inflateBinding: (LayoutInflater
                 if (it.value) {
                     if (getAdPlaceNameList().contains(it.key)) {
                         when (it.key.adGsType) {
-                            AdGsType.BANNER -> {
+                            AdGsType.BANNER, AdGsType.BANNER_COLLAPSIBLE -> {
                                 bannerGsAdView?.startShimmer()
                             }
 

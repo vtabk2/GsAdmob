@@ -49,10 +49,9 @@ dependencies {
     implementation(libs.material)
 
     // admob
-    implementation(libs.play.services.ads)
-    implementation(libs.shimmer)
-
-    implementation(libs.gscore)
+    api(libs.play.services.ads)
+    api(libs.shimmer)
+    api(libs.gscore)
 
     implementation(libs.androidx.lifecycle.process)
 

@@ -40,6 +40,7 @@ gradlew
 app/release/output.json
 app/release/output-metadata.json
 app/release/baselineProfiles
+app/google-services.json
 *.hprof
 
 .kotlin/sessions/

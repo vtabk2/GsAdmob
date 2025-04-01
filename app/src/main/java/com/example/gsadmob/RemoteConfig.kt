@@ -160,41 +160,48 @@ class RemoteConfig : AdGsRemoteConfig() {
             try {
                 val adHomeConfigList = GsonUtils.parseAdPlaceNameList(adHomeConfigJson)
                 adHomeConfigList.filter { it.isEnable }.forEach {
-                    if (it.isValidate()) {
-                        AdGsRemoteExtraConfig.instance.adPlaceNameHome.apply(it)
-                    } else {
-                        when (it.adGsType) {
-                            AdGsType.BANNER -> {
-                                AdGsRemoteExtraConfig.instance.adPlaceNameHome.apply(it).apply {
+                    when (it.adGsType) {
+                        AdGsType.BANNER -> {
+                            if (it.isValidate()) {
+                                AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome.apply(it)
+                            } else {
+                                AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome.apply(it).apply {
                                     adUnitId = AdPlaceNameConfig.instance.AD_PLACE_NAME_BANNER.adUnitId
                                 }
                             }
+                        }
 
-                            AdGsType.NATIVE -> {
-                                AdGsRemoteExtraConfig.instance.adPlaceNameHome.apply(it).apply {
+                        AdGsType.NATIVE -> {
+                            if (it.isValidate()) {
+                                AdGsRemoteExtraConfig.instance.adPlaceNameNativeHome.apply(it)
+                            } else {
+                                AdGsRemoteExtraConfig.instance.adPlaceNameNativeHome.apply(it).apply {
                                     adUnitId = AdPlaceNameConfig.instance.AD_PLACE_NAME_NATIVE.adUnitId
                                 }
                             }
+                        }
 
-                            else -> {
-                                // nothing
-                            }
+                        else -> {
+                            // nothing
                         }
                     }
                 }
             } catch (e: Exception) {
                 e.printStackTrace()
                 // nếu lỗi thì dùng mặc định
-                AdGsRemoteExtraConfig.instance.adPlaceNameHome.apply(AdPlaceNameConfig.instance.AD_PLACE_NAME_APP_OPEN)
+                AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome.apply(AdPlaceNameConfig.instance.AD_PLACE_NAME_BANNER)
+                AdGsRemoteExtraConfig.instance.adPlaceNameNativeHome.apply(AdPlaceNameConfig.instance.AD_PLACE_NAME_NATIVE)
             }
         } else {
-            AdGsRemoteExtraConfig.instance.adPlaceNameHome.apply(AdPlaceNameConfig.instance.AD_PLACE_NAME_APP_OPEN)
+            AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome.apply(AdPlaceNameConfig.instance.AD_PLACE_NAME_BANNER)
+            AdGsRemoteExtraConfig.instance.adPlaceNameNativeHome.apply(AdPlaceNameConfig.instance.AD_PLACE_NAME_NATIVE)
         }
-        log("setupAdHomeConfig", AdGsRemoteExtraConfig.instance.adPlaceNameHome)
+        log("setupAdHomeConfig", AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome)
+        log("setupAdHomeConfig", AdGsRemoteExtraConfig.instance.adPlaceNameNativeHome)
     }
 
     private fun AdPlaceName.isValidate(): Boolean {
-        return TextUtils.isEmpty(adUnitId)
+        return !TextUtils.isEmpty(adUnitId)
     }
 
     companion object {

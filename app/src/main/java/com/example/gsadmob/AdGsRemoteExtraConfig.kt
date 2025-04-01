@@ -6,7 +6,8 @@ import com.core.gsadmob.model.AdPlaceName
 class AdGsRemoteExtraConfig {
     val adPlaceNameSplash = AdPlaceName()
     val adPlaceNameAppOpenResume = AdPlaceName()
-    val adPlaceNameHome = AdPlaceName()
+    val adPlaceNameBannerHome = AdPlaceName()
+    val adPlaceNameNativeHome = AdPlaceName()
     val adPlaceNameLanguage = AdPlaceName()
 
     companion object {

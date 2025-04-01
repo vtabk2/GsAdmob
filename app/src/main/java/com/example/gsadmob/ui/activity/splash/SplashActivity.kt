@@ -10,7 +10,7 @@ import com.example.gsadmob.AdGsRemoteExtraConfig
 import com.example.gsadmob.R
 import com.example.gsadmob.TestApplication
 import com.example.gsadmob.databinding.ActivitySplashBinding
-import com.example.gsadmob.ui.activity.TestAdsActivity
+import com.example.gsadmob.ui.activity.home.HomeActivity
 
 class SplashActivity : AppCompatActivity() {
     private var bindingView: ActivitySplashBinding? = null
@@ -40,7 +40,7 @@ class SplashActivity : AppCompatActivity() {
 
     private fun goToHome() {
         if (isTaskRoot) {
-            val intent = Intent(this@SplashActivity, TestAdsActivity::class.java)
+            val intent = Intent(this@SplashActivity, HomeActivity::class.java)
             intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(intent)
         }

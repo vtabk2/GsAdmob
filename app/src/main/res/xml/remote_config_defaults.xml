@@ -78,7 +78,7 @@
             "delayTime": 30,
             "tagActivity": "",
             "adGsType": "banner",
-            "isEnable": true
+            "isEnable": false
             },
             {
             "name": "banner_collapsible_home",
@@ -87,7 +87,7 @@
             "delayTime": 30,
             "tagActivity": "",
             "adGsType": "banner_collapsible",
-            "isEnable": false
+            "isEnable": true
             },
             {
             "name": "native_home",

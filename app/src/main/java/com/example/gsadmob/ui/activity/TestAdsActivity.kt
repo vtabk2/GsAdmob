@@ -124,11 +124,4 @@ class TestAdsActivity : BaseAdsActivity<ActivityTestAdsBinding>(ActivityTestAdsB
             AdGsManager.instance.clearWithAdPlaceName(adPlaceName = AdPlaceNameConfig.instance.AD_PLACE_NAME_REWARDED_INTERSTITIAL)
         }
     }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-
-        // tắt ứng dụng đi thì sẽ xóa hết data quảng cáo đi
-        AdGsManager.instance.clearAll()
-    }
 }

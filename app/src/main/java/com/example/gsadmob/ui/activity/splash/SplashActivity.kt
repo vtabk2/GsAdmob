@@ -2,7 +2,6 @@ package com.example.gsadmob.ui.activity.splash
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import com.core.gsadmob.callback.AdGsListener
@@ -19,7 +18,7 @@ import com.example.gsadmob.BuildConfig
 import com.example.gsadmob.R
 import com.example.gsadmob.TestApplication
 import com.example.gsadmob.databinding.ActivitySplashBinding
-import com.example.gsadmob.ui.activity.TestAdsActivity
+import com.example.gsadmob.ui.activity.home.HomeActivity
 import java.util.concurrent.atomic.AtomicBoolean
 
 class SplashActivity : AppCompatActivity() {
@@ -125,7 +124,7 @@ class SplashActivity : AppCompatActivity() {
     }
 
     private fun startNewActivityHome() {
-        val intent = Intent(this@SplashActivity, TestAdsActivity::class.java)
+        val intent = Intent(this@SplashActivity, HomeActivity::class.java)
         intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP)
         startActivity(intent)
         finish()

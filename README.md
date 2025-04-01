@@ -25,7 +25,7 @@ Thư viện được tạo ra với mục đích quản lý và tùy chỉnh gia
 **Step 2.** Add the dependency
 ```css
         dependencies {
-                    implementation 'com.github.vtabk2:GsAdmob:1.2.20'
+                    implementation 'com.github.vtabk2:GsAdmob:1.2.21'
             }
 ```
 
@@ -588,6 +588,23 @@ Trong hàm initConfig() là các tạo và đăng ký quảng cáo
 # BaseWithAdsAdapter Adapter chứa quảng cáo native
 
 # Lịch sử cập nhật
+
+**Version 1.2.21**
+- Thêm [SplashAdsManager](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/activity/SplashAdsManager.kt)
+  được khởi tạo ở màn hình splash 
+```css
+        SplashAdsManager(
+            this@SplashActivity,
+            adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_APP_OPEN,
+            goToHomeCallback = {
+                goToHome()
+            }, initMobileAds = {
+                TestApplication.applicationContext().initMobileAds()
+            }, adsLoading = {
+                bindingView?.clBlur?.isVisible = it
+            }
+        )
+```
 
 **Version 1.2.20**
 - Thêm biến showLog ở registerCoroutineScope() để có thể hiển thị log nội bộ của AdGsManager

@@ -599,6 +599,7 @@ Trong hàm initConfig() là các tạo và đăng ký quảng cáo
 - Thêm [GsAdmobApplication](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/GsAdmobApplication.kt)
 - Thêm ADS_DISABLE vào AdShowStatus
 - Đổi APP_OPEN_AD thành APP_OPEN ở AdGsType
+
 **Version 1.2.21**
 - Thêm [SplashAdsManager](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/activity/SplashAdsManager.kt)
   được khởi tạo ở màn hình splash 

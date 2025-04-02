@@ -89,7 +89,7 @@ class AdGsSplashManager(
         // phải check mạng trước nếu không timeout mặc định quá lâu
         NetworkUtils.hasInternetAccessCheck(
             doTask = {
-                googleMobileAdsConsentManager = GoogleMobileAdsConsentManager.Companion.getInstance(activity)
+                googleMobileAdsConsentManager = GoogleMobileAdsConsentManager.getInstance(activity)
                 googleMobileAdsConsentManager?.gatherConsent(activity, onCanShowAds = {
                     initializeMobileAdsSdk()
                     showOpenAdIfNeed()

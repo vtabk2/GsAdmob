@@ -88,7 +88,9 @@ class ResumeDialogFragment : BottomSheetDialogFragment() {
             val decorView = activity?.window?.decorView ?: return@let
             val rootView = decorView.findViewById<ViewGroup>(android.R.id.content)
             val windowBackground = decorView.background
-            binding.blurView.setupWith(rootView).setFrameClearDrawable(windowBackground).setBlurRadius(5f)
+            binding.blurView.setupWith(rootView)
+                .setFrameClearDrawable(windowBackground)
+                .setBlurRadius(5f)
         }
     }
 

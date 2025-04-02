@@ -5,7 +5,7 @@ import android.text.TextUtils
 import com.core.gsadmob.model.AdGsType
 import com.core.gsadmob.model.AdPlaceName
 import com.core.gsadmob.utils.AdGsRemoteConfig
-import com.core.gsadmob.utils.AdPlaceNameConfig
+import com.core.gsadmob.utils.AdPlaceNameDefaultConfig
 import com.core.gsadmob.utils.gson.GsonUtils
 import com.core.gsadmob.utils.extensions.log
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
@@ -43,13 +43,13 @@ class RemoteConfig : AdGsRemoteConfig() {
                         when (it.adGsType) {
                             AdGsType.APP_OPEN -> {
                                 AdGsRemoteExtraConfig.instance.adPlaceNameSplash.apply(it).apply {
-                                    adUnitId = AdPlaceNameConfig.instance.AD_PLACE_NAME_APP_OPEN.adUnitId
+                                    adUnitId = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_APP_OPEN.adUnitId
                                 }
                             }
 
                             AdGsType.INTERSTITIAL -> {
                                 AdGsRemoteExtraConfig.instance.adPlaceNameSplash.apply(it).apply {
-                                    adUnitId = AdPlaceNameConfig.instance.AD_PLACE_NAME_INTERSTITIAL.adUnitId
+                                    adUnitId = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_INTERSTITIAL.adUnitId
                                 }
                             }
 
@@ -67,10 +67,10 @@ class RemoteConfig : AdGsRemoteConfig() {
             } catch (e: Exception) {
                 e.printStackTrace()
                 // nếu json lỗi thì dùng mặc định
-                AdGsRemoteExtraConfig.instance.adPlaceNameSplash.apply(AdPlaceNameConfig.instance.AD_PLACE_NAME_APP_OPEN)
+                AdGsRemoteExtraConfig.instance.adPlaceNameSplash.apply(AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_APP_OPEN)
             }
         } else {
-            AdGsRemoteExtraConfig.instance.adPlaceNameSplash.apply(AdPlaceNameConfig.instance.AD_PLACE_NAME_APP_OPEN)
+            AdGsRemoteExtraConfig.instance.adPlaceNameSplash.apply(AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_APP_OPEN)
         }
         log("setupAdSplashConfig", AdGsRemoteExtraConfig.instance.adPlaceNameSplash)
     }
@@ -87,7 +87,7 @@ class RemoteConfig : AdGsRemoteConfig() {
                         when (adAppOpenResume.adGsType) {
                             AdGsType.APP_OPEN -> {
                                 AdGsRemoteExtraConfig.instance.adPlaceNameAppOpenResume.apply(adAppOpenResume).apply {
-                                    adUnitId = AdPlaceNameConfig.instance.AD_PLACE_NAME_APP_OPEN_RESUME.adUnitId
+                                    adUnitId = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_APP_OPEN_RESUME.adUnitId
                                 }
                             }
 
@@ -105,10 +105,10 @@ class RemoteConfig : AdGsRemoteConfig() {
             } catch (e: Exception) {
                 e.printStackTrace()
                 // nếu json lỗi thì dùng mặc định
-                AdGsRemoteExtraConfig.instance.adPlaceNameAppOpenResume.apply(AdPlaceNameConfig.instance.AD_PLACE_NAME_APP_OPEN_RESUME)
+                AdGsRemoteExtraConfig.instance.adPlaceNameAppOpenResume.apply(AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_APP_OPEN_RESUME)
             }
         } else {
-            AdGsRemoteExtraConfig.instance.adPlaceNameAppOpenResume.apply(AdPlaceNameConfig.instance.AD_PLACE_NAME_APP_OPEN_RESUME)
+            AdGsRemoteExtraConfig.instance.adPlaceNameAppOpenResume.apply(AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_APP_OPEN_RESUME)
         }
         log("setupAdAppOpenResume", AdGsRemoteExtraConfig.instance.adPlaceNameAppOpenResume)
     }
@@ -127,7 +127,7 @@ class RemoteConfig : AdGsRemoteConfig() {
                                     AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome.apply(it)
                                 } else {
                                     AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome.apply(it).apply {
-                                        adUnitId = AdPlaceNameConfig.instance.AD_PLACE_NAME_BANNER.adUnitId
+                                        adUnitId = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_BANNER.adUnitId
                                     }
                                 }
                             } else {
@@ -145,7 +145,7 @@ class RemoteConfig : AdGsRemoteConfig() {
                                         AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome.apply(it)
                                     } else {
                                         AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome.apply(it).apply {
-                                            adUnitId = AdPlaceNameConfig.instance.AD_PLACE_NAME_BANNER_COLLAPSIBLE.adUnitId
+                                            adUnitId = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_BANNER_COLLAPSIBLE.adUnitId
                                         }
                                     }
                                 } else {
@@ -162,7 +162,7 @@ class RemoteConfig : AdGsRemoteConfig() {
                                     AdGsRemoteExtraConfig.instance.adPlaceNameNativeHome.apply(it)
                                 } else {
                                     AdGsRemoteExtraConfig.instance.adPlaceNameNativeHome.apply(it).apply {
-                                        adUnitId = AdPlaceNameConfig.instance.AD_PLACE_NAME_NATIVE.adUnitId
+                                        adUnitId = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_NATIVE.adUnitId
                                     }
                                 }
                             } else {
@@ -180,12 +180,12 @@ class RemoteConfig : AdGsRemoteConfig() {
             } catch (e: Exception) {
                 e.printStackTrace()
                 // nếu lỗi thì dùng mặc định
-                AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome.apply(AdPlaceNameConfig.instance.AD_PLACE_NAME_BANNER)
-                AdGsRemoteExtraConfig.instance.adPlaceNameNativeHome.apply(AdPlaceNameConfig.instance.AD_PLACE_NAME_NATIVE)
+                AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome.apply(AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_BANNER)
+                AdGsRemoteExtraConfig.instance.adPlaceNameNativeHome.apply(AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_NATIVE)
             }
         } else {
-            AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome.apply(AdPlaceNameConfig.instance.AD_PLACE_NAME_BANNER)
-            AdGsRemoteExtraConfig.instance.adPlaceNameNativeHome.apply(AdPlaceNameConfig.instance.AD_PLACE_NAME_NATIVE)
+            AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome.apply(AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_BANNER)
+            AdGsRemoteExtraConfig.instance.adPlaceNameNativeHome.apply(AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_NATIVE)
         }
         log("setupAdHomeConfig", AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome)
         log("setupAdHomeConfig", AdGsRemoteExtraConfig.instance.adPlaceNameNativeHome)
@@ -204,19 +204,19 @@ class RemoteConfig : AdGsRemoteConfig() {
                         when (it.adGsType) {
                             AdGsType.BANNER -> {
                                 AdGsRemoteExtraConfig.instance.adPlaceNameLanguage.apply(it).apply {
-                                    adUnitId = AdPlaceNameConfig.instance.AD_PLACE_NAME_BANNER.adUnitId
+                                    adUnitId = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_BANNER.adUnitId
                                 }
                             }
 
                             AdGsType.BANNER_COLLAPSIBLE -> {
                                 AdGsRemoteExtraConfig.instance.adPlaceNameLanguage.apply(it).apply {
-                                    adUnitId = AdPlaceNameConfig.instance.AD_PLACE_NAME_BANNER_COLLAPSIBLE.adUnitId
+                                    adUnitId = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_BANNER_COLLAPSIBLE.adUnitId
                                 }
                             }
 
                             AdGsType.NATIVE -> {
                                 AdGsRemoteExtraConfig.instance.adPlaceNameLanguage.apply(it).apply {
-                                    adUnitId = AdPlaceNameConfig.instance.AD_PLACE_NAME_NATIVE_LANGUAGE.adUnitId
+                                    adUnitId = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_NATIVE_LANGUAGE.adUnitId
                                 }
                             }
 
@@ -234,10 +234,10 @@ class RemoteConfig : AdGsRemoteConfig() {
             } catch (e: Exception) {
                 e.printStackTrace()
                 // nếu json lỗi thì dùng mặc định
-                AdGsRemoteExtraConfig.instance.adPlaceNameLanguage.apply(AdPlaceNameConfig.instance.AD_PLACE_NAME_NATIVE_LANGUAGE)
+                AdGsRemoteExtraConfig.instance.adPlaceNameLanguage.apply(AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_NATIVE_LANGUAGE)
             }
         } else {
-            AdGsRemoteExtraConfig.instance.adPlaceNameLanguage.apply(AdPlaceNameConfig.instance.AD_PLACE_NAME_NATIVE_LANGUAGE)
+            AdGsRemoteExtraConfig.instance.adPlaceNameLanguage.apply(AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_NATIVE_LANGUAGE)
         }
         log("setupAdLanguageConfig", AdGsRemoteExtraConfig.instance.adPlaceNameLanguage)
     }

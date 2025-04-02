@@ -168,7 +168,7 @@ class AdGsManager {
 
             VipPreferences.instance.initVipPreferences(context = application, applicationId = applicationId)
 
-            AdPlaceNameConfig.instance.initAdPlaceNameConfig(application = application)
+            AdPlaceNameDefaultConfig.instance.initAdPlaceNameDefaultConfig(application = application)
 
             async {
                 VipPreferences.instance.getVipChangeFlow(keyVipList = keyVipList)

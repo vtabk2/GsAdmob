@@ -6,7 +6,7 @@ import com.core.gsadmob.banner.BannerGsAdView
 import com.core.gsadmob.model.AdPlaceName
 import com.core.gsadmob.model.nativead.NativeAdGsData
 import com.core.gsadmob.utils.AdGsManager
-import com.core.gsadmob.utils.AdPlaceNameConfig
+import com.core.gsadmob.utils.AdPlaceNameDefaultConfig
 import com.core.gsadmob.utils.preferences.VipPreferences
 import com.example.gsadmob.databinding.ActivityTestNativeBinding
 import com.example.gsadmob.ui.activity.base.BaseAdsActivity
@@ -17,11 +17,11 @@ class TestNativeActivity : BaseAdsActivity<ActivityTestNativeBinding>(ActivityTe
     override val bannerGsAdView: BannerGsAdView by lazy { bindingView.bannerView }
     override fun getAdPlaceNameList(): MutableList<AdPlaceName> {
         return mutableListOf(
-            AdPlaceNameConfig.instance.AD_PLACE_NAME_BANNER.apply {
+            AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_BANNER.apply {
                 tagActivity = TestNativeActivity::class.java.simpleName
             },
-            AdPlaceNameConfig.instance.AD_PLACE_NAME_NATIVE,
-            AdPlaceNameConfig.instance.AD_PLACE_NAME_NATIVE_LANGUAGE
+            AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_NATIVE,
+            AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_NATIVE_LANGUAGE
         )
     }
 
@@ -50,30 +50,30 @@ class TestNativeActivity : BaseAdsActivity<ActivityTestNativeBinding>(ActivityTe
         }
 
         bindingView.tvNativeFrame.setOnClickListener {
-            AdGsManager.instance.registerActiveAndLoadAds(adPlaceName = AdPlaceNameConfig.instance.AD_PLACE_NAME_NATIVE)
+            AdGsManager.instance.registerActiveAndLoadAds(adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_NATIVE)
         }
 
         bindingView.imageFrameClear.setOnClickListener {
-            AdGsManager.instance.clearWithAdPlaceName(adPlaceName = AdPlaceNameConfig.instance.AD_PLACE_NAME_NATIVE)
+            AdGsManager.instance.clearWithAdPlaceName(adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_NATIVE)
         }
 
         bindingView.tvNativeLanguage.setOnClickListener {
-            AdGsManager.instance.registerActiveAndLoadAds(adPlaceName = AdPlaceNameConfig.instance.AD_PLACE_NAME_NATIVE_LANGUAGE)
+            AdGsManager.instance.registerActiveAndLoadAds(adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_NATIVE_LANGUAGE)
         }
 
         bindingView.imageLanguageClear.setOnClickListener {
-            AdGsManager.instance.clearWithAdPlaceName(adPlaceName = AdPlaceNameConfig.instance.AD_PLACE_NAME_NATIVE_LANGUAGE)
+            AdGsManager.instance.clearWithAdPlaceName(adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_NATIVE_LANGUAGE)
         }
     }
 
     override fun setupNative(adPlaceName: AdPlaceName, nativeAdGsData: NativeAdGsData?) {
         super.setupNative(adPlaceName, nativeAdGsData)
         when (adPlaceName) {
-            AdPlaceNameConfig.instance.AD_PLACE_NAME_NATIVE -> {
+            AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_NATIVE -> {
                 bindingView.nativeFrame.setNativeAd(nativeAdGsData?.nativeAd)
             }
 
-            AdPlaceNameConfig.instance.AD_PLACE_NAME_NATIVE_LANGUAGE -> {
+            AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_NATIVE_LANGUAGE -> {
                 bindingView.nativeLanguage.setNativeAd(nativeAdGsData?.nativeAd)
             }
         }
@@ -82,11 +82,11 @@ class TestNativeActivity : BaseAdsActivity<ActivityTestNativeBinding>(ActivityTe
     override fun startNativeShimmer(adPlaceName: AdPlaceName) {
         super.startNativeShimmer(adPlaceName)
         when (adPlaceName) {
-            AdPlaceNameConfig.instance.AD_PLACE_NAME_NATIVE -> {
+            AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_NATIVE -> {
                 bindingView.nativeFrame.startShimmer()
             }
 
-            AdPlaceNameConfig.instance.AD_PLACE_NAME_NATIVE_LANGUAGE -> {
+            AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_NATIVE_LANGUAGE -> {
                 bindingView.nativeLanguage.startShimmer()
             }
         }

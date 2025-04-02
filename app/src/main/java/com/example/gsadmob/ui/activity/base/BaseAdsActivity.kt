@@ -12,7 +12,7 @@ import com.core.gsadmob.model.AdShowStatus
 import com.core.gsadmob.model.banner.BannerAdGsData
 import com.core.gsadmob.model.nativead.NativeAdGsData
 import com.core.gsadmob.utils.AdGsManager
-import com.core.gsadmob.utils.AdPlaceNameConfig
+import com.core.gsadmob.utils.AdPlaceNameDefaultConfig
 import com.core.gsadmob.utils.extensions.cmpUtils
 import com.core.gsadmob.utils.extensions.log
 import com.core.gsadmob.utils.preferences.GoogleMobileAdsConsentManager
@@ -176,7 +176,7 @@ abstract class BaseAdsActivity<VB : ViewBinding>(inflateBinding: (LayoutInflater
 
     private fun loadAndShowRewardedAds(isRewardedInterstitialAds: Boolean, callback: (typeShowAds: TypeShowAds) -> Unit) {
         val check = AtomicBoolean(true)
-        val adPlaceName = if (isRewardedInterstitialAds) AdPlaceNameConfig.instance.AD_PLACE_NAME_REWARDED_INTERSTITIAL else AdPlaceNameConfig.instance.AD_PLACE_NAME_REWARDED
+        val adPlaceName = if (isRewardedInterstitialAds) AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_REWARDED_INTERSTITIAL else AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_REWARDED
 
         AdGsManager.instance.registerAndShowAds(adPlaceName = adPlaceName, adGsListener = object : AdGsListener {
             override fun onAdClose(isFailed: Boolean) {

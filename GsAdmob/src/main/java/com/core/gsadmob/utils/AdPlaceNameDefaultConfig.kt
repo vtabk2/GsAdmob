@@ -6,7 +6,7 @@ import com.core.gsadmob.R
 import com.core.gsadmob.model.AdGsType
 import com.core.gsadmob.model.AdPlaceName
 
-class AdPlaceNameConfig {
+class AdPlaceNameDefaultConfig {
     val AD_PLACE_NAME_APP_OPEN = AdPlaceName(adGsType = AdGsType.APP_OPEN)
     val AD_PLACE_NAME_APP_OPEN_RESUME = AdPlaceName(adGsType = AdGsType.APP_OPEN)
 
@@ -27,7 +27,7 @@ class AdPlaceNameConfig {
     val AD_PLACE_NAME_REWARDED = AdPlaceName(adGsType = AdGsType.REWARDED)
     val AD_PLACE_NAME_REWARDED_INTERSTITIAL = AdPlaceName(adGsType = AdGsType.REWARDED_INTERSTITIAL)
 
-    fun initAdPlaceNameConfig(application: Application) {
+    fun initAdPlaceNameDefaultConfig(application: Application) {
         AD_PLACE_NAME_APP_OPEN.apply {
             name = "app_open"
             adUnitId = application.getString(R.string.app_open_id)
@@ -100,19 +100,19 @@ class AdPlaceNameConfig {
 
     companion object {
         @SuppressLint("StaticFieldLeak")
-        private var singleton: AdPlaceNameConfig? = null
+        private var singleton: AdPlaceNameDefaultConfig? = null
 
         /***
          * returns an instance of this class. if singleton is null create an instance
          * else return  the current instance
          * @return
          */
-        val instance: AdPlaceNameConfig
+        val instance: AdPlaceNameDefaultConfig
             get() {
                 if (singleton == null) {
-                    singleton = AdPlaceNameConfig()
+                    singleton = AdPlaceNameDefaultConfig()
                 }
-                return singleton as AdPlaceNameConfig
+                return singleton as AdPlaceNameDefaultConfig
             }
     }
 }

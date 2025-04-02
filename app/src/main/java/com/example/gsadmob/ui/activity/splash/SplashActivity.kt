@@ -5,8 +5,9 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.isVisible
-import com.core.gsadmob.activity.SplashAdsManager
+import com.core.gsadmob.utils.AdGsSplashManager
 import com.example.gsadmob.AdGsRemoteExtraConfig
+import com.example.gsadmob.BuildConfig
 import com.example.gsadmob.R
 import com.example.gsadmob.TestApplication
 import com.example.gsadmob.databinding.ActivitySplashBinding
@@ -25,7 +26,7 @@ class SplashActivity : AppCompatActivity() {
             tvMessageSplash.text = String.format("%s %s", getString(R.string.app_name), getString(R.string.text_is_running))
         }
 
-        SplashAdsManager(
+        AdGsSplashManager(
             this@SplashActivity,
             adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameSplash,
             goToHomeCallback = {
@@ -34,7 +35,7 @@ class SplashActivity : AppCompatActivity() {
                 TestApplication.applicationContext().initMobileAds()
             }, adsLoading = {
                 bindingView?.clBlur?.isVisible = it
-            }
+            }, isDebug = BuildConfig.DEBUG
         )
     }
 

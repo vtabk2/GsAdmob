@@ -1,26 +1,25 @@
-package com.core.gsadmob.activity
+package com.core.gsadmob.utils
 
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
-import com.core.gsadmob.BuildConfig
 import com.core.gsadmob.callback.AdGsListener
 import com.core.gsadmob.model.AdPlaceName
 import com.core.gsadmob.model.AdShowStatus
-import com.core.gsadmob.utils.AdGsManager
 import com.core.gsadmob.utils.extensions.cmpUtils
 import com.core.gsadmob.utils.preferences.GoogleMobileAdsConsentManager
 import com.core.gscore.hourglass.Hourglass
 import com.core.gscore.utils.network.NetworkUtils
 import java.util.concurrent.atomic.AtomicBoolean
 
-class SplashAdsManager(
+class AdGsSplashManager(
     private val activity: AppCompatActivity,
     private val adPlaceName: AdPlaceName? = null,
     private val goToHomeCallback: (() -> Unit),
     private val initMobileAds: (() -> Unit),
     private val adsLoading: ((Boolean) -> Unit)? = null,
-    private var delayTime: Long = 3500L
+    private var delayTime: Long = 3500L,
+    private var isDebug: Boolean = false
 ) {
 
     private var shouldGoToMain = false
@@ -90,13 +89,13 @@ class SplashAdsManager(
         // phải check mạng trước nếu không timeout mặc định quá lâu
         NetworkUtils.hasInternetAccessCheck(
             doTask = {
-                googleMobileAdsConsentManager = GoogleMobileAdsConsentManager.getInstance(activity)
+                googleMobileAdsConsentManager = GoogleMobileAdsConsentManager.Companion.getInstance(activity)
                 googleMobileAdsConsentManager?.gatherConsent(activity, onCanShowAds = {
                     initializeMobileAdsSdk()
                     showOpenAdIfNeed()
                 }, onDisableAds = {
                     callBackGoHome()
-                }, isDebug = BuildConfig.DEBUG)
+                }, isDebug = isDebug)
 
                 if (googleMobileAdsConsentManager?.canRequestAds == true) {
                     initializeMobileAdsSdk()

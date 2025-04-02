@@ -11,6 +11,7 @@ import com.core.gsadmob.utils.AdGsManager
 import com.core.gscore.utils.extensions.removeBlink
 import com.example.gsadmob.AdGsRemoteExtraConfig
 import com.example.gsadmob.databinding.ActivityHomeBinding
+import com.example.gsadmob.ui.activity.TestAdsActivity
 import com.example.gsadmob.ui.activity.base.BaseAdsActivity
 import com.example.gsadmob.ui.activity.language.LanguageActivity
 import com.example.gsadmob.ui.adapter.ImageAdapter
@@ -22,11 +23,10 @@ class HomeActivity : BaseAdsActivity<ActivityHomeBinding>(ActivityHomeBinding::i
 
     private var adapter: ImageAdapter? = null
 
+    private val list = mutableListOf(AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome, AdGsRemoteExtraConfig.instance.adPlaceNameNativeHome)
+
     override fun getAdPlaceNameList(): MutableList<AdPlaceName> {
-        return mutableListOf(
-            AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome,
-            AdGsRemoteExtraConfig.instance.adPlaceNameNativeHome
-        )
+        return list
     }
 
     override fun setupView(savedInstanceState: Bundle?) {
@@ -58,6 +58,10 @@ class HomeActivity : BaseAdsActivity<ActivityHomeBinding>(ActivityHomeBinding::i
 
         bindingView.tvLanguage.setOnClickListener {
             startActivity(Intent(this, LanguageActivity::class.java))
+        }
+
+        bindingView.tvTestAds.setOnClickListener {
+            startActivity(Intent(this, TestAdsActivity::class.java))
         }
     }
 

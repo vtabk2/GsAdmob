@@ -25,7 +25,7 @@ Thư viện được tạo ra với mục đích quản lý và tùy chỉnh gia
 **Step 2.** Add the dependency
 ```css
         dependencies {
-                    implementation 'com.github.vtabk2:GsAdmob:1.3.1'
+                    implementation 'com.github.vtabk2:GsAdmob:1.3.2'
             }
 ```
 
@@ -588,6 +588,10 @@ Trong hàm initConfig() là các tạo và đăng ký quảng cáo
 # BaseWithAdsAdapter Adapter chứa quảng cáo native
 
 # Lịch sử cập nhật
+
+**Version 1.3.1**
+- Đổi tên AdPlaceNameConfig thành AdPlaceNameDefaultConfig 
+- Gom class vào package remoteconfig
 
 **Version 1.3.1**
 - Thêm AdGsDelayManager để quản lý tải quảng cáo cần thời gian chờ(thường là quảng cáo app open resume)

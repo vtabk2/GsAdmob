@@ -2,17 +2,16 @@ package com.example.gsadmob
 
 import android.annotation.SuppressLint
 import android.view.ViewGroup
+import com.core.gsadmob.GsAdmobApplication
 import com.core.gsadmob.model.AdShowStatus
 import com.core.gsadmob.utils.AdGsManager
 import com.core.gsadmob.utils.preferences.VipPreferences
 import com.example.gsadmob.ui.activity.base.BaseAdsActivity
 import com.example.gsadmob.ui.activity.splash.SplashActivity
 import com.example.gsadmob.ui.fragment.ResumeDialogFragment
-import com.gs.core.GsApplication
 import kotlinx.coroutines.MainScope
 
-class TestApplication : GsApplication() {
-    var canShowAppOpenResume: Boolean = true
+class TestApplication : GsAdmobApplication() {
 
     private val mainScope = MainScope()
 
@@ -24,11 +23,13 @@ class TestApplication : GsApplication() {
         super.fixWebView(getPackageName())
     }
 
-    override fun setupAdMob(isDebug: Boolean) {
-        super.setupAdMob(BuildConfig.DEBUG)
+    override fun setupDeviceTest(isDebug: Boolean) {
+        super.setupDeviceTest(BuildConfig.DEBUG)
     }
 
-    override fun initConfig() {
+    override fun registerAdGsManager() {
+        super.registerAdGsManager()
+
         RemoteConfig.instance.initRemoteConfig(R.xml.remote_config_defaults)
 
         val adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameAppOpenResume

@@ -589,23 +589,23 @@ Trong hàm initConfig() là các tạo và đăng ký quảng cáo
 
 # Lịch sử cập nhật
 
-**Version 1.3.1**
+**Version 1.3.2**
 - Đổi tên AdPlaceNameConfig thành AdPlaceNameDefaultConfig 
 - Gom class vào package remoteconfig
 
 **Version 1.3.1**
-- Thêm AdGsDelayManager để quản lý tải quảng cáo cần thời gian chờ(thường là quảng cáo app open resume)
+- Thêm [AdGsDelayManager](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/AdGsDelayManager.kt) để quản lý tải quảng cáo cần thời gian chờ(thường là quảng cáo app open resume)
 - Thêm time_delay_loading để chỉnh thời gian chờ khi tải quảng cáo(mặc định 3500, min 1000) 
 - Thêm time_fake_delay để chỉnh thời gian giả trước khi hiển thị quảng cáo(mặc định 1000, min 500) 
 
 **Version 1.3.0**
-- Hỗ trợ cấu hình RemoteConfig của Firebase xem ở [RemoteConfig](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/RemoteConfig.kt)
+- Hỗ trợ cấu hình RemoteConfig của Firebase xem ở [RemoteConfig](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/utils/remoteConfig/RemoteConfig.kt)
 - Thêm [GsAdmobApplication](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/GsAdmobApplication.kt)
 - Thêm ADS_DISABLE vào AdShowStatus
 - Đổi APP_OPEN_AD thành APP_OPEN ở AdGsType
 
 **Version 1.2.21**
-- Thêm [SplashAdsManager](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/activity/SplashAdsManager.kt)
+- Thêm [SplashAdsManager](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/AdGsSplashManager.kt)
   được khởi tạo ở màn hình splash 
 ```css
         SplashAdsManager(

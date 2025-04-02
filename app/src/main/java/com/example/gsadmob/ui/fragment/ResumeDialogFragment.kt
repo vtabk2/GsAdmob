@@ -11,7 +11,6 @@ import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import com.core.gsadmob.utils.AdGsDelayManager
-import com.core.gscore.hourglass.Hourglass
 import com.example.gsadmob.AdGsRemoteExtraConfig
 import com.example.gsadmob.databinding.FragmentResumeBinding
 import com.google.android.material.R
@@ -30,8 +29,6 @@ class ResumeDialogFragment : BottomSheetDialogFragment() {
     lateinit var binding: FragmentResumeBinding
     private var heightScreen: Int = 0
     private var viewRoot: ViewGroup? = null
-    private var timerLoading: Hourglass? = null
-    private var timerDelay: Hourglass? = null
 
     private val adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameAppOpenResume
 
@@ -134,17 +131,5 @@ class ResumeDialogFragment : BottomSheetDialogFragment() {
         } catch (ignored: IllegalStateException) {
             ignored.printStackTrace()
         }
-    }
-
-    override fun onPause() {
-        super.onPause()
-        if (timerLoading?.isRunning == true) timerLoading?.pauseTimer()
-        if (timerDelay?.isRunning == true) timerDelay?.pauseTimer()
-    }
-
-    override fun onResume() {
-        super.onResume()
-        if (timerLoading?.isPaused == true) timerLoading?.resumeTimer()
-        if (timerDelay?.isPaused == true) timerDelay?.resumeTimer()
     }
 }

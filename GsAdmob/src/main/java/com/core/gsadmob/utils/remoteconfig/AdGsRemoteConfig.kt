@@ -1,4 +1,4 @@
-package com.core.gsadmob.utils
+package com.core.gsadmob.utils.remoteconfig
 
 import com.google.firebase.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig

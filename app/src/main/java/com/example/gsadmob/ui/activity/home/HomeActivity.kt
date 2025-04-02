@@ -9,7 +9,7 @@ import com.core.gsadmob.model.AdPlaceName
 import com.core.gsadmob.model.nativead.NativeAdGsData
 import com.core.gsadmob.utils.AdGsManager
 import com.core.gscore.utils.extensions.removeBlink
-import com.example.gsadmob.AdGsRemoteExtraConfig
+import com.example.gsadmob.utils.remoteConfig.AdGsRemoteExtraConfig
 import com.example.gsadmob.databinding.ActivityHomeBinding
 import com.example.gsadmob.ui.activity.TestAdsActivity
 import com.example.gsadmob.ui.activity.base.BaseAdsActivity

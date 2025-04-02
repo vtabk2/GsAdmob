@@ -6,7 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.isVisible
 import com.core.gsadmob.utils.AdGsSplashManager
-import com.example.gsadmob.AdGsRemoteExtraConfig
+import com.example.gsadmob.utils.remoteConfig.AdGsRemoteExtraConfig
 import com.example.gsadmob.BuildConfig
 import com.example.gsadmob.R
 import com.example.gsadmob.TestApplication

@@ -3,7 +3,7 @@ package com.example.gsadmob.ui.activity.language
 import com.core.gsadmob.banner.BannerGsAdView
 import com.core.gsadmob.model.AdPlaceName
 import com.core.gsadmob.model.nativead.NativeAdGsData
-import com.example.gsadmob.AdGsRemoteExtraConfig
+import com.example.gsadmob.utils.remoteConfig.AdGsRemoteExtraConfig
 import com.example.gsadmob.databinding.ActivityLanguageBinding
 import com.example.gsadmob.ui.activity.base.BaseAdsActivity
 

@@ -6,7 +6,7 @@ import com.core.gsadmob.model.AdGsType
 import com.core.gsadmob.model.AdPlaceName
 import com.core.gsadmob.utils.AdGsRemoteConfig
 import com.core.gsadmob.utils.AdPlaceNameConfig
-import com.core.gsadmob.utils.GsonUtils
+import com.core.gsadmob.utils.gson.GsonUtils
 import com.core.gsadmob.utils.extensions.log
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 

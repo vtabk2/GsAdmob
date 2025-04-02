@@ -1,4 +1,4 @@
-package com.core.gsadmob.utils
+package com.core.gsadmob.utils.gson
 
 import com.core.gsadmob.model.AdGsType
 import com.core.gsadmob.model.AdPlaceName

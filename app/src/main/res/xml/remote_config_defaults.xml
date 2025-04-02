@@ -36,7 +36,7 @@
             "delayTime": 0,
             "tagActivity": "",
             "adGsType": "app_open",
-            "isEnable": false
+            "isEnable": true
             }
         </value>
     </entry>

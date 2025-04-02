@@ -44,6 +44,7 @@ publishing {
 }
 
 dependencies {
+    api(libs.androidx.multidex)
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
@@ -51,9 +52,18 @@ dependencies {
     // admob
     api(libs.play.services.ads)
     api(libs.shimmer)
+
     api(libs.gscore)
 
     implementation(libs.androidx.lifecycle.process)
 
     implementation (libs.androidx.preference.ktx)
+
+    // Import the Firebase BoM
+    implementation(platform(libs.firebase.bom))
+    // Add the dependency for the Firebase SDK for Google Analytics
+    implementation(libs.firebase.analytics)
+    implementation(libs.firebase.config.ktx)
+
+    implementation(libs.gson)
 }

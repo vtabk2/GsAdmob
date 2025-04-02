@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import android.view.ViewGroup
 import com.core.gsadmob.model.AdShowStatus
 import com.core.gsadmob.utils.AdGsManager
-import com.core.gsadmob.utils.AdPlaceNameConfig
 import com.core.gsadmob.utils.preferences.VipPreferences
 import com.example.gsadmob.ui.activity.base.BaseAdsActivity
 import com.example.gsadmob.ui.activity.splash.SplashActivity
@@ -30,7 +29,9 @@ class TestApplication : GsApplication() {
     }
 
     override fun initConfig() {
-        val adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_APP_OPEN_RESUME
+        RemoteConfig.instance.initRemoteConfig(R.xml.remote_config_defaults)
+
+        val adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameAppOpenResume
         val tag = ResumeDialogFragment.javaClass.simpleName
 
         AdGsManager.instance.registerCoroutineScope(

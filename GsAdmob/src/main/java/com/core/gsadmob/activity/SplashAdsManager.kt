@@ -1,11 +1,7 @@
 package com.core.gsadmob.activity
 
-import android.app.Activity
-import android.app.Application.ActivityLifecycleCallbacks
-import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.DefaultLifecycleObserver
-import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import com.core.gsadmob.BuildConfig
 import com.core.gsadmob.callback.AdGsListener

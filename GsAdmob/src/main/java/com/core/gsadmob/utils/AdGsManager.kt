@@ -7,7 +7,6 @@ import android.app.Application.ActivityLifecycleCallbacks
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.DefaultLifecycleObserver
@@ -29,6 +28,7 @@ import com.core.gsadmob.model.nativead.NativeAdGsData
 import com.core.gsadmob.model.rewarded.RewardedAdGsData
 import com.core.gsadmob.model.rewarded.RewardedInterstitialAdGsData
 import com.core.gsadmob.utils.extensions.isWebViewEnabled
+import com.core.gsadmob.utils.extensions.log
 import com.core.gsadmob.utils.preferences.VipPreferences
 import com.core.gscore.utils.network.LiveDataNetworkStatus
 import com.core.gscore.utils.network.NetworkUtils
@@ -168,6 +168,8 @@ class AdGsManager {
 
             VipPreferences.instance.initVipPreferences(context = application, applicationId = applicationId)
 
+            AdPlaceNameConfig.instance.initAdPlaceNameConfig(application = application)
+
             async {
                 VipPreferences.instance.getVipChangeFlow(keyVipList = keyVipList)
                     .stateIn(this, SharingStarted.Eagerly, VipPreferences.instance.isFullVersion())
@@ -257,13 +259,18 @@ class AdGsManager {
                 null
             } else {
                 when (adPlaceName.adGsType) {
-                    AdGsType.APP_OPEN_AD -> (adGsData as? AppOpenAdGsData)?.appOpenAd
+                    AdGsType.APP_OPEN -> (adGsData as? AppOpenAdGsData)?.appOpenAd
                     AdGsType.BANNER, AdGsType.BANNER_COLLAPSIBLE -> (adGsData as? BannerAdGsData)?.bannerAdView
                     AdGsType.INTERSTITIAL -> (adGsData as? InterstitialAdGsData)?.interstitialAd
                     AdGsType.NATIVE -> (adGsData as? NativeAdGsData)?.nativeAd
                     AdGsType.REWARDED -> (adGsData as? RewardedAdGsData)?.rewardedAd
                     AdGsType.REWARDED_INTERSTITIAL -> (adGsData as? RewardedInterstitialAdGsData)?.rewardedInterstitialAd
                 }
+            }
+
+            if (!adPlaceName.isEnable) {
+                adGsData.listener?.onAdClose(isFailed = true)
+                return
             }
 
             if (ads != null) return
@@ -279,7 +286,7 @@ class AdGsManager {
                 adGsData.isLoading = true
 
                 when (adPlaceName.adGsType) {
-                    AdGsType.APP_OPEN_AD -> loadAppOpenAd(
+                    AdGsType.APP_OPEN -> loadAppOpenAd(
                         app = it,
                         adPlaceName = adPlaceName,
                         adGsData = adGsData as AppOpenAdGsData,
@@ -337,9 +344,9 @@ class AdGsManager {
      */
     private fun loadAppOpenAd(app: Application, adPlaceName: AdPlaceName, adGsData: AppOpenAdGsData, requiredLoadNewAds: Boolean) {
         val adRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
-        AppOpenAd.load(app, app.getString(adPlaceName.adUnitId), adRequest, object : AppOpenAdLoadCallback() {
+        AppOpenAd.load(app, adPlaceName.adUnitId, adRequest, object : AppOpenAdLoadCallback() {
             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
-                log("AdGsManager", "loadAppOpenAd_onAdFailedToLoad: message = " + loadAdError.message)
+                log("loadAppOpenAd_onAdFailedToLoad: message", loadAdError.message)
                 adGsData.listener?.onAdClose(isFailed = true)
                 adGsData.clearData(isResetReload = false)
             }
@@ -355,7 +362,6 @@ class AdGsManager {
                     //
                     adGsData.listener?.let {
                         it.onAdSuccess()
-
                         showAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, onlyShow = true)
                     }
                     adGsData.appOpenAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
@@ -398,7 +404,7 @@ class AdGsManager {
         startShimmerLiveData.postValue(shimmerMap)
 
         val bannerAdView = AdView(app)
-        bannerAdView.adUnitId = app.getString(adPlaceName.adUnitId)
+        bannerAdView.adUnitId = adPlaceName.adUnitId
         bannerAdView.descendantFocusability = ViewGroup.FOCUS_BLOCK_DESCENDANTS
 
         val adSize = getAdSize(app)
@@ -416,7 +422,7 @@ class AdGsManager {
         bannerAdView.loadAd(adRequest)
         bannerAdView.adListener = object : AdListener() {
             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
-                log("AdGsManager", "loadBannerAd_onAdFailedToLoad: message = " + loadAdError.message)
+                log("loadBannerAd_onAdFailedToLoad: message", loadAdError.message)
                 shimmerMap[adPlaceName] = false
                 adGsData.listener?.onAdClose(isFailed = true)
                 adGsData.clearData(isResetReload = false)
@@ -432,6 +438,7 @@ class AdGsManager {
                 } else {
                     adGsData.bannerAdView = bannerAdView
                     adGsData.isLoading = false
+                    log("loadBannerAd.isCollapsible", bannerAdView.isCollapsible)
                     notifyAds("loadBannerAd.onAdLoaded")
 
                     adGsData.listener?.onAdSuccess()
@@ -473,7 +480,7 @@ class AdGsManager {
      */
     private fun loadInterstitialAd(app: Application, adPlaceName: AdPlaceName, adGsData: InterstitialAdGsData, requiredLoadNewAds: Boolean) {
         val adRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
-        InterstitialAd.load(app, app.getString(adPlaceName.adUnitId), adRequest, object : InterstitialAdLoadCallback() {
+        InterstitialAd.load(app, adPlaceName.adUnitId, adRequest, object : InterstitialAdLoadCallback() {
             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
                 adGsData.listener?.onAdClose(isFailed = true)
                 adGsData.clearData(isResetReload = false)
@@ -492,7 +499,11 @@ class AdGsManager {
                 } else {
                     adGsData.interstitialAd = interstitialAd
                     adGsData.isLoading = false
-
+                    //
+                    adGsData.listener?.let {
+                        it.onAdSuccess()
+                        showAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, onlyShow = true)
+                    }
                     adGsData.interstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
                         override fun onAdDismissedFullScreenContent() {
                             adGsData.listener?.onAdClose()
@@ -533,10 +544,10 @@ class AdGsManager {
         startShimmerLiveData.postValue(shimmerMap)
 
         val adRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
-        val adLoader = AdLoader.Builder(app, app.getString(adPlaceName.adUnitId))
+        val adLoader = AdLoader.Builder(app, adPlaceName.adUnitId)
             .withAdListener(object : AdListener() {
                 override fun onAdFailedToLoad(loadAdError: LoadAdError) {
-                    log("AdGsManager", "loadNativeAd_onAdFailedToLoad: message = " + loadAdError.message)
+                    log("loadNativeAd_onAdFailedToLoad: message", loadAdError.message)
                     shimmerMap[adPlaceName] = false
                     adGsData.listener?.onAdClose(isFailed = true)
                     adGsData.clearData(isResetReload = false)
@@ -567,9 +578,9 @@ class AdGsManager {
      */
     private fun loadRewardedAd(app: Application, adPlaceName: AdPlaceName, adGsData: RewardedAdGsData, requiredLoadNewAds: Boolean) {
         val adRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
-        RewardedAd.load(app, app.getString(adPlaceName.adUnitId), adRequest, object : RewardedAdLoadCallback() {
+        RewardedAd.load(app, adPlaceName.adUnitId, adRequest, object : RewardedAdLoadCallback() {
             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
-                log("AdGsManager", "loadRewardedAd_onAdFailedToLoad: message = " + loadAdError.message)
+                log("loadRewardedAd_onAdFailedToLoad: message", loadAdError.message)
                 adGsData.listener?.onAdClose(isFailed = true)
                 adGsData.clearData(isResetReload = false)
                 //
@@ -589,7 +600,6 @@ class AdGsManager {
                     adGsData.isLoading = false
                     //
                     adGsData.listener?.let {
-
                         showAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, onlyShow = true)
                     }
                     adGsData.rewardedAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
@@ -634,9 +644,9 @@ class AdGsManager {
         requiredLoadNewAds: Boolean
     ) {
         val adRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
-        RewardedInterstitialAd.load(app, app.getString(adPlaceName.adUnitId), adRequest, object : RewardedInterstitialAdLoadCallback() {
+        RewardedInterstitialAd.load(app, adPlaceName.adUnitId, adRequest, object : RewardedInterstitialAdLoadCallback() {
             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
-                log("AdGsManager", "loadRewardedInterstitialAd_onAdFailedToLoad: message = " + loadAdError.message)
+                log("loadRewardedInterstitialAd_onAdFailedToLoad: message", loadAdError.message)
                 adGsData.listener?.onAdClose(isFailed = true)
                 adGsData.clearData(isResetReload = false)
                 //
@@ -656,7 +666,6 @@ class AdGsManager {
                     adGsData.isLoading = false
                     //
                     adGsData.listener?.let {
-
                         showAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, onlyShow = true)
                     }
                     adGsData.rewardedInterstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
@@ -721,6 +730,7 @@ class AdGsManager {
         when {
             !isWebViewEnabled -> callbackShow?.invoke(AdShowStatus.ERROR_WEB_VIEW)
             isVipFlow.value -> callbackShow?.invoke(AdShowStatus.ERROR_VIP)
+            !adPlaceName.isEnable -> callbackShow?.invoke(AdShowStatus.ADS_DISABLE)
             else -> {
                 var isShowing = false
                 adGsDataMap.forEach {
@@ -746,7 +756,7 @@ class AdGsManager {
                         return
                     }
                     val canShow = when (adPlaceName.adGsType) {
-                        AdGsType.APP_OPEN_AD -> (adGsData as? AppOpenAdGsData)?.appOpenAd != null && wasLoadTimeLessThanNHoursAgo(adGsData, 4)
+                        AdGsType.APP_OPEN -> (adGsData as? AppOpenAdGsData)?.appOpenAd != null && wasLoadTimeLessThanNHoursAgo(adGsData, 4)
                         AdGsType.INTERSTITIAL -> (adGsData as? InterstitialAdGsData)?.interstitialAd != null
                         AdGsType.REWARDED -> (adGsData as? RewardedAdGsData)?.rewardedAd != null
                         AdGsType.REWARDED_INTERSTITIAL -> (adGsData as? RewardedInterstitialAdGsData)?.rewardedInterstitialAd != null
@@ -868,7 +878,7 @@ class AdGsManager {
     private fun getAdGsData(adPlaceName: AdPlaceName): BaseAdGsData {
         return adGsDataMap[adPlaceName] ?: run {
             when (adPlaceName.adGsType) {
-                AdGsType.APP_OPEN_AD -> AppOpenAdGsData()
+                AdGsType.APP_OPEN -> AppOpenAdGsData()
                 AdGsType.BANNER -> BannerAdGsData()
                 AdGsType.BANNER_COLLAPSIBLE -> BannerAdGsData(isCollapsible = true)
                 AdGsType.INTERSTITIAL -> InterstitialAdGsData()
@@ -901,6 +911,7 @@ class AdGsManager {
     fun clearWithAdPlaceName(adPlaceName: AdPlaceName, requiredNotify: Boolean = true) {
         adGsDataMap[adPlaceName]?.clearData(isResetReload = true)
         if (requiredNotify) {
+            log("clearWithAdPlaceName_adPlaceName", adPlaceName)
             notifyAds("clearWithAdPlaceName")
         }
     }
@@ -929,7 +940,7 @@ class AdGsManager {
      * Gửi các thay đổi các quảng cáo đã kích hoạt
      */
     private fun notifyAds(from: String) {
-        log("AdGsManager", "notifyAds: from = $from")
+        log("notifyAds_from", from)
         defaultScope?.launch {
             val newData = HashMap<AdPlaceName, BaseActiveAdGsData>()
             adGsDataMap.forEach {
@@ -1016,26 +1027,6 @@ class AdGsManager {
         adGsDataMap.forEach {
             removeAdsListener(it.key)
         }
-    }
-
-    fun log(message: String, value: Any, logType: LogType = LogType.DEBUG) {
-        if (showLog) {
-            when (logType) {
-                LogType.DEBUG -> Log.d("AdGsManager", "$message: $value")
-                LogType.ERROR -> Log.e("AdGsManager", "$message: $value")
-                LogType.INFO -> Log.i("AdGsManager", "$message: $value")
-                LogType.VERBOSE -> Log.v("AdGsManager", "$message: $value")
-                LogType.WARN -> Log.w("AdGsManager", "$message: $value")
-            }
-        }
-    }
-
-    enum class LogType {
-        DEBUG,
-        ERROR,
-        INFO,
-        VERBOSE,
-        WARN
     }
 
     companion object {

@@ -8,11 +8,11 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
-import com.core.gsadmob.callback.AdGsListener
-import com.core.gsadmob.utils.AdGsManager
-import com.core.gsadmob.utils.AdPlaceNameConfig
+import com.core.gsadmob.utils.AdGsDelayManager
 import com.core.gscore.hourglass.Hourglass
+import com.example.gsadmob.AdGsRemoteExtraConfig
 import com.example.gsadmob.databinding.FragmentResumeBinding
 import com.google.android.material.R
 import com.google.android.material.bottomsheet.BottomSheetBehavior
@@ -33,7 +33,7 @@ class ResumeDialogFragment : BottomSheetDialogFragment() {
     private var timerLoading: Hourglass? = null
     private var timerDelay: Hourglass? = null
 
-    private val adPlaceName = AdPlaceNameConfig.instance.AD_PLACE_NAME_APP_OPEN_RESUME
+    private val adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameAppOpenResume
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -72,38 +72,14 @@ class ResumeDialogFragment : BottomSheetDialogFragment() {
     }
 
     fun onShowAds(from: String) {
-        timerLoading = object : Hourglass(3500, 500) {
-            override fun onTimerTick(timeRemaining: Long) {
-                // Do nothing
-            }
-
-            override fun onTimerFinish() {
-                AdGsManager.instance.clearWithAdPlaceName(adPlaceName = adPlaceName)
-                dismissAllowingStateLoss()
-            }
+        (activity as? AppCompatActivity)?.let {
+            AdGsDelayManager(
+                activity = it,
+                adPlaceName = adPlaceName,
+                callbackFinished = {
+                    dismissAllowingStateLoss()
+                })
         }
-        timerLoading?.startTimer()
-
-        timerDelay = object : Hourglass(1000, 500) {
-            override fun onTimerTick(timeRemaining: Long) {
-                // nothing
-            }
-
-            override fun onTimerFinish() {
-                activity?.let {
-                    AdGsManager.instance.registerAndShowAds(adPlaceName = adPlaceName, adGsListener = object : AdGsListener {
-                        override fun onAdClose(isFailed: Boolean) {
-                            if (!isFailed) {
-                                timerLoading?.onTimerFinish()
-                                dismissAllowingStateLoss()
-                            }
-                        }
-                    }, callbackShow = { adShowStatus ->
-                    })
-                }
-            }
-        }
-        timerDelay?.startTimer()
     }
 
     private fun blurView() {
@@ -111,9 +87,7 @@ class ResumeDialogFragment : BottomSheetDialogFragment() {
             val decorView = activity?.window?.decorView ?: return@let
             val rootView = decorView.findViewById<ViewGroup>(android.R.id.content)
             val windowBackground = decorView.background
-            binding.blurView.setupWith(rootView)
-                .setFrameClearDrawable(windowBackground)
-                .setBlurRadius(5f)
+            binding.blurView.setupWith(rootView).setFrameClearDrawable(windowBackground).setBlurRadius(5f)
         }
     }
 

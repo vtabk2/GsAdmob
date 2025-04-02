@@ -13,6 +13,9 @@
     <string name="rewarded_id" translatable="false">ca-app-pub-3940256099942544/5224354917</string>
     <string name="rewarded_interstitial_id" translatable="false">ca-app-pub-3940256099942544/5354046379</string>
 
+    <integer name="time_delay_loading">3500</integer>
+    <integer name="time_fake_delay">1000</integer>
+
     <!--    album-->
     <color name="ads_text_color_headline_album">@android:color/white</color>
     <color name="ads_text_color_body_album">@android:color/white</color>

@@ -75,6 +75,7 @@ class ResumeDialogFragment : BottomSheetDialogFragment() {
         (activity as? AppCompatActivity)?.let {
             AdGsDelayManager(
                 activity = it,
+                fragment = this,
                 adPlaceName = adPlaceName,
                 callbackFinished = {
                     dismissAllowingStateLoss()

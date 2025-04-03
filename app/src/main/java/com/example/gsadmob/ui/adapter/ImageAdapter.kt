@@ -26,13 +26,8 @@ class ImageAdapter(val context: Context) : BaseWithAdsAdapter(context) {
             ADS -> {
                 (holder as? NativeAdHolder)?.let { adsHolder ->
                     (item as? ItemAds)?.let {
-                        if (it.isLoading) {
-                            adsHolder.nativeAd.startShimmer()
-                        } else {
-                            adsHolder.nativeAd.stopShimmer()
-                        }
-                        it.nativeAd?.let { nativeAd ->
-                            adsHolder.nativeAd.setNativeAd(nativeAd)
+                        adsHolder.nativeAd.setNativeAd(nativeAd = it.nativeAd, isStartShimmer = it.isLoading)
+                        it.nativeAd?.let {
                             adsHolder.root.visible()
                             adsHolder.root.layoutParams = RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
                         } ?: run {

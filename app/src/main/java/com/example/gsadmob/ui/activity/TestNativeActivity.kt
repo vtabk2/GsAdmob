@@ -66,28 +66,16 @@ class TestNativeActivity : BaseAdsActivity<ActivityTestNativeBinding>(ActivityTe
         }
     }
 
-    override fun setupNative(adPlaceName: AdPlaceName, nativeAdGsData: NativeAdGsData?) {
-        super.setupNative(adPlaceName, nativeAdGsData)
+    override fun setupNative(adPlaceName: AdPlaceName, nativeAdGsData: NativeAdGsData?, isStartShimmer: Boolean) {
+        super.setupNative(adPlaceName, nativeAdGsData, isStartShimmer)
+
         when (adPlaceName) {
             AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_NATIVE -> {
-                bindingView.nativeFrame.setNativeAd(nativeAdGsData?.nativeAd)
+                bindingView.nativeFrame.setNativeAd(nativeAd = nativeAdGsData?.nativeAd, isStartShimmer = isStartShimmer)
             }
 
             AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_NATIVE_LANGUAGE -> {
-                bindingView.nativeLanguage.setNativeAd(nativeAdGsData?.nativeAd)
-            }
-        }
-    }
-
-    override fun startNativeShimmer(adPlaceName: AdPlaceName) {
-        super.startNativeShimmer(adPlaceName)
-        when (adPlaceName) {
-            AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_NATIVE -> {
-                bindingView.nativeFrame.startShimmer()
-            }
-
-            AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_NATIVE_LANGUAGE -> {
-                bindingView.nativeLanguage.startShimmer()
+                bindingView.nativeLanguage.setNativeAd(nativeAd = nativeAdGsData?.nativeAd, isStartShimmer = isStartShimmer)
             }
         }
     }

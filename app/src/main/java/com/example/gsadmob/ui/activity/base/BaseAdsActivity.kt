@@ -48,19 +48,11 @@ abstract class BaseAdsActivity<VB : ViewBinding>(inflateBinding: (LayoutInflater
                     if (getAdPlaceNameList().contains(adGsDataMap.key)) {
                         when (adGsDataMap.key.adGsType) {
                             AdGsType.BANNER, AdGsType.BANNER_COLLAPSIBLE -> {
-                                if (adGsDataMap.value.isLoading) {
-                                    bannerGsAdView?.startShimmer()
-                                } else {
-                                    bannerGsAdView?.setBannerAdView((adGsDataMap.value as? BannerAdGsData)?.bannerAdView)
-                                }
+                                bannerGsAdView?.setBannerAdView(adView = (adGsDataMap.value as? BannerAdGsData)?.bannerAdView, isStartShimmer = adGsDataMap.value.isLoading)
                             }
 
                             AdGsType.NATIVE -> {
-                                if (adGsDataMap.value.isLoading) {
-                                    startNativeShimmer(adPlaceName = adGsDataMap.key)
-                                } else {
-                                    setupNative(adPlaceName = adGsDataMap.key, nativeAdGsData = adGsDataMap.value as? NativeAdGsData)
-                                }
+                                setupNative(adPlaceName = adGsDataMap.key, nativeAdGsData = adGsDataMap.value as? NativeAdGsData, isStartShimmer = adGsDataMap.value.isLoading)
                             }
 
                             else -> {
@@ -78,11 +70,11 @@ abstract class BaseAdsActivity<VB : ViewBinding>(inflateBinding: (LayoutInflater
                     if (getAdPlaceNameList().contains(it.key)) {
                         when (it.key.adGsType) {
                             AdGsType.BANNER, AdGsType.BANNER_COLLAPSIBLE -> {
-                                bannerGsAdView?.startShimmer()
+                                bannerGsAdView?.setBannerAdView(adView = null, isStartShimmer = true)
                             }
 
                             AdGsType.NATIVE -> {
-                                startNativeShimmer(it.key)
+                                setupNative(adPlaceName = it.key, nativeAdGsData = null, isStartShimmer = true)
                             }
 
                             else -> {
@@ -102,11 +94,7 @@ abstract class BaseAdsActivity<VB : ViewBinding>(inflateBinding: (LayoutInflater
         }
     }
 
-    open fun setupNative(adPlaceName: AdPlaceName, nativeAdGsData: NativeAdGsData?) {
-
-    }
-
-    open fun startNativeShimmer(adPlaceName: AdPlaceName) {
+    open fun setupNative(adPlaceName: AdPlaceName, nativeAdGsData: NativeAdGsData?, isStartShimmer: Boolean) {
 
     }
 

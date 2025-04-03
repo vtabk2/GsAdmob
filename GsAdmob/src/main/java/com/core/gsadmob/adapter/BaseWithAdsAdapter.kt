@@ -33,8 +33,12 @@ abstract class BaseWithAdsAdapter(context: Context) : RecyclerView.Adapter<Recyc
         notifyDataSetChanged()
     }
 
-    open fun setupItemAds(nativeAd: NativeAd?) {
-        stopShimmer(nativeAd)
+    open fun setupItemAds(nativeAd: NativeAd?, isStartShimmer: Boolean) {
+        if (isStartShimmer) {
+            startShimmer()
+        } else {
+            stopShimmer(nativeAd)
+        }
     }
 
     fun startShimmer() {

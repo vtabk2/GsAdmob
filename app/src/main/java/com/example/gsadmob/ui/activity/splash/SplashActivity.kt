@@ -11,7 +11,7 @@ import com.example.gsadmob.R
 import com.example.gsadmob.TestApplication
 import com.example.gsadmob.databinding.ActivitySplashBinding
 import com.example.gsadmob.ui.activity.home.HomeActivity
-import com.example.gsadmob.utils.remoteConfig.AdGsRemoteExtraConfig
+import com.example.gsadmob.utils.remoteconfig.AdGsRemoteExtraConfig
 
 class SplashActivity : AppCompatActivity() {
     private var bindingView: ActivitySplashBinding? = null

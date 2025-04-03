@@ -14,7 +14,7 @@ import com.example.gsadmob.ui.activity.TestAdsActivity
 import com.example.gsadmob.ui.activity.base.BaseAdsActivity
 import com.example.gsadmob.ui.activity.language.LanguageActivity
 import com.example.gsadmob.ui.adapter.ImageAdapter
-import com.example.gsadmob.utils.remoteConfig.AdGsRemoteExtraConfig
+import com.example.gsadmob.utils.remoteconfig.AdGsRemoteExtraConfig
 
 class HomeActivity : BaseAdsActivity<ActivityHomeBinding>(ActivityHomeBinding::inflate) {
     override val bannerGsAdView: BannerGsAdView by lazy { bindingView.bannerView }

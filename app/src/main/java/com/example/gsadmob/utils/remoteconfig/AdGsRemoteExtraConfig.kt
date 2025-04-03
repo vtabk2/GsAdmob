@@ -1,4 +1,4 @@
-package com.example.gsadmob.utils.remoteConfig
+package com.example.gsadmob.utils.remoteconfig
 
 import android.annotation.SuppressLint
 import com.core.gsadmob.model.AdGsType

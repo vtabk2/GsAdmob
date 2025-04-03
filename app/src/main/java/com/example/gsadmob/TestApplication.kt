@@ -9,8 +9,8 @@ import com.core.gsadmob.utils.preferences.VipPreferences
 import com.example.gsadmob.ui.activity.base.BaseAdsActivity
 import com.example.gsadmob.ui.activity.splash.SplashActivity
 import com.example.gsadmob.ui.fragment.ResumeDialogFragment
-import com.example.gsadmob.utils.remoteConfig.AdGsRemoteExtraConfig
-import com.example.gsadmob.utils.remoteConfig.RemoteConfig
+import com.example.gsadmob.utils.remoteconfig.AdGsRemoteExtraConfig
+import com.example.gsadmob.utils.remoteconfig.RemoteConfig
 import kotlinx.coroutines.MainScope
 
 class TestApplication : GsAdmobApplication() {

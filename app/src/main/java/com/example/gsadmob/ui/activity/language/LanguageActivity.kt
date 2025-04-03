@@ -5,7 +5,7 @@ import com.core.gsadmob.model.AdPlaceName
 import com.core.gsadmob.model.nativead.NativeAdGsData
 import com.example.gsadmob.databinding.ActivityLanguageBinding
 import com.example.gsadmob.ui.activity.base.BaseAdsActivity
-import com.example.gsadmob.utils.remoteConfig.AdGsRemoteExtraConfig
+import com.example.gsadmob.utils.remoteconfig.AdGsRemoteExtraConfig
 
 class LanguageActivity : BaseAdsActivity<ActivityLanguageBinding>(ActivityLanguageBinding::inflate) {
     override val bannerGsAdView: BannerGsAdView by lazy { bindingView.bannerView }

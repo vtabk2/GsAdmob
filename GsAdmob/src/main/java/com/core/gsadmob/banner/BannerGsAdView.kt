@@ -1,8 +1,8 @@
 package com.core.gsadmob.banner
 
 import android.content.Context
+import android.graphics.Color
 import android.util.AttributeSet
-import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.FrameLayout
@@ -26,10 +26,18 @@ class BannerGsAdView @JvmOverloads constructor(context: Context, attrs: Attribut
             setupVisible()
         }
 
+    var adsBannerGsBackgroundColor = Color.WHITE
+        set(value) {
+            field = value
+
+            setBackgroundColor(value)
+        }
+
     init {
         attrs?.let {
             context.withStyledAttributes(it, R.styleable.BannerGsAdView) {
                 showType = ShowType.entries.toTypedArray()[getInt(R.styleable.BannerGsAdView_adsShowType, 0)]
+                adsBannerGsBackgroundColor = getColor(R.styleable.BannerGsAdView_adsBannerGsBackgroundColor, adsBannerGsBackgroundColor)
 
                 setupVisible()
             }
@@ -46,14 +54,10 @@ class BannerGsAdView @JvmOverloads constructor(context: Context, attrs: Attribut
             setupVisible()
 
             bannerView?.let {
-                val params = adsBannerView.layoutParams as LayoutParams
-                params.gravity = Gravity.BOTTOM
+                // Xóa view khỏi parent hiện tại
+                (it.parent as? ViewGroup)?.removeView(it)
 
-                // Kiểm tra nếu view đã có parent
-                if (it.parent != null) {
-                    (it.parent as? ViewGroup)?.removeView(it) // Xóa view khỏi parent hiện tại
-                }
-                adsBannerView.addView(it, params)
+                adsBannerView.addView(it)
             }
         }
     }

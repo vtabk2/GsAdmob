@@ -7,6 +7,7 @@
             <enum name="hide" value="2"/>
             <enum name="notShow" value="3"/>
         </attr>
+        <attr name="adsBannerGsBackgroundColor" format="color"/>
     </declare-styleable>
 
     <declare-styleable name="BaseNativeAdView">

@@ -9,12 +9,12 @@ import com.core.gsadmob.model.AdPlaceName
 import com.core.gsadmob.model.nativead.NativeAdGsData
 import com.core.gsadmob.utils.AdGsManager
 import com.core.gscore.utils.extensions.removeBlink
-import com.example.gsadmob.utils.remoteConfig.AdGsRemoteExtraConfig
 import com.example.gsadmob.databinding.ActivityHomeBinding
 import com.example.gsadmob.ui.activity.TestAdsActivity
 import com.example.gsadmob.ui.activity.base.BaseAdsActivity
 import com.example.gsadmob.ui.activity.language.LanguageActivity
 import com.example.gsadmob.ui.adapter.ImageAdapter
+import com.example.gsadmob.utils.remoteconfig.AdGsRemoteExtraConfig
 
 class HomeActivity : BaseAdsActivity<ActivityHomeBinding>(ActivityHomeBinding::inflate) {
     override val bannerGsAdView: BannerGsAdView by lazy { bindingView.bannerView }
@@ -65,16 +65,10 @@ class HomeActivity : BaseAdsActivity<ActivityHomeBinding>(ActivityHomeBinding::i
         }
     }
 
-    override fun setupNative(adPlaceName: AdPlaceName, nativeAdGsData: NativeAdGsData?) {
-        super.setupNative(adPlaceName, nativeAdGsData)
+    override fun setupNative(adPlaceName: AdPlaceName, nativeAdGsData: NativeAdGsData?, isStartShimmer: Boolean) {
+        super.setupNative(adPlaceName, nativeAdGsData, isStartShimmer)
 
-        adapter?.setupItemAds(nativeAdGsData?.nativeAd)
-    }
-
-    override fun startNativeShimmer(adPlaceName: AdPlaceName) {
-        super.startNativeShimmer(adPlaceName)
-
-        adapter?.startShimmer()
+        adapter?.setupItemAds(nativeAd = nativeAdGsData?.nativeAd, isStartShimmer = isStartShimmer)
     }
 
     override fun onBackPressed() {

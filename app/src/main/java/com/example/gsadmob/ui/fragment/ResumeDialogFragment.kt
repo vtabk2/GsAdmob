@@ -11,7 +11,7 @@ import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import com.core.gsadmob.utils.AdGsDelayManager
-import com.example.gsadmob.utils.remoteConfig.AdGsRemoteExtraConfig
+import com.example.gsadmob.utils.remoteconfig.AdGsRemoteExtraConfig
 import com.example.gsadmob.databinding.FragmentResumeBinding
 import com.google.android.material.R
 import com.google.android.material.bottomsheet.BottomSheetBehavior

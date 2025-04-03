@@ -589,6 +589,11 @@ Trong hàm initConfig() là các tạo và đăng ký quảng cáo
 
 # Lịch sử cập nhật
 
+**Version 1.3.4**
+- Gom startShimmer vào setupItemAds của BaseWithAdsAdapter
+- Gom startShimmer vào setBannerAdView của BannerGsAdView
+- Gom startShimmer vào setNativeAd của BaseNativeAdView
+
 **Version 1.3.3**
 - Thêm style ads_Autoscroll để text có thử tự động chạy(custom native có thể dùng cho text headline)
 - Thêm update AdPlaceName

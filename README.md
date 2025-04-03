@@ -25,7 +25,7 @@ Thư viện được tạo ra với mục đích quản lý và tùy chỉnh gia
 **Step 2.** Add the dependency
 ```css
         dependencies {
-                    implementation 'com.github.vtabk2:GsAdmob:1.3.2'
+                    implementation 'com.github.vtabk2:GsAdmob:1.3.3'
             }
 ```
 
@@ -588,6 +588,11 @@ Trong hàm initConfig() là các tạo và đăng ký quảng cáo
 # BaseWithAdsAdapter Adapter chứa quảng cáo native
 
 # Lịch sử cập nhật
+
+**Version 1.3.3**
+- Thêm style ads_Autoscroll để text có thử tự động chạy(custom native có thể dùng cho text headline)
+- Thêm update AdPlaceName
+- Sửa banner không ở cuối khi fix cứng size
 
 **Version 1.3.2**
 - Đổi tên AdPlaceNameConfig thành AdPlaceNameDefaultConfig 

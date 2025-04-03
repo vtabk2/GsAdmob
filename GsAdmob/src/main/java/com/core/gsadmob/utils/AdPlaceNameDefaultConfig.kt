@@ -28,74 +28,39 @@ class AdPlaceNameDefaultConfig {
     val AD_PLACE_NAME_REWARDED_INTERSTITIAL = AdPlaceName(adGsType = AdGsType.REWARDED_INTERSTITIAL)
 
     fun initAdPlaceNameDefaultConfig(application: Application) {
-        AD_PLACE_NAME_APP_OPEN.apply {
-            name = "app_open"
-            adUnitId = application.getString(R.string.app_open_id)
-            adGsType = AdGsType.APP_OPEN
-        }
+        AD_PLACE_NAME_APP_OPEN.update(name = "app_open", adUnitId = application.getString(R.string.app_open_id))
 
         AD_PLACE_NAME_APP_OPEN_RESUME.apply {
             name = "app_open_resume"
             adUnitId = application.getString(R.string.app_open_id_resume)
             autoReloadWhenDismiss = true
-            adGsType = AdGsType.APP_OPEN
         }
 
-        AD_PLACE_NAME_BANNER.apply {
-            name = "banner"
-            adUnitId = application.getString(R.string.banner_id)
-            adGsType = AdGsType.BANNER
-        }
+        AD_PLACE_NAME_BANNER.update(name = "banner", adUnitId = application.getString(R.string.banner_id))
 
-        AD_PLACE_NAME_BANNER_HOME.apply {
-            name = "banner_home"
-            adUnitId = application.getString(R.string.banner_id_home)
-            adGsType = AdGsType.BANNER
-        }
+        AD_PLACE_NAME_BANNER_HOME.update(name = "banner_home", adUnitId = application.getString(R.string.banner_id_home))
 
-        AD_PLACE_NAME_BANNER_COLLAPSIBLE.apply {
-            name = "banner_collapsible"
-            adUnitId = application.getString(R.string.banner_id_collapsible)
-            adGsType = AdGsType.BANNER_COLLAPSIBLE
-        }
+        AD_PLACE_NAME_BANNER_COLLAPSIBLE.update(name = "banner_collapsible", adUnitId = application.getString(R.string.banner_id_collapsible))
 
         AD_PLACE_NAME_INTERSTITIAL.apply {
             name = "interstitial"
             adUnitId = application.getString(R.string.full_id)
             autoReloadWhenDismiss = true
-            adGsType = AdGsType.INTERSTITIAL
         }
 
         AD_PLACE_NAME_INTERSTITIAL_WITHOUT_VIDEO.apply {
             name = "interstitial_without_video"
             adUnitId = application.getString(R.string.full_id_without_video)
             autoReloadWhenDismiss = true
-            adGsType = AdGsType.INTERSTITIAL
         }
 
-        AD_PLACE_NAME_NATIVE.apply {
-            name = "native"
-            adUnitId = application.getString(R.string.native_id)
-            adGsType = AdGsType.NATIVE
-        }
+        AD_PLACE_NAME_NATIVE.update(name = "native", adUnitId = application.getString(R.string.native_id))
 
-        AD_PLACE_NAME_NATIVE_LANGUAGE.apply {
-            name = "native_language"
-            adUnitId = application.getString(R.string.native_id_language)
-            adGsType = AdGsType.NATIVE
-        }
+        AD_PLACE_NAME_NATIVE_LANGUAGE.update(name = "native_language", adUnitId = application.getString(R.string.native_id_language))
 
-        AD_PLACE_NAME_REWARDED.apply {
-            name = "rewarded"
-            adUnitId = application.getString(R.string.rewarded_id)
-            adGsType = AdGsType.REWARDED
-        }
+        AD_PLACE_NAME_REWARDED.update(name = "rewarded", adUnitId = application.getString(R.string.rewarded_id))
 
-        AD_PLACE_NAME_REWARDED_INTERSTITIAL.apply {
-            name = "rewarded_interstitial"
-            adUnitId = application.getString(R.string.rewarded_interstitial_id)
-            adGsType = AdGsType.REWARDED_INTERSTITIAL
-        }
+        AD_PLACE_NAME_REWARDED_INTERSTITIAL.update(name = "rewarded_interstitial", adUnitId = application.getString(R.string.rewarded_interstitial_id))
     }
 
     companion object {

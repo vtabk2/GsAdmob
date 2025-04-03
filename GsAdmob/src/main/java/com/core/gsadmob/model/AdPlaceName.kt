@@ -33,7 +33,7 @@ data class AdPlaceName(
     var adGsType: AdGsType = AdGsType.INTERSTITIAL
 ) {
 
-    fun apply(adPlaceName: AdPlaceName): AdPlaceName {
+    fun update(adPlaceName: AdPlaceName): AdPlaceName {
         name = adPlaceName.name
         adUnitId = adPlaceName.adUnitId
         autoReloadWhenDismiss = adPlaceName.autoReloadWhenDismiss
@@ -41,6 +41,12 @@ data class AdPlaceName(
         tagActivity = adPlaceName.tagActivity
         isEnable = adPlaceName.isEnable
         adGsType = adPlaceName.adGsType
+        return this
+    }
+
+    fun update(name: String, adUnitId: String): AdPlaceName {
+        this.name = name
+        this.adUnitId = adUnitId
         return this
     }
 }

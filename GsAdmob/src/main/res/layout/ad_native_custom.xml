@@ -5,7 +5,7 @@
     android:layout_height="wrap_content">
 
     <com.google.android.gms.ads.nativead.NativeAdView
-        android:id="@+id/ad_view_custom"
+        android:id="@+id/ad_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/ads_bg_language">
@@ -15,7 +15,7 @@
             android:layout_height="match_parent">
 
             <com.google.android.gms.ads.nativead.MediaView
-                android:id="@+id/ad_media_custom"
+                android:id="@+id/ad_media"
                 android:layout_width="0dp"
                 android:layout_height="150dp"
                 android:paddingHorizontal="9dp"
@@ -30,10 +30,10 @@
                 android:layout_marginStart="9dp"
                 android:layout_marginTop="12dp"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ad_media_custom">
+                app:layout_constraintTop_toBottomOf="@id/ad_media">
 
                 <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/ad_app_icon_custom"
+                    android:id="@+id/ad_app_icon"
                     android:layout_width="40dp"
                     android:layout_height="40dp"
                     android:layout_marginEnd="9dp"
@@ -41,7 +41,7 @@
             </FrameLayout>
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/ad_headline_custom"
+                android:id="@+id/ad_headline"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="9dp"
@@ -56,7 +56,7 @@
                 app:layout_constraintTop_toTopOf="@id/viewBound"/>
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/ad_attribution_custom"
+                android:id="@+id/ad_attribution"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
@@ -65,11 +65,11 @@
                 android:text="AD"
                 android:textColor="@color/ads_text_color_attribution_language"
                 android:textSize="@dimen/ads_text_size_attribution_language"
-                app:layout_constraintStart_toStartOf="@id/ad_headline_custom"
-                app:layout_constraintTop_toBottomOf="@id/ad_headline_custom"/>
+                app:layout_constraintStart_toStartOf="@id/ad_headline"
+                app:layout_constraintTop_toBottomOf="@id/ad_headline"/>
 
             <RatingBar
-                android:id="@+id/ad_stars_custom"
+                android:id="@+id/ad_stars"
                 style="?android:attr/ratingBarStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -79,12 +79,12 @@
                 android:numStars="5"
                 android:stepSize="0.5"
                 android:theme="@style/ads_RatingBar"
-                app:layout_constraintBottom_toBottomOf="@id/ad_attribution_custom"
-                app:layout_constraintStart_toEndOf="@id/ad_attribution_custom"
-                app:layout_constraintTop_toTopOf="@id/ad_attribution_custom"/>
+                app:layout_constraintBottom_toBottomOf="@id/ad_attribution"
+                app:layout_constraintStart_toEndOf="@id/ad_attribution"
+                app:layout_constraintTop_toTopOf="@id/ad_attribution"/>
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/ad_body_custom"
+                android:id="@+id/ad_body"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
@@ -93,12 +93,12 @@
                 android:textAlignment="viewStart"
                 android:textColor="@color/ads_text_color_body_language"
                 android:textSize="@dimen/ads_text_size_body_language"
-                app:layout_constraintEnd_toEndOf="@id/ad_headline_custom"
+                app:layout_constraintEnd_toEndOf="@id/ad_headline"
                 app:layout_constraintStart_toStartOf="@id/viewBound"
-                app:layout_constraintTop_toBottomOf="@id/ad_attribution_custom"/>
+                app:layout_constraintTop_toBottomOf="@id/ad_attribution"/>
 
             <androidx.appcompat.widget.AppCompatTextView
-                android:id="@+id/ad_call_to_action_custom"
+                android:id="@+id/ad_call_to_action"
                 android:layout_width="0dp"
                 android:layout_height="@dimen/ads_height_call_to_action_language"
                 android:layout_marginHorizontal="10dp"
@@ -115,7 +115,7 @@
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/ad_body_custom"/>
+                app:layout_constraintTop_toBottomOf="@id/ad_body"/>
         </androidx.constraintlayout.widget.ConstraintLayout>
     </com.google.android.gms.ads.nativead.NativeAdView>
 </FrameLayout>

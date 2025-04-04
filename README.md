@@ -195,7 +195,13 @@ Các hàm cơ bản được dùng trong đây
 
 # Banner
 
-Chú ý adsShowType có các kiểu hiển thị khác nhau: 
+- Đổi màu nền banner adsBannerGsBackgroundColor
+
+```css
+      app:adsBannerGsBackgroundColor="@android:color/holo_green_dark"
+```
+
+- Chú ý adsShowType có các kiểu hiển thị khác nhau: 
 
 | adsShowType   | Trạng thái |
 |---------------| ---------- |
@@ -216,13 +222,9 @@ Chú ý adsShowType có các kiểu hiển thị khác nhau:
 ```
 
 - Cách truyền dữ liệu
+
 ```css
         bannerGsAdView?.setBannerAdView()
-```
-
-- Cách chạy shimmer
-```css
-        bannerGsAdView?.startShimmer()
 ```
 
 # Native Ads
@@ -330,86 +332,48 @@ Tạo cách AdPlaceName trước giống cấu trúc ở AdPlaceNameConfig
 **Quảng cáo banner**
 
 ```css
-
-        launchWhenResumed {
-            async {
-                AdGsManager.instance.adGsDataMapMutableStateFlow.collect {
-                    it.forEach { adGsDataMap ->
-                        when (adGsDataMap.key) {
-                            AdPlaceNameConfig.AD_PLACE_NAME_BANNER_HOME -> {
-                                if (adGsDataMap.value.isLoading) {
-                                    bindingView.bannerView.startShimmer()
-                                } else {
-                                    bindingView.bannerView.setBannerAdView((adGsDataMap.value as? BannerAdGsData)?.bannerAdView)
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-         AdGsManager.instance.startShimmerLiveData.observe(this) { shimmerMap ->
-            shimmerMap.forEach {
-                if (it.value) {
-                    when (it.key) {
-                        AdPlaceNameConfig.AD_PLACE_NAME_BANNER_HOME -> {
-                            bindingView.bannerView.startShimmer()
-                        }
-                    }
-                }
-            }
-        }
-        
-         AdGsManager.instance.registerAds(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_BANNER_HOME)
+        AdGsManager.instance.registerBanner(
+            lifecycleOwner = this,
+            adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome,
+            bannerGsAdView = bindingView.bannerView
+        )
 ```
 
 **Quảng cáo native**
 
+- Khi không rõ là native hay banner thì dùng hàm này
+
 ```css
-        launchWhenResumed {          
-            async {
-                AdGsManager.instance.adGsDataMapMutableStateFlow.collect {
-                    it.forEach { adGsDataMap ->
-                        when (adGsDataMap.key) {                         
-                            AdPlaceNameConfig.AD_PLACE_NAME_NATIVE -> {
-                                if (adGsDataMap.value.isLoading) {
-                                    bindingView.nativeFrame.startShimmer()
-                                } else {
-                                    bindingView.nativeFrame.setNativeAd((adGsDataMap.value as? NativeAdGsData)?.nativeAd)
-                                }
-                            }
+        AdGsManager.instance.registerNativeOrBanner(
+            lifecycleOwner = this,
+            adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameLanguage,
+            bannerGsAdView = bindingView.bannerView,
+            nativeGsAdView = bindingView.nativeLanguage,
+            callbackFailed = {
 
-                            AdPlaceNameConfig.AD_PLACE_NAME_NATIVE_LANGUAGE -> {
-                                if (adGsDataMap.value.isLoading) {
-                                    bindingView.nativeLanguage.startShimmer()
-                                } else {
-                                    bindingView.nativeLanguage.setNativeAd((adGsDataMap.value as? NativeAdGsData)?.nativeAd)
-                                }
-                            }
-                        }
-                    }
-                }
             }
-        }
+        )
+```
+- Khi native ở trong recycler view
 
-        AdGsManager.instance.startShimmerLiveData.observe(this) { shimmerMap ->
-            shimmerMap.forEach {
-                if (it.value) {
-                    when (it.key) {                     
-                        AdPlaceNameConfig.AD_PLACE_NAME_NATIVE -> {
-                            bindingView.nativeFrame.startShimmer()
-                        }
-
-                        AdPlaceNameConfig.AD_PLACE_NAME_NATIVE_LANGUAGE -> {
-                            bindingView.nativeLanguage.startShimmer()
-                        }
-                    }
-                }
+```css
+        AdGsManager.instance.registerNative(
+            lifecycleOwner = this,
+            adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameNativeHome,
+            callbackSuccess = { adPlaceName, nativeAdGsData, isStartShimmer ->
+                adapter?.setupItemAds(nativeAd = nativeAdGsData?.nativeAd, isStartShimmer = isStartShimmer)
             }
-        }
+        )
+```
 
-        AdGsManager.instance.registerAds(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_BANNER)
+- Khi native ở ngoài
+
+```css
+        AdGsManager.instance.registerNative(
+            lifecycleOwner = this,
+            adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_NATIVE,
+            nativeGsAdView = bindingView.nativeFrame
+        )
 ```
 
 **Quảng cáo trả thưởng**
@@ -601,7 +565,6 @@ Trong hàm initConfig() là các tạo và đăng ký quảng cáo
 - Xóa bỏ tagActivity đi giờ registerNative(), registerBanner() hoặc registerNativeOrBanner() sẽ tự động quản lý pause(), resume() và destroy()
 - Xóa bỏ BannerLife
 - Xóa bỏ clearAndRemoveActive(adPlaceNameList: MutableList<AdPlaceName>)
-- 
 
 **Version 1.3.3**
 - Thêm style ads_Autoscroll để text có thử tự động chạy(custom native có thể dùng cho text headline)

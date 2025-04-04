@@ -11,6 +11,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ProcessLifecycleOwner
@@ -879,49 +880,50 @@ class AdGsManager {
     /**
      * Đăng ký quảng cáo native và banner
      */
-    private fun registerNativeAndBanner(
+    fun registerNativeAndBanner(
         lifecycleOwner: LifecycleOwner,
         adPlaceName: AdPlaceName,
         callbackBanner: ((adPlaceName: AdPlaceName, bannerAdGsData: BannerAdGsData?, isStartShimmer: Boolean) -> Unit)? = null,
         callbackNative: ((adPlaceName: AdPlaceName, nativeAdGsData: NativeAdGsData?, isStartShimmer: Boolean) -> Unit)? = null,
+        callbackPause: (() -> Unit)? = null,
+        callbackDestroy: (() -> Unit)? = null
     ) {
         lifecycleOwner.lifecycleScope.launch {
             instance.registerActiveAndLoadAds(adPlaceName = adPlaceName)
 
+            // Xử lý shimmer effect
             instance.startShimmerLiveData.observe(lifecycleOwner) { shimmerMap ->
                 shimmerMap.forEach {
-                    if (it.value) {
-                        if (adPlaceName == it.key) {
-                            when (it.key.adGsType) {
-                                AdGsType.BANNER, AdGsType.BANNER_COLLAPSIBLE -> {
-                                    callbackBanner?.invoke(it.key, null, true)
-                                }
+                    if (it.value && adPlaceName == it.key) {
+                        when (it.key.adGsType) {
+                            AdGsType.BANNER, AdGsType.BANNER_COLLAPSIBLE -> {
+                                callbackBanner?.invoke(it.key, null, true)
+                            }
 
-                                AdGsType.NATIVE -> {
-                                    callbackNative?.invoke(it.key, null, true)
-                                }
+                            AdGsType.NATIVE -> {
+                                callbackNative?.invoke(it.key, null, true)
+                            }
 
-                                else -> {
-                                    // nothing
-                                }
+                            else -> {
+                                // nothing
                             }
                         }
                     }
                 }
             }
 
-            // 1. Theo dõi khi Activity ở trạng thái RESUMED
+            // 1. Xử lý khi RESUMED
             lifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 instance.adGsDataMapMutableStateFlow.collect {
-                    it.forEach { adGsDataMap ->
-                        if (adPlaceName == adGsDataMap.key) {
-                            when (adGsDataMap.key.adGsType) {
+                    it.forEach { (key, value) ->
+                        if (adPlaceName == key) {
+                            when (key.adGsType) {
                                 AdGsType.BANNER, AdGsType.BANNER_COLLAPSIBLE -> {
-                                    callbackBanner?.invoke(adGsDataMap.key, (adGsDataMap.value as? BannerAdGsData), adGsDataMap.value.isLoading)
+                                    callbackBanner?.invoke(key, value as? BannerAdGsData, value.isLoading)
                                 }
 
                                 AdGsType.NATIVE -> {
-                                    callbackNative?.invoke(adGsDataMap.key, adGsDataMap.value as? NativeAdGsData, adGsDataMap.value.isLoading)
+                                    callbackNative?.invoke(key, value as? NativeAdGsData, value.isLoading)
                                 }
 
                                 else -> {
@@ -932,7 +934,19 @@ class AdGsManager {
                     }
                 }
             }
-            // 2. Khi coroutine này bị hủy (do lifecycle đạt DESTROYED), bạn có thể thực hiện cleanup tại đây mà không cần repeatOnLifecycle(Lifecycle.State.DESTROYED)
+
+            // 2. Xử lý khi PAUSED (thêm observer riêng)
+            val pauseObserver = LifecycleEventObserver { _, event ->
+                if (event == Lifecycle.Event.ON_PAUSE) {
+                    // Xử lý khi app bị pause
+                    callbackPause?.invoke()
+                }
+            }
+            lifecycleOwner.lifecycle.addObserver(pauseObserver)
+
+            // 3. Cleanup khi DESTROYED
+            callbackDestroy?.invoke()
+            lifecycleOwner.lifecycle.removeObserver(pauseObserver)
             instance.destroyActivity()
             instance.clearAndRemoveActive(adPlaceName)
         }
@@ -949,6 +963,12 @@ class AdGsManager {
                     adPlaceName = adPlaceName,
                     callbackBanner = { adPlaceName, bannerAdGsData, isStartShimmer ->
                         bannerGsAdView.setBannerAdView(adView = bannerAdGsData?.bannerAdView, isStartShimmer = isStartShimmer)
+                    },
+                    callbackPause = {
+                        bannerGsAdView.pause()
+                    },
+                    callbackDestroy = {
+                        bannerGsAdView.destroy()
                     })
             }
 
@@ -976,6 +996,9 @@ class AdGsManager {
                     callbackNative = { adPlaceName, nativeAdGsData, isStartShimmer ->
                         nativeGsAdView?.setNativeAd(nativeAd = nativeAdGsData?.nativeAd, isStartShimmer = isStartShimmer)
                         callbackSuccess?.invoke(adPlaceName, nativeAdGsData, isStartShimmer)
+                    },
+                    callbackDestroy = {
+                        nativeGsAdView?.destroy()
                     })
             }
 

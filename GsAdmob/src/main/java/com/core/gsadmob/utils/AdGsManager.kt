@@ -18,7 +18,6 @@ import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.core.gsadmob.banner.BannerGsAdView
-import com.core.gsadmob.banner.BannerLife
 import com.core.gsadmob.callback.AdGsListener
 import com.core.gsadmob.model.AdGsType
 import com.core.gsadmob.model.AdPlaceName
@@ -120,21 +119,15 @@ class AdGsManager {
                 }
             }
 
-            override fun onActivityResumed(activity: Activity) {
-                setupBannerLife(activity = activity, bannerLife = BannerLife.RESUME)
-            }
+            override fun onActivityResumed(activity: Activity) {}
 
-            override fun onActivityPaused(activity: Activity) {
-                setupBannerLife(activity = activity, bannerLife = BannerLife.PAUSE)
-            }
+            override fun onActivityPaused(activity: Activity) {}
 
             override fun onActivityStopped(activity: Activity) {}
 
             override fun onActivitySaveInstanceState(activity: Activity, bundle: Bundle) {}
 
-            override fun onActivityDestroyed(activity: Activity) {
-                setupBannerLife(activity = activity, bannerLife = BannerLife.DESTROY)
-            }
+            override fun onActivityDestroyed(activity: Activity) {}
         })
 
         val resumeLifecycleObserver = object : DefaultLifecycleObserver {
@@ -192,28 +185,6 @@ class AdGsManager {
                         clearAll(clearFull = false)
                     } else {
                         tryReloadAd(isChangeNetwork = false)
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * @param bannerLife để xử lý cho các trường hợp pause(), resume() hoặc destroy()
-     */
-    private fun setupBannerLife(activity: Activity, bannerLife: BannerLife) {
-        val nameActivity = activity.javaClass.simpleName
-        adGsDataMap.forEach {
-            val adGsData = it.value
-            if (adGsData is BannerAdGsData) {
-                if (adGsData.isActive) {
-                    val tagActivity = it.key.tagActivity
-                    if (tagActivity == nameActivity) {
-                        when (bannerLife) {
-                            BannerLife.PAUSE -> adGsData.bannerAdView?.pause()
-                            BannerLife.RESUME -> adGsData.bannerAdView?.resume()
-                            BannerLife.DESTROY -> adGsData.bannerAdView?.destroy()
-                        }
                     }
                 }
             }

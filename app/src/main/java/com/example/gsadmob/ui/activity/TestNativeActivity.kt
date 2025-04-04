@@ -7,6 +7,7 @@ import com.core.gsadmob.utils.AdPlaceNameDefaultConfig
 import com.core.gsadmob.utils.preferences.VipPreferences
 import com.core.gsmvvm.ui.activity.BaseMVVMActivity
 import com.example.gsadmob.databinding.ActivityTestNativeBinding
+import com.example.gsadmob.utils.remoteconfig.AdGsRemoteExtraConfig
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
@@ -28,9 +29,7 @@ class TestNativeActivity : BaseMVVMActivity<ActivityTestNativeBinding>(ActivityT
 
         AdGsManager.instance.registerBanner(
             lifecycleOwner = this,
-            adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_BANNER.apply {
-                tagActivity = TestNativeActivity::class.java.simpleName
-            },
+            adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameTestNative,
             bannerGsAdView = bindingView.bannerView
         )
 

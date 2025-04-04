@@ -31,7 +31,7 @@ class TestAdsActivity : BaseAdsActivity<ActivityTestAdsBinding>(ActivityTestAdsB
 
         AdGsManager.instance.registerBanner(
             lifecycleOwner = this,
-            adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome,
+            adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameTestAds,
             bannerGsAdView = bindingView.bannerView
         )
     }
@@ -40,7 +40,6 @@ class TestAdsActivity : BaseAdsActivity<ActivityTestAdsBinding>(ActivityTestAdsB
         super.initListener()
 
         bindingView.tvActiveVip.setOnClickListener {
-//            VipPreferences.instance.save(VipPreferences.KEY_IS_PRO, !VipPreferences.instance.load(VipPreferences.KEY_IS_PRO))
             VipPreferences.instance.isPro = !VipPreferences.instance.isPro
         }
 

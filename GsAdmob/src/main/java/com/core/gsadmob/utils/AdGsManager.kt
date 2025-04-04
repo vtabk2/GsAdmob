@@ -7,12 +7,16 @@ import android.app.Application.ActivityLifecycleCallbacks
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ProcessLifecycleOwner
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.core.gsadmob.banner.BannerLife
 import com.core.gsadmob.callback.AdGsListener
 import com.core.gsadmob.model.AdGsType
@@ -863,6 +867,70 @@ class AdGsManager {
     fun registerAndShowAds(adPlaceName: AdPlaceName, requiredLoadNewAds: Boolean = false, adGsListener: AdGsListener? = null, onlyShow: Boolean = false, callbackShow: ((AdShowStatus) -> Unit)? = null) {
         registerAdsListener(adPlaceName = adPlaceName, adGsListener = adGsListener)
         showAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, onlyShow = onlyShow, callbackShow = callbackShow)
+    }
+
+    fun registerNativeAndBanner(
+        activity: AppCompatActivity,
+        adPlaceNameList: MutableList<AdPlaceName>,
+        callbackBanner: ((adPlaceName: AdPlaceName, bannerAdGsData: BannerAdGsData?, isStartShimmer: Boolean) -> Unit)? = null,
+        callbackNative: ((adPlaceName: AdPlaceName, nativeAdGsData: NativeAdGsData?, isStartShimmer: Boolean) -> Unit)? = null
+    ) {
+        activity.lifecycleScope.launch {
+            Log.d("TAG5", "AdGsManager_registerNativeAndBanner: ")
+            adPlaceNameList.forEach { adPlaceName ->
+                instance.registerActiveAndLoadAds(adPlaceName = adPlaceName)
+            }
+
+            instance.startShimmerLiveData.observe(activity) { shimmerMap ->
+                shimmerMap.forEach {
+                    if (it.value) {
+                        if (adPlaceNameList.contains(it.key)) {
+                            when (it.key.adGsType) {
+                                AdGsType.BANNER, AdGsType.BANNER_COLLAPSIBLE -> {
+                                    callbackBanner?.invoke(it.key, null, true)
+                                }
+
+                                AdGsType.NATIVE -> {
+                                    callbackNative?.invoke(it.key, null, true)
+                                }
+
+                                else -> {
+                                    // nothing
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            // 1. Theo dõi khi Activity ở trạng thái RESUMED
+            activity.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                Log.d("TAG5", "AdGsManager_registerNativeAndBanner: RESUMED")
+                instance.adGsDataMapMutableStateFlow.collect {
+                    it.forEach { adGsDataMap ->
+                        if (adPlaceNameList.contains(adGsDataMap.key)) {
+                            when (adGsDataMap.key.adGsType) {
+                                AdGsType.BANNER, AdGsType.BANNER_COLLAPSIBLE -> {
+                                    callbackBanner?.invoke(adGsDataMap.key, (adGsDataMap.value as? BannerAdGsData), adGsDataMap.value.isLoading)
+                                }
+
+                                AdGsType.NATIVE -> {
+                                    callbackNative?.invoke(adGsDataMap.key, adGsDataMap.value as? NativeAdGsData, adGsDataMap.value.isLoading)
+                                }
+
+                                else -> {
+                                    // nothing
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            // 2. Khi coroutine này bị hủy (do lifecycle đạt DESTROYED), bạn có thể thực hiện cleanup tại đây mà không cần repeatOnLifecycle(Lifecycle.State.DESTROYED)
+            Log.d("TAG5", "AdGsManager_registerNativeAndBanner: DESTROYED")
+            instance.destroyActivity()
+            instance.clearAndRemoveActive(adPlaceNameList)
+        }
     }
 
     /**

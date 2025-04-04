@@ -6,17 +6,14 @@ import androidx.appcompat.app.AlertDialog
 import androidx.viewbinding.ViewBinding
 import com.core.gsadmob.banner.BannerGsAdView
 import com.core.gsadmob.callback.AdGsListener
-import com.core.gsadmob.model.AdGsType
 import com.core.gsadmob.model.AdPlaceName
 import com.core.gsadmob.model.AdShowStatus
-import com.core.gsadmob.model.banner.BannerAdGsData
 import com.core.gsadmob.model.nativead.NativeAdGsData
 import com.core.gsadmob.utils.AdGsManager
 import com.core.gsadmob.utils.AdPlaceNameDefaultConfig
 import com.core.gsadmob.utils.extensions.cmpUtils
 import com.core.gsadmob.utils.extensions.log
 import com.core.gsadmob.utils.preferences.GoogleMobileAdsConsentManager
-import com.core.gscore.utils.extensions.launchWhenResumed
 import com.core.gscore.utils.network.NetworkUtils
 import com.core.gsmvvm.ui.activity.BaseMVVMActivity
 import com.example.gsadmob.BuildConfig
@@ -38,60 +35,18 @@ abstract class BaseAdsActivity<VB : ViewBinding>(inflateBinding: (LayoutInflater
     override fun setupView(savedInstanceState: Bundle?) {
         super.setupView(savedInstanceState)
 
-        initAdGs()
+        initNativeAndBanner()
     }
 
-    private fun initAdGs() {
-        launchWhenResumed {
-            AdGsManager.instance.adGsDataMapMutableStateFlow.collect {
-                it.forEach { adGsDataMap ->
-                    if (getAdPlaceNameList().contains(adGsDataMap.key)) {
-                        when (adGsDataMap.key.adGsType) {
-                            AdGsType.BANNER, AdGsType.BANNER_COLLAPSIBLE -> {
-                                bannerGsAdView?.setBannerAdView(adView = (adGsDataMap.value as? BannerAdGsData)?.bannerAdView, isStartShimmer = adGsDataMap.value.isLoading)
-                            }
-
-                            AdGsType.NATIVE -> {
-                                setupNative(adPlaceName = adGsDataMap.key, nativeAdGsData = adGsDataMap.value as? NativeAdGsData, isStartShimmer = adGsDataMap.value.isLoading)
-                            }
-
-                            else -> {
-                                // nothing
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        AdGsManager.instance.startShimmerLiveData.observe(this) { shimmerMap ->
-            shimmerMap.forEach {
-                if (it.value) {
-                    if (getAdPlaceNameList().contains(it.key)) {
-                        when (it.key.adGsType) {
-                            AdGsType.BANNER, AdGsType.BANNER_COLLAPSIBLE -> {
-                                bannerGsAdView?.setBannerAdView(adView = null, isStartShimmer = true)
-                            }
-
-                            AdGsType.NATIVE -> {
-                                setupNative(adPlaceName = it.key, nativeAdGsData = null, isStartShimmer = true)
-                            }
-
-                            else -> {
-                                // nothing
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        registerAds()
-    }
-
-    open fun registerAds() {
-        getAdPlaceNameList().forEach { adPlaceName ->
-            AdGsManager.instance.registerActiveAndLoadAds(adPlaceName = adPlaceName)
-        }
+    private fun initNativeAndBanner() {
+        AdGsManager.instance.registerNativeAndBanner(
+            activity = this,
+            adPlaceNameList = getAdPlaceNameList(),
+            callbackBanner = { adPlaceName, bannerAdGsData, isStartShimmer ->
+                bannerGsAdView?.setBannerAdView(adView = bannerAdGsData?.bannerAdView, isStartShimmer = isStartShimmer)
+            }, callbackNative = { adPlaceName, nativeAdGsData, isStartShimmer ->
+                setupNative(adPlaceName = adPlaceName, nativeAdGsData = nativeAdGsData, isStartShimmer = isStartShimmer)
+            })
     }
 
     open fun setupNative(adPlaceName: AdPlaceName, nativeAdGsData: NativeAdGsData?, isStartShimmer: Boolean) {
@@ -254,9 +209,6 @@ abstract class BaseAdsActivity<VB : ViewBinding>(inflateBinding: (LayoutInflater
         } catch (e: Exception) {
             e.printStackTrace()
         }
-
-        AdGsManager.instance.destroyActivity()
-        AdGsManager.instance.clearAndRemoveActive(getAdPlaceNameList())
 
         super.onDestroy()
     }

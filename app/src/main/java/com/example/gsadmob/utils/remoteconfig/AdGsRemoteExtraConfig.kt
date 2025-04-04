@@ -3,7 +3,6 @@ package com.example.gsadmob.utils.remoteconfig
 import android.annotation.SuppressLint
 import com.core.gsadmob.model.AdGsType
 import com.core.gsadmob.model.AdPlaceName
-import com.core.gsadmob.utils.AdPlaceNameDefaultConfig
 
 class AdGsRemoteExtraConfig {
     val adPlaceNameSplash = AdPlaceName(adGsType = AdGsType.APP_OPEN)
@@ -11,8 +10,8 @@ class AdGsRemoteExtraConfig {
     val adPlaceNameBannerHome = AdPlaceName(adGsType = AdGsType.BANNER)
     val adPlaceNameNativeHome = AdPlaceName(adGsType = AdGsType.NATIVE)
     val adPlaceNameLanguage = AdPlaceName(adGsType = AdGsType.NATIVE)
-    val adPlaceNameTestAds = AdPlaceName(adGsType = AdGsType.BANNER).update("banner_test_ads", AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_BANNER.adUnitId)
-    val adPlaceNameTestNative = AdPlaceName(adGsType = AdGsType.BANNER).update("banner_test_native", AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_BANNER.adUnitId)
+    val adPlaceNameBannerTestAds = AdPlaceName(adGsType = AdGsType.BANNER)
+    val adPlaceNameBannerTestNative = AdPlaceName(adGsType = AdGsType.BANNER)
 
     companion object {
         @SuppressLint("StaticFieldLeak")

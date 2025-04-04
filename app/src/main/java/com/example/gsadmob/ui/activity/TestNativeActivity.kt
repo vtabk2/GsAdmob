@@ -29,7 +29,7 @@ class TestNativeActivity : BaseMVVMActivity<ActivityTestNativeBinding>(ActivityT
 
         AdGsManager.instance.registerBanner(
             lifecycleOwner = this,
-            adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameTestNative,
+            adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameBannerTestNative,
             bannerGsAdView = bindingView.bannerView
         )
 
@@ -54,7 +54,11 @@ class TestNativeActivity : BaseMVVMActivity<ActivityTestNativeBinding>(ActivityT
         }
 
         bindingView.tvNativeFrame.setOnClickListener {
-            AdGsManager.instance.registerActiveAndLoadAds(adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_NATIVE)
+            AdGsManager.instance.registerNative(
+                lifecycleOwner = this,
+                adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_NATIVE,
+                nativeGsAdView = bindingView.nativeFrame
+            )
         }
 
         bindingView.imageFrameClear.setOnClickListener {
@@ -62,7 +66,11 @@ class TestNativeActivity : BaseMVVMActivity<ActivityTestNativeBinding>(ActivityT
         }
 
         bindingView.tvNativeLanguage.setOnClickListener {
-            AdGsManager.instance.registerActiveAndLoadAds(adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_NATIVE_LANGUAGE)
+            AdGsManager.instance.registerNative(
+                lifecycleOwner = this,
+                adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_NATIVE_LANGUAGE,
+                nativeGsAdView = bindingView.nativeLanguage
+            )
         }
 
         bindingView.imageLanguageClear.setOnClickListener {

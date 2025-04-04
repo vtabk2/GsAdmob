@@ -26,6 +26,14 @@ class RemoteConfig : AdGsRemoteConfig() {
         // cấu hình quảng cáo language
         setupAdLanguageConfig(remoteConfig)
 
+        AdGsRemoteExtraConfig.instance.adPlaceNameBannerTestAds.update(AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_BANNER).apply {
+            name = "banner_test_ads"
+        }
+
+        AdGsRemoteExtraConfig.instance.adPlaceNameBannerTestNative.update(AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_BANNER).apply {
+            name = "banner_test_native"
+        }
+
         log("", "-----------------------")
     }
 

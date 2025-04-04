@@ -31,7 +31,7 @@ class TestAdsActivity : BaseAdsActivity<ActivityTestAdsBinding>(ActivityTestAdsB
 
         AdGsManager.instance.registerBanner(
             lifecycleOwner = this,
-            adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameTestAds,
+            adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameBannerTestAds,
             bannerGsAdView = bindingView.bannerView
         )
     }

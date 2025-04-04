@@ -6,8 +6,8 @@
     <string name="banner_id" translatable="false">ca-app-pub-3940256099942544/9214589741</string>
     <string name="banner_id_home" translatable="false">ca-app-pub-3940256099942544/9214589741</string>
     <string name="banner_id_collapsible" translatable="false">ca-app-pub-3940256099942544/2014213617</string>
-    <string name="full_id" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
-    <string name="full_id_without_video" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="interstitial_id" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
+    <string name="interstitial_id_without_video" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
     <string name="native_id" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
     <string name="native_id_language" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
     <string name="rewarded_id" translatable="false">ca-app-pub-3940256099942544/5224354917</string>

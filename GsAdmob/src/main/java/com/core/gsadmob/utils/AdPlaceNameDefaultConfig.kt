@@ -44,13 +44,13 @@ class AdPlaceNameDefaultConfig {
 
         AD_PLACE_NAME_INTERSTITIAL.apply {
             name = "interstitial"
-            adUnitId = application.getString(R.string.full_id)
+            adUnitId = application.getString(R.string.interstitial_id)
             autoReloadWhenDismiss = true
         }
 
         AD_PLACE_NAME_INTERSTITIAL_WITHOUT_VIDEO.apply {
             name = "interstitial_without_video"
-            adUnitId = application.getString(R.string.full_id_without_video)
+            adUnitId = application.getString(R.string.interstitial_id_without_video)
             autoReloadWhenDismiss = true
         }
 

@@ -9,7 +9,6 @@
             "adUnitId": "",
             "autoReloadWhenDismiss": false,
             "delayTime": 0,
-            "tagActivity": "",
             "adGsType": "app_open",
             "isEnable": true
             },
@@ -18,7 +17,6 @@
             "adUnitId": "",
             "autoReloadWhenDismiss": false,
             "delayTime": 0,
-            "tagActivity": "",
             "adGsType": "interstitial",
             "isEnable": false
             }
@@ -34,7 +32,6 @@
             "adUnitId": "",
             "autoReloadWhenDismiss": true,
             "delayTime": 0,
-            "tagActivity": "",
             "adGsType": "app_open",
             "isEnable": true
             }
@@ -50,7 +47,6 @@
             "adUnitId": "",
             "autoReloadWhenDismiss": false,
             "delayTime": 0,
-            "tagActivity": "",
             "adGsType": "banner",
             "isEnable": false
             },
@@ -59,7 +55,6 @@
             "adUnitId": "",
             "autoReloadWhenDismiss": false,
             "delayTime": 0,
-            "tagActivity": "",
             "adGsType": "native",
             "isEnable": true
             }
@@ -76,7 +71,6 @@
             "adUnitId": "",
             "autoReloadWhenDismiss": false,
             "delayTime": 30,
-            "tagActivity": "",
             "adGsType": "banner",
             "isEnable": true
             },
@@ -85,7 +79,6 @@
             "adUnitId": "",
             "autoReloadWhenDismiss": false,
             "delayTime": 30,
-            "tagActivity": "",
             "adGsType": "banner_collapsible",
             "isEnable": false
             },
@@ -94,7 +87,6 @@
             "adUnitId": "",
             "autoReloadWhenDismiss": false,
             "delayTime": 0,
-            "tagActivity": "",
             "adGsType": "native",
             "isEnable": true
             }

@@ -7,7 +7,6 @@ import android.app.Application.ActivityLifecycleCallbacks
 import android.content.Context
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.DefaultLifecycleObserver
@@ -17,6 +16,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.core.gsadmob.banner.BannerGsAdView
 import com.core.gsadmob.banner.BannerLife
 import com.core.gsadmob.callback.AdGsListener
 import com.core.gsadmob.model.AdGsType
@@ -31,6 +31,7 @@ import com.core.gsadmob.model.interstitial.InterstitialAdGsData
 import com.core.gsadmob.model.nativead.NativeAdGsData
 import com.core.gsadmob.model.rewarded.RewardedAdGsData
 import com.core.gsadmob.model.rewarded.RewardedInterstitialAdGsData
+import com.core.gsadmob.natives.view.NativeGsAdView
 import com.core.gsadmob.utils.extensions.isWebViewEnabled
 import com.core.gsadmob.utils.extensions.log
 import com.core.gsadmob.utils.preferences.VipPreferences
@@ -869,22 +870,22 @@ class AdGsManager {
         showAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, onlyShow = onlyShow, callbackShow = callbackShow)
     }
 
-    fun registerNativeAndBanner(
-        activity: AppCompatActivity,
-        adPlaceNameList: MutableList<AdPlaceName>,
+    /**
+     * Đăng ký quảng cáo native và banner
+     */
+    private fun registerNativeAndBanner(
+        lifecycleOwner: LifecycleOwner,
+        adPlaceName: AdPlaceName,
         callbackBanner: ((adPlaceName: AdPlaceName, bannerAdGsData: BannerAdGsData?, isStartShimmer: Boolean) -> Unit)? = null,
-        callbackNative: ((adPlaceName: AdPlaceName, nativeAdGsData: NativeAdGsData?, isStartShimmer: Boolean) -> Unit)? = null
+        callbackNative: ((adPlaceName: AdPlaceName, nativeAdGsData: NativeAdGsData?, isStartShimmer: Boolean) -> Unit)? = null,
     ) {
-        activity.lifecycleScope.launch {
-            Log.d("TAG5", "AdGsManager_registerNativeAndBanner: ")
-            adPlaceNameList.forEach { adPlaceName ->
+        lifecycleOwner.lifecycleScope.launch {
                 instance.registerActiveAndLoadAds(adPlaceName = adPlaceName)
-            }
 
-            instance.startShimmerLiveData.observe(activity) { shimmerMap ->
+            instance.startShimmerLiveData.observe(lifecycleOwner) { shimmerMap ->
                 shimmerMap.forEach {
                     if (it.value) {
-                        if (adPlaceNameList.contains(it.key)) {
+                        if (adPlaceName == it.key) {
                             when (it.key.adGsType) {
                                 AdGsType.BANNER, AdGsType.BANNER_COLLAPSIBLE -> {
                                     callbackBanner?.invoke(it.key, null, true)
@@ -904,11 +905,10 @@ class AdGsManager {
             }
 
             // 1. Theo dõi khi Activity ở trạng thái RESUMED
-            activity.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                Log.d("TAG5", "AdGsManager_registerNativeAndBanner: RESUMED")
+            lifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 instance.adGsDataMapMutableStateFlow.collect {
                     it.forEach { adGsDataMap ->
-                        if (adPlaceNameList.contains(adGsDataMap.key)) {
+                        if (adPlaceName == adGsDataMap.key) {
                             when (adGsDataMap.key.adGsType) {
                                 AdGsType.BANNER, AdGsType.BANNER_COLLAPSIBLE -> {
                                     callbackBanner?.invoke(adGsDataMap.key, (adGsDataMap.value as? BannerAdGsData), adGsDataMap.value.isLoading)
@@ -927,9 +927,55 @@ class AdGsManager {
                 }
             }
             // 2. Khi coroutine này bị hủy (do lifecycle đạt DESTROYED), bạn có thể thực hiện cleanup tại đây mà không cần repeatOnLifecycle(Lifecycle.State.DESTROYED)
-            Log.d("TAG5", "AdGsManager_registerNativeAndBanner: DESTROYED")
             instance.destroyActivity()
-            instance.clearAndRemoveActive(adPlaceNameList)
+            instance.clearAndRemoveActive(adPlaceName)
+        }
+    }
+
+    /**
+     * Đăng kí quảng cáo banner
+     */
+    fun registerBanner(lifecycleOwner: LifecycleOwner, adPlaceName: AdPlaceName, bannerGsAdView: BannerGsAdView, callbackFailed: (() -> Unit)? = null) {
+        when (adPlaceName.adGsType) {
+            AdGsType.BANNER, AdGsType.BANNER_COLLAPSIBLE -> {
+                registerNativeAndBanner(
+                    lifecycleOwner = lifecycleOwner,
+                    adPlaceName = adPlaceName,
+                    callbackBanner = { adPlaceName, bannerAdGsData, isStartShimmer ->
+                        bannerGsAdView.setBannerAdView(adView = bannerAdGsData?.bannerAdView, isStartShimmer = isStartShimmer)
+                    })
+            }
+
+            else -> {
+                callbackFailed?.invoke()
+            }
+        }
+    }
+
+    /**
+     * Đăng kí quảng cáo native
+     */
+    fun registerNative(
+        lifecycleOwner: LifecycleOwner,
+        adPlaceName: AdPlaceName,
+        nativeGsAdView: NativeGsAdView? = null,
+        callbackSuccess: ((adPlaceName: AdPlaceName, nativeAdGsData: NativeAdGsData?, isStartShimmer: Boolean) -> Unit)? = null,
+        callbackFailed: (() -> Unit)? = null
+    ) {
+        when (adPlaceName.adGsType) {
+            AdGsType.NATIVE -> {
+                registerNativeAndBanner(
+                    lifecycleOwner = lifecycleOwner,
+                    adPlaceName = adPlaceName,
+                    callbackNative = { adPlaceName, nativeAdGsData, isStartShimmer ->
+                        nativeGsAdView?.setNativeAd(nativeAd = nativeAdGsData?.nativeAd, isStartShimmer = isStartShimmer)
+                        callbackSuccess?.invoke(adPlaceName, nativeAdGsData, isStartShimmer)
+                    })
+            }
+
+            else -> {
+                callbackFailed?.invoke()
+            }
         }
     }
 

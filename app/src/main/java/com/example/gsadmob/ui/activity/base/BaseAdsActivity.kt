@@ -4,11 +4,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
 import androidx.viewbinding.ViewBinding
-import com.core.gsadmob.banner.BannerGsAdView
 import com.core.gsadmob.callback.AdGsListener
-import com.core.gsadmob.model.AdPlaceName
 import com.core.gsadmob.model.AdShowStatus
-import com.core.gsadmob.model.nativead.NativeAdGsData
 import com.core.gsadmob.utils.AdGsManager
 import com.core.gsadmob.utils.AdPlaceNameDefaultConfig
 import com.core.gsadmob.utils.extensions.cmpUtils
@@ -26,30 +23,11 @@ import com.gs.core.ui.view.toasty.Toasty
 import java.util.concurrent.atomic.AtomicBoolean
 
 abstract class BaseAdsActivity<VB : ViewBinding>(inflateBinding: (LayoutInflater) -> VB) : BaseMVVMActivity<VB>(inflateBinding) {
-    abstract val bannerGsAdView: BannerGsAdView?
-    abstract fun getAdPlaceNameList(): MutableList<AdPlaceName>
-
     private var googleMobileAdsConsentManager: GoogleMobileAdsConsentManager? = null
     private var gdprPermissionsDialog: AlertDialog? = null
 
     override fun setupView(savedInstanceState: Bundle?) {
         super.setupView(savedInstanceState)
-
-        initNativeAndBanner()
-    }
-
-    private fun initNativeAndBanner() {
-        AdGsManager.instance.registerNativeAndBanner(
-            activity = this,
-            adPlaceNameList = getAdPlaceNameList(),
-            callbackBanner = { adPlaceName, bannerAdGsData, isStartShimmer ->
-                bannerGsAdView?.setBannerAdView(adView = bannerAdGsData?.bannerAdView, isStartShimmer = isStartShimmer)
-            }, callbackNative = { adPlaceName, nativeAdGsData, isStartShimmer ->
-                setupNative(adPlaceName = adPlaceName, nativeAdGsData = nativeAdGsData, isStartShimmer = isStartShimmer)
-            })
-    }
-
-    open fun setupNative(adPlaceName: AdPlaceName, nativeAdGsData: NativeAdGsData?, isStartShimmer: Boolean) {
 
     }
 
@@ -179,38 +157,6 @@ abstract class BaseAdsActivity<VB : ViewBinding>(inflateBinding: (LayoutInflater
         } else {
             Toasty.showToast(this, "Bạn chưa là thành viên vip", Toasty.WARNING)
         }
-    }
-
-    override fun onPause() {
-        try {
-            bannerGsAdView?.pause()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
-        super.onPause()
-    }
-
-    override fun onResume() {
-        try {
-            bannerGsAdView?.resume()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        super.onResume()
-    }
-
-    override fun onDestroy() {
-        gdprPermissionsDialog?.dismiss()
-        gdprPermissionsDialog = null
-
-        try {
-            bannerGsAdView?.destroy()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
-        super.onDestroy()
     }
 
     enum class TypeShowAds {

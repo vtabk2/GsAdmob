@@ -353,6 +353,7 @@ class AdGsManager {
                         }
 
                         override fun onAdFailedToShowFullScreenContent(adError: AdError) {
+                            adGsData.isShowing = false
                             adGsData.listener?.onAdClose()
                             adGsData.clearData(isResetReload = true)
                             //
@@ -362,6 +363,7 @@ class AdGsManager {
                         }
 
                         override fun onAdShowedFullScreenContent() {
+                            adGsData.isShowing = true
                             adGsData.listener?.onAdShowing()
                         }
 
@@ -493,6 +495,7 @@ class AdGsManager {
                         }
 
                         override fun onAdFailedToShowFullScreenContent(adError: AdError) {
+                            adGsData.isShowing = false
                             adGsData.listener?.onAdClose(isFailed = true)
                             adGsData.clearData(isResetReload = true)
                             //
@@ -502,6 +505,7 @@ class AdGsManager {
                         }
 
                         override fun onAdShowedFullScreenContent() {
+                            adGsData.isShowing = true
                             adGsData.listener?.onAdShowing()
                         }
 
@@ -591,6 +595,7 @@ class AdGsManager {
                         }
 
                         override fun onAdFailedToShowFullScreenContent(adError: AdError) {
+                            adGsData.isShowing = false
                             adGsData.listener?.onAdClose()
                             adGsData.clearData(isResetReload = true)
                             //
@@ -600,6 +605,7 @@ class AdGsManager {
                         }
 
                         override fun onAdShowedFullScreenContent() {
+                            adGsData.isShowing = true
                             adGsData.listener?.onAdShowing()
                         }
 
@@ -657,6 +663,7 @@ class AdGsManager {
                         }
 
                         override fun onAdFailedToShowFullScreenContent(adError: AdError) {
+                            adGsData.isShowing = false
                             adGsData.listener?.onAdClose()
                             adGsData.clearData(isResetReload = true)
                             //
@@ -666,6 +673,7 @@ class AdGsManager {
                         }
 
                         override fun onAdShowedFullScreenContent() {
+                            adGsData.isShowing = true
                             adGsData.listener?.onAdShowing()
                         }
 
@@ -748,7 +756,6 @@ class AdGsManager {
                                     if (onlyCheckNotShow) { // chặn hiển thị quảng cáo
                                         return
                                     }
-                                    adGsData.isShowing = true
                                     //
                                     adGsData.appOpenAd?.show(it)
                                 }
@@ -758,7 +765,6 @@ class AdGsManager {
                                     if (onlyCheckNotShow) {
                                         return
                                     }
-                                    adGsData.isShowing = true
                                     //
                                     adGsData.interstitialAd?.show(it)
                                 }
@@ -768,7 +774,6 @@ class AdGsManager {
                                     if (onlyCheckNotShow) {
                                         return
                                     }
-                                    adGsData.isShowing = true
                                     //
                                     adGsData.rewardedAd?.show(it) { rewardItem ->
                                         adGsData.listener?.onShowFinishSuccess(rewardItem)
@@ -780,7 +785,6 @@ class AdGsManager {
                                     if (onlyCheckNotShow) {
                                         return
                                     }
-                                    adGsData.isShowing = true
                                     //
                                     adGsData.rewardedInterstitialAd?.show(it) { rewardItem ->
                                         adGsData.listener?.onShowFinishSuccess(rewardItem)

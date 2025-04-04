@@ -593,6 +593,15 @@ Trong hàm initConfig() là các tạo và đăng ký quảng cáo
 - Gom startShimmer vào setupItemAds của [BaseWithAdsAdapter](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/adapter/BaseWithAdsAdapter.kt)
 - Gom startShimmer vào setBannerAdView của [BannerGsAdView](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/banner/BannerGsAdView.kt)
 - Gom startShimmer vào setNativeAd của [BaseNativeAdView](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/natives/view/BaseNativeAdView.kt)
+- Thêm registerNativeOrBanner() để tải quảng cáo là có kiểu thay đổi giữa banner và native(thường là ở màn chọn ngôn ngữ)
+- Thêm registerBanner() để tải quảng cáo banner
+- Thêm registerNative() để tải quảng cáo native
+- Cấu trúc lại BaseAdsActivity không cần tạo abstract BannerGsAdView và abstract getAdPlaceNameList nữa
+- Xóa bỏ logic tự động tải quảng cáo native và banner tự động -> người dùng chủ động gọi registerNative(), registerBanner() hoặc registerNativeOrBanner()
+- Xóa bỏ tagActivity đi giờ registerNative(), registerBanner() hoặc registerNativeOrBanner() sẽ tự động quản lý pause(), resume() và destroy()
+- Xóa bỏ BannerLife
+- Xóa bỏ clearAndRemoveActive(adPlaceNameList: MutableList<AdPlaceName>)
+- 
 
 **Version 1.3.3**
 - Thêm style ads_Autoscroll để text có thử tự động chạy(custom native có thể dùng cho text headline)

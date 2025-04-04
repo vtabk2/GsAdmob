@@ -853,10 +853,33 @@ class AdGsManager {
         showAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, onlyShow = onlyShow, callbackShow = callbackShow)
     }
 
+    fun registerNativeOrBanner(
+        lifecycleOwner: LifecycleOwner,
+        adPlaceName: AdPlaceName,
+        bannerGsAdView: BannerGsAdView? = null,
+        nativeGsAdView: NativeGsAdView? = null,
+        callbackSuccess: ((adPlaceName: AdPlaceName, nativeAdGsData: NativeAdGsData?, isStartShimmer: Boolean) -> Unit)? = null,
+        callbackFailed: (() -> Unit)? = null
+    ) {
+        registerNative(
+            lifecycleOwner = lifecycleOwner,
+            adPlaceName = adPlaceName,
+            nativeGsAdView = nativeGsAdView,
+            callbackSuccess = callbackSuccess,
+            callbackFailed = {
+                registerBanner(
+                    lifecycleOwner = lifecycleOwner,
+                    adPlaceName = adPlaceName,
+                    bannerGsAdView = bannerGsAdView,
+                    callbackFailed = callbackFailed
+                )
+            })
+    }
+
     /**
      * Đăng ký quảng cáo native và banner
      */
-    fun registerNativeOrBanner(
+    private fun registerNativeOrBanner(
         lifecycleOwner: LifecycleOwner,
         adPlaceName: AdPlaceName,
         callbackBanner: ((adPlaceName: AdPlaceName, bannerAdGsData: BannerAdGsData?, isStartShimmer: Boolean) -> Unit)? = null,
@@ -930,30 +953,30 @@ class AdGsManager {
     /**
      * Đăng kí quảng cáo banner
      */
-    fun registerBanner(lifecycleOwner: LifecycleOwner, adPlaceName: AdPlaceName, bannerGsAdView: BannerGsAdView, callbackFailed: (() -> Unit)? = null) {
+    fun registerBanner(lifecycleOwner: LifecycleOwner, adPlaceName: AdPlaceName, bannerGsAdView: BannerGsAdView?, callbackFailed: (() -> Unit)? = null) {
         when (adPlaceName.adGsType) {
             AdGsType.BANNER, AdGsType.BANNER_COLLAPSIBLE -> {
                 registerNativeOrBanner(
                     lifecycleOwner = lifecycleOwner,
                     adPlaceName = adPlaceName,
                     callbackBanner = { adPlaceName, bannerAdGsData, isStartShimmer ->
-                        bannerGsAdView.setBannerAdView(adView = bannerAdGsData?.bannerAdView, isStartShimmer = isStartShimmer)
+                        bannerGsAdView?.setBannerAdView(adView = bannerAdGsData?.bannerAdView, isStartShimmer = isStartShimmer)
                         try {
-                            bannerGsAdView.resume()
+                            bannerGsAdView?.resume()
                         } catch (e: Exception) {
                             e.printStackTrace()
                         }
                     },
                     callbackPause = {
                         try {
-                            bannerGsAdView.pause()
+                            bannerGsAdView?.pause()
                         } catch (e: Exception) {
                             e.printStackTrace()
                         }
                     },
                     callbackDestroy = {
                         try {
-                            bannerGsAdView.destroy()
+                            bannerGsAdView?.destroy()
                         } catch (e: Exception) {
                             e.printStackTrace()
                         }

@@ -10,16 +10,14 @@ class LanguageActivity : BaseMVVMActivity<ActivityLanguageBinding>(ActivityLangu
     override fun setupView(savedInstanceState: Bundle?) {
         super.setupView(savedInstanceState)
 
-        AdGsManager.instance.registerBanner(
+        AdGsManager.instance.registerNativeOrBanner(
             lifecycleOwner = this,
             adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameLanguage,
-            bannerGsAdView = bindingView.bannerView
-        )
+            bannerGsAdView = bindingView.bannerView,
+            nativeGsAdView = bindingView.nativeLanguage,
+            callbackFailed = {
 
-        AdGsManager.instance.registerNative(
-            lifecycleOwner = this,
-            adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameLanguage,
-            nativeGsAdView = bindingView.nativeLanguage
+            }
         )
     }
 }

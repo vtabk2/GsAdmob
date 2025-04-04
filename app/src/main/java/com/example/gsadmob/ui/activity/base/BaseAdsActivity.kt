@@ -1,6 +1,5 @@
 package com.example.gsadmob.ui.activity.base
 
-import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
 import androidx.viewbinding.ViewBinding
@@ -120,6 +119,10 @@ abstract class BaseAdsActivity<VB : ViewBinding>(inflateBinding: (LayoutInflater
             when (adShowStatus) {
                 AdShowStatus.ERROR_WEB_VIEW -> {
                     Toasty.showToast(this, "Điện thoại không bật Android System WebView. Vui lòng kiểm tra Cài dặt -> Ứng dụng -> Android System WebView", Toasty.WARNING)
+                }
+
+                AdShowStatus.ERROR_VIP -> {
+                    Toasty.showToast(this, "Bạn đã là thành viên vip", Toasty.WARNING)
                 }
 
                 else -> {

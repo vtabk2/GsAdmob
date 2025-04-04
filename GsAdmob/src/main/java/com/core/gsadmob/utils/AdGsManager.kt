@@ -57,6 +57,7 @@ import com.google.android.gms.ads.rewardedinterstitial.RewardedInterstitialAd
 import com.google.android.gms.ads.rewardedinterstitial.RewardedInterstitialAdLoadCallback
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
@@ -888,67 +889,66 @@ class AdGsManager {
         callbackPause: (() -> Unit)? = null,
         callbackDestroy: (() -> Unit)? = null
     ) {
+        // 1. Khởi tạo observer ở phạm vi Activity/Fragment
+        val pauseResumeObserver = object : LifecycleEventObserver {
+            override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+                when (event) {
+                    Lifecycle.Event.ON_PAUSE -> {
+                        callbackPause?.invoke()
+                    }
+
+                    Lifecycle.Event.ON_RESUME -> {
+
+                    }
+
+                    else -> {}
+                }
+            }
+        }
+
+        // 2. Đăng ký observer trực tiếp với lifecycle (không qua coroutine)
+        lifecycleOwner.lifecycle.addObserver(pauseResumeObserver)
+
+        // 3. Xử lý coroutine riêng cho data flow
         lifecycleOwner.lifecycleScope.launch {
             instance.registerActiveAndLoadAds(adPlaceName = adPlaceName)
 
             // Xử lý shimmer effect
             instance.startShimmerLiveData.observe(lifecycleOwner) { shimmerMap ->
-                shimmerMap.forEach {
-                    if (it.value && adPlaceName == it.key) {
-                        when (it.key.adGsType) {
-                            AdGsType.BANNER, AdGsType.BANNER_COLLAPSIBLE -> {
-                                callbackBanner?.invoke(it.key, null, true)
-                            }
-
-                            AdGsType.NATIVE -> {
-                                callbackNative?.invoke(it.key, null, true)
-                            }
-
-                            else -> {
-                                // nothing
-                            }
-                        }
+                shimmerMap[adPlaceName]?.takeIf { it }?.let {
+                    when (adPlaceName.adGsType) {
+                        AdGsType.BANNER, AdGsType.BANNER_COLLAPSIBLE -> callbackBanner?.invoke(adPlaceName, null, true)
+                        AdGsType.NATIVE -> callbackNative?.invoke(adPlaceName, null, true)
+                        else -> {}
                     }
                 }
             }
 
-            // 1. Xử lý khi RESUMED
+            // Xử lý data flow khi RESUMED
             lifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
-                instance.adGsDataMapMutableStateFlow.collect {
-                    it.forEach { (key, value) ->
-                        if (adPlaceName == key) {
-                            when (key.adGsType) {
-                                AdGsType.BANNER, AdGsType.BANNER_COLLAPSIBLE -> {
-                                    callbackBanner?.invoke(key, value as? BannerAdGsData, value.isLoading)
-                                }
-
-                                AdGsType.NATIVE -> {
-                                    callbackNative?.invoke(key, value as? NativeAdGsData, value.isLoading)
-                                }
-
-                                else -> {
-                                    // nothing
-                                }
-                            }
+                instance.adGsDataMapMutableStateFlow.collect { dataMap ->
+                    dataMap[adPlaceName]?.let { adData ->
+                        when (adPlaceName.adGsType) {
+                            AdGsType.BANNER, AdGsType.BANNER_COLLAPSIBLE -> callbackBanner?.invoke(adPlaceName, adData as? BannerAdGsData, adData.isLoading)
+                            AdGsType.NATIVE -> callbackNative?.invoke(adPlaceName, adData as? NativeAdGsData, adData.isLoading)
+                            else -> {}
                         }
                     }
                 }
             }
 
-            // 2. Xử lý khi PAUSED (thêm observer riêng)
-            val pauseObserver = LifecycleEventObserver { _, event ->
-                if (event == Lifecycle.Event.ON_PAUSE) {
-                    // Xử lý khi app bị pause
-                    callbackPause?.invoke()
-                }
-            }
-            lifecycleOwner.lifecycle.addObserver(pauseObserver)
+            // Xử lý khi DESTROYED
+            try {
+                awaitCancellation()
+            } finally {
+                // Gọi callbackDestroy trước khi cleanup
+                callbackDestroy?.invoke()
 
-            // 3. Cleanup khi DESTROYED
-            callbackDestroy?.invoke()
-            lifecycleOwner.lifecycle.removeObserver(pauseObserver)
-            instance.destroyActivity()
-            instance.clearAndRemoveActive(adPlaceName)
+                // Dọn dẹp
+                lifecycleOwner.lifecycle.removeObserver(pauseResumeObserver)
+                instance.destroyActivity()
+                instance.clearAndRemoveActive(adPlaceName)
+            }
         }
     }
 
@@ -965,10 +965,18 @@ class AdGsManager {
                         bannerGsAdView.setBannerAdView(adView = bannerAdGsData?.bannerAdView, isStartShimmer = isStartShimmer)
                     },
                     callbackPause = {
-                        bannerGsAdView.pause()
+                        try {
+                            bannerGsAdView.pause()
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
                     },
                     callbackDestroy = {
-                        bannerGsAdView.destroy()
+                        try {
+                            bannerGsAdView.destroy()
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
                     })
             }
 
@@ -998,7 +1006,11 @@ class AdGsManager {
                         callbackSuccess?.invoke(adPlaceName, nativeAdGsData, isStartShimmer)
                     },
                     callbackDestroy = {
-                        nativeGsAdView?.destroy()
+                        try {
+                            nativeGsAdView?.destroy()
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
                     })
             }
 

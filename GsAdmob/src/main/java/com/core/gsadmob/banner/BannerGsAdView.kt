@@ -45,7 +45,7 @@ class BannerGsAdView @JvmOverloads constructor(context: Context, attrs: Attribut
     }
 
     fun setBannerAdView(adView: AdView?, isStartShimmer: Boolean) {
-        if (isStartShimmer) {
+        if (isStartShimmer && adView == null) {
             startShimmer()
             return
         }

@@ -105,7 +105,7 @@ abstract class BaseNativeAdView(context: Context, attrs: AttributeSet?) : FrameL
     open fun initViewWithMode() {}
 
     open fun setNativeAd(nativeAd: NativeAd?, isStartShimmer: Boolean) {
-        if (isStartShimmer) {
+        if (isStartShimmer && nativeAd == null) {
             startShimmer()
             return
         }

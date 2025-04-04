@@ -18,10 +18,6 @@ data class AdPlaceName(
      */
     var delayTime: Long = 0L,
     /**
-     * Tên Activity chứa quảng cáo này thường dùng để xử lý pause(), resume(), destroy() banner
-     */
-    var tagActivity: String = "",
-    /**
      * Dùng để xác định quảng cáo có được dùng không(thường dùng khi cấu hình trên firebase tắt bật)
      * isEnable = true tức là ứng dụng có sử dụng
      * isEnable = false tức là ứng dụng không sử dụng
@@ -38,7 +34,6 @@ data class AdPlaceName(
         adUnitId = adPlaceName.adUnitId
         autoReloadWhenDismiss = adPlaceName.autoReloadWhenDismiss
         delayTime = adPlaceName.delayTime
-        tagActivity = adPlaceName.tagActivity
         isEnable = adPlaceName.isEnable
         adGsType = adPlaceName.adGsType
         return this

@@ -10,10 +10,14 @@ import android.os.Bundle
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.DefaultLifecycleObserver
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ProcessLifecycleOwner
-import com.core.gsadmob.banner.BannerLife
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
+import com.core.gsadmob.banner.BannerGsAdView
 import com.core.gsadmob.callback.AdGsListener
 import com.core.gsadmob.model.AdGsType
 import com.core.gsadmob.model.AdPlaceName
@@ -27,6 +31,7 @@ import com.core.gsadmob.model.interstitial.InterstitialAdGsData
 import com.core.gsadmob.model.nativead.NativeAdGsData
 import com.core.gsadmob.model.rewarded.RewardedAdGsData
 import com.core.gsadmob.model.rewarded.RewardedInterstitialAdGsData
+import com.core.gsadmob.natives.view.NativeGsAdView
 import com.core.gsadmob.utils.extensions.isWebViewEnabled
 import com.core.gsadmob.utils.extensions.log
 import com.core.gsadmob.utils.preferences.VipPreferences
@@ -51,6 +56,7 @@ import com.google.android.gms.ads.rewardedinterstitial.RewardedInterstitialAd
 import com.google.android.gms.ads.rewardedinterstitial.RewardedInterstitialAdLoadCallback
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
+import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
@@ -113,21 +119,15 @@ class AdGsManager {
                 }
             }
 
-            override fun onActivityResumed(activity: Activity) {
-                setupBannerLife(activity = activity, bannerLife = BannerLife.RESUME)
-            }
+            override fun onActivityResumed(activity: Activity) {}
 
-            override fun onActivityPaused(activity: Activity) {
-                setupBannerLife(activity = activity, bannerLife = BannerLife.PAUSE)
-            }
+            override fun onActivityPaused(activity: Activity) {}
 
             override fun onActivityStopped(activity: Activity) {}
 
             override fun onActivitySaveInstanceState(activity: Activity, bundle: Bundle) {}
 
-            override fun onActivityDestroyed(activity: Activity) {
-                setupBannerLife(activity = activity, bannerLife = BannerLife.DESTROY)
-            }
+            override fun onActivityDestroyed(activity: Activity) {}
         })
 
         val resumeLifecycleObserver = object : DefaultLifecycleObserver {
@@ -185,28 +185,6 @@ class AdGsManager {
                         clearAll(clearFull = false)
                     } else {
                         tryReloadAd(isChangeNetwork = false)
-                    }
-                }
-            }
-        }
-    }
-
-    /**
-     * @param bannerLife để xử lý cho các trường hợp pause(), resume() hoặc destroy()
-     */
-    private fun setupBannerLife(activity: Activity, bannerLife: BannerLife) {
-        val nameActivity = activity.javaClass.simpleName
-        adGsDataMap.forEach {
-            val adGsData = it.value
-            if (adGsData is BannerAdGsData) {
-                if (adGsData.isActive) {
-                    val tagActivity = it.key.tagActivity
-                    if (tagActivity == nameActivity) {
-                        when (bannerLife) {
-                            BannerLife.PAUSE -> adGsData.bannerAdView?.pause()
-                            BannerLife.RESUME -> adGsData.bannerAdView?.resume()
-                            BannerLife.DESTROY -> adGsData.bannerAdView?.destroy()
-                        }
                     }
                 }
             }
@@ -845,7 +823,7 @@ class AdGsManager {
      * @param adPlaceName : Cấu hình cho quảng cáo
      * @param adGsListener : Các sự kiện được trả về
      */
-    fun registerAdsListener(adPlaceName: AdPlaceName, adGsListener: AdGsListener? = null) {
+    private fun registerAdsListener(adPlaceName: AdPlaceName, adGsListener: AdGsListener? = null) {
         val adGsData = getAdGsData(adPlaceName = adPlaceName)
         // update listener
         adGsData.listener = adGsListener
@@ -855,7 +833,7 @@ class AdGsManager {
     /**
      * Đăng kí sự kiện và tải quảng cáo
      */
-    fun registerActiveAndLoadAds(adPlaceName: AdPlaceName, requiredLoadNewAds: Boolean = false, adGsListener: AdGsListener? = null) {
+    private fun registerActiveAndLoadAds(adPlaceName: AdPlaceName, requiredLoadNewAds: Boolean = false, adGsListener: AdGsListener? = null) {
         registerAdsListener(adPlaceName = adPlaceName, adGsListener = adGsListener)
         activeAd(adPlaceName = adPlaceName)
         loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
@@ -864,9 +842,185 @@ class AdGsManager {
     /**
      * Đăng kí sự kiện và hiển thị quảng cáo
      */
-    fun registerAndShowAds(adPlaceName: AdPlaceName, requiredLoadNewAds: Boolean = false, adGsListener: AdGsListener? = null, onlyShow: Boolean = false, callbackShow: ((AdShowStatus) -> Unit)? = null) {
+    fun registerAndShowAds(
+        adPlaceName: AdPlaceName,
+        requiredLoadNewAds: Boolean = false,
+        adGsListener: AdGsListener? = null,
+        onlyShow: Boolean = false,
+        callbackShow: ((AdShowStatus) -> Unit)? = null
+    ) {
         registerAdsListener(adPlaceName = adPlaceName, adGsListener = adGsListener)
         showAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, onlyShow = onlyShow, callbackShow = callbackShow)
+    }
+
+    fun registerNativeOrBanner(
+        lifecycleOwner: LifecycleOwner,
+        adPlaceName: AdPlaceName,
+        bannerGsAdView: BannerGsAdView? = null,
+        nativeGsAdView: NativeGsAdView? = null,
+        callbackSuccess: ((adPlaceName: AdPlaceName, nativeAdGsData: NativeAdGsData?, isStartShimmer: Boolean) -> Unit)? = null,
+        callbackFailed: (() -> Unit)? = null
+    ) {
+        registerNative(
+            lifecycleOwner = lifecycleOwner,
+            adPlaceName = adPlaceName,
+            nativeGsAdView = nativeGsAdView,
+            callbackSuccess = callbackSuccess,
+            callbackFailed = {
+                registerBanner(
+                    lifecycleOwner = lifecycleOwner,
+                    adPlaceName = adPlaceName,
+                    bannerGsAdView = bannerGsAdView,
+                    callbackFailed = callbackFailed
+                )
+            })
+    }
+
+    /**
+     * Đăng ký quảng cáo native và banner
+     */
+    private fun registerNativeOrBanner(
+        lifecycleOwner: LifecycleOwner,
+        adPlaceName: AdPlaceName,
+        callbackBanner: ((adPlaceName: AdPlaceName, bannerAdGsData: BannerAdGsData?, isStartShimmer: Boolean) -> Unit)? = null,
+        callbackNative: ((adPlaceName: AdPlaceName, nativeAdGsData: NativeAdGsData?, isStartShimmer: Boolean) -> Unit)? = null,
+        callbackPause: (() -> Unit)? = null,
+        callbackDestroy: (() -> Unit)? = null
+    ) {
+        // 1. Khởi tạo observer ở phạm vi Activity/Fragment
+        val pauseResumeObserver = object : LifecycleEventObserver {
+            override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
+                when (event) {
+                    Lifecycle.Event.ON_PAUSE -> {
+                        callbackPause?.invoke()
+                    }
+
+                    Lifecycle.Event.ON_RESUME -> {
+
+                    }
+
+                    else -> {}
+                }
+            }
+        }
+
+        // 2. Đăng ký observer trực tiếp với lifecycle (không qua coroutine)
+        lifecycleOwner.lifecycle.addObserver(pauseResumeObserver)
+
+        // 3. Xử lý coroutine riêng cho data flow
+        lifecycleOwner.lifecycleScope.launch {
+            instance.registerActiveAndLoadAds(adPlaceName = adPlaceName)
+
+            // Xử lý shimmer effect
+            instance.startShimmerLiveData.observe(lifecycleOwner) { shimmerMap ->
+                shimmerMap[adPlaceName]?.takeIf { it }?.let {
+                    when (adPlaceName.adGsType) {
+                        AdGsType.BANNER, AdGsType.BANNER_COLLAPSIBLE -> callbackBanner?.invoke(adPlaceName, null, true)
+                        AdGsType.NATIVE -> callbackNative?.invoke(adPlaceName, null, true)
+                        else -> {}
+                    }
+                }
+            }
+
+            // Xử lý data flow khi RESUMED
+            lifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+                instance.adGsDataMapMutableStateFlow.collect { dataMap ->
+                    dataMap[adPlaceName]?.let { adData ->
+                        when (adPlaceName.adGsType) {
+                            AdGsType.BANNER, AdGsType.BANNER_COLLAPSIBLE -> callbackBanner?.invoke(adPlaceName, adData as? BannerAdGsData, adData.isLoading)
+                            AdGsType.NATIVE -> callbackNative?.invoke(adPlaceName, adData as? NativeAdGsData, adData.isLoading)
+                            else -> {}
+                        }
+                    }
+                }
+            }
+
+            // Xử lý khi DESTROYED
+            try {
+                awaitCancellation()
+            } finally {
+                // Gọi callbackDestroy trước khi cleanup
+                callbackDestroy?.invoke()
+
+                // Dọn dẹp
+                lifecycleOwner.lifecycle.removeObserver(pauseResumeObserver)
+                instance.destroyActivity()
+                instance.clearAndRemoveActive(adPlaceName)
+            }
+        }
+    }
+
+    /**
+     * Đăng kí quảng cáo banner
+     */
+    fun registerBanner(lifecycleOwner: LifecycleOwner, adPlaceName: AdPlaceName, bannerGsAdView: BannerGsAdView?, callbackFailed: (() -> Unit)? = null) {
+        when (adPlaceName.adGsType) {
+            AdGsType.BANNER, AdGsType.BANNER_COLLAPSIBLE -> {
+                registerNativeOrBanner(
+                    lifecycleOwner = lifecycleOwner,
+                    adPlaceName = adPlaceName,
+                    callbackBanner = { adPlaceName, bannerAdGsData, isStartShimmer ->
+                        bannerGsAdView?.setBannerAdView(adView = bannerAdGsData?.bannerAdView, isStartShimmer = isStartShimmer)
+                        try {
+                            bannerGsAdView?.resume()
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    },
+                    callbackPause = {
+                        try {
+                            bannerGsAdView?.pause()
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    },
+                    callbackDestroy = {
+                        try {
+                            bannerGsAdView?.destroy()
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    })
+            }
+
+            else -> {
+                callbackFailed?.invoke()
+            }
+        }
+    }
+
+    /**
+     * Đăng kí quảng cáo native
+     */
+    fun registerNative(
+        lifecycleOwner: LifecycleOwner,
+        adPlaceName: AdPlaceName,
+        nativeGsAdView: NativeGsAdView? = null,
+        callbackSuccess: ((adPlaceName: AdPlaceName, nativeAdGsData: NativeAdGsData?, isStartShimmer: Boolean) -> Unit)? = null,
+        callbackFailed: (() -> Unit)? = null
+    ) {
+        when (adPlaceName.adGsType) {
+            AdGsType.NATIVE -> {
+                registerNativeOrBanner(
+                    lifecycleOwner = lifecycleOwner,
+                    adPlaceName = adPlaceName,
+                    callbackNative = { adPlaceName, nativeAdGsData, isStartShimmer ->
+                        nativeGsAdView?.setNativeAd(nativeAd = nativeAdGsData?.nativeAd, isStartShimmer = isStartShimmer)
+                        callbackSuccess?.invoke(adPlaceName, nativeAdGsData, isStartShimmer)
+                    },
+                    callbackDestroy = {
+                        try {
+                            nativeGsAdView?.destroy()
+                        } catch (e: Exception) {
+                            e.printStackTrace()
+                        }
+                    })
+            }
+
+            else -> {
+                callbackFailed?.invoke()
+            }
+        }
     }
 
     /**
@@ -1002,16 +1156,6 @@ class AdGsManager {
      */
     fun activeAd(adPlaceName: AdPlaceName) {
         (adGsDataMap[adPlaceName] as? BaseActiveAdGsData)?.isActive = true
-    }
-
-    /**
-     * Xóa danh sách quảng cáo và xóa kích hoạt tự động tải lại quảng cáo nếu có
-     */
-    fun clearAndRemoveActive(adPlaceNameList: MutableList<AdPlaceName>) {
-        adPlaceNameList.forEach { adPlaceName ->
-            clearAndRemoveActive(adPlaceName = adPlaceName, requiredNotify = false)
-        }
-        notifyAds("clearAndRemoveActive")
     }
 
     /**

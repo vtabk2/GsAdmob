@@ -1,22 +1,15 @@
 package com.example.gsadmob.ui.activity.base
 
-import android.os.Bundle
 import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
 import androidx.viewbinding.ViewBinding
-import com.core.gsadmob.banner.BannerGsAdView
 import com.core.gsadmob.callback.AdGsListener
-import com.core.gsadmob.model.AdGsType
-import com.core.gsadmob.model.AdPlaceName
 import com.core.gsadmob.model.AdShowStatus
-import com.core.gsadmob.model.banner.BannerAdGsData
-import com.core.gsadmob.model.nativead.NativeAdGsData
 import com.core.gsadmob.utils.AdGsManager
 import com.core.gsadmob.utils.AdPlaceNameDefaultConfig
 import com.core.gsadmob.utils.extensions.cmpUtils
 import com.core.gsadmob.utils.extensions.log
 import com.core.gsadmob.utils.preferences.GoogleMobileAdsConsentManager
-import com.core.gscore.utils.extensions.launchWhenResumed
 import com.core.gscore.utils.network.NetworkUtils
 import com.core.gsmvvm.ui.activity.BaseMVVMActivity
 import com.example.gsadmob.BuildConfig
@@ -29,74 +22,8 @@ import com.gs.core.ui.view.toasty.Toasty
 import java.util.concurrent.atomic.AtomicBoolean
 
 abstract class BaseAdsActivity<VB : ViewBinding>(inflateBinding: (LayoutInflater) -> VB) : BaseMVVMActivity<VB>(inflateBinding) {
-    abstract val bannerGsAdView: BannerGsAdView?
-    abstract fun getAdPlaceNameList(): MutableList<AdPlaceName>
-
     private var googleMobileAdsConsentManager: GoogleMobileAdsConsentManager? = null
     private var gdprPermissionsDialog: AlertDialog? = null
-
-    override fun setupView(savedInstanceState: Bundle?) {
-        super.setupView(savedInstanceState)
-
-        initAdGs()
-    }
-
-    private fun initAdGs() {
-        launchWhenResumed {
-            AdGsManager.instance.adGsDataMapMutableStateFlow.collect {
-                it.forEach { adGsDataMap ->
-                    if (getAdPlaceNameList().contains(adGsDataMap.key)) {
-                        when (adGsDataMap.key.adGsType) {
-                            AdGsType.BANNER, AdGsType.BANNER_COLLAPSIBLE -> {
-                                bannerGsAdView?.setBannerAdView(adView = (adGsDataMap.value as? BannerAdGsData)?.bannerAdView, isStartShimmer = adGsDataMap.value.isLoading)
-                            }
-
-                            AdGsType.NATIVE -> {
-                                setupNative(adPlaceName = adGsDataMap.key, nativeAdGsData = adGsDataMap.value as? NativeAdGsData, isStartShimmer = adGsDataMap.value.isLoading)
-                            }
-
-                            else -> {
-                                // nothing
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
-        AdGsManager.instance.startShimmerLiveData.observe(this) { shimmerMap ->
-            shimmerMap.forEach {
-                if (it.value) {
-                    if (getAdPlaceNameList().contains(it.key)) {
-                        when (it.key.adGsType) {
-                            AdGsType.BANNER, AdGsType.BANNER_COLLAPSIBLE -> {
-                                bannerGsAdView?.setBannerAdView(adView = null, isStartShimmer = true)
-                            }
-
-                            AdGsType.NATIVE -> {
-                                setupNative(adPlaceName = it.key, nativeAdGsData = null, isStartShimmer = true)
-                            }
-
-                            else -> {
-                                // nothing
-                            }
-                        }
-                    }
-                }
-            }
-        }
-        registerAds()
-    }
-
-    open fun registerAds() {
-        getAdPlaceNameList().forEach { adPlaceName ->
-            AdGsManager.instance.registerActiveAndLoadAds(adPlaceName = adPlaceName)
-        }
-    }
-
-    open fun setupNative(adPlaceName: AdPlaceName, nativeAdGsData: NativeAdGsData?, isStartShimmer: Boolean) {
-
-    }
 
     fun checkShowRewardedAds(callback: (typeShowAds: TypeShowAds) -> Unit, isRewardedInterstitialAds: Boolean = true, requireCheck: Boolean = true) {
         NetworkUtils.hasInternetAccessCheck(doTask = {
@@ -194,6 +121,10 @@ abstract class BaseAdsActivity<VB : ViewBinding>(inflateBinding: (LayoutInflater
                     Toasty.showToast(this, "Điện thoại không bật Android System WebView. Vui lòng kiểm tra Cài dặt -> Ứng dụng -> Android System WebView", Toasty.WARNING)
                 }
 
+                AdShowStatus.ERROR_VIP -> {
+                    Toasty.showToast(this, "Bạn đã là thành viên vip", Toasty.WARNING)
+                }
+
                 else -> {
 
                 }
@@ -224,41 +155,6 @@ abstract class BaseAdsActivity<VB : ViewBinding>(inflateBinding: (LayoutInflater
         } else {
             Toasty.showToast(this, "Bạn chưa là thành viên vip", Toasty.WARNING)
         }
-    }
-
-    override fun onPause() {
-        try {
-            bannerGsAdView?.pause()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
-        super.onPause()
-    }
-
-    override fun onResume() {
-        try {
-            bannerGsAdView?.resume()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-        super.onResume()
-    }
-
-    override fun onDestroy() {
-        gdprPermissionsDialog?.dismiss()
-        gdprPermissionsDialog = null
-
-        try {
-            bannerGsAdView?.destroy()
-        } catch (e: Exception) {
-            e.printStackTrace()
-        }
-
-        AdGsManager.instance.destroyActivity()
-        AdGsManager.instance.clearAndRemoveActive(getAdPlaceNameList())
-
-        super.onDestroy()
     }
 
     enum class TypeShowAds {

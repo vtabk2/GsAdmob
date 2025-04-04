@@ -10,6 +10,8 @@ class AdGsRemoteExtraConfig {
     val adPlaceNameBannerHome = AdPlaceName(adGsType = AdGsType.BANNER)
     val adPlaceNameNativeHome = AdPlaceName(adGsType = AdGsType.NATIVE)
     val adPlaceNameLanguage = AdPlaceName(adGsType = AdGsType.NATIVE)
+    val adPlaceNameBannerTestAds = AdPlaceName(adGsType = AdGsType.BANNER)
+    val adPlaceNameBannerTestNative = AdPlaceName(adGsType = AdGsType.BANNER)
 
     companion object {
         @SuppressLint("StaticFieldLeak")

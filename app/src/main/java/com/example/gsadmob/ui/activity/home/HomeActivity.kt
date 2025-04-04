@@ -4,30 +4,19 @@ import android.content.Intent
 import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
-import com.core.gsadmob.banner.BannerGsAdView
-import com.core.gsadmob.model.AdPlaceName
-import com.core.gsadmob.model.nativead.NativeAdGsData
 import com.core.gsadmob.utils.AdGsManager
 import com.core.gscore.utils.extensions.removeBlink
+import com.core.gsmvvm.ui.activity.BaseMVVMActivity
 import com.example.gsadmob.databinding.ActivityHomeBinding
 import com.example.gsadmob.ui.activity.TestAdsActivity
-import com.example.gsadmob.ui.activity.base.BaseAdsActivity
 import com.example.gsadmob.ui.activity.language.LanguageActivity
 import com.example.gsadmob.ui.adapter.ImageAdapter
 import com.example.gsadmob.utils.remoteconfig.AdGsRemoteExtraConfig
 
-class HomeActivity : BaseAdsActivity<ActivityHomeBinding>(ActivityHomeBinding::inflate) {
-    override val bannerGsAdView: BannerGsAdView by lazy { bindingView.bannerView }
-
+class HomeActivity : BaseMVVMActivity<ActivityHomeBinding>(ActivityHomeBinding::inflate) {
     private val viewModel: HomeViewModel by viewModels()
 
     private var adapter: ImageAdapter? = null
-
-    private val list = mutableListOf(AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome, AdGsRemoteExtraConfig.instance.adPlaceNameNativeHome)
-
-    override fun getAdPlaceNameList(): MutableList<AdPlaceName> {
-        return list
-    }
 
     override fun setupView(savedInstanceState: Bundle?) {
         super.setupView(savedInstanceState)
@@ -51,6 +40,20 @@ class HomeActivity : BaseAdsActivity<ActivityHomeBinding>(ActivityHomeBinding::i
         bindingView.rvImage.adapter = adapter
         bindingView.rvImage.layoutManager = manager
         bindingView.rvImage.removeBlink()
+
+        AdGsManager.instance.registerBanner(
+            lifecycleOwner = this,
+            adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome,
+            bannerGsAdView = bindingView.bannerView
+        )
+
+        AdGsManager.instance.registerNative(
+            lifecycleOwner = this,
+            adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameNativeHome,
+            callbackSuccess = { adPlaceName, nativeAdGsData, isStartShimmer ->
+                adapter?.setupItemAds(nativeAd = nativeAdGsData?.nativeAd, isStartShimmer = isStartShimmer)
+            }
+        )
     }
 
     override fun initListener() {
@@ -63,12 +66,6 @@ class HomeActivity : BaseAdsActivity<ActivityHomeBinding>(ActivityHomeBinding::i
         bindingView.tvTestAds.setOnClickListener {
             startActivity(Intent(this, TestAdsActivity::class.java))
         }
-    }
-
-    override fun setupNative(adPlaceName: AdPlaceName, nativeAdGsData: NativeAdGsData?, isStartShimmer: Boolean) {
-        super.setupNative(adPlaceName, nativeAdGsData, isStartShimmer)
-
-        adapter?.setupItemAds(nativeAd = nativeAdGsData?.nativeAd, isStartShimmer = isStartShimmer)
     }
 
     override fun onBackPressed() {

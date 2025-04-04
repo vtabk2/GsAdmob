@@ -3,25 +3,17 @@ package com.example.gsadmob.ui.activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
-import com.core.gsadmob.banner.BannerGsAdView
-import com.core.gsadmob.model.AdPlaceName
 import com.core.gsadmob.utils.AdGsManager
 import com.core.gsadmob.utils.AdPlaceNameDefaultConfig
 import com.core.gsadmob.utils.preferences.VipPreferences
 import com.example.gsadmob.databinding.ActivityTestAdsBinding
 import com.example.gsadmob.ui.activity.base.BaseAdsActivity
+import com.example.gsadmob.utils.remoteconfig.AdGsRemoteExtraConfig
 import com.gs.core.ui.view.toasty.Toasty
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class TestAdsActivity : BaseAdsActivity<ActivityTestAdsBinding>(ActivityTestAdsBinding::inflate) {
-    override val bannerGsAdView: BannerGsAdView by lazy { bindingView.bannerView }
-    override fun getAdPlaceNameList(): MutableList<AdPlaceName> {
-        return mutableListOf(AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_BANNER_HOME.apply {
-            tagActivity = TestAdsActivity::class.java.simpleName
-        })
-    }
-
     override fun setupView(savedInstanceState: Bundle?) {
         super.setupView(savedInstanceState)
 
@@ -36,13 +28,18 @@ class TestAdsActivity : BaseAdsActivity<ActivityTestAdsBinding>(ActivityTestAdsB
                 }
             }
         }
+
+        AdGsManager.instance.registerBanner(
+            lifecycleOwner = this,
+            adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameBannerTestAds,
+            bannerGsAdView = bindingView.bannerView
+        )
     }
 
     override fun initListener() {
         super.initListener()
 
         bindingView.tvActiveVip.setOnClickListener {
-//            VipPreferences.instance.save(VipPreferences.KEY_IS_PRO, !VipPreferences.instance.load(VipPreferences.KEY_IS_PRO))
             VipPreferences.instance.isPro = !VipPreferences.instance.isPro
         }
 

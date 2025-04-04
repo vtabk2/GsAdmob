@@ -367,14 +367,14 @@
     <style name="ads_BaseNativeCustom">
         <item name="adsLayoutId">@layout/ad_native_custom</item>
         <item name="adsLayoutShimmerId">@layout/ad_native_custom_shimmer</item>
-        <item name="adsHeadlineId">@id/ad_headline_custom</item>
-        <item name="adsBodyId">@id/ad_body_custom</item>
-        <item name="adsStarsId">@id/ad_stars_custom</item>
-        <item name="adsAppIconId">@id/ad_app_icon_custom</item>
-        <item name="adsCallToActionId">@id/ad_call_to_action_custom</item>
-        <item name="adsViewId">@id/ad_view_custom</item>
-        <item name="adsMediaViewId">@id/ad_media_custom</item>
-        <item name="adsShimmerId">@id/ad_shimmer_custom</item>
+        <item name="adsHeadlineId">@id/ad_headline</item>
+        <item name="adsBodyId">@id/ad_body</item>
+        <item name="adsStarsId">@id/ad_stars</item>
+        <item name="adsAppIconId">@id/ad_app_icon</item>
+        <item name="adsCallToActionId">@id/ad_call_to_action</item>
+        <item name="adsViewId">@id/ad_view</item>
+        <item name="adsMediaViewId">@id/ad_media</item>
+        <item name="adsShimmerId">@id/ad_shimmer</item>
         <item name="adsNativeViewRoot">@style/ads_BaseNativeAdViewRoot</item>
         <item name="adsNativeMode">custom</item>
     </style>

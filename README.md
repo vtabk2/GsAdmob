@@ -246,7 +246,6 @@ Các hàm cơ bản được dùng trong đây
         val builder = BaseNativeAdView.Builder().apply {
             adsLayoutId = R.layout.ad_native_test
             adsLayoutShimmerId = R.layout.ad_native_test_shimmer
-            //            adsLayoutShimmerId = 0 // nếu không muốn dùng shimmer
         }
         bindingView.nativeCustom.applyBuilder(builder)
 ```
@@ -293,6 +292,16 @@ Các hàm cơ bản được dùng trong đây
             <item name="adsCallToActionId">@id/ad_call_to_action_test</item>
             <item name="adsViewId">@id/ad_view_test</item>
             <item name="adsShimmerId">@id/ad_view_test_shimmer</item>
+        </style>
+```
+
+- Nếu muốn dùng các id mặc định thì ko cần đổi(xem id mặc định ở ads_BaseNativeCustom)
+
+```css  
+        <style name="NativeTest" parent="BaseNativeCustom">
+            <item name="adsLayoutId">@layout/ad_native_test</item>
+            <item name="adsLayoutShimmerId">@layout/ad_native_test_shimmer</item>
+            <item name="adsNativeViewRoot">@style/ads_NativeTestRoot</item>
         </style>
         
         bindingView.nativeTest1.applyBuilder(NativeDefaultConfig.BUILDER_ALBUM)

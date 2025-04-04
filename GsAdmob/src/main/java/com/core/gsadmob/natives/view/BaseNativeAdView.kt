@@ -269,14 +269,14 @@ abstract class BaseNativeAdView(context: Context, attrs: AttributeSet?) : FrameL
     data class Builder(
         var adsLayoutId: Int = R.layout.ad_native_custom,
         var adsLayoutShimmerId: Int = R.layout.ad_native_custom_shimmer,
-        var adsHeadlineId: Int = R.id.ad_headline_custom,
-        var adsBodyId: Int = R.id.ad_body_custom,
-        var adsStarsId: Int = R.id.ad_stars_custom,
-        var adsAppIconId: Int = R.id.ad_app_icon_custom,
-        var adsCallToActionId: Int = R.id.ad_call_to_action_custom,
-        var adsViewId: Int = R.id.ad_view_custom,
-        var adsMediaViewId: Int = R.id.ad_media_custom,
-        var adsShimmerId: Int = R.id.ad_shimmer_custom,
+        var adsHeadlineId: Int = R.id.ad_headline,
+        var adsBodyId: Int = R.id.ad_body,
+        var adsStarsId: Int = R.id.ad_stars,
+        var adsAppIconId: Int = R.id.ad_app_icon,
+        var adsCallToActionId: Int = R.id.ad_call_to_action,
+        var adsViewId: Int = R.id.ad_view,
+        var adsMediaViewId: Int = R.id.ad_media,
+        var adsShimmerId: Int = R.id.ad_shimmer,
         var adsNativeViewRoot: Int = R.style.ads_BaseNativeAdViewRoot,
         var adsNativeMode: AdsNativeMode = AdsNativeMode.NONE
     )

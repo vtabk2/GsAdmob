@@ -1,22 +1,16 @@
 package com.example.gsadmob.ui.activity.language
 
-import com.core.gsadmob.banner.BannerGsAdView
-import com.core.gsadmob.model.AdPlaceName
-import com.core.gsadmob.model.nativead.NativeAdGsData
+import android.os.Bundle
+import android.util.Log
+import com.core.gsadmob.natives.GsNativeAd
+import com.core.gsmvvm.ui.activity.BaseMVVMActivity
 import com.example.gsadmob.databinding.ActivityLanguageBinding
-import com.example.gsadmob.ui.activity.base.BaseAdsActivity
-import com.example.gsadmob.utils.remoteconfig.AdGsRemoteExtraConfig
 
-class LanguageActivity : BaseAdsActivity<ActivityLanguageBinding>(ActivityLanguageBinding::inflate) {
-    override val bannerGsAdView: BannerGsAdView by lazy { bindingView.bannerView }
+class LanguageActivity : BaseMVVMActivity<ActivityLanguageBinding>(ActivityLanguageBinding::inflate) {
 
-    override fun getAdPlaceNameList(): MutableList<AdPlaceName> {
-        return mutableListOf(AdGsRemoteExtraConfig.instance.adPlaceNameLanguage)
-    }
-
-    override fun setupNative(adPlaceName: AdPlaceName, nativeAdGsData: NativeAdGsData?, isStartShimmer: Boolean) {
-        super.setupNative(adPlaceName, nativeAdGsData, isStartShimmer)
-
-        bindingView.nativeLanguage.setNativeAd(nativeAd = nativeAdGsData?.nativeAd, isStartShimmer = isStartShimmer)
+    override fun setupView(savedInstanceState: Bundle?) {
+        super.setupView(savedInstanceState)
+        Log.d("LanguageActivity_datnd", "setupView: ")
+        GsNativeAd.withLifecycleOwner(this@LanguageActivity).load(getString(com.core.gsadmob.R.string.native_id)).into(bindingView.nativeLanguage)
     }
 }

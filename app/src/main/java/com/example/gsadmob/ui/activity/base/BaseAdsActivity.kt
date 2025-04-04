@@ -1,6 +1,7 @@
 package com.example.gsadmob.ui.activity.base
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
 import androidx.viewbinding.ViewBinding
@@ -37,7 +38,7 @@ abstract class BaseAdsActivity<VB : ViewBinding>(inflateBinding: (LayoutInflater
 
     override fun setupView(savedInstanceState: Bundle?) {
         super.setupView(savedInstanceState)
-
+        Log.d("BaseAdsActivity_datnd", "setupView_40: ")
         initAdGs()
     }
 

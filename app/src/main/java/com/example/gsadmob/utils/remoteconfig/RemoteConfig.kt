@@ -127,7 +127,7 @@ class RemoteConfig : AdGsRemoteConfig() {
                                     AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome.update(it)
                                 } else {
                                     AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome.update(it).apply {
-                                        adUnitId = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_BANNER.adUnitId
+                                        adUnitId = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_BANNER_HOME.adUnitId
                                     }
                                 }
                             } else {
@@ -180,11 +180,11 @@ class RemoteConfig : AdGsRemoteConfig() {
             } catch (e: Exception) {
                 e.printStackTrace()
                 // nếu lỗi thì dùng mặc định
-                AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome.update(AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_BANNER)
+                AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome.update(AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_BANNER_HOME)
                 AdGsRemoteExtraConfig.instance.adPlaceNameNativeHome.update(AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_NATIVE)
             }
         } else {
-            AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome.update(AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_BANNER)
+            AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome.update(AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_BANNER_HOME)
             AdGsRemoteExtraConfig.instance.adPlaceNameNativeHome.update(AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_NATIVE)
         }
         log("setupAdHomeConfig", AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome)

@@ -865,7 +865,13 @@ class AdGsManager {
     /**
      * Đăng kí sự kiện và hiển thị quảng cáo
      */
-    fun registerAndShowAds(adPlaceName: AdPlaceName, requiredLoadNewAds: Boolean = false, adGsListener: AdGsListener? = null, onlyShow: Boolean = false, callbackShow: ((AdShowStatus) -> Unit)? = null) {
+    fun registerAndShowAds(
+        adPlaceName: AdPlaceName,
+        requiredLoadNewAds: Boolean = false,
+        adGsListener: AdGsListener? = null,
+        onlyShow: Boolean = false,
+        callbackShow: ((AdShowStatus) -> Unit)? = null
+    ) {
         registerAdsListener(adPlaceName = adPlaceName, adGsListener = adGsListener)
         showAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, onlyShow = onlyShow, callbackShow = callbackShow)
     }
@@ -880,7 +886,7 @@ class AdGsManager {
         callbackNative: ((adPlaceName: AdPlaceName, nativeAdGsData: NativeAdGsData?, isStartShimmer: Boolean) -> Unit)? = null,
     ) {
         lifecycleOwner.lifecycleScope.launch {
-                instance.registerActiveAndLoadAds(adPlaceName = adPlaceName)
+            instance.registerActiveAndLoadAds(adPlaceName = adPlaceName)
 
             instance.startShimmerLiveData.observe(lifecycleOwner) { shimmerMap ->
                 shimmerMap.forEach {

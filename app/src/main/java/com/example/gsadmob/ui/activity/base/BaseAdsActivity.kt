@@ -26,11 +26,6 @@ abstract class BaseAdsActivity<VB : ViewBinding>(inflateBinding: (LayoutInflater
     private var googleMobileAdsConsentManager: GoogleMobileAdsConsentManager? = null
     private var gdprPermissionsDialog: AlertDialog? = null
 
-    override fun setupView(savedInstanceState: Bundle?) {
-        super.setupView(savedInstanceState)
-
-    }
-
     fun checkShowRewardedAds(callback: (typeShowAds: TypeShowAds) -> Unit, isRewardedInterstitialAds: Boolean = true, requireCheck: Boolean = true) {
         NetworkUtils.hasInternetAccessCheck(doTask = {
             if (googleMobileAdsConsentManager == null) {

@@ -38,11 +38,9 @@ import com.google.android.gms.ads.AdListener
 import com.google.android.gms.ads.AdLoader
 import com.google.android.gms.ads.AdRequest
 import com.google.android.gms.ads.AdSize
-import com.google.android.gms.ads.AdValue
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
-import com.google.android.gms.ads.OnPaidEventListener
 import com.google.android.gms.ads.appopen.AppOpenAd
 import com.google.android.gms.ads.appopen.AppOpenAd.AppOpenAdLoadCallback
 import com.google.android.gms.ads.interstitial.InterstitialAd
@@ -366,13 +364,6 @@ class AdGsManager {
                         it.onAdSuccess()
                         showAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, onlyShow = true)
                     }
-                    adGsData.appOpenAd?.onPaidEventListener = object : OnPaidEventListener {
-                        override fun onPaidEvent(adValue: AdValue) {
-                            log("loadAppOpenAd_onPaidEvent: valueMicros", adValue.valueMicros)
-                            log("loadAppOpenAd_onPaidEvent: currencyCode", adValue.currencyCode)
-                            log("loadAppOpenAd_onPaidEvent: precisionType", adValue.precisionType)
-                        }
-                    }
                     adGsData.appOpenAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
                         override fun onAdDismissedFullScreenContent() {
                             adGsData.listener?.onAdClose()
@@ -384,6 +375,7 @@ class AdGsManager {
                         }
 
                         override fun onAdFailedToShowFullScreenContent(adError: AdError) {
+                            adGsData.isShowing = false
                             adGsData.listener?.onAdClose()
                             adGsData.clearData(isResetReload = true)
                             //
@@ -393,6 +385,7 @@ class AdGsManager {
                         }
 
                         override fun onAdShowedFullScreenContent() {
+                            adGsData.isShowing = true
                             adGsData.listener?.onAdShowing()
                         }
 
@@ -447,18 +440,10 @@ class AdGsManager {
                 } else {
                     adGsData.bannerAdView = bannerAdView
                     adGsData.isLoading = false
+                    log("loadBannerAd.isCollapsible", bannerAdView.isCollapsible)
                     notifyAds("loadBannerAd.onAdLoaded")
 
                     adGsData.listener?.onAdSuccess()
-
-                    adGsData.bannerAdView?.onPaidEventListener = object : OnPaidEventListener {
-                        override fun onPaidEvent(adValue: AdValue) {
-                            log("loadBannerAd_onPaidEvent: valueMicros", adValue.valueMicros)
-                            log("loadBannerAd_onPaidEvent: currencyCode", adValue.currencyCode)
-                            log("loadBannerAd_onPaidEvent: precisionType", adValue.precisionType)
-                            adGsData.isShowed = true
-                        }
-                    }
                 }
             }
 
@@ -521,13 +506,6 @@ class AdGsManager {
                         it.onAdSuccess()
                         showAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, onlyShow = true)
                     }
-                    adGsData.interstitialAd?.onPaidEventListener = object : OnPaidEventListener {
-                        override fun onPaidEvent(adValue: AdValue) {
-                            log("loadInterstitialAd_onPaidEvent: valueMicros", adValue.valueMicros)
-                            log("loadInterstitialAd_onPaidEvent: currencyCode", adValue.currencyCode)
-                            log("loadInterstitialAd_onPaidEvent: precisionType", adValue.precisionType)
-                        }
-                    }
                     adGsData.interstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
                         override fun onAdDismissedFullScreenContent() {
                             adGsData.listener?.onAdClose()
@@ -539,6 +517,7 @@ class AdGsManager {
                         }
 
                         override fun onAdFailedToShowFullScreenContent(adError: AdError) {
+                            adGsData.isShowing = false
                             adGsData.listener?.onAdClose(isFailed = true)
                             adGsData.clearData(isResetReload = true)
                             //
@@ -548,6 +527,7 @@ class AdGsManager {
                         }
 
                         override fun onAdShowedFullScreenContent() {
+                            adGsData.isShowing = true
                             adGsData.listener?.onAdShowing()
                         }
 
@@ -592,15 +572,6 @@ class AdGsManager {
                     adGsData.nativeAd = nativeAd
                     adGsData.isLoading = false
                     notifyAds("loadNativeAd.forNativeAd")
-
-                    adGsData.nativeAd?.setOnPaidEventListener(object : OnPaidEventListener {
-                        override fun onPaidEvent(adValue: AdValue) {
-                            log("loadNativeAd_onPaidEvent: valueMicros", adValue.valueMicros)
-                            log("loadNativeAd_onPaidEvent: currencyCode", adValue.currencyCode)
-                            log("loadNativeAd_onPaidEvent: precisionType", adValue.precisionType)
-                            adGsData.isShowed = true
-                        }
-                    })
                 }
             }.build()
         adLoader.loadAd(adRequest)
@@ -635,13 +606,6 @@ class AdGsManager {
                     adGsData.listener?.let {
                         showAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, onlyShow = true)
                     }
-                    adGsData.rewardedAd?.onPaidEventListener = object : OnPaidEventListener {
-                        override fun onPaidEvent(adValue: AdValue) {
-                            log("loadRewardedAd_onPaidEvent: valueMicros", adValue.valueMicros)
-                            log("loadRewardedAd_onPaidEvent: currencyCode", adValue.currencyCode)
-                            log("loadRewardedAd_onPaidEvent: precisionType", adValue.precisionType)
-                        }
-                    }
                     adGsData.rewardedAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
                         override fun onAdDismissedFullScreenContent() {
                             adGsData.listener?.onAdClose()
@@ -653,6 +617,7 @@ class AdGsManager {
                         }
 
                         override fun onAdFailedToShowFullScreenContent(adError: AdError) {
+                            adGsData.isShowing = false
                             adGsData.listener?.onAdClose()
                             adGsData.clearData(isResetReload = true)
                             //
@@ -662,6 +627,7 @@ class AdGsManager {
                         }
 
                         override fun onAdShowedFullScreenContent() {
+                            adGsData.isShowing = true
                             adGsData.listener?.onAdShowing()
                         }
 
@@ -708,13 +674,6 @@ class AdGsManager {
                     adGsData.listener?.let {
                         showAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, onlyShow = true)
                     }
-                    adGsData.rewardedInterstitialAd?.onPaidEventListener = object : OnPaidEventListener {
-                        override fun onPaidEvent(adValue: AdValue) {
-                            log("loadRewardedInterstitialAd_onPaidEvent: valueMicros", adValue.valueMicros)
-                            log("loadRewardedInterstitialAd_onPaidEvent: currencyCode", adValue.currencyCode)
-                            log("loadRewardedInterstitialAd_onPaidEvent: precisionType", adValue.precisionType)
-                        }
-                    }
                     adGsData.rewardedInterstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
                         override fun onAdDismissedFullScreenContent() {
                             adGsData.listener?.onAdClose()
@@ -726,6 +685,7 @@ class AdGsManager {
                         }
 
                         override fun onAdFailedToShowFullScreenContent(adError: AdError) {
+                            adGsData.isShowing = false
                             adGsData.listener?.onAdClose()
                             adGsData.clearData(isResetReload = true)
                             //
@@ -735,6 +695,7 @@ class AdGsManager {
                         }
 
                         override fun onAdShowedFullScreenContent() {
+                            adGsData.isShowing = true
                             adGsData.listener?.onAdShowing()
                         }
 
@@ -817,7 +778,6 @@ class AdGsManager {
                                     if (onlyCheckNotShow) { // chặn hiển thị quảng cáo
                                         return
                                     }
-                                    adGsData.isShowing = true
                                     //
                                     adGsData.appOpenAd?.show(it)
                                 }
@@ -827,7 +787,6 @@ class AdGsManager {
                                     if (onlyCheckNotShow) {
                                         return
                                     }
-                                    adGsData.isShowing = true
                                     //
                                     adGsData.interstitialAd?.show(it)
                                 }
@@ -837,7 +796,6 @@ class AdGsManager {
                                     if (onlyCheckNotShow) {
                                         return
                                     }
-                                    adGsData.isShowing = true
                                     //
                                     adGsData.rewardedAd?.show(it) { rewardItem ->
                                         adGsData.listener?.onShowFinishSuccess(rewardItem)
@@ -849,7 +807,6 @@ class AdGsManager {
                                     if (onlyCheckNotShow) {
                                         return
                                     }
-                                    adGsData.isShowing = true
                                     //
                                     adGsData.rewardedInterstitialAd?.show(it) { rewardItem ->
                                         adGsData.listener?.onShowFinishSuccess(rewardItem)
@@ -909,7 +866,6 @@ class AdGsManager {
      */
     fun registerAndShowAds(adPlaceName: AdPlaceName, requiredLoadNewAds: Boolean = false, adGsListener: AdGsListener? = null, onlyShow: Boolean = false, callbackShow: ((AdShowStatus) -> Unit)? = null) {
         registerAdsListener(adPlaceName = adPlaceName, adGsListener = adGsListener)
-        activeAd(adPlaceName = adPlaceName)
         showAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, onlyShow = onlyShow, callbackShow = callbackShow)
     }
 
@@ -957,26 +913,10 @@ class AdGsManager {
      * Xóa 1 quảng cáo cụ thể
      */
     fun clearWithAdPlaceName(adPlaceName: AdPlaceName, requiredNotify: Boolean = true) {
-        when (val adGsData = adGsDataMap[adPlaceName]) {
-            is BaseActiveAdGsData -> {
-                if (adGsData.isShowed) {
-                    adGsData.clearData(isResetReload = true)
-                    log("clearWithAdPlaceName.BaseActiveAdGsData", adPlaceName)
-                    if (requiredNotify) {
-                        log("clearWithAdPlaceName_adPlaceName", adPlaceName)
-                        notifyAds("clearWithAdPlaceName")
-                    }
-                }
-            }
-
-            else -> {
-                log("clearWithAdPlaceName.BaseShowAdGsData", adPlaceName)
-                adGsDataMap[adPlaceName]?.clearData(isResetReload = true)
-                if (requiredNotify) {
-                    log("clearWithAdPlaceName_adPlaceName", adPlaceName)
-                    notifyAds("clearWithAdPlaceName")
-                }
-            }
+        adGsDataMap[adPlaceName]?.clearData(isResetReload = true)
+        if (requiredNotify) {
+            log("clearWithAdPlaceName_adPlaceName", adPlaceName)
+            notifyAds("clearWithAdPlaceName")
         }
     }
 

@@ -590,7 +590,19 @@ Trong hàm initConfig() là các tạo và đăng ký quảng cáo
 **Version 1.3.1**
 - Thêm [AdGsDelayManager](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/AdGsDelayManager.kt) để quản lý tải quảng cáo cần thời gian chờ(thường là quảng cáo app open resume)
 - Thêm time_delay_loading để chỉnh thời gian chờ khi tải quảng cáo(mặc định 3500, min 1000) 
-- Thêm time_fake_delay để chỉnh thời gian giả trước khi hiển thị quảng cáo(mặc định 1000, min 500) 
+- Thêm time_fake_delay để chỉnh thời gian giả trước khi hiển thị quảng cáo(mặc định 1000, min 500)
+- Xem hướng dẫn ở [ResumeDialogFragment](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/ui/fragment/ResumeDialogFragment.kt)
+```css
+      (activity as? AppCompatActivity)?.let {
+            AdGsDelayManager(
+                activity = it,
+                fragment = this,
+                adPlaceName = adPlaceName,
+                callbackFinished = {
+                    dismissAllowingStateLoss()
+                })
+        }
+```
 
 **Version 1.3.0**
 - Hỗ trợ cấu hình RemoteConfig của Firebase xem ở [RemoteConfig](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/utils/remoteConfig/RemoteConfig.kt)

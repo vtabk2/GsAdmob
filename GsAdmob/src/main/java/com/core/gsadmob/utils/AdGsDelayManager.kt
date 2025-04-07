@@ -36,7 +36,7 @@ class AdGsDelayManager(
         registerAndShowAds()
     }
 
-    fun registerAndShowAds() {
+    private fun registerAndShowAds() {
         val timeDelayLoading = activity.resources.getInteger(R.integer.time_delay_loading).toLong().coerceAtLeast(1000)
 
         timerLoading = object : Hourglass(timeDelayLoading, 500) {

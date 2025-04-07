@@ -565,7 +565,7 @@ Trong hàm initConfig() là các tạo và đăng ký quảng cáo
 
 # Lịch sử cập nhật
 **Version 1.3.5**
-- Bỏ adPlaceName ở callbackSuccess của registerNative, registerNativeOrBanner, registerBanner
+- Bỏ adPlaceName ở callbackSuccess của registerNative, registerNativeOrBanner, [registerBanner](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/AdGsManager.kt)
 
 **Version 1.3.4**
 - Gom startShimmer vào setupItemAds của [BaseWithAdsAdapter](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/adapter/BaseWithAdsAdapter.kt)
@@ -579,13 +579,13 @@ Trong hàm initConfig() là các tạo và đăng ký quảng cáo
 - Xóa bỏ tagActivity đi giờ registerNative(), registerBanner() hoặc registerNativeOrBanner() sẽ tự động quản lý pause(), resume() và destroy()
 - Xóa bỏ BannerLife
 - Xóa bỏ clearAndRemoveActive(adPlaceNameList: MutableList<AdPlaceName>)
-- Sửa các id mặc định của native bỏ custom đi xem [ads_BaseNativeCustom](https://github.com/vtabk2/GsAdmob/blob/1.3.5/GsAdmob/src/main/res/values/config_admob.xml)
+- Sửa các id mặc định của native bỏ custom đi xem [ads_BaseNativeCustom](https://github.com/vtabk2/GsAdmob/blob/GsAdmob/src/main/res/values/config_admob.xml)
 - Đổi full_id thành interstitial_id
 - Đổi full_id_without_video thành interstitial_id_without_video
 
 **Version 1.3.3**
 - Thêm style ads_Autoscroll để text có thử tự động chạy(custom native có thể dùng cho text headline)
-- Thêm update ở [AdPlaceName](https://github.com/vtabk2/GsAdmob/blob/1.3.5/GsAdmob/src/main/java/com/core/gsadmob/model/AdPlaceName.kt)
+- Thêm update ở [AdPlaceName](https://github.com/vtabk2/GsAdmob/blob/GsAdmob/src/main/java/com/core/gsadmob/model/AdPlaceName.kt)
 - Sửa banner không ở cuối khi fix cứng size
 
 **Version 1.3.2**
@@ -594,8 +594,8 @@ Trong hàm initConfig() là các tạo và đăng ký quảng cáo
 
 **Version 1.3.1**
 - Thêm [AdGsDelayManager](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/AdGsDelayManager.kt) để quản lý tải quảng cáo cần thời gian chờ(thường là quảng cáo app open resume)
-- Thêm [time_delay_loading](https://github.com/vtabk2/GsAdmob/blob/1.3.5/GsAdmob/src/main/res/values/config_admob.xml) để chỉnh thời gian chờ khi tải quảng cáo(mặc định 3500, min 1000) 
-- Thêm [time_fake_delay](https://github.com/vtabk2/GsAdmob/blob/1.3.5/GsAdmob/src/main/res/values/config_admob.xml) để chỉnh thời gian giả trước khi hiển thị quảng cáo(mặc định 1000, min 500)
+- Thêm [time_delay_loading](https://github.com/vtabk2/GsAdmob/blob/GsAdmob/src/main/res/values/config_admob.xml) để chỉnh thời gian chờ khi tải quảng cáo(mặc định 3500, min 1000) 
+- Thêm [time_fake_delay](https://github.com/vtabk2/GsAdmob/blob/GsAdmob/src/main/res/values/config_admob.xml) để chỉnh thời gian giả trước khi hiển thị quảng cáo(mặc định 1000, min 500)
 - Xem hướng dẫn ở [ResumeDialogFragment](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/ui/fragment/ResumeDialogFragment.kt)
 ```css
       (activity as? AppCompatActivity)?.let {

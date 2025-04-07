@@ -25,7 +25,7 @@ Thư viện được tạo ra với mục đích quản lý và tùy chỉnh gia
 **Step 2.** Add the dependency
 ```css
         dependencies {
-                    implementation 'com.github.vtabk2:GsAdmob:1.3.4'
+                    implementation 'com.github.vtabk2:GsAdmob:1.3.5'
             }
 ```
 
@@ -358,6 +358,9 @@ Tạo cách AdPlaceName trước giống cấu trúc ở AdPlaceNameConfig
             adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameLanguage,
             bannerGsAdView = bindingView.bannerView,
             nativeGsAdView = bindingView.nativeLanguage,
+            callbackSuccess = { nativeAdGsData, isStartShimmer ->
+
+            },
             callbackFailed = {
 
             }
@@ -369,7 +372,7 @@ Tạo cách AdPlaceName trước giống cấu trúc ở AdPlaceNameConfig
         AdGsManager.instance.registerNative(
             lifecycleOwner = this,
             adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameNativeHome,
-            callbackSuccess = { adPlaceName, nativeAdGsData, isStartShimmer ->
+            callbackSuccess = { nativeAdGsData, isStartShimmer ->
                 adapter?.setupItemAds(nativeAd = nativeAdGsData?.nativeAd, isStartShimmer = isStartShimmer)
             }
         )

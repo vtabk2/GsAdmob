@@ -50,7 +50,7 @@ class HomeActivity : BaseMVVMActivity<ActivityHomeBinding>(ActivityHomeBinding::
         AdGsManager.instance.registerNative(
             lifecycleOwner = this,
             adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameNativeHome,
-            callbackSuccess = { adPlaceName, nativeAdGsData, isStartShimmer ->
+            callbackSuccess = { nativeAdGsData, isStartShimmer ->
                 adapter?.setupItemAds(nativeAd = nativeAdGsData?.nativeAd, isStartShimmer = isStartShimmer)
             }
         )

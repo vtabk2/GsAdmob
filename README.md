@@ -561,6 +561,8 @@ Trong hàm initConfig() là các tạo và đăng ký quảng cáo
 # BaseWithAdsAdapter Adapter chứa quảng cáo native
 
 # Lịch sử cập nhật
+**Version 1.3.5**
+- Bỏ adPlaceName ở callbackSuccess của registerNative, registerNativeOrBanner, registerBanner
 
 **Version 1.3.4**
 - Gom startShimmer vào setupItemAds của [BaseWithAdsAdapter](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/adapter/BaseWithAdsAdapter.kt)

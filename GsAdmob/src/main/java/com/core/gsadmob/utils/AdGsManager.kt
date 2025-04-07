@@ -65,10 +65,10 @@ import kotlinx.coroutines.launch
 
 class AdGsManager {
     private val adGsDataMap = HashMap<AdPlaceName, BaseAdGsData>()
-    val adGsDataMapMutableStateFlow = MutableStateFlow(HashMap<AdPlaceName, BaseActiveAdGsData>())
+    private val adGsDataMapMutableStateFlow = MutableStateFlow(HashMap<AdPlaceName, BaseActiveAdGsData>())
 
     private val shimmerMap = HashMap<AdPlaceName, Boolean>()
-    val startShimmerLiveData = MutableLiveData<HashMap<AdPlaceName, Boolean>>()
+    private val startShimmerLiveData = MutableLiveData<HashMap<AdPlaceName, Boolean>>()
 
     private val backupDelayTimeMap = HashMap<AdPlaceName, Long>()
 
@@ -858,7 +858,7 @@ class AdGsManager {
         adPlaceName: AdPlaceName,
         bannerGsAdView: BannerGsAdView? = null,
         nativeGsAdView: NativeGsAdView? = null,
-        callbackSuccess: ((adPlaceName: AdPlaceName, nativeAdGsData: NativeAdGsData?, isStartShimmer: Boolean) -> Unit)? = null,
+        callbackSuccess: ((nativeAdGsData: NativeAdGsData?, isStartShimmer: Boolean) -> Unit)? = null,
         callbackFailed: (() -> Unit)? = null
     ) {
         registerNative(
@@ -882,25 +882,23 @@ class AdGsManager {
     private fun registerNativeOrBanner(
         lifecycleOwner: LifecycleOwner,
         adPlaceName: AdPlaceName,
-        callbackBanner: ((adPlaceName: AdPlaceName, bannerAdGsData: BannerAdGsData?, isStartShimmer: Boolean) -> Unit)? = null,
-        callbackNative: ((adPlaceName: AdPlaceName, nativeAdGsData: NativeAdGsData?, isStartShimmer: Boolean) -> Unit)? = null,
+        callbackBanner: ((bannerAdGsData: BannerAdGsData?, isStartShimmer: Boolean) -> Unit)? = null,
+        callbackNative: ((nativeAdGsData: NativeAdGsData?, isStartShimmer: Boolean) -> Unit)? = null,
         callbackPause: (() -> Unit)? = null,
         callbackDestroy: (() -> Unit)? = null
     ) {
         // 1. Khởi tạo observer ở phạm vi Activity/Fragment
-        val pauseResumeObserver = object : LifecycleEventObserver {
-            override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
-                when (event) {
-                    Lifecycle.Event.ON_PAUSE -> {
-                        callbackPause?.invoke()
-                    }
-
-                    Lifecycle.Event.ON_RESUME -> {
-
-                    }
-
-                    else -> {}
+        val pauseResumeObserver = LifecycleEventObserver { _, event ->
+            when (event) {
+                Lifecycle.Event.ON_PAUSE -> {
+                    callbackPause?.invoke()
                 }
+
+                Lifecycle.Event.ON_RESUME -> {
+
+                }
+
+                else -> {}
             }
         }
 
@@ -915,8 +913,8 @@ class AdGsManager {
             instance.startShimmerLiveData.observe(lifecycleOwner) { shimmerMap ->
                 shimmerMap[adPlaceName]?.takeIf { it }?.let {
                     when (adPlaceName.adGsType) {
-                        AdGsType.BANNER, AdGsType.BANNER_COLLAPSIBLE -> callbackBanner?.invoke(adPlaceName, null, true)
-                        AdGsType.NATIVE -> callbackNative?.invoke(adPlaceName, null, true)
+                        AdGsType.BANNER, AdGsType.BANNER_COLLAPSIBLE -> callbackBanner?.invoke(null, true)
+                        AdGsType.NATIVE -> callbackNative?.invoke(null, true)
                         else -> {}
                     }
                 }
@@ -927,8 +925,8 @@ class AdGsManager {
                 instance.adGsDataMapMutableStateFlow.collect { dataMap ->
                     dataMap[adPlaceName]?.let { adData ->
                         when (adPlaceName.adGsType) {
-                            AdGsType.BANNER, AdGsType.BANNER_COLLAPSIBLE -> callbackBanner?.invoke(adPlaceName, adData as? BannerAdGsData, adData.isLoading)
-                            AdGsType.NATIVE -> callbackNative?.invoke(adPlaceName, adData as? NativeAdGsData, adData.isLoading)
+                            AdGsType.BANNER, AdGsType.BANNER_COLLAPSIBLE -> callbackBanner?.invoke(adData as? BannerAdGsData, adData.isLoading)
+                            AdGsType.NATIVE -> callbackNative?.invoke(adData as? NativeAdGsData, adData.isLoading)
                             else -> {}
                         }
                     }
@@ -959,7 +957,7 @@ class AdGsManager {
                 registerNativeOrBanner(
                     lifecycleOwner = lifecycleOwner,
                     adPlaceName = adPlaceName,
-                    callbackBanner = { adPlaceName, bannerAdGsData, isStartShimmer ->
+                    callbackBanner = { bannerAdGsData, isStartShimmer ->
                         bannerGsAdView?.setBannerAdView(adView = bannerAdGsData?.bannerAdView, isStartShimmer = isStartShimmer)
                         try {
                             bannerGsAdView?.resume()
@@ -996,7 +994,7 @@ class AdGsManager {
         lifecycleOwner: LifecycleOwner,
         adPlaceName: AdPlaceName,
         nativeGsAdView: NativeGsAdView? = null,
-        callbackSuccess: ((adPlaceName: AdPlaceName, nativeAdGsData: NativeAdGsData?, isStartShimmer: Boolean) -> Unit)? = null,
+        callbackSuccess: ((nativeAdGsData: NativeAdGsData?, isStartShimmer: Boolean) -> Unit)? = null,
         callbackFailed: (() -> Unit)? = null
     ) {
         when (adPlaceName.adGsType) {
@@ -1004,9 +1002,9 @@ class AdGsManager {
                 registerNativeOrBanner(
                     lifecycleOwner = lifecycleOwner,
                     adPlaceName = adPlaceName,
-                    callbackNative = { adPlaceName, nativeAdGsData, isStartShimmer ->
+                    callbackNative = { nativeAdGsData, isStartShimmer ->
                         nativeGsAdView?.setNativeAd(nativeAd = nativeAdGsData?.nativeAd, isStartShimmer = isStartShimmer)
-                        callbackSuccess?.invoke(adPlaceName, nativeAdGsData, isStartShimmer)
+                        callbackSuccess?.invoke(nativeAdGsData, isStartShimmer)
                     },
                     callbackDestroy = {
                         try {

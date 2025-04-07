@@ -15,6 +15,9 @@ class LanguageActivity : BaseMVVMActivity<ActivityLanguageBinding>(ActivityLangu
             adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameLanguage,
             bannerGsAdView = bindingView.bannerView,
             nativeGsAdView = bindingView.nativeLanguage,
+            callbackSuccess = { nativeAdGsData, isStartShimmer ->
+
+            },
             callbackFailed = {
 
             }

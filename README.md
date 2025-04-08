@@ -559,7 +559,8 @@ Hướng dẫn chi tiết ở [SplashActivity](https://github.com/vtabk2/GsAdmob
 
 Hướng dẫn chi tiết ở [TestApplication](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/TestApplication.kt)
 
-Trong hàm initOtherConfig() là các tạo và đăng ký quảng cáo
+Trong hàm registerAdGsManager() là các tạo và đăng ký quảng cáo
+Trong hàm initOtherConfig() sẽ khởi tạo các config khác như PRDownloader ...
 
 # BaseWithAdsAdapter Adapter chứa quảng cáo native
 

@@ -134,7 +134,8 @@
     <com.core.gsadmob.banner.BannerGsAdView
         android:id="@+id/bannerView"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="wrap_content"
+        android:minHeight="60dp"
         app:adsBannerGsBackgroundColor="@android:color/holo_green_dark"
         app:adsShowType="alwaysShow"
         app:layout_constraintBottom_toBottomOf="parent"

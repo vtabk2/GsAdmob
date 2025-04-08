@@ -3,6 +3,7 @@ package com.core.gsadmob.banner
 import android.content.Context
 import android.graphics.Color
 import android.util.AttributeSet
+import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.FrameLayout
@@ -34,6 +35,9 @@ class BannerGsAdView @JvmOverloads constructor(context: Context, attrs: Attribut
         }
 
     init {
+        // Set gravity for the FrameLayout (this)
+        (binding.root.layoutParams as? LayoutParams)?.gravity = Gravity.BOTTOM
+
         attrs?.let {
             context.withStyledAttributes(it, R.styleable.BannerGsAdView) {
                 showType = ShowType.entries.toTypedArray()[getInt(R.styleable.BannerGsAdView_adsShowType, 0)]

@@ -38,8 +38,8 @@ Thay đổi cấu hình quảng cáo trong [config_admob](https://github.com/vta
 **Step 2.** Tùy chỉnh config_admob
 
 - Ở trên cùng là app id và các id của quảng cáo dùng trong ứng dụng. Hiện tại có cấu hình 11 id quảng cáo cho 5 loại quảng cáo
-- Tiếp theo là cấu hình các thuộc tính có thể thay đổi của các mẫu quảng cáo native cấu hình sẵn (album, font, frame, language, share, sticker, template, vip)
-- Tiêp theo là cấu hình các thuộc tính của shimmer
+- Tiếp theo là cấu hình các thuộc tính có thể thay đổi của các mẫu quảng cáo native cấu hình sẵn(album, font, frame, language, share, sticker, template, vip)
+- Tiếp theo là cấu hình các thuộc tính của shimmer
 - Cấu hình view root của các quảng cáo native(thường là khi là 1 item trong recyclerview)
 
 Ví dụ : Thêm margin cho quảng cáo native album
@@ -559,7 +559,7 @@ Hướng dẫn chi tiết ở [SplashActivity](https://github.com/vtabk2/GsAdmob
 
 Hướng dẫn chi tiết ở [TestApplication](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/TestApplication.kt)
 
-Trong hàm initConfig() là các tạo và đăng ký quảng cáo
+Trong hàm initOtherConfig() là các tạo và đăng ký quảng cáo
 
 # BaseWithAdsAdapter Adapter chứa quảng cáo native
 

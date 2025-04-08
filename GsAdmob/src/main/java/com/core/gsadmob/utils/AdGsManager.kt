@@ -195,7 +195,7 @@ class AdGsManager {
      *  Thử tải lại những quảng cáo được dùng trong activity hiện tại mà có cấu hình tự động tải lại
      *  @param isChangeNetwork mục đích là xác định việc tải lại là do thay đổi mạng hay thay đổi vip
      *  Dựa vào isActive = true tức là nó được đăng ký dùng (thường là native và banner vì chúng cần cập nhật trên UI luôn)
-     *  Chỉ tải laại những quảng cáo đã active nhưng chưa tải được vì mặc định requiredLoadNewAds = false
+     *  Chỉ tải loại những quảng cáo đã active nhưng chưa tải được vì mặc định requiredLoadNewAds = false
      */
     private fun tryReloadAd(isChangeNetwork: Boolean) {
         adGsDataMap.forEach {
@@ -858,6 +858,7 @@ class AdGsManager {
         adPlaceName: AdPlaceName,
         bannerGsAdView: BannerGsAdView? = null,
         nativeGsAdView: NativeGsAdView? = null,
+        adGsListener: AdGsListener? = null,
         callbackSuccess: ((nativeAdGsData: NativeAdGsData?, isStartShimmer: Boolean) -> Unit)? = null,
         callbackFailed: (() -> Unit)? = null
     ) {
@@ -865,6 +866,7 @@ class AdGsManager {
             lifecycleOwner = lifecycleOwner,
             adPlaceName = adPlaceName,
             nativeGsAdView = nativeGsAdView,
+            adGsListener = adGsListener,
             callbackSuccess = callbackSuccess,
             callbackFailed = {
                 registerBanner(
@@ -882,6 +884,7 @@ class AdGsManager {
     private fun registerNativeOrBanner(
         lifecycleOwner: LifecycleOwner,
         adPlaceName: AdPlaceName,
+        adGsListener: AdGsListener? = null,
         callbackBanner: ((bannerAdGsData: BannerAdGsData?, isStartShimmer: Boolean) -> Unit)? = null,
         callbackNative: ((nativeAdGsData: NativeAdGsData?, isStartShimmer: Boolean) -> Unit)? = null,
         callbackPause: (() -> Unit)? = null,
@@ -907,7 +910,7 @@ class AdGsManager {
 
         // 3. Xử lý coroutine riêng cho data flow
         lifecycleOwner.lifecycleScope.launch {
-            instance.registerActiveAndLoadAds(adPlaceName = adPlaceName)
+            instance.registerActiveAndLoadAds(adPlaceName = adPlaceName, adGsListener = adGsListener)
 
             // Xử lý shimmer effect
             instance.startShimmerLiveData.observe(lifecycleOwner) { shimmerMap ->
@@ -951,12 +954,19 @@ class AdGsManager {
     /**
      * Đăng kí quảng cáo banner
      */
-    fun registerBanner(lifecycleOwner: LifecycleOwner, adPlaceName: AdPlaceName, bannerGsAdView: BannerGsAdView?, callbackFailed: (() -> Unit)? = null) {
+    fun registerBanner(
+        lifecycleOwner: LifecycleOwner,
+        adPlaceName: AdPlaceName,
+        bannerGsAdView: BannerGsAdView?,
+        adGsListener: AdGsListener? = null,
+        callbackFailed: (() -> Unit)? = null
+    ) {
         when (adPlaceName.adGsType) {
             AdGsType.BANNER, AdGsType.BANNER_COLLAPSIBLE -> {
                 registerNativeOrBanner(
                     lifecycleOwner = lifecycleOwner,
                     adPlaceName = adPlaceName,
+                    adGsListener = adGsListener,
                     callbackBanner = { bannerAdGsData, isStartShimmer ->
                         bannerGsAdView?.setBannerAdView(adView = bannerAdGsData?.bannerAdView, isStartShimmer = isStartShimmer)
                         try {
@@ -994,6 +1004,7 @@ class AdGsManager {
         lifecycleOwner: LifecycleOwner,
         adPlaceName: AdPlaceName,
         nativeGsAdView: NativeGsAdView? = null,
+        adGsListener: AdGsListener? = null,
         callbackSuccess: ((nativeAdGsData: NativeAdGsData?, isStartShimmer: Boolean) -> Unit)? = null,
         callbackFailed: (() -> Unit)? = null
     ) {
@@ -1002,6 +1013,7 @@ class AdGsManager {
                 registerNativeOrBanner(
                     lifecycleOwner = lifecycleOwner,
                     adPlaceName = adPlaceName,
+                    adGsListener = adGsListener,
                     callbackNative = { nativeAdGsData, isStartShimmer ->
                         nativeGsAdView?.setNativeAd(nativeAd = nativeAdGsData?.nativeAd, isStartShimmer = isStartShimmer)
                         callbackSuccess?.invoke(nativeAdGsData, isStartShimmer)

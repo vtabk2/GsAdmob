@@ -157,6 +157,13 @@ abstract class BaseAdsActivity<VB : ViewBinding>(inflateBinding: (LayoutInflater
         }
     }
 
+    override fun onDestroy() {
+        gdprPermissionsDialog?.dismiss()
+        gdprPermissionsDialog = null
+
+        super.onDestroy()
+    }
+
     enum class TypeShowAds {
         SUCCESS,
         FAILED,

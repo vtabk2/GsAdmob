@@ -858,6 +858,7 @@ class AdGsManager {
         adPlaceName: AdPlaceName,
         bannerGsAdView: BannerGsAdView? = null,
         nativeGsAdView: NativeGsAdView? = null,
+        requiredLoadNewAds: Boolean = false,
         adGsListener: AdGsListener? = null,
         callbackSuccess: ((nativeAdGsData: NativeAdGsData?, isStartShimmer: Boolean) -> Unit)? = null,
         callbackFailed: (() -> Unit)? = null
@@ -866,6 +867,7 @@ class AdGsManager {
             lifecycleOwner = lifecycleOwner,
             adPlaceName = adPlaceName,
             nativeGsAdView = nativeGsAdView,
+            requiredLoadNewAds = requiredLoadNewAds,
             adGsListener = adGsListener,
             callbackSuccess = callbackSuccess,
             callbackFailed = {
@@ -873,6 +875,8 @@ class AdGsManager {
                     lifecycleOwner = lifecycleOwner,
                     adPlaceName = adPlaceName,
                     bannerGsAdView = bannerGsAdView,
+                    requiredLoadNewAds = requiredLoadNewAds,
+                    adGsListener = adGsListener,
                     callbackFailed = callbackFailed
                 )
             })
@@ -885,6 +889,7 @@ class AdGsManager {
         lifecycleOwner: LifecycleOwner,
         adPlaceName: AdPlaceName,
         adGsListener: AdGsListener? = null,
+        requiredLoadNewAds: Boolean = false,
         callbackBanner: ((bannerAdGsData: BannerAdGsData?, isStartShimmer: Boolean) -> Unit)? = null,
         callbackNative: ((nativeAdGsData: NativeAdGsData?, isStartShimmer: Boolean) -> Unit)? = null,
         callbackPause: (() -> Unit)? = null,
@@ -910,7 +915,7 @@ class AdGsManager {
 
         // 3. Xử lý coroutine riêng cho data flow
         lifecycleOwner.lifecycleScope.launch {
-            instance.registerActiveAndLoadAds(adPlaceName = adPlaceName, adGsListener = adGsListener)
+            instance.registerActiveAndLoadAds(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, adGsListener = adGsListener)
 
             // Xử lý shimmer effect
             instance.startShimmerLiveData.observe(lifecycleOwner) { shimmerMap ->
@@ -958,6 +963,7 @@ class AdGsManager {
         lifecycleOwner: LifecycleOwner,
         adPlaceName: AdPlaceName,
         bannerGsAdView: BannerGsAdView?,
+        requiredLoadNewAds: Boolean = false,
         adGsListener: AdGsListener? = null,
         callbackFailed: (() -> Unit)? = null
     ) {
@@ -966,6 +972,7 @@ class AdGsManager {
                 registerNativeOrBanner(
                     lifecycleOwner = lifecycleOwner,
                     adPlaceName = adPlaceName,
+                    requiredLoadNewAds = requiredLoadNewAds,
                     adGsListener = adGsListener,
                     callbackBanner = { bannerAdGsData, isStartShimmer ->
                         bannerGsAdView?.setBannerAdView(adView = bannerAdGsData?.bannerAdView, isStartShimmer = isStartShimmer)
@@ -1004,6 +1011,7 @@ class AdGsManager {
         lifecycleOwner: LifecycleOwner,
         adPlaceName: AdPlaceName,
         nativeGsAdView: NativeGsAdView? = null,
+        requiredLoadNewAds: Boolean = false,
         adGsListener: AdGsListener? = null,
         callbackSuccess: ((nativeAdGsData: NativeAdGsData?, isStartShimmer: Boolean) -> Unit)? = null,
         callbackFailed: (() -> Unit)? = null
@@ -1013,6 +1021,7 @@ class AdGsManager {
                 registerNativeOrBanner(
                     lifecycleOwner = lifecycleOwner,
                     adPlaceName = adPlaceName,
+                    requiredLoadNewAds = requiredLoadNewAds,
                     adGsListener = adGsListener,
                     callbackNative = { nativeAdGsData, isStartShimmer ->
                         nativeGsAdView?.setNativeAd(nativeAd = nativeAdGsData?.nativeAd, isStartShimmer = isStartShimmer)

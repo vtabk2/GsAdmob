@@ -7,6 +7,7 @@ import androidx.lifecycle.LifecycleOwner
 import com.core.gsadmob.R
 import com.core.gsadmob.callback.AdGsListener
 import com.core.gsadmob.model.AdPlaceName
+import com.core.gsadmob.utils.extensions.log
 import com.core.gscore.hourglass.Hourglass
 
 class AdGsDelayManager(
@@ -70,6 +71,7 @@ class AdGsDelayManager(
                             }
                         }
                     }, callbackShow = { adShowStatus ->
+                        log("AdGsDelayManager_adShowStatus", adShowStatus)
                     })
                 } ?: {
                     callbackFinished.invoke()

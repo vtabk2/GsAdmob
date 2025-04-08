@@ -423,7 +423,6 @@ class AdGsManager {
                 } else {
                     adGsData.bannerAdView = bannerAdView
                     adGsData.isLoading = false
-                    log("loadBannerAd.isCollapsible", bannerAdView.isCollapsible)
                     notifyAds("loadBannerAd.onAdLoaded")
 
                     adGsData.listener?.onAdSuccess()
@@ -1122,7 +1121,7 @@ class AdGsManager {
      * Gửi các thay đổi các quảng cáo đã kích hoạt
      */
     private fun notifyAds(from: String) {
-        log("notifyAds_from", from)
+        log("AdGsManager_notifyAds_from", from)
         defaultScope?.launch {
             val newData = HashMap<AdPlaceName, BaseActiveAdGsData>()
             adGsDataMap.forEach {

@@ -7,6 +7,7 @@ import com.core.gsadmob.callback.AdGsListener
 import com.core.gsadmob.model.AdPlaceName
 import com.core.gsadmob.model.AdShowStatus
 import com.core.gsadmob.utils.extensions.cmpUtils
+import com.core.gsadmob.utils.extensions.log
 import com.core.gsadmob.utils.preferences.GoogleMobileAdsConsentManager
 import com.core.gscore.hourglass.Hourglass
 import com.core.gscore.utils.network.NetworkUtils
@@ -135,6 +136,7 @@ class AdGsSplashManager(
                     adsLoading?.invoke(false)
                 }
             }, callbackShow = { adShowStatus ->
+                log("AdGsSplashManager_adShowStatus", adShowStatus)
                 when (adShowStatus) {
                     AdShowStatus.CAN_SHOW, AdShowStatus.REQUIRE_LOAD -> {
                         adsLoading?.invoke(true)

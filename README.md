@@ -623,7 +623,7 @@ Trong hàm initConfig() là các tạo và đăng ký quảng cáo
 ```
 
 **Version 1.3.0**
-- Hỗ trợ cấu hình RemoteConfig của Firebase xem ở [RemoteConfig](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/utils/remoteConfig/RemoteConfig.kt)
+- Hỗ trợ cấu hình RemoteConfig của Firebase xem ở [RemoteConfig](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/utils/remoteconfig/RemoteConfig.kt)
 - Thêm [GsAdmobApplication](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/GsAdmobApplication.kt)
 - Thêm ADS_DISABLE vào AdShowStatus
 - Đổi APP_OPEN_AD thành APP_OPEN ở AdGsType

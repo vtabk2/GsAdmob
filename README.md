@@ -25,7 +25,7 @@ Thư viện được tạo ra với mục đích quản lý và tùy chỉnh gia
 **Step 2.** Add the dependency
 ```css
         dependencies {
-                    implementation 'com.github.vtabk2:GsAdmob:1.3.9'
+                    implementation 'com.github.vtabk2:GsAdmob:1.3.10'
             }
 ```
 
@@ -564,6 +564,8 @@ Trong hàm initConfig() là các tạo và đăng ký quảng cáo
 # BaseWithAdsAdapter Adapter chứa quảng cáo native
 
 # Lịch sử cập nhật
+**Version 1.3.10**
+- Sửa lỗi load lỗi không có mạng thì chưa cập nhật các loại BaseActiveAdGsData
 
 **Version 1.3.9**
 - Sửa lỗi BannerGsAdView không gravity BOTTOM khi sử dụng layout_height wrap_content và sử dụng minHeight

@@ -120,7 +120,7 @@ class AdGsSplashManager(
             AdGsManager.instance.registerAndShowAds(adPlaceName = it, adGsListener = object : AdGsListener {
                 override fun onAdClose(isFailed: Boolean) {
                     if (isFailed) {
-                        isAdLoaded = true
+                        isAdLoaded = false
                     } else {
                         callBackGoHome()
                     }

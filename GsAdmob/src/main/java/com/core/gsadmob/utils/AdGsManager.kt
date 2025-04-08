@@ -310,6 +310,11 @@ class AdGsManager {
                 }
             } else {
                 adGsData.listener?.onAdClose(isFailed = true)
+                if (adGsData is BaseActiveAdGsData) {
+                    shimmerMap[adPlaceName] = false
+                    adGsData.clearData(isResetReload = false)
+                    notifyAds("loadAd.isInternetAvailable")
+                }
             }
         }
     }

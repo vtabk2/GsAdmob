@@ -1115,7 +1115,7 @@ class AdGsManager {
                 }
             }
         }
-        notifyAds("clearAll")
+        notifyAds("clearAll = $clearFull")
     }
 
     /**

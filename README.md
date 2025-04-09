@@ -25,7 +25,7 @@ Thư viện được tạo ra với mục đích quản lý và tùy chỉnh gia
 **Step 2.** Add the dependency
 ```css
         dependencies {
-                    implementation 'com.github.vtabk2:GsAdmob:1.3.10'
+                    implementation 'com.github.vtabk2:GsAdmob:1.3.11'
             }
 ```
 
@@ -565,6 +565,10 @@ Trong hàm initOtherConfig() sẽ khởi tạo các config khác như PRDownload
 # BaseWithAdsAdapter Adapter chứa quảng cáo native
 
 # Lịch sử cập nhật
+**Version 1.3.11**
+- Thêm SerializedName vào AdPlaceName
+- Thêm isValidate() vào AdPlaceName
+
 **Version 1.3.10**
 - Sửa lỗi load lỗi không có mạng thì chưa cập nhật các loại BaseActiveAdGsData
 

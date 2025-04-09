@@ -73,9 +73,9 @@ class AdGsSplashManager(
         }
 
         override fun onDestroy(owner: LifecycleOwner) {
-            AdGsManager.instance.destroyActivity()
             adPlaceName?.let {
-                AdGsManager.instance.clearAndRemoveActive(adPlaceName = it)
+                AdGsManager.instance.removeAdsListener(adPlaceName = it)
+                AdGsManager.instance.clearWithAdPlaceName(adPlaceName = it)
             }
         }
     }

@@ -954,8 +954,8 @@ class AdGsManager {
 
                 // Dọn dẹp
                 lifecycleOwner.lifecycle.removeObserver(pauseResumeObserver)
-                instance.destroyActivity()
-                instance.clearAndRemoveActive(adPlaceName)
+                instance.removeAdsListener(adPlaceName = adPlaceName)
+                instance.clearAndRemoveActive(adPlaceName = adPlaceName)
             }
         }
     }
@@ -1188,16 +1188,6 @@ class AdGsManager {
         clearWithAdPlaceName(adPlaceName = adPlaceName, requiredNotify = requiredNotify)
 
         (adGsDataMap[adPlaceName] as? BaseActiveAdGsData)?.isActive = false
-    }
-
-    /**
-     * Xóa danh sách quảng cáo sử dụng trong activity hiện tại
-     * Xóa các listener đăng ký trong activity hiện tại
-     */
-    fun destroyActivity() {
-        adGsDataMap.forEach {
-            removeAdsListener(it.key)
-        }
     }
 
     companion object {

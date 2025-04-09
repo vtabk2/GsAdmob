@@ -47,6 +47,7 @@ class AdGsDelayManager(
 
             override fun onTimerFinish() {
                 adPlaceName?.let {
+                    AdGsManager.instance.removeAdsListener(adPlaceName = it)
                     AdGsManager.instance.clearWithAdPlaceName(adPlaceName = it)
                 }
                 callbackFinished.invoke()

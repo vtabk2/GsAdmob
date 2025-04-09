@@ -568,6 +568,7 @@ Trong hàm initOtherConfig() sẽ khởi tạo các config khác như PRDownload
 **Version 1.3.11**
 - Thêm SerializedName vào AdPlaceName
 - Thêm isValidate() vào AdPlaceName
+- Thêm log
 
 **Version 1.3.10**
 - Sửa lỗi load lỗi không có mạng thì chưa cập nhật các loại BaseActiveAdGsData

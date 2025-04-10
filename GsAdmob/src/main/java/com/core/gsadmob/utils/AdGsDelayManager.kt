@@ -12,7 +12,7 @@ import com.core.gscore.hourglass.Hourglass
 
 class AdGsDelayManager(
     private val activity: AppCompatActivity,
-    fragment: Fragment?,
+    fragment: Fragment? = null,
     private val adPlaceName: AdPlaceName? = null,
     private val callbackFinished: () -> Unit
 ) {

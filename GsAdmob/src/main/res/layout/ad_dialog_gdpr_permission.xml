@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="16dp"
-    android:background="@drawable/bg_gdpr_permission"
+    android:background="@drawable/ads_bg_gdpr_permission"
     android:elevation="10dp"
     android:paddingBottom="20dp">
 
@@ -16,7 +16,7 @@
         android:padding="10dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_close"/>
+        app:srcCompat="@drawable/ads_ic_close"/>
 
     <androidx.appcompat.widget.AppCompatTextView
         android:id="@+id/tvGdprMessage"
@@ -28,7 +28,7 @@
         android:layout_marginBottom="20dp"
         android:gravity="center"
         android:lineSpacingExtra="3dp"
-        android:text="@string/msg_gdpr"
+        android:text="@string/ads_msg_gdpr"
         android:textColor="@android:color/black"
         android:textSize="15sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -40,10 +40,10 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:background="@drawable/selector_background_grant"
+        android:background="@drawable/ads_selector_background_grant_gdpr"
         android:gravity="center"
         android:padding="10dp"
-        android:text="@string/text_grant_permission"
+        android:text="@string/ads_text_grant_permission"
         android:textColor="@android:color/white"
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"

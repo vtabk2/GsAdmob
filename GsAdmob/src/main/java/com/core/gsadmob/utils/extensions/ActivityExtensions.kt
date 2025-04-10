@@ -1,4 +1,4 @@
-package com.example.gsadmob.utils.extensions
+package com.core.gsadmob.utils.extensions
 
 import android.app.Activity
 import android.graphics.Rect

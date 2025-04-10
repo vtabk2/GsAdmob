@@ -13,8 +13,23 @@
     <string name="rewarded_id" translatable="false">ca-app-pub-3940256099942544/5224354917</string>
     <string name="rewarded_interstitial_id" translatable="false">ca-app-pub-3940256099942544/5354046379</string>
 
-    <integer name="time_delay_loading">3500</integer>
-    <integer name="time_fake_delay">1000</integer>
+    <integer name="ads_time_delay_loading">3500</integer>
+    <integer name="ads_time_fake_delay">1000</integer>
+
+    <string name="ads_msg_gdpr">The rewarded promotion advertisement is unavailable because you denied the permission.</string>
+    <string name="ads_text_grant_permission">Grant permission</string>
+
+    <drawable name="ads_ic_close">
+        @drawable/ads__ic_close
+    </drawable>
+
+    <drawable name="ads_bg_gdpr_permission">
+        @drawable/ads__bg_gdpr_permission
+    </drawable>
+
+    <drawable name="ads_selector_background_grant_gdpr">
+        @drawable/ads_selector_bg_grant_gdpr
+    </drawable>
 
     <style name="ads_Autoscroll">
         <item name="android:maxLines">1</item>

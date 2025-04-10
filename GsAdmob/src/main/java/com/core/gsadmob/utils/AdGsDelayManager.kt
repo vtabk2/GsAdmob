@@ -45,7 +45,7 @@ class AdGsDelayManager(
     }
 
     private fun registerAndShowAds() {
-        val timeDelayLoading = activity.resources.getInteger(R.integer.time_delay_loading).toLong().coerceAtLeast(1000)
+        val timeDelayLoading = activity.resources.getInteger(R.integer.ads_time_delay_loading).toLong().coerceAtLeast(1000)
 
         timerLoading = object : Hourglass(timeDelayLoading, 500) {
             override fun onTimerTick(timeRemaining: Long) {
@@ -58,7 +58,7 @@ class AdGsDelayManager(
         }
         timerLoading?.startTimer()
 
-        val timeFakeDelay = activity.resources.getInteger(R.integer.time_fake_delay).toLong().coerceAtLeast(500)
+        val timeFakeDelay = activity.resources.getInteger(R.integer.ads_time_fake_delay).toLong().coerceAtLeast(500)
 
         timerFakeDelay = object : Hourglass(timeFakeDelay, 500) {
             override fun onTimerTick(timeRemaining: Long) {

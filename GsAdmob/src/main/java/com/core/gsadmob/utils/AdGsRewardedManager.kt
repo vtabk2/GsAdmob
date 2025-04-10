@@ -9,6 +9,7 @@ import com.core.gsadmob.callback.AdGsListener
 import com.core.gsadmob.model.AdPlaceName
 import com.core.gsadmob.model.AdShowStatus
 import com.core.gsadmob.utils.extensions.cmpUtils
+import com.core.gsadmob.utils.extensions.dialogLayout
 import com.core.gsadmob.utils.extensions.log
 import com.core.gsadmob.utils.preferences.GoogleMobileAdsConsentManager
 import com.core.gscore.utils.network.NetworkUtils
@@ -80,16 +81,16 @@ class AdGsRewardedManager(
                         if (activity.cmpUtils.isCheckGDPR) {
                             gatherConsent()
                         } else {
-//                            gdprPermissionsDialog?.dismiss()
-//                            gdprPermissionsDialog = DialogUtils.initGdprPermissionDialog(this, callback = { granted ->
-//                                if (granted) {
-//                                    gatherConsent()
-//                                } else {
-//                                    callback(TypeShowAds.CANCEL)
-//                                }
-//                            })
-//                            gdprPermissionsDialog?.show()
-//                            dialogLayout(gdprPermissionsDialog)
+                            gdprPermissionsDialog?.dismiss()
+                            gdprPermissionsDialog = DialogUtils.initGdprPermissionDialog(activity, callback = { granted ->
+                                if (granted) {
+                                    gatherConsent()
+                                } else {
+                                    callback(TypeShowAds.CANCEL)
+                                }
+                            })
+                            gdprPermissionsDialog?.show()
+                            activity.dialogLayout(gdprPermissionsDialog)
                         }
                     } else {
                         loadAndShowRewardedAds()

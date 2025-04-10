@@ -73,7 +73,7 @@
         app:layout_constraintBottom_toBottomOf="@id/tvRewarded"
         app:layout_constraintEnd_toStartOf="@id/imageRewardedClear"
         app:layout_constraintTop_toTopOf="@id/tvRewarded"
-        app:srcCompat="@drawable/ic_close"/>
+        app:srcCompat="@drawable/ads_ic_close"/>
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imageRewardedClear"
@@ -111,7 +111,7 @@
         app:layout_constraintBottom_toBottomOf="@id/tvRewardedInterstitial"
         app:layout_constraintEnd_toStartOf="@id/imageRewardedInterstitialClear"
         app:layout_constraintTop_toTopOf="@id/tvRewardedInterstitial"
-        app:srcCompat="@drawable/ic_close"/>
+        app:srcCompat="@drawable/ads_ic_close"/>
 
     <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imageRewardedInterstitialClear"

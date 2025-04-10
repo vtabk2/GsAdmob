@@ -12,7 +12,7 @@ import com.core.gscore.hourglass.Hourglass
 
 class AdGsDelayManager(
     private val activity: AppCompatActivity,
-    fragment: Fragment?,
+    fragment: Fragment? = null,
     private val adPlaceName: AdPlaceName? = null,
     private val callbackFinished: () -> Unit
 ) {
@@ -30,6 +30,13 @@ class AdGsDelayManager(
             if (timerLoading?.isRunning == true) timerLoading?.pauseTimer()
             if (timerFakeDelay?.isRunning == true) timerFakeDelay?.pauseTimer()
         }
+
+        override fun onDestroy(owner: LifecycleOwner) {
+            adPlaceName?.let {
+                AdGsManager.instance.removeAdsListener(adPlaceName = it)
+                AdGsManager.instance.clearWithAdPlaceName(adPlaceName = it)
+            }
+        }
     }
 
     init {
@@ -38,7 +45,7 @@ class AdGsDelayManager(
     }
 
     private fun registerAndShowAds() {
-        val timeDelayLoading = activity.resources.getInteger(R.integer.time_delay_loading).toLong().coerceAtLeast(1000)
+        val timeDelayLoading = activity.resources.getInteger(R.integer.ads_time_delay_loading).toLong().coerceAtLeast(1000)
 
         timerLoading = object : Hourglass(timeDelayLoading, 500) {
             override fun onTimerTick(timeRemaining: Long) {
@@ -46,16 +53,12 @@ class AdGsDelayManager(
             }
 
             override fun onTimerFinish() {
-                adPlaceName?.let {
-                    AdGsManager.instance.removeAdsListener(adPlaceName = it)
-                    AdGsManager.instance.clearWithAdPlaceName(adPlaceName = it)
-                }
                 callbackFinished.invoke()
             }
         }
         timerLoading?.startTimer()
 
-        val timeFakeDelay = activity.resources.getInteger(R.integer.time_fake_delay).toLong().coerceAtLeast(500)
+        val timeFakeDelay = activity.resources.getInteger(R.integer.ads_time_fake_delay).toLong().coerceAtLeast(500)
 
         timerFakeDelay = object : Hourglass(timeFakeDelay, 500) {
             override fun onTimerTick(timeRemaining: Long) {

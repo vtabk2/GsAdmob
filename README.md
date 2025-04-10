@@ -565,6 +565,43 @@ Trong hàm initOtherConfig() sẽ khởi tạo các config khác như PRDownload
 # BaseWithAdsAdapter Adapter chứa quảng cáo native
 
 # Lịch sử cập nhật
+**Version 1.3.12**
+- Thêm [AdGsRewardedManager]() xử lý cho quảng cáo trả thưởng
+
+Nếu có nhiều quảng cáo trả thưởng thì khởi tạo như sau:
+```css
+      adGsRewardedManager = AdGsRewardedManager(
+              activity = this,
+              isDebug = BuildConfig.DEBUG
+          )
+```
+
+và khi sử dụng thì gọi:
+```css
+      adGsRewardedManager?.showAds(
+                adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_REWARDED_INTERSTITIAL,
+                callback = { typeShowAds ->
+                
+                })
+```
+
+Nếu có 1 quảng cáo trả thưởng thì khởi tạo như sau:
+```css
+      adGsRewardedManager = AdGsRewardedManager(
+              activity = this,
+              adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_REWARDED_INTERSTITIAL,
+              isDebug = BuildConfig.DEBUG
+          )
+```
+
+và khi sử dụng thì gọi: 
+```css
+      adGsRewardedManager?.showAds(               
+                callback = { typeShowAds ->
+                
+                })
+```
+
 **Version 1.3.11**
 - Thêm SerializedName vào AdPlaceName
 - Thêm isValidate() vào AdPlaceName

@@ -3,8 +3,8 @@
 
     <string name="text_please_check_time">Please check the device time!</string>
     <string name="check_network_connection">Please check your Internet connection !!!</string>
-    <string name="msg_gdpr">The rewarded promotion advertisement is unavailable because you denied the permission.</string>
-    <string name="text_grant_permission">Grant permission</string>
+    <string name="ads_msg_gdpr">The rewarded promotion advertisement is unavailable because you denied the permission.</string>
+    <string name="ads_text_grant_permission">Grant permission</string>
 
     <string name="text_is_running">is running, please wait...</string>
     <string name="text_welcome_back">Welcome back</string>

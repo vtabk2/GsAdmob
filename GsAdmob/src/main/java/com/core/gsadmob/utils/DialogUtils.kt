@@ -1,19 +1,19 @@
-package com.example.gsadmob.utils
+package com.core.gsadmob.utils
 
 import android.content.Context
 import android.graphics.Color
-import android.graphics.drawable.ColorDrawable
 import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
-import com.example.gsadmob.databinding.DialogGdprPermissionBinding
+import com.core.gsadmob.databinding.AdDialogGdprPermissionBinding
+import androidx.core.graphics.drawable.toDrawable
 
 object DialogUtils {
     fun initGdprPermissionDialog(context: Context, callback: (granted: Boolean) -> Unit): AlertDialog {
         val builder = AlertDialog.Builder(context)
-        val binding = DialogGdprPermissionBinding.inflate(LayoutInflater.from(context), null, false)
+        val binding = AdDialogGdprPermissionBinding.inflate(LayoutInflater.from(context), null, false)
         builder.setView(binding.root)
         val gdprPermissionDialog = builder.create()
-        gdprPermissionDialog.window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
+        gdprPermissionDialog.window?.setBackgroundDrawable(Color.TRANSPARENT.toDrawable())
         binding.imageGdprClose.setOnClickListener {
             gdprPermissionDialog.dismiss()
             callback.invoke(false)

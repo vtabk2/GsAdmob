@@ -16,21 +16,19 @@
     <integer name="ads_time_delay_loading">3500</integer>
     <integer name="ads_time_fake_delay">1000</integer>
 
+    <!--    cấu hình dialog gdpr-->
     <string name="ads_msg_gdpr">The rewarded promotion advertisement is unavailable because you denied the permission.</string>
     <string name="ads_text_grant_permission">Grant permission</string>
 
-    <drawable name="ads_ic_close">
-        @drawable/ads__ic_close
-    </drawable>
+    <drawable name="ads_ic_close">@drawable/ads__ic_close</drawable>
 
-    <drawable name="ads_bg_gdpr_permission">
-        @drawable/ads__bg_gdpr_permission
-    </drawable>
+    <drawable name="ads_bg_gdpr_permission">@drawable/ads__bg_gdpr_permission</drawable>
 
     <drawable name="ads_selector_background_grant_gdpr">
         @drawable/ads_selector_bg_grant_gdpr
     </drawable>
 
+    <!--    style dùng để cho text tự động chạy-->
     <style name="ads_Autoscroll">
         <item name="android:maxLines">1</item>
         <item name="android:lines">1</item>

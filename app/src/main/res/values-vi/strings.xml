@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">GsAdmob</string>
+
+    <string name="text_please_check_time">Vui lòng kiểm tra thời gian trên thiết bị!</string>
+    <string name="check_network_connection">Xin vui lòng kiểm tra kết nối Internet của bạn !!!</string>
+    <string name="ads_msg_gdpr">Quảng cáo trả thưởng không có sẵn do bạn từ chối cấp quyền.</string>
+    <string name="ads_text_grant_permission">Đồng ý cấp quyền</string>
+
+    <string name="text_is_running">đang chạy, vui lòng đợi...</string>
+    <string name="text_welcome_back">Chào mừng trở lại</string>
+</resources>

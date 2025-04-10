@@ -140,7 +140,12 @@ class AdGsRewardedManager(
                     // mục đích chỉ check 1 lần không được thì thôi
                     if (requireCheck) {
                         googleMobileAdsConsentManager?.requestPrivacyOptionsRequirementStatus(activity, isDebug = isDebug, callback = { _ ->
-                            checkShowRewardedAds(requireCheck = false)
+                            checkShowRewardedAds(
+                                callback = callback,
+                                callbackShow = callbackShow,
+                                callbackStart = callbackStart,
+                                requireCheck = false
+                            )
                         })
                     } else {
                         loadAndShowRewardedAds(

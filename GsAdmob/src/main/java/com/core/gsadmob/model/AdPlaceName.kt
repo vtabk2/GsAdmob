@@ -43,8 +43,25 @@ data class AdPlaceName(
     }
 
     fun update(name: String, adUnitId: String): AdPlaceName {
+        updateName(name)
+        updateId(adUnitId)
+        return this
+    }
+
+    fun updateName(name: String): AdPlaceName {
         this.name = name
-        this.adUnitId = adUnitId
+        return this
+    }
+
+    fun updateId(adUnitId: String): AdPlaceName {
+        if (!isValidate()) {
+            this.adUnitId = adUnitId
+        }
+        return this
+    }
+
+    fun disable(): AdPlaceName {
+        isEnable = false
         return this
     }
 

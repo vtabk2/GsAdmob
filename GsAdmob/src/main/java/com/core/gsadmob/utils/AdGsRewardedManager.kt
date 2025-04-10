@@ -1,6 +1,5 @@
 package com.core.gsadmob.utils
 
-import android.R.attr.dialogLayout
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
@@ -8,6 +7,7 @@ import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.core.gsadmob.callback.AdGsListener
 import com.core.gsadmob.model.AdPlaceName
+import com.core.gsadmob.model.AdShowStatus
 import com.core.gsadmob.utils.extensions.cmpUtils
 import com.core.gsadmob.utils.extensions.log
 import com.core.gsadmob.utils.preferences.GoogleMobileAdsConsentManager
@@ -19,8 +19,10 @@ import java.util.concurrent.atomic.AtomicBoolean
 class AdGsRewardedManager(
     private val activity: AppCompatActivity,
     fragment: Fragment? = null,
-    private val adPlaceName: AdPlaceName? = null,
+    private var adPlaceName: AdPlaceName? = null,
     private val callback: (TypeShowAds) -> Unit,
+    private val callbackShow: ((AdShowStatus) -> Unit)? = null,
+    private var callbackStart: (() -> Unit)? = null,
     private var isDebug: Boolean = false
 ) {
     private var googleMobileAdsConsentManager: GoogleMobileAdsConsentManager? = null
@@ -43,7 +45,17 @@ class AdGsRewardedManager(
         fragment?.lifecycle?.addObserver(lifecycleObserver) ?: activity.lifecycle.addObserver(lifecycleObserver)
     }
 
-    fun checkShowRewardedAds(requireCheck: Boolean = true) {
+    fun showAds(adPlaceName: AdPlaceName? = null) {
+        if (adPlaceName != null) {
+            this.adPlaceName = adPlaceName
+        }
+        this.adPlaceName?.let {
+            AdGsManager.instance.cancelRewardAd(adPlaceName = it, isCancel = false)
+        }
+        checkShowRewardedAds(requireCheck = true)
+    }
+
+    private fun checkShowRewardedAds(requireCheck: Boolean = true) {
         fun gatherConsent() {
             googleMobileAdsConsentManager?.gatherConsent(
                 activity = activity,
@@ -107,6 +119,7 @@ class AdGsRewardedManager(
     private fun loadAndShowRewardedAds() {
         adPlaceName?.let {
             val check = AtomicBoolean(true)
+            callbackStart?.invoke()
             AdGsManager.instance.registerAndShowAds(
                 adPlaceName = it,
                 adGsListener = object : AdGsListener {
@@ -133,6 +146,7 @@ class AdGsRewardedManager(
                     }
                 },
                 callbackShow = { adShowStatus ->
+                    callbackShow?.invoke(adShowStatus)
                     log("AdGsRewardedManager_adShowStatus", adShowStatus)
                 })
 
@@ -143,6 +157,8 @@ class AdGsRewardedManager(
                 AdGsManager.instance.removeAdsListener(adPlaceName = it)
                 callback.invoke(if (networkError == NetworkUtils.NetworkError.SSL_HANDSHAKE) TypeShowAds.SSL_HANDSHAKE else TypeShowAds.TIMEOUT)
             }, activity = activity)
+        } ?: run {
+            callback.invoke(TypeShowAds.NO_AD_PLACE_NAME)
         }
     }
 
@@ -152,5 +168,6 @@ class AdGsRewardedManager(
         TIMEOUT,
         SSL_HANDSHAKE,
         CANCEL,
+        NO_AD_PLACE_NAME
     }
 }

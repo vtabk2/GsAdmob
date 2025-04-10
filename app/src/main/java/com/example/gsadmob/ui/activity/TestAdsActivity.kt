@@ -9,7 +9,6 @@ import com.core.gsadmob.utils.preferences.VipPreferences
 import com.example.gsadmob.databinding.ActivityTestAdsBinding
 import com.example.gsadmob.ui.activity.base.BaseAdsActivity
 import com.example.gsadmob.utils.remoteconfig.AdGsRemoteExtraConfig
-import com.gs.core.ui.view.toasty.Toasty
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
@@ -58,27 +57,7 @@ class TestAdsActivity : BaseAdsActivity<ActivityTestAdsBinding>(ActivityTestAdsB
         }
 
         bindingView.tvRewarded.setOnClickListener {
-            AdGsManager.instance.cancelRewardAd(adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_REWARDED, isCancel = false)
-            checkShowRewardedAds(callback = { typeShowAds ->
-                when (typeShowAds) {
-                    TypeShowAds.SUCCESS -> {
-                        Toasty.showToast(this@TestAdsActivity, "Rewarded SUCCESS", Toasty.SUCCESS)
-                    }
-
-                    TypeShowAds.FAILED -> {
-                        Toasty.showToast(this@TestAdsActivity, "Rewarded FAILED", Toasty.ERROR)
-                    }
-
-                    TypeShowAds.TIMEOUT -> {
-                        Toasty.showToast(this@TestAdsActivity, "Rewarded TIMEOUT", Toasty.WARNING)
-                    }
-
-                    TypeShowAds.CANCEL -> {
-                        // xử lý khi đóng ads thì làm gì ko quan trọng đã thành công hay không
-                        Toasty.showToast(this@TestAdsActivity, "Rewarded CANCEL", Toasty.WARNING)
-                    }
-                }
-            }, isRewardedInterstitialAds = false)
+            adGsRewardedManager?.showAds(adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_REWARDED)
         }
 
         bindingView.imageRewardedClose.setOnClickListener {
@@ -90,27 +69,7 @@ class TestAdsActivity : BaseAdsActivity<ActivityTestAdsBinding>(ActivityTestAdsB
         }
 
         bindingView.tvRewardedInterstitial.setOnClickListener {
-            AdGsManager.instance.cancelRewardAd(adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_REWARDED_INTERSTITIAL, isCancel = false)
-            checkShowRewardedAds(callback = { typeShowAds ->
-                when (typeShowAds) {
-                    TypeShowAds.SUCCESS -> {
-                        Toasty.showToast(this@TestAdsActivity, "Rewarded Interstitial SUCCESS", Toasty.SUCCESS)
-                    }
-
-                    TypeShowAds.FAILED -> {
-                        Toasty.showToast(this@TestAdsActivity, "Rewarded Interstitial FAILED", Toasty.ERROR)
-                    }
-
-                    TypeShowAds.TIMEOUT -> {
-                        Toasty.showToast(this@TestAdsActivity, "Rewarded Interstitial TIMEOUT", Toasty.WARNING)
-                    }
-
-                    TypeShowAds.CANCEL -> {
-                        // xử lý khi đóng ads thì làm gì ko quan trọng đã thành công hay không
-                        Toasty.showToast(this@TestAdsActivity, "Rewarded Interstitial CANCEL", Toasty.WARNING)
-                    }
-                }
-            })
+            adGsRewardedManager?.showAds(adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_REWARDED_INTERSTITIAL)
         }
 
         bindingView.imageRewardedInterstitialClose.setOnClickListener {

@@ -25,7 +25,7 @@ Thư viện được tạo ra với mục đích quản lý và tùy chỉnh gia
 **Step 2.** Add the dependency
 ```css
         dependencies {
-                    implementation 'com.github.vtabk2:GsAdmob:1.3.12'
+                    implementation 'com.github.vtabk2:GsAdmob:1.3.13'
             }
 ```
 
@@ -565,6 +565,9 @@ Trong hàm initOtherConfig() sẽ khởi tạo các config khác như PRDownload
 # BaseWithAdsAdapter Adapter chứa quảng cáo native
 
 # Lịch sử cập nhật
+**Version 1.3.13**
+- Fix lỗi khi dùng dialog GDPR thì mất callback
+
 **Version 1.3.12**
 - Thêm [AdGsRewardedManager](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/AdGsRewardedManager.kt) xử lý cho quảng cáo trả thưởng và kiểm tra GDPR
 

@@ -21,22 +21,14 @@ class AdGsRewardedManager(
     private val activity: AppCompatActivity,
     fragment: Fragment? = null,
     private var adPlaceName: AdPlaceName? = null,
-    private val callback: (TypeShowAds) -> Unit,
-    private val callbackShow: ((AdShowStatus) -> Unit)? = null,
-    private var callbackStart: (() -> Unit)? = null,
     private var isDebug: Boolean = false
 ) {
     private var googleMobileAdsConsentManager: GoogleMobileAdsConsentManager? = null
     private var gdprPermissionsDialog: AlertDialog? = null
 
     private val lifecycleObserver = object : DefaultLifecycleObserver {
-        override fun onResume(owner: LifecycleOwner) {
-        }
-
-        override fun onPause(owner: LifecycleOwner) {
-        }
-
         override fun onDestroy(owner: LifecycleOwner) {
+            // hủy dialog khi lifecycle bị hủy
             gdprPermissionsDialog?.dismiss()
             gdprPermissionsDialog = null
         }
@@ -46,25 +38,60 @@ class AdGsRewardedManager(
         fragment?.lifecycle?.addObserver(lifecycleObserver) ?: activity.lifecycle.addObserver(lifecycleObserver)
     }
 
-    fun showAds(adPlaceName: AdPlaceName? = null) {
+    /**
+     * @param adPlaceName truyền vào nếu có nhiều quảng cáo trả thưởng hoặc chưa khởi tạo từ đầu.
+     * Nếu không truyền mới sẽ dùng adPlaceName cuối cùng truyền vào
+     * @param callback lấy ra trạng thái của quảng cái trả thưởng
+     * @param callbackShow trạng thái hiện tại của quảng cáo
+     * @param callbackStart khi bắt đầu tải quảng cáo
+     */
+    fun showAds(
+        adPlaceName: AdPlaceName? = null,
+        callback: ((TypeShowAds) -> Unit)? = null,
+        callbackShow: ((AdShowStatus) -> Unit)? = null,
+        callbackStart: (() -> Unit)? = null
+    ) {
         if (adPlaceName != null) {
+            // khi đổi quảng cáo trả thưởng thì bỏ listener quảng cáo trả thưởng cũ đi
+            this.adPlaceName?.let {
+                AdGsManager.instance.cancelRewardAd(adPlaceName = it)
+            }
+            //
             this.adPlaceName = adPlaceName
         }
         this.adPlaceName?.let {
+            // bỏ trạng thái hủy của quảng cáo trả thưởng hiện tại để quảng cáo này có thể được hiển thị
             AdGsManager.instance.cancelRewardAd(adPlaceName = it, isCancel = false)
         }
-        checkShowRewardedAds(requireCheck = true)
+        checkShowRewardedAds(
+            callback = callback,
+            callbackShow = callbackShow,
+            callbackStart = callbackStart,
+            requireCheck = true
+        )
     }
 
-    private fun checkShowRewardedAds(requireCheck: Boolean = true) {
+    /**
+     * Kiểm tra xem GDPR có được chấp nhận chưa, nếu chưa thì hiển thị GDPR
+     */
+    private fun checkShowRewardedAds(
+        callback: ((TypeShowAds) -> Unit)? = null,
+        callbackShow: ((AdShowStatus) -> Unit)? = null,
+        callbackStart: (() -> Unit)? = null,
+        requireCheck: Boolean = true
+    ) {
         fun gatherConsent() {
             googleMobileAdsConsentManager?.gatherConsent(
                 activity = activity,
                 onCanShowAds = {
-                    loadAndShowRewardedAds()
+                    loadAndShowRewardedAds(
+                        callback = callback,
+                        callbackShow = callbackShow,
+                        callbackStart = callbackStart
+                    )
                 },
                 onDisableAds = {
-                    callback(TypeShowAds.CANCEL)
+                    callback?.invoke(TypeShowAds.CANCEL)
                 },
                 isDebug = isDebug,
                 timeout = 0
@@ -86,19 +113,27 @@ class AdGsRewardedManager(
                                 if (granted) {
                                     gatherConsent()
                                 } else {
-                                    callback(TypeShowAds.CANCEL)
+                                    callback?.invoke(TypeShowAds.CANCEL)
                                 }
                             })
                             gdprPermissionsDialog?.show()
                             activity.dialogLayout(gdprPermissionsDialog)
                         }
                     } else {
-                        loadAndShowRewardedAds()
+                        loadAndShowRewardedAds(
+                            callback = callback,
+                            callbackShow = callbackShow,
+                            callbackStart = callbackStart
+                        )
                     }
                 }
 
                 ConsentInformation.PrivacyOptionsRequirementStatus.NOT_REQUIRED -> {
-                    loadAndShowRewardedAds()
+                    loadAndShowRewardedAds(
+                        callback = callback,
+                        callbackShow = callbackShow,
+                        callbackStart = callbackStart
+                    )
                 }
 
                 else -> {
@@ -108,28 +143,36 @@ class AdGsRewardedManager(
                             checkShowRewardedAds(requireCheck = false)
                         })
                     } else {
-                        loadAndShowRewardedAds()
+                        loadAndShowRewardedAds(
+                            callback = callback,
+                            callbackShow = callbackShow,
+                            callbackStart = callbackStart
+                        )
                     }
                 }
             }
         }, doException = { networkError ->
-            callback.invoke(if (networkError == NetworkUtils.NetworkError.SSL_HANDSHAKE) TypeShowAds.SSL_HANDSHAKE else TypeShowAds.TIMEOUT)
+            callback?.invoke(if (networkError == NetworkUtils.NetworkError.SSL_HANDSHAKE) TypeShowAds.SSL_HANDSHAKE else TypeShowAds.TIMEOUT)
         }, activity = activity)
     }
 
-    private fun loadAndShowRewardedAds() {
+    private fun loadAndShowRewardedAds(
+        callback: ((TypeShowAds) -> Unit)? = null,
+        callbackShow: ((AdShowStatus) -> Unit)? = null,
+        callbackStart: (() -> Unit)? = null
+    ) {
         adPlaceName?.let {
-            val check = AtomicBoolean(true)
             callbackStart?.invoke()
+            val check = AtomicBoolean(true)
             AdGsManager.instance.registerAndShowAds(
                 adPlaceName = it,
                 adGsListener = object : AdGsListener {
                     override fun onAdClose(isFailed: Boolean) {
                         if (isFailed) {
-                            callback(TypeShowAds.FAILED)
+                            callback?.invoke(TypeShowAds.FAILED)
                             check.set(false)
                         } else {
-                            callback(TypeShowAds.CANCEL)
+                            callback?.invoke(TypeShowAds.CANCEL)
                             check.set(false)
                             AdGsManager.instance.removeAdsListener(adPlaceName = it)
                         }
@@ -138,7 +181,7 @@ class AdGsRewardedManager(
                     override fun onShowFinishSuccess(rewardItem: RewardItem) {
                         log("AdGsRewardedManager_onShowFinishSuccess: rewardItem.type", rewardItem.type)
                         log("AdGsRewardedManager_onShowFinishSuccess: rewardItem.amount", rewardItem.amount)
-                        callback(TypeShowAds.SUCCESS)
+                        callback?.invoke(TypeShowAds.SUCCESS)
                         check.set(false)
                     }
 
@@ -156,10 +199,10 @@ class AdGsRewardedManager(
             }, doException = { networkError ->
                 if (!check.get()) return@hasInternetAccessCheck
                 AdGsManager.instance.removeAdsListener(adPlaceName = it)
-                callback.invoke(if (networkError == NetworkUtils.NetworkError.SSL_HANDSHAKE) TypeShowAds.SSL_HANDSHAKE else TypeShowAds.TIMEOUT)
+                callback?.invoke(if (networkError == NetworkUtils.NetworkError.SSL_HANDSHAKE) TypeShowAds.SSL_HANDSHAKE else TypeShowAds.TIMEOUT)
             }, activity = activity)
         } ?: run {
-            callback.invoke(TypeShowAds.NO_AD_PLACE_NAME)
+            callback?.invoke(TypeShowAds.NO_AD_PLACE_NAME)
         }
     }
 

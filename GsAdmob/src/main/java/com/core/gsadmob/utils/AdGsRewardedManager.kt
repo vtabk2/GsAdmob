@@ -198,7 +198,8 @@ class AdGsRewardedManager(
                 // nothing
             }, doException = { networkError ->
                 if (!check.get()) return@hasInternetAccessCheck
-                AdGsManager.instance.removeAdsListener(adPlaceName = it)
+                // bắt buộc phải cancel quảng cáo này đi
+                AdGsManager.instance.cancelRewardAd(adPlaceName = it)
                 callback?.invoke(if (networkError == NetworkUtils.NetworkError.SSL_HANDSHAKE) TypeShowAds.SSL_HANDSHAKE else TypeShowAds.TIMEOUT)
             }, activity = activity)
         } ?: run {
@@ -207,11 +208,34 @@ class AdGsRewardedManager(
     }
 
     enum class TypeShowAds {
+        /**
+         * Quảng cáo trả thưởng đã xem thành công có thể nhận thưởng
+         */
         SUCCESS,
+
+        /**
+         * Quảng cáo trả thưởng bị lỗi
+         */
         FAILED,
+
+        /**
+         * Lỗi không bật mạng hoặc mạng yếu
+         */
         TIMEOUT,
+
+        /**
+         * Lỗi chỉnh thời gian máy -> hết hạn các chứng chỉ
+         */
         SSL_HANDSHAKE,
+
+        /**
+         * Hủy xem quảng cáo
+         */
         CANCEL,
+
+        /**
+         * Chưa có adPlaceName nào được truyền vào
+         */
         NO_AD_PLACE_NAME
     }
 }

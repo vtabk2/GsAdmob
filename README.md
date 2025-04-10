@@ -25,7 +25,7 @@ Thư viện được tạo ra với mục đích quản lý và tùy chỉnh gia
 **Step 2.** Add the dependency
 ```css
         dependencies {
-                    implementation 'com.github.vtabk2:GsAdmob:1.3.11'
+                    implementation 'com.github.vtabk2:GsAdmob:1.3.12'
             }
 ```
 
@@ -566,7 +566,7 @@ Trong hàm initOtherConfig() sẽ khởi tạo các config khác như PRDownload
 
 # Lịch sử cập nhật
 **Version 1.3.12**
-- Thêm [AdGsRewardedManager]() xử lý cho quảng cáo trả thưởng
+- Thêm [AdGsRewardedManager](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/AdGsRewardedManager.kt) xử lý cho quảng cáo trả thưởng và kiểm tra GDPR
 
 Nếu có nhiều quảng cáo trả thưởng thì khởi tạo như sau:
 ```css
@@ -601,6 +601,15 @@ và khi sử dụng thì gọi:
                 
                 })
 ```
+
+- Thêm TypeShowAds trong AdGsRewardedManager để trả về khi tải quảng cáo trả thưởng
+- Thêm removeAdsListener cho AdGsDelayManager và AdGsSplashManager
+- Xóa destroyActivity ở AdGsManager
+- Thêm các cấu hình dialog xin quyền GDPR ở config_admob.xml
+- Đổi time_delay_loading thành ads_time_delay_loading
+- Đổi time_fake_delay thành ads_time_fake_delay
+- Thêm ads_msg_gdpr: string thông báo người dùng từ chối quyền GDPR
+- Thêm ads_text_grant_permission: string xin phép cấp quyền
 
 **Version 1.3.11**
 - Thêm SerializedName vào AdPlaceName

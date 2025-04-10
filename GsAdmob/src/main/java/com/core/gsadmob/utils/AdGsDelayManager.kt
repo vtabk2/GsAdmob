@@ -30,6 +30,13 @@ class AdGsDelayManager(
             if (timerLoading?.isRunning == true) timerLoading?.pauseTimer()
             if (timerFakeDelay?.isRunning == true) timerFakeDelay?.pauseTimer()
         }
+
+        override fun onDestroy(owner: LifecycleOwner) {
+            adPlaceName?.let {
+                AdGsManager.instance.removeAdsListener(adPlaceName = it)
+                AdGsManager.instance.clearWithAdPlaceName(adPlaceName = it)
+            }
+        }
     }
 
     init {
@@ -46,10 +53,6 @@ class AdGsDelayManager(
             }
 
             override fun onTimerFinish() {
-                adPlaceName?.let {
-                    AdGsManager.instance.removeAdsListener(adPlaceName = it)
-                    AdGsManager.instance.clearWithAdPlaceName(adPlaceName = it)
-                }
                 callbackFinished.invoke()
             }
         }

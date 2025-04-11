@@ -565,6 +565,12 @@ Trong hàm initOtherConfig() sẽ khởi tạo các config khác như PRDownload
 # BaseWithAdsAdapter Adapter chứa quảng cáo native
 
 # Lịch sử cập nhật
+
+**Version 1.3.15**
+- Sửa lỗi mạng yếu thì RemoteConfig tải dữ liệu chậm hơn splash
+- AdGsSplashManager thêm logic retry lại 1 lần để tải lại quảng cáo
+- Update gscore
+
 **Version 1.3.14**
 - Sửa lỗi Fatal Exception: java.util.ConcurrentModificationException
 - Thêm updateName ở AdPlaceName để thay đổi tên quảng cáo

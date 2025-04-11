@@ -198,13 +198,12 @@ class AdGsManager {
      *  Chỉ tải loại những quảng cáo đã active nhưng chưa tải được vì mặc định requiredLoadNewAds = false
      */
     private fun tryReloadAd(isChangeNetwork: Boolean) {
-        adGsDataMap.forEach {
-            val adGsData = it.value
-            if (adGsData is BaseActiveAdGsData) {
-                if (adGsData.isActive) {
-                    loadAd(adPlaceName = it.key, requiredLoadNewAds = false) // không bắt buộc tải mới
-                }
-            }
+        log("tryReloadAd_isChangeNetwork", isChangeNetwork)
+        val activeAdPlaceNames = adGsDataMap.filter { (_, adGsData) ->
+            adGsData is BaseActiveAdGsData && adGsData.isActive
+        }.keys
+        activeAdPlaceNames.forEach { adPlaceName ->
+            loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = false) // không bắt buộc tải mới
         }
     }
 
@@ -1124,7 +1123,7 @@ class AdGsManager {
         log("AdGsManager_notifyAds_from", from)
         defaultScope?.launch {
             val newData = HashMap<AdPlaceName, BaseActiveAdGsData>()
-            adGsDataMap.forEach {
+            adGsDataMap.toMap().forEach {
                 when (val adGsData = it.value) {
                     is BannerAdGsData -> if (adGsData.isActive) newData[it.key] = adGsData.copy()
                     is NativeAdGsData -> if (adGsData.isActive) newData[it.key] = adGsData.copy()

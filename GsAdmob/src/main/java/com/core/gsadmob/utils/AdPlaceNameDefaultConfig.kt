@@ -7,6 +7,8 @@ import com.core.gsadmob.model.AdGsType
 import com.core.gsadmob.model.AdPlaceName
 
 class AdPlaceNameDefaultConfig {
+    private var isCreated: Boolean = false
+
     val AD_PLACE_NAME_APP_OPEN = AdPlaceName(adGsType = AdGsType.APP_OPEN)
     val AD_PLACE_NAME_APP_OPEN_RESUME = AdPlaceName(adGsType = AdGsType.APP_OPEN)
 
@@ -28,6 +30,11 @@ class AdPlaceNameDefaultConfig {
     val AD_PLACE_NAME_REWARDED_INTERSTITIAL = AdPlaceName(adGsType = AdGsType.REWARDED_INTERSTITIAL)
 
     fun initAdPlaceNameDefaultConfig(application: Application) {
+        if (isCreated) {
+            return
+        }
+        isCreated = true
+
         AD_PLACE_NAME_APP_OPEN.update(name = "app_open", adUnitId = application.getString(R.string.app_open_id))
 
         AD_PLACE_NAME_APP_OPEN_RESUME.apply {

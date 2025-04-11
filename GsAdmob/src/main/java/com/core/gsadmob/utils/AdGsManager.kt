@@ -198,12 +198,14 @@ class AdGsManager {
      *  Chỉ tải loại những quảng cáo đã active nhưng chưa tải được vì mặc định requiredLoadNewAds = false
      */
     private fun tryReloadAd(isChangeNetwork: Boolean) {
-        log("tryReloadAd_isChangeNetwork", isChangeNetwork)
         val activeAdPlaceNames = adGsDataMap.filter { (_, adGsData) ->
             adGsData is BaseActiveAdGsData && adGsData.isActive
         }.keys
-        activeAdPlaceNames.forEach { adPlaceName ->
-            loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = false) // không bắt buộc tải mới
+        if (activeAdPlaceNames.isNotEmpty()) {
+            log("tryReloadAd_isChangeNetwork", isChangeNetwork)
+            activeAdPlaceNames.forEach { adPlaceName ->
+                loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = false) // không bắt buộc tải mới
+            }
         }
     }
 

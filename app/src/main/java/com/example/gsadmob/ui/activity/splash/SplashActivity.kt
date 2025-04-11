@@ -5,6 +5,7 @@ import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.isVisible
+import com.core.gsadmob.model.AdPlaceName
 import com.core.gsadmob.utils.AdGsSplashManager
 import com.example.gsadmob.BuildConfig
 import com.example.gsadmob.R
@@ -29,6 +30,11 @@ class SplashActivity : AppCompatActivity() {
         AdGsSplashManager(
             this@SplashActivity,
             adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameSplash,
+            onRetryAdPlaceNameListener = object : AdGsSplashManager.OnRetryAdPlaceNameListener {
+                override fun getAdPlaceName(): AdPlaceName {
+                    return AdGsRemoteExtraConfig.instance.adPlaceNameSplash
+                }
+            },
             goToHomeCallback = {
                 goToHome()
             }, initMobileAds = {

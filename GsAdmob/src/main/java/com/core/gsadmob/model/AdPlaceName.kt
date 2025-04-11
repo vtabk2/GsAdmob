@@ -48,14 +48,14 @@ data class AdPlaceName(
         return this
     }
 
-    fun updateName(name: String): AdPlaceName {
-        this.name = name
+    fun updateName(newName: String): AdPlaceName {
+        this.name = newName
         return this
     }
 
-    fun updateId(adUnitId: String): AdPlaceName {
+    fun updateId(newAdUnitId: String): AdPlaceName {
         if (!isValidate()) {
-            this.adUnitId = adUnitId
+            this.adUnitId = newAdUnitId
         }
         return this
     }

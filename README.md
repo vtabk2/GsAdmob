@@ -567,6 +567,9 @@ Trong hàm initOtherConfig() sẽ khởi tạo các config khác như PRDownload
 # Lịch sử cập nhật
 **Version 1.3.14**
 - Sửa lỗi Fatal Exception: java.util.ConcurrentModificationException
+- Thêm updateName ở AdPlaceName để thay đổi tên quảng cáo
+- Thêm updateId ở AdPlaceName để thay đổi id quảng cáo 
+- Thêm disable ở AdPlaceName để tắt sử dụng quảng cáo
 
 **Version 1.3.13**
 - Fix lỗi khi dùng dialog GDPR thì mất callback

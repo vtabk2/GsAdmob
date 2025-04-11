@@ -1,32 +1,35 @@
 package com.core.gsadmob.utils.remoteconfig
 
+import android.app.Application
+import com.core.gsadmob.utils.AdPlaceNameDefaultConfig
 import com.google.firebase.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
 import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.google.firebase.remoteconfig.remoteConfig
 
 abstract class AdGsRemoteConfig {
-    fun initRemoteConfig(remoteConfigDefaultsId: Int) {
-        // [START get_remote_config_instance]
-        val remoteConfig: FirebaseRemoteConfig = Firebase.remoteConfig
-        // [END get_remote_config_instance]
+    fun initRemoteConfig(application: Application, remoteConfigDefaultsId: Int) {
+        AdPlaceNameDefaultConfig.instance.initAdPlaceNameDefaultConfig(application)
 
-        // [START enable_dev_mode]
+        val remoteConfig: FirebaseRemoteConfig = Firebase.remoteConfig
+
         val configSettings = remoteConfigSettings {
             minimumFetchIntervalInSeconds = 3600
         }
         remoteConfig.setConfigSettingsAsync(configSettings)
-        // [END enable_dev_mode]
 
-        // [START set_default_values]
+        // Set defaults và sử dụng ngay
         remoteConfig.setDefaultsAsync(remoteConfigDefaultsId)
-        // [END set_default_values]
+            .addOnCompleteListener {
+                // Gọi update ngay với giá trị mặc định
+                updateRemoteConfig(remoteConfig)
 
-        // [START fetch_config_with_callback]
-        remoteConfig.fetchAndActivate().addOnCompleteListener {
-            updateRemoteConfig(remoteConfig)
-        }
-        // [END fetch_config_with_callback]
+                // Sau đó mới fetch giá trị mới từ server
+                remoteConfig.fetchAndActivate().addOnCompleteListener {
+                    // Cập nhật lại nếu fetch thành công
+                    updateRemoteConfig(remoteConfig)
+                }
+            }
     }
 
     open fun updateRemoteConfig(remoteConfig: FirebaseRemoteConfig) {}

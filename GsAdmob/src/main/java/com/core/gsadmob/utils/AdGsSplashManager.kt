@@ -1,5 +1,7 @@
 package com.core.gsadmob.utils
 
+import android.os.Handler
+import android.os.Looper
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
@@ -15,17 +17,20 @@ import java.util.concurrent.atomic.AtomicBoolean
 
 class AdGsSplashManager(
     private val activity: AppCompatActivity,
-    private val adPlaceName: AdPlaceName? = null,
+    private var adPlaceName: AdPlaceName? = null,
+    private val onRetryAdPlaceNameListener: OnRetryAdPlaceNameListener? = null,
     private val goToHomeCallback: (() -> Unit),
     private val initMobileAds: (() -> Unit),
     private val adsLoading: ((Boolean) -> Unit)? = null,
-    private var delayTime: Long = 3500L,
+    private val delayTime: Long = 3500L,
+    private val delayRetry: Long = 500,
     private var isDebug: Boolean = false
 ) {
 
     private var shouldGoToMain = false
     private var isAppPaused = false
     private var isAdLoaded: Boolean = false
+    private var isRetry: Boolean = false
     private val alreadyGoHome = AtomicBoolean(false)
     private val isMobileAdsInitializeCalled = AtomicBoolean(false)
 
@@ -86,6 +91,18 @@ class AdGsSplashManager(
     }
 
     private fun initAdsForApp() {
+        adPlaceName?.let {
+            if (!it.isValidate() && !isRetry) {
+                isRetry = true
+                Handler(Looper.getMainLooper()).postDelayed({
+                    onRetryAdPlaceNameListener?.getAdPlaceName()?.let {
+                        adPlaceName = it
+                        initAdsForApp()
+                    }
+                }, delayRetry)
+                return
+            }
+        }
         activity.cmpUtils.isCheckGDPR = false
         // phải check mạng trước nếu không timeout mặc định quá lâu
         NetworkUtils.hasInternetAccessCheck(
@@ -105,7 +122,7 @@ class AdGsSplashManager(
             doException = {
                 initializeMobileAdsSdk()
                 callBackGoHome()
-            }, context = activity
+            }, context = activity, maxRetries = 2
         )
     }
 
@@ -152,5 +169,9 @@ class AdGsSplashManager(
         } ?: {
             callBackGoHome()
         }
+    }
+
+    interface OnRetryAdPlaceNameListener {
+        fun getAdPlaceName(): AdPlaceName
     }
 }

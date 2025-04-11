@@ -158,7 +158,7 @@ class AdGsRewardedManager(
             }
         }, doException = { networkError ->
             callback?.invoke(if (networkError == NetworkUtils.NetworkError.SSL_HANDSHAKE) TypeShowAds.SSL_HANDSHAKE else TypeShowAds.TIMEOUT)
-        }, activity = activity)
+        }, context = activity, maxRetries = 2)
     }
 
     private fun loadAndShowRewardedAds(
@@ -206,7 +206,8 @@ class AdGsRewardedManager(
                 // bắt buộc phải cancel quảng cáo này đi
                 AdGsManager.instance.cancelRewardAd(adPlaceName = it)
                 callback?.invoke(if (networkError == NetworkUtils.NetworkError.SSL_HANDSHAKE) TypeShowAds.SSL_HANDSHAKE else TypeShowAds.TIMEOUT)
-            }, activity = activity)
+            }, context = activity, maxRetries = 2
+            )
         } ?: run {
             callback?.invoke(TypeShowAds.NO_AD_PLACE_NAME)
         }

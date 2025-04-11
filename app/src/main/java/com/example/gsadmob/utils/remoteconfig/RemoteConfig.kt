@@ -26,11 +26,11 @@ class RemoteConfig : AdGsRemoteConfig() {
 
         AdGsRemoteExtraConfig.instance.adPlaceNameBannerTestAds
             .update(AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_BANNER)
-            .updateName(name = "banner_test_ads")
+            .updateName(newName = "banner_test_ads")
 
         AdGsRemoteExtraConfig.instance.adPlaceNameBannerTestNative
             .update(AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_BANNER)
-            .updateName(name = "banner_test_native")
+            .updateName(newName = "banner_test_native")
 
         log("", "-----------------------")
     }
@@ -50,13 +50,13 @@ class RemoteConfig : AdGsRemoteConfig() {
                             AdGsType.APP_OPEN -> {
                                 AdGsRemoteExtraConfig.instance.adPlaceNameSplash
                                     .update(it)
-                                    .updateId(adUnitId = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_APP_OPEN.adUnitId)
+                                    .updateId(newAdUnitId = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_APP_OPEN.adUnitId)
                             }
 
                             AdGsType.INTERSTITIAL -> {
                                 AdGsRemoteExtraConfig.instance.adPlaceNameSplash
                                     .update(it)
-                                    .updateId(adUnitId = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_INTERSTITIAL.adUnitId)
+                                    .updateId(newAdUnitId = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_INTERSTITIAL.adUnitId)
                             }
 
                             else -> {
@@ -92,7 +92,7 @@ class RemoteConfig : AdGsRemoteConfig() {
                             AdGsType.APP_OPEN -> {
                                 AdGsRemoteExtraConfig.instance.adPlaceNameAppOpenResume
                                     .update(adAppOpenResume)
-                                    .updateId(adUnitId = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_APP_OPEN_RESUME.adUnitId)
+                                    .updateId(newAdUnitId = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_APP_OPEN_RESUME.adUnitId)
                             }
 
                             else -> {
@@ -130,7 +130,7 @@ class RemoteConfig : AdGsRemoteConfig() {
                                 } else {
                                     AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome
                                         .update(it)
-                                        .updateId(adUnitId = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_BANNER_HOME.adUnitId)
+                                        .updateId(newAdUnitId = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_BANNER_HOME.adUnitId)
                                 }
                             } else {
                                 AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome.disable()
@@ -146,7 +146,7 @@ class RemoteConfig : AdGsRemoteConfig() {
                                     } else {
                                         AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome
                                             .update(it)
-                                            .updateId(adUnitId = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_BANNER_COLLAPSIBLE.adUnitId)
+                                            .updateId(newAdUnitId = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_BANNER_COLLAPSIBLE.adUnitId)
                                     }
                                 } else {
                                     AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome.disable()
@@ -161,7 +161,7 @@ class RemoteConfig : AdGsRemoteConfig() {
                                 } else {
                                     AdGsRemoteExtraConfig.instance.adPlaceNameNativeHome
                                         .update(it)
-                                        .updateId(adUnitId = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_NATIVE.adUnitId)
+                                        .updateId(newAdUnitId = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_NATIVE.adUnitId)
                                 }
                             } else {
                                 AdGsRemoteExtraConfig.instance.adPlaceNameNativeHome.disable()
@@ -201,19 +201,19 @@ class RemoteConfig : AdGsRemoteConfig() {
                             AdGsType.BANNER -> {
                                 AdGsRemoteExtraConfig.instance.adPlaceNameLanguage
                                     .update(it)
-                                    .updateId(adUnitId = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_BANNER.adUnitId)
+                                    .updateId(newAdUnitId = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_BANNER.adUnitId)
                             }
 
                             AdGsType.BANNER_COLLAPSIBLE -> {
                                 AdGsRemoteExtraConfig.instance.adPlaceNameLanguage
                                     .update(it)
-                                    .updateId(adUnitId = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_BANNER_COLLAPSIBLE.adUnitId)
+                                    .updateId(newAdUnitId = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_BANNER_COLLAPSIBLE.adUnitId)
                             }
 
                             AdGsType.NATIVE -> {
                                 AdGsRemoteExtraConfig.instance.adPlaceNameLanguage
                                     .update(it)
-                                    .updateId(adUnitId = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_NATIVE_LANGUAGE.adUnitId)
+                                    .updateId(newAdUnitId = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_NATIVE_LANGUAGE.adUnitId)
                             }
 
                             else -> {

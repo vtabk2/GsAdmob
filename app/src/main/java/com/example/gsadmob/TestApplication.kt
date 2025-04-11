@@ -32,7 +32,7 @@ class TestApplication : GsAdmobApplication() {
     override fun registerAdGsManager() {
         super.registerAdGsManager()
 
-        RemoteConfig.instance.initRemoteConfig(R.xml.remote_config_defaults)
+        RemoteConfig.instance.initRemoteConfig(application = this, remoteConfigDefaultsId = R.xml.remote_config_defaults)
 
         val adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameAppOpenResume
         val tag = ResumeDialogFragment.javaClass.simpleName

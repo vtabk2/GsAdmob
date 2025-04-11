@@ -104,6 +104,13 @@ class AdGsSplashManager(
             }
         }
         activity.cmpUtils.isCheckGDPR = false
+
+        val timeout = if (isRetry) {
+            delayTime - delayRetry
+        } else {
+            delayTime
+        }.toInt()
+
         // phải check mạng trước nếu không timeout mặc định quá lâu
         NetworkUtils.hasInternetAccessCheck(
             doTask = {
@@ -122,7 +129,7 @@ class AdGsSplashManager(
             doException = {
                 initializeMobileAdsSdk()
                 callBackGoHome()
-            }, context = activity, maxRetries = 2
+            }, context = activity, timeout = timeout
         )
     }
 

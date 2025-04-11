@@ -25,7 +25,7 @@ Thư viện được tạo ra với mục đích quản lý và tùy chỉnh gia
 **Step 2.** Add the dependency
 ```css
         dependencies {
-                    implementation 'com.github.vtabk2:GsAdmob:1.3.14'
+                    implementation 'com.github.vtabk2:GsAdmob:1.3.16'
             }
 ```
 
@@ -565,6 +565,9 @@ Trong hàm initOtherConfig() sẽ khởi tạo các config khác như PRDownload
 # BaseWithAdsAdapter Adapter chứa quảng cáo native
 
 # Lịch sử cập nhật
+**Version 1.3.16**
+- Sửa lỗi AdGsSplashManager xử lý timeout chưa chuẩn phải dựa vào delayTime và delayRetry
+- Ở bản 1.3.15 thời gian treo ở màn hình splash là 14s
 
 **Version 1.3.15**
 - Sửa lỗi mạng yếu thì RemoteConfig tải dữ liệu chậm hơn splash

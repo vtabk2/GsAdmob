@@ -22,6 +22,8 @@ abstract class GsAdmobApplication : MultiDexApplication() {
 
     private val deviceTestList = mutableListOf<String>()
 
+    private val backgroundScope = CoroutineScope(Dispatchers.IO)
+
     override fun onCreate() {
         super.onCreate()
 
@@ -73,7 +75,6 @@ abstract class GsAdmobApplication : MultiDexApplication() {
      * Khởi tạo quảng cáo
      */
     fun initMobileAds() {
-        val backgroundScope = CoroutineScope(Dispatchers.IO)
         backgroundScope.launch {
             // Initialize the Google Mobile Ads SDK on a background thread.
             MobileAds.initialize(this@GsAdmobApplication) {}
@@ -86,13 +87,11 @@ abstract class GsAdmobApplication : MultiDexApplication() {
      * When data is not marked as consented, it may impact ads personalization and measurement. Verify your Firebase consent settings)
      */
     private fun setupConsentMode() {
-        // Set consent types.
-        val consentMap: MutableMap<ConsentType, FirebaseAnalytics.ConsentStatus> = EnumMap(ConsentType::class.java)
-        consentMap[ConsentType.ANALYTICS_STORAGE] = FirebaseAnalytics.ConsentStatus.GRANTED
-        consentMap[ConsentType.AD_STORAGE] = FirebaseAnalytics.ConsentStatus.GRANTED
-        consentMap[ConsentType.AD_USER_DATA] = FirebaseAnalytics.ConsentStatus.GRANTED
-        consentMap[ConsentType.AD_PERSONALIZATION] = FirebaseAnalytics.ConsentStatus.GRANTED
-
-        Firebase.analytics.setConsent(consentMap)
+        EnumMap<ConsentType, FirebaseAnalytics.ConsentStatus>(ConsentType::class.java).apply {
+            put(ConsentType.ANALYTICS_STORAGE, FirebaseAnalytics.ConsentStatus.GRANTED)
+            put(ConsentType.AD_STORAGE, FirebaseAnalytics.ConsentStatus.GRANTED)
+            put(ConsentType.AD_USER_DATA, FirebaseAnalytics.ConsentStatus.GRANTED)
+            put(ConsentType.AD_PERSONALIZATION, FirebaseAnalytics.ConsentStatus.GRANTED)
+        }.let(Firebase.analytics::setConsent)
     }
 }

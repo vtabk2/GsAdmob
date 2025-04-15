@@ -718,6 +718,10 @@ class AdGsManager {
         onlyCheckNotShow: Boolean = false,
         callbackShow: ((adShowStatus: AdShowStatus) -> Unit)? = null
     ) {
+        // khi hiển thị quảng cáo thì hủy hết quảng cáo trả thưởng đi
+        if (adPlaceName.adGsType == AdGsType.INTERSTITIAL) {
+            cancelAllRewardAd()
+        }
         when {
             !isWebViewEnabled -> callbackShow?.invoke(AdShowStatus.ERROR_WEB_VIEW)
             isVipFlow.value -> callbackShow?.invoke(AdShowStatus.ERROR_VIP)

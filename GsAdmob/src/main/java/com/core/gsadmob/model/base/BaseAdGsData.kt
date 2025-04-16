@@ -6,6 +6,7 @@ open class BaseAdGsData(
     var listener: AdGsListener? = null,
     var isReload: Boolean = false,
     var isLoading: Boolean = false,
+    var isUsed: Boolean = false,
     var delayTime: Long = 0L,
     var lastTime: Long = 0L
 ) {

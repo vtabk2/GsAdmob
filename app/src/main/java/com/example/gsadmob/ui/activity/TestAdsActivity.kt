@@ -49,15 +49,11 @@ class TestAdsActivity : BaseAdsActivity<ActivityTestAdsBinding>(ActivityTestAdsB
         bindingView.tvInterstitial.setOnClickListener {
             startActivity(Intent(this, TestNativeActivity::class.java))
             AdGsManager.instance.showAd(adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_INTERSTITIAL)
-            // chuyển màn thì cần cancel tất cả các rewarded đi
-            AdGsManager.instance.cancelAllRewardAd()
         }
 
         bindingView.tvInterstitialWithoutVideo.setOnClickListener {
             startActivity(Intent(this, TestNativeActivity::class.java))
             AdGsManager.instance.showAd(adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_INTERSTITIAL_WITHOUT_VIDEO)
-            // chuyển màn thì cần cancel tất cả các rewarded đi
-            AdGsManager.instance.cancelAllRewardAd()
         }
 
         bindingView.tvRewarded.setOnClickListener {

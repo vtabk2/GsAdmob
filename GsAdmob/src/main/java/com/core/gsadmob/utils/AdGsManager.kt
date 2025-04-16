@@ -46,6 +46,7 @@ import com.google.android.gms.ads.AdSize
 import com.google.android.gms.ads.AdView
 import com.google.android.gms.ads.FullScreenContentCallback
 import com.google.android.gms.ads.LoadAdError
+import com.google.android.gms.ads.OnPaidEventListener
 import com.google.android.gms.ads.appopen.AppOpenAd
 import com.google.android.gms.ads.appopen.AppOpenAd.AppOpenAdLoadCallback
 import com.google.android.gms.ads.interstitial.InterstitialAd
@@ -348,6 +349,11 @@ class AdGsManager {
                         it.onAdSuccess()
                         showAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, onlyShow = true)
                     }
+
+                    adGsData.appOpenAd?.onPaidEventListener = OnPaidEventListener {
+                        adGsData.isUsed = true
+                    }
+
                     adGsData.appOpenAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
                         override fun onAdDismissedFullScreenContent() {
                             adGsData.listener?.onAdClose()
@@ -406,6 +412,11 @@ class AdGsManager {
         val adRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).addNetworkExtrasBundle(AdMobAdapter::class.java, extras).build()
 
         bannerAdView.loadAd(adRequest)
+
+        bannerAdView.onPaidEventListener = OnPaidEventListener {
+            adGsData.isUsed = true
+        }
+
         bannerAdView.adListener = object : AdListener() {
             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
                 log("loadBannerAd_onAdFailedToLoad: message", loadAdError.message)
@@ -489,6 +500,11 @@ class AdGsManager {
                         it.onAdSuccess()
                         showAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, onlyShow = true)
                     }
+
+                    adGsData.interstitialAd?.onPaidEventListener = OnPaidEventListener {
+                        adGsData.isUsed = true
+                    }
+
                     adGsData.interstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
                         override fun onAdDismissedFullScreenContent() {
                             adGsData.listener?.onAdClose()
@@ -554,6 +570,11 @@ class AdGsManager {
                 } else {
                     adGsData.nativeAd = nativeAd
                     adGsData.isLoading = false
+
+                    adGsData.nativeAd?.setOnPaidEventListener {
+                        adGsData.isUsed = true
+                    }
+
                     notifyAds("loadNativeAd.forNativeAd")
                 }
             }.build()
@@ -589,6 +610,11 @@ class AdGsManager {
                     adGsData.listener?.let {
                         showAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, onlyShow = true)
                     }
+
+                    adGsData.rewardedAd?.onPaidEventListener = OnPaidEventListener {
+                        adGsData.isUsed = true
+                    }
+
                     adGsData.rewardedAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
                         override fun onAdDismissedFullScreenContent() {
                             adGsData.listener?.onAdClose()
@@ -657,6 +683,11 @@ class AdGsManager {
                     adGsData.listener?.let {
                         showAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, onlyShow = true)
                     }
+
+                    adGsData.rewardedInterstitialAd?.onPaidEventListener = OnPaidEventListener {
+                        adGsData.isUsed = true
+                    }
+
                     adGsData.rewardedInterstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
                         override fun onAdDismissedFullScreenContent() {
                             adGsData.listener?.onAdClose()
@@ -718,6 +749,10 @@ class AdGsManager {
         onlyCheckNotShow: Boolean = false,
         callbackShow: ((adShowStatus: AdShowStatus) -> Unit)? = null
     ) {
+        // khi hiển thị quảng cáo thì hủy hết quảng cáo trả thưởng đi
+        if (adPlaceName.adGsType == AdGsType.INTERSTITIAL) {
+            cancelAllRewardAd()
+        }
         when {
             !isWebViewEnabled -> callbackShow?.invoke(AdShowStatus.ERROR_WEB_VIEW)
             isVipFlow.value -> callbackShow?.invoke(AdShowStatus.ERROR_VIP)

@@ -25,7 +25,7 @@ Thư viện được tạo ra với mục đích quản lý và tùy chỉnh gia
 **Step 2.** Add the dependency
 ```css
         dependencies {
-                    implementation 'com.github.vtabk2:GsAdmob:1.3.17'
+                    implementation 'com.github.vtabk2:GsAdmob:1.3.18'
             }
 ```
 
@@ -333,8 +333,6 @@ Tạo cách AdPlaceName trước giống cấu trúc ở AdPlaceNameConfig
         bindingView.tvInterstitial.setOnClickListener {
             startActivity(Intent(this, TestNativeActivity::class.java))
             AdGsManager.instance.showAd(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_FULL)
-            // chuyển màn thì cần cancel tất cả các rewarded đi
-            AdGsManager.instance.cancelAllRewardAd()
         }
 ```
 
@@ -565,6 +563,10 @@ Trong hàm initOtherConfig() sẽ khởi tạo các config khác như PRDownload
 # BaseWithAdsAdapter Adapter chứa quảng cáo native
 
 # Lịch sử cập nhật
+**Version 1.3.18**
+- Update GsCore
+- Từ giờ khi hiển thị quảng cáo xen kẽ sẽ hủy tất cả quảng cáo trả thưởng đang có đi để không thể tự hiển thị khi tải xong được
+
 **Version 1.3.17**
 - Update gscore
 

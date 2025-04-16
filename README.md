@@ -566,6 +566,7 @@ Trong hàm initOtherConfig() sẽ khởi tạo các config khác như PRDownload
 **Version 1.3.18**
 - Update GsCore
 - Từ giờ khi hiển thị quảng cáo xen kẽ sẽ hủy tất cả quảng cáo trả thưởng đang có đi để không thể tự hiển thị khi tải xong được
+- Thêm biến isUse vào [BaseAdGsData](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/model/base/BaseAdGsData.kt) để xem quảng cáo được sử dụng chưa
 
 **Version 1.3.17**
 - Update gscore

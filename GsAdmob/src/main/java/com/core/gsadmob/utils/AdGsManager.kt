@@ -183,7 +183,7 @@ class AdGsManager {
             async {
                 isVipFlow.collect { isVip ->
                     if (isVip) {
-                        clearAll(clearFull = false)
+                        clearAll()
                     } else {
                         tryReloadAd(isChangeNetwork = false)
                     }
@@ -221,11 +221,11 @@ class AdGsManager {
         application?.let {
 
             if (!isWebViewEnabled) {
-                clearAll(clearFull = false)
+                clearAll()
                 return
             }
             if (isVipFlow.value) {
-                clearAll(clearFull = false)
+                clearAll()
                 return
             }
             val adGsData = getAdGsData(adPlaceName = adPlaceName)
@@ -723,12 +723,12 @@ class AdGsManager {
     }
 
     /**
-     * Kiểm tra thời gian tải quảng cáo có trong vòng N giờ hay không
+     * Kiểm tra thời gian tải quảng cáo có trong vòng 4 giờ hay không
      */
-    private fun wasLoadTimeLessThanNHoursAgo(adGsData: BaseAdGsData, numHours: Long): Boolean {
+    private fun wasLoadTimeLessThanNHoursAgo(adGsData: BaseAdGsData): Boolean {
         val dateDifference = System.currentTimeMillis() - adGsData.lastTime
         val numMilliSecondsPerHour: Long = 3600000
-        return dateDifference < numMilliSecondsPerHour * numHours
+        return dateDifference < numMilliSecondsPerHour * 4
     }
 
     /**
@@ -782,7 +782,7 @@ class AdGsManager {
                         return
                     }
                     val canShow = when (adPlaceName.adGsType) {
-                        AdGsType.APP_OPEN -> (adGsData as? AppOpenAdGsData)?.appOpenAd != null && wasLoadTimeLessThanNHoursAgo(adGsData, 4)
+                        AdGsType.APP_OPEN -> (adGsData as? AppOpenAdGsData)?.appOpenAd != null && wasLoadTimeLessThanNHoursAgo(adGsData)
                         AdGsType.INTERSTITIAL -> (adGsData as? InterstitialAdGsData)?.interstitialAd != null
                         AdGsType.REWARDED -> (adGsData as? RewardedAdGsData)?.rewardedAd != null
                         AdGsType.REWARDED_INTERSTITIAL -> (adGsData as? RewardedInterstitialAdGsData)?.rewardedInterstitialAd != null
@@ -1124,33 +1124,37 @@ class AdGsManager {
 
     /**
      * Xóa 1 quảng cáo cụ thể
+     * @param adPlaceName là cấu hình quảng cáo cụ thể
+     * @param requiredNotify = true sẽ cập nhật nếu là quảng cáo active
+     * @param requiredClear = true bắt buộc xóa quảng cáo
+     * @param requiredClear = false không bắt buộc xóa quảng cáo chỉ xóa những quảng cáo đã dùng
      */
-    fun clearWithAdPlaceName(adPlaceName: AdPlaceName, requiredNotify: Boolean = true) {
-        adGsDataMap[adPlaceName]?.clearData(isResetReload = true)
-        if (requiredNotify) {
-            log("clearWithAdPlaceName_adPlaceName", adPlaceName)
-            notifyAds("clearWithAdPlaceName")
+    fun clearWithAdPlaceName(adPlaceName: AdPlaceName, requiredNotify: Boolean = true, requiredClear: Boolean = false, isResetReload: Boolean = true) {
+        adGsDataMap[adPlaceName]?.let {
+            if (requiredClear || it.isUsed) {
+                it.clearData(isResetReload = isResetReload)
+
+                if (requiredNotify) {
+                    // nếu là quảng cáo active thì mới cho notify thôi
+                    if (it !is BaseActiveAdGsData) return
+                    log("clearWithAdPlaceName_adPlaceName", adPlaceName)
+                    notifyAds("clearWithAdPlaceName")
+                }
+            }
         }
     }
 
     /**
      * Xóa hết quảng cáo đi(thường dùng cho trường hợp đã mua vip)
-     * @param clearFull = true -> reset về ban đầu(thường được dùng ở activity home khi ấn back thoát ứng dụng hoặc có thể viết ở onDestroy() của home)
+     * requiredNotify = false vì sẽ phải xóa nhiều quảng cáo
+     * requiredClear = true vì cần xóa tất cả quảng cáo
+     * isResetReload = true vì cần xóa trạng thái tải lại quảng cáo
      */
-    fun clearAll(clearFull: Boolean = true) {
+    fun clearAll() {
         adGsDataMap.forEach {
-            val adGsData = it.value
-            adGsData.clearData(isResetReload = true)
-
-            if (clearFull) {
-                if (adGsData is BaseActiveAdGsData) {
-                    adGsData.isActive = false
-                } else if (adGsData is BaseShowAdGsData) {
-                    adGsData.isCancel = false
-                }
-            }
+            clearWithAdPlaceName(adPlaceName = it.key, requiredNotify = false, requiredClear = true)
         }
-        notifyAds("clearAll = $clearFull")
+        notifyAds("clearAll")
     }
 
     /**

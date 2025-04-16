@@ -67,11 +67,4 @@ class HomeActivity : BaseMVVMActivity<ActivityHomeBinding>(ActivityHomeBinding::
             startActivity(Intent(this, TestAdsActivity::class.java))
         }
     }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-
-        // tắt ứng dụng đi thì sẽ xóa hết data quảng cáo đi
-        AdGsManager.instance.clearAll()
-    }
 }

@@ -183,7 +183,7 @@ class AdGsManager {
             async {
                 isVipFlow.collect { isVip ->
                     if (isVip) {
-                        clearAll(clearFull = false)
+                        clearAll()
                     } else {
                         tryReloadAd(isChangeNetwork = false)
                     }
@@ -221,11 +221,11 @@ class AdGsManager {
         application?.let {
 
             if (!isWebViewEnabled) {
-                clearAll(clearFull = false)
+                clearAll()
                 return
             }
             if (isVipFlow.value) {
-                clearAll(clearFull = false)
+                clearAll()
                 return
             }
             val adGsData = getAdGsData(adPlaceName = adPlaceName)
@@ -1124,33 +1124,33 @@ class AdGsManager {
 
     /**
      * Xóa 1 quảng cáo cụ thể
+     * @param requiredNotify = true bắt buộc cập nhật thông tin quảng cáo
+     * @param requiredNotify = false không bắt buộc cập nhật thông tin quảng cáo(thường dùng khi xóa nhiều quảng cáo)
+     * @param requiredClear = true bắt buộc xóa quảng cáo
+     * @param requiredClear = false chỉ xóa quảng cáo khi quảng cáo đã được sử dụng
      */
-    fun clearWithAdPlaceName(adPlaceName: AdPlaceName, requiredNotify: Boolean = true) {
-        adGsDataMap[adPlaceName]?.clearData(isResetReload = true)
-        if (requiredNotify) {
-            log("clearWithAdPlaceName_adPlaceName", adPlaceName)
-            notifyAds("clearWithAdPlaceName")
+    fun clearWithAdPlaceName(adPlaceName: AdPlaceName, requiredNotify: Boolean = true, requiredClear: Boolean = true) {
+        adGsDataMap[adPlaceName]?.let {
+
+            if (requiredClear || it.isUsed) {
+                it.clearData(isResetReload = true)
+            }
+
+            if (requiredNotify) {
+                log("clearWithAdPlaceName_adPlaceName", adPlaceName)
+                notifyAds("clearWithAdPlaceName")
+            }
         }
     }
 
     /**
      * Xóa hết quảng cáo đi(thường dùng cho trường hợp đã mua vip)
-     * @param clearFull = true -> reset về ban đầu(thường được dùng ở activity home khi ấn back thoát ứng dụng hoặc có thể viết ở onDestroy() của home)
      */
-    fun clearAll(clearFull: Boolean = true) {
+    fun clearAll() {
         adGsDataMap.forEach {
-            val adGsData = it.value
-            adGsData.clearData(isResetReload = true)
-
-            if (clearFull) {
-                if (adGsData is BaseActiveAdGsData) {
-                    adGsData.isActive = false
-                } else if (adGsData is BaseShowAdGsData) {
-                    adGsData.isCancel = false
-                }
-            }
+            clearWithAdPlaceName(adPlaceName = it.key, requiredNotify = false, requiredClear = true)
         }
-        notifyAds("clearAll = $clearFull")
+        notifyAds("clearAll")
     }
 
     /**

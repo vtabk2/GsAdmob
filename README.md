@@ -563,6 +563,9 @@ Trong hàm initOtherConfig() sẽ khởi tạo các config khác như PRDownload
 # BaseWithAdsAdapter Adapter chứa quảng cáo native
 
 # Lịch sử cập nhật
+**Version 1.3.19**
+- Thêm click vào icon logo quảng cáo native để mở quảng cáo
+
 **Version 1.3.18**
 - Update GsCore
 - Từ giờ khi hiển thị quảng cáo xen kẽ sẽ hủy tất cả quảng cáo trả thưởng đang có đi để không thể tự hiển thị khi tải xong được

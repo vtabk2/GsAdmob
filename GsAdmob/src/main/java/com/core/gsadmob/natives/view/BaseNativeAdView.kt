@@ -183,12 +183,12 @@ abstract class BaseNativeAdView(context: Context, attrs: AttributeSet?) : FrameL
         } else {
             callActionButtonView?.gone()
         }
-        if (mediaView != null) {
-            adView?.mediaView = mediaView
-        }
-        adView?.callToActionView = callActionButtonView
+
         adView?.headlineView = titleView
         adView?.bodyView = subTitleView
+        adView?.iconView = iconView
+        adView?.callToActionView = callActionButtonView
+        adView?.mediaView = mediaView
         adView?.setNativeAd(nativeAd)
     }
 

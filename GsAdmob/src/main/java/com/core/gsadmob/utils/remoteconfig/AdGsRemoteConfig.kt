@@ -8,13 +8,17 @@ import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.google.firebase.remoteconfig.remoteConfig
 
 abstract class AdGsRemoteConfig {
-    fun initRemoteConfig(application: Application, remoteConfigDefaultsId: Int) {
+    fun initRemoteConfig(application: Application, remoteConfigDefaultsId: Int, isDebug: Boolean = false) {
         AdPlaceNameDefaultConfig.instance.initAdPlaceNameDefaultConfig(application)
 
         val remoteConfig: FirebaseRemoteConfig = Firebase.remoteConfig
 
         val configSettings = remoteConfigSettings {
-            minimumFetchIntervalInSeconds = 3600
+            minimumFetchIntervalInSeconds = if (isDebug) {
+                0
+            } else {
+                3600
+            }
         }
         remoteConfig.setConfigSettingsAsync(configSettings)
 

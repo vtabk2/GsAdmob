@@ -563,6 +563,9 @@ Trong hàm initOtherConfig() sẽ khởi tạo các config khác như PRDownload
 # BaseWithAdsAdapter Adapter chứa quảng cáo native
 
 # Lịch sử cập nhật
+**Version 1.3.20**
+- AdGsRemoteConfig thêm isDebug để có thể test remoteConfig nhanh hơn
+
 **Version 1.3.19**
 - Thêm click vào icon logo quảng cáo native để mở quảng cáo
 

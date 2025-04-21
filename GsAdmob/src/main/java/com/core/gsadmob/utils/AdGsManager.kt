@@ -61,6 +61,7 @@ import kotlinx.coroutines.awaitCancellation
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
 
@@ -173,6 +174,7 @@ class AdGsManager {
 
             async {
                 VipPreferences.instance.getVipChangeFlow(keyVipList = keyVipList)
+                    .catch { e -> e.printStackTrace() }
                     .stateIn(this, SharingStarted.Eagerly, VipPreferences.instance.isFullVersion())
                     .collect { isVip ->
                         notifyVip(isVip)

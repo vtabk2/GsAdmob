@@ -73,6 +73,8 @@ class AdGsManager {
     private val startShimmerLiveData = MutableLiveData<HashMap<AdPlaceName, Boolean>>()
 
     private val backupDelayTimeMap = HashMap<AdPlaceName, Long>()
+    private val backupActiveTimeMap = HashMap<AdPlaceName, Boolean>()
+    private val backupCancelTimeMap = HashMap<AdPlaceName, Boolean>()
 
     private val isVipMutableStateFlow = MutableStateFlow(false)
     var isVipFlow = isVipMutableStateFlow.asStateFlow()
@@ -1108,7 +1110,9 @@ class AdGsManager {
                 delayTime = backupDelayTimeMap[adPlaceName] ?: adPlaceName.delayTime
 
                 if (this is BaseActiveAdGsData) {
-                    isActive = true
+                    isActive = backupActiveTimeMap[adPlaceName] ?: false
+                } else if (this is BaseShowAdGsData) {
+                    isCancel = backupCancelTimeMap[adPlaceName] ?: false
                 }
             }
         }
@@ -1194,7 +1198,11 @@ class AdGsManager {
                 if (isCancel) {
                     adGsDataMap[adPlaceName]?.listener = null
                 }
-                (adGsDataMap[adPlaceName] as? BaseShowAdGsData)?.isCancel = isCancel
+                (adGsDataMap[adPlaceName] as? BaseShowAdGsData)?.let {
+                    it.isCancel = isCancel
+                } ?: run {
+                    backupCancelTimeMap[adPlaceName] = isCancel
+                }
             }
 
             else -> {
@@ -1225,7 +1233,11 @@ class AdGsManager {
     fun clearAndRemoveActive(adPlaceName: AdPlaceName, requiredNotify: Boolean = true) {
         clearWithAdPlaceName(adPlaceName = adPlaceName, requiredNotify = requiredNotify)
 
-        (adGsDataMap[adPlaceName] as? BaseActiveAdGsData)?.isActive = false
+        (adGsDataMap[adPlaceName] as? BaseActiveAdGsData)?.let {
+            it.isActive = false
+        } ?: run {
+            backupActiveTimeMap[adPlaceName] = false
+        }
     }
 
     companion object {

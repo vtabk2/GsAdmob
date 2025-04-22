@@ -25,7 +25,7 @@ Thư viện được tạo ra với mục đích quản lý và tùy chỉnh gia
 **Step 2.** Add the dependency
 ```css
         dependencies {
-                    implementation 'com.github.vtabk2:GsAdmob:1.3.21'
+                    implementation 'com.github.vtabk2:GsAdmob:1.3.22'
             }
 ```
 
@@ -459,6 +459,9 @@ Sử dụng [AdGsDelayManager](https://github.com/vtabk2/GsAdmob/blob/main/GsAdm
 # BaseWithAdsAdapter Adapter chứa quảng cáo native
 
 # Lịch sử cập nhật
+**Version 1.3.22**
+- Sửa lỗi hủy quảng cáo trả thưởng không được 
+
 **Version 1.3.21**
 - Fix crash Caused by java.lang.RuntimeException java.lang.NoSuchFieldException: _decisionAndIndex
 

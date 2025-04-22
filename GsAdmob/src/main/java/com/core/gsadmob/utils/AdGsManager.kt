@@ -32,6 +32,7 @@ import com.core.gsadmob.model.nativead.NativeAdGsData
 import com.core.gsadmob.model.rewarded.RewardedAdGsData
 import com.core.gsadmob.model.rewarded.RewardedInterstitialAdGsData
 import com.core.gsadmob.natives.view.NativeGsAdView
+import com.core.gsadmob.utils.extensions.LogType
 import com.core.gsadmob.utils.extensions.isWebViewEnabled
 import com.core.gsadmob.utils.extensions.log
 import com.core.gsadmob.utils.preferences.VipPreferences
@@ -73,6 +74,8 @@ class AdGsManager {
     private val startShimmerLiveData = MutableLiveData<HashMap<AdPlaceName, Boolean>>()
 
     private val backupDelayTimeMap = HashMap<AdPlaceName, Long>()
+    private val backupActiveTimeMap = HashMap<AdPlaceName, Boolean>()
+    private val backupCancelTimeMap = HashMap<AdPlaceName, Boolean>()
 
     private val isVipMutableStateFlow = MutableStateFlow(false)
     var isVipFlow = isVipMutableStateFlow.asStateFlow()
@@ -222,6 +225,8 @@ class AdGsManager {
     private fun loadAd(adPlaceName: AdPlaceName, requiredLoadNewAds: Boolean) {
         application?.let {
 
+            log("loadAd_adPlaceName", adPlaceName)
+            log("loadAd_requiredLoadNewAds", requiredLoadNewAds)
             if (!isWebViewEnabled) {
                 clearAll(clearFull = false)
                 return
@@ -333,7 +338,7 @@ class AdGsManager {
         val adRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
         AppOpenAd.load(app, adPlaceName.adUnitId, adRequest, object : AppOpenAdLoadCallback() {
             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
-                log("loadAppOpenAd_onAdFailedToLoad: message", loadAdError.message)
+                log("loadAppOpenAd_onAdFailedToLoad: message", loadAdError.message, logType = LogType.ERROR)
                 adGsData.listener?.onAdClose(isFailed = true)
                 adGsData.clearData(isResetReload = false)
             }
@@ -421,7 +426,7 @@ class AdGsManager {
 
         bannerAdView.adListener = object : AdListener() {
             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
-                log("loadBannerAd_onAdFailedToLoad: message", loadAdError.message)
+                log("loadBannerAd_onAdFailedToLoad: message", loadAdError.message, logType = LogType.ERROR)
                 shimmerMap[adPlaceName] = false
                 adGsData.listener?.onAdClose(isFailed = true)
                 adGsData.clearData(isResetReload = false)
@@ -552,7 +557,7 @@ class AdGsManager {
         val adLoader = AdLoader.Builder(app, adPlaceName.adUnitId)
             .withAdListener(object : AdListener() {
                 override fun onAdFailedToLoad(loadAdError: LoadAdError) {
-                    log("loadNativeAd_onAdFailedToLoad: message", loadAdError.message)
+                    log("loadNativeAd_onAdFailedToLoad: message", loadAdError.message, logType = LogType.ERROR)
                     shimmerMap[adPlaceName] = false
                     adGsData.listener?.onAdClose(isFailed = true)
                     adGsData.clearData(isResetReload = false)
@@ -590,7 +595,7 @@ class AdGsManager {
         val adRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
         RewardedAd.load(app, adPlaceName.adUnitId, adRequest, object : RewardedAdLoadCallback() {
             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
-                log("loadRewardedAd_onAdFailedToLoad: message", loadAdError.message)
+                log("loadRewardedAd_onAdFailedToLoad: message", loadAdError.message, logType = LogType.ERROR)
                 adGsData.listener?.onAdClose(isFailed = true)
                 adGsData.clearData(isResetReload = false)
                 //
@@ -663,7 +668,7 @@ class AdGsManager {
         val adRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
         RewardedInterstitialAd.load(app, adPlaceName.adUnitId, adRequest, object : RewardedInterstitialAdLoadCallback() {
             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
-                log("loadRewardedInterstitialAd_onAdFailedToLoad: message", loadAdError.message)
+                log("loadRewardedInterstitialAd_onAdFailedToLoad: message", loadAdError.message, logType = LogType.ERROR)
                 adGsData.listener?.onAdClose(isFailed = true)
                 adGsData.clearData(isResetReload = false)
                 //
@@ -1108,7 +1113,9 @@ class AdGsManager {
                 delayTime = backupDelayTimeMap[adPlaceName] ?: adPlaceName.delayTime
 
                 if (this is BaseActiveAdGsData) {
-                    isActive = true
+                    isActive = backupActiveTimeMap[adPlaceName] ?: false
+                } else if (this is BaseShowAdGsData) {
+                    isCancel = backupCancelTimeMap[adPlaceName] ?: false
                 }
             }
         }
@@ -1189,12 +1196,18 @@ class AdGsManager {
      * @param isCancel = true -> cancel ads và hủy listener đi
      */
     fun cancelRewardAd(adPlaceName: AdPlaceName, isCancel: Boolean = true) {
+        log("cancelRewardAd_adPlaceName", adPlaceName)
+        log("cancelRewardAd_isCancel", isCancel)
         when (adPlaceName.adGsType) {
             AdGsType.REWARDED, AdGsType.REWARDED_INTERSTITIAL -> {
                 if (isCancel) {
                     adGsDataMap[adPlaceName]?.listener = null
                 }
-                (adGsDataMap[adPlaceName] as? BaseShowAdGsData)?.isCancel = isCancel
+                (adGsDataMap[adPlaceName] as? BaseShowAdGsData)?.let {
+                    it.isCancel = isCancel
+                } ?: run {
+                    backupCancelTimeMap[adPlaceName] = isCancel
+                }
             }
 
             else -> {
@@ -1225,7 +1238,11 @@ class AdGsManager {
     fun clearAndRemoveActive(adPlaceName: AdPlaceName, requiredNotify: Boolean = true) {
         clearWithAdPlaceName(adPlaceName = adPlaceName, requiredNotify = requiredNotify)
 
-        (adGsDataMap[adPlaceName] as? BaseActiveAdGsData)?.isActive = false
+        (adGsDataMap[adPlaceName] as? BaseActiveAdGsData)?.let {
+            it.isActive = false
+        } ?: run {
+            backupActiveTimeMap[adPlaceName] = false
+        }
     }
 
     companion object {

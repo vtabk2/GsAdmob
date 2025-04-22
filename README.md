@@ -99,7 +99,7 @@ hoặc khởi tạo sẵn trong xml
 
 # [BaseAdsActivity](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/ui/activity/base/BaseAdsActivity.kt)
 
-- Khởi tạo AdGsRewardedManager để dùng cho quảng cáo trả thưởng
+- Khởi tạo [AdGsRewardedManager](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/AdGsRewardedManager.kt) để dùng cho quảng cáo trả thưởng
 
 # [VipPreferences](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/preferences/VipPreferences.kt) Nơi lưu trạng thái đã mua vip
 

@@ -99,11 +99,7 @@ hoặc khởi tạo sẵn trong xml
 
 # [BaseAdsActivity](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/ui/activity/base/BaseAdsActivity.kt)
 
-Các hàm cơ bản được dùng trong đây
-
-- setupNative override để xử lý cho từng activity
-- startNativeShimmer override để bắt đầu chạy shimmer load cho từng activity
-- registerAds nếu không muốn load tất cả quảng cáo thì có thể override lại
+- Khởi tạo AdGsRewardedManager để dùng cho quảng cáo trả thưởng
 
 # [VipPreferences](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/preferences/VipPreferences.kt) Nơi lưu trạng thái đã mua vip
 

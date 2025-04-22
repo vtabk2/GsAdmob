@@ -32,6 +32,7 @@ import com.core.gsadmob.model.nativead.NativeAdGsData
 import com.core.gsadmob.model.rewarded.RewardedAdGsData
 import com.core.gsadmob.model.rewarded.RewardedInterstitialAdGsData
 import com.core.gsadmob.natives.view.NativeGsAdView
+import com.core.gsadmob.utils.extensions.LogType
 import com.core.gsadmob.utils.extensions.isWebViewEnabled
 import com.core.gsadmob.utils.extensions.log
 import com.core.gsadmob.utils.preferences.VipPreferences
@@ -224,6 +225,8 @@ class AdGsManager {
     private fun loadAd(adPlaceName: AdPlaceName, requiredLoadNewAds: Boolean) {
         application?.let {
 
+            log("loadAd_adPlaceName", adPlaceName)
+            log("loadAd_requiredLoadNewAds", requiredLoadNewAds)
             if (!isWebViewEnabled) {
                 clearAll(clearFull = false)
                 return
@@ -335,7 +338,7 @@ class AdGsManager {
         val adRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
         AppOpenAd.load(app, adPlaceName.adUnitId, adRequest, object : AppOpenAdLoadCallback() {
             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
-                log("loadAppOpenAd_onAdFailedToLoad: message", loadAdError.message)
+                log("loadAppOpenAd_onAdFailedToLoad: message", loadAdError.message, logType = LogType.ERROR)
                 adGsData.listener?.onAdClose(isFailed = true)
                 adGsData.clearData(isResetReload = false)
             }
@@ -423,7 +426,7 @@ class AdGsManager {
 
         bannerAdView.adListener = object : AdListener() {
             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
-                log("loadBannerAd_onAdFailedToLoad: message", loadAdError.message)
+                log("loadBannerAd_onAdFailedToLoad: message", loadAdError.message, logType = LogType.ERROR)
                 shimmerMap[adPlaceName] = false
                 adGsData.listener?.onAdClose(isFailed = true)
                 adGsData.clearData(isResetReload = false)
@@ -554,7 +557,7 @@ class AdGsManager {
         val adLoader = AdLoader.Builder(app, adPlaceName.adUnitId)
             .withAdListener(object : AdListener() {
                 override fun onAdFailedToLoad(loadAdError: LoadAdError) {
-                    log("loadNativeAd_onAdFailedToLoad: message", loadAdError.message)
+                    log("loadNativeAd_onAdFailedToLoad: message", loadAdError.message, logType = LogType.ERROR)
                     shimmerMap[adPlaceName] = false
                     adGsData.listener?.onAdClose(isFailed = true)
                     adGsData.clearData(isResetReload = false)
@@ -592,7 +595,7 @@ class AdGsManager {
         val adRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
         RewardedAd.load(app, adPlaceName.adUnitId, adRequest, object : RewardedAdLoadCallback() {
             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
-                log("loadRewardedAd_onAdFailedToLoad: message", loadAdError.message)
+                log("loadRewardedAd_onAdFailedToLoad: message", loadAdError.message, logType = LogType.ERROR)
                 adGsData.listener?.onAdClose(isFailed = true)
                 adGsData.clearData(isResetReload = false)
                 //
@@ -665,7 +668,7 @@ class AdGsManager {
         val adRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
         RewardedInterstitialAd.load(app, adPlaceName.adUnitId, adRequest, object : RewardedInterstitialAdLoadCallback() {
             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
-                log("loadRewardedInterstitialAd_onAdFailedToLoad: message", loadAdError.message)
+                log("loadRewardedInterstitialAd_onAdFailedToLoad: message", loadAdError.message, logType = LogType.ERROR)
                 adGsData.listener?.onAdClose(isFailed = true)
                 adGsData.clearData(isResetReload = false)
                 //
@@ -1193,6 +1196,8 @@ class AdGsManager {
      * @param isCancel = true -> cancel ads và hủy listener đi
      */
     fun cancelRewardAd(adPlaceName: AdPlaceName, isCancel: Boolean = true) {
+        log("cancelRewardAd_adPlaceName", adPlaceName)
+        log("cancelRewardAd_isCancel", isCancel)
         when (adPlaceName.adGsType) {
             AdGsType.REWARDED, AdGsType.REWARDED_INTERSTITIAL -> {
                 if (isCancel) {

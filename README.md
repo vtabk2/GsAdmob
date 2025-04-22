@@ -432,12 +432,18 @@ Gồm 2 loại :
 
 Hướng dẫn chi tiết ở [SplashActivity](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/ui/activity/splash/SplashActivity.kt)
 
+Sử dụng [AdGsSplashManager](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/AdGsSplashManager.kt)
+
+
 - Quảng cáo khi trở lại ứng dụng
 
 Hướng dẫn chi tiết ở [TestApplication](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/TestApplication.kt)
 
-Trong hàm registerAdGsManager() là các tạo và đăng ký quảng cáo
-Trong hàm initOtherConfig() sẽ khởi tạo các config khác như PRDownloader ...
+Sử dụng [AdGsDelayManager](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/AdGsDelayManager.kt) ở trong ResumeDialogFragment quản lý việc tải quảng cáo có thời gian chờ
+
+**GsAdmobApplication*
+
+- Cấu trúc mở rộng application
 
 # BaseWithAdsAdapter Adapter chứa quảng cáo native
 

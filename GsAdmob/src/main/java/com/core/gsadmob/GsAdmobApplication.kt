@@ -18,6 +18,11 @@ import kotlinx.coroutines.launch
 import java.util.EnumMap
 
 abstract class GsAdmobApplication : MultiDexApplication() {
+    /**
+     * Biến được dùng để xử lý việc tạm chặn hiển thị quảng cáo app open resume
+     * canShowAppOpenResume = true có thể hiển thị quảng cáo
+     * canShowAppOpenResume = false chặn hiển thị quảng cáo
+     */
     var canShowAppOpenResume: Boolean = true
 
     private val deviceTestList = mutableListOf<String>()
@@ -38,6 +43,10 @@ abstract class GsAdmobApplication : MultiDexApplication() {
         initOtherConfig()
     }
 
+    /**
+     * Sửa lỗi Android Pie (9.0) WebView in multi-process
+     * https://stackoverflow.com/questions/51843546/android-pie-9-0-webview-in-multi-process
+     */
     open fun fixWebView(packageName: String) {
         if (TextUtils.isEmpty(packageName)) return
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {

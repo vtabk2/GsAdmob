@@ -400,7 +400,7 @@ Nếu có nhiều quảng cáo trả thưởng thì khởi tạo như sau:
             )
 ```
 
-và khi sử dụng thì gọi:
+và khi sử dụng thì truyền adPlaceName vào khi gọi:
 
 ```css
         adGsRewardedManager?.showAds(
@@ -445,9 +445,16 @@ Hướng dẫn chi tiết ở [TestApplication](https://github.com/vtabk2/GsAdmo
 
 Sử dụng [AdGsDelayManager](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/AdGsDelayManager.kt) ở trong ResumeDialogFragment quản lý việc tải quảng cáo có thời gian chờ
 
-**GsAdmobApplication*
+**GsAdmobApplication**
 
 - Cấu trúc mở rộng application
+
+> Sửa lỗi webview (fixWebView)
+> Cấu hình thiết bị test (setupDeviceTest)
+> Cấu hình đồng ý analytics (setupConsentMode)
+> Đăng ký lắng nghe quảng cáo (registerAdGsManager)
+> Khởi tạo các cấu hình khác (initOtherConfig)
+> Khởi tạo quảng cáo (initMobileAds)
 
 # BaseWithAdsAdapter Adapter chứa quảng cáo native
 

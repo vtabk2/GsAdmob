@@ -96,6 +96,10 @@ hoặc khởi tạo sẵn trong xml
         </style>
 ```
 
+# [AdGsRemoteConfig](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/remoteconfig/AdGsRemoteConfig.kt)
+- Dùng để khởi tạo remote config trên firebase
+- Cách dùng xem [RemoteConfig](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/utils/remoteconfig/RemoteConfig.kt)
+- Trong updateRemoteConfig sẽ cấu hình các dữ liệu lấy từ firebase xuống
 
 # [BaseAdsActivity](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/ui/activity/base/BaseAdsActivity.kt)
 

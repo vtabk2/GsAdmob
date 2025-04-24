@@ -1,30 +1,3 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
-    <style name="Base.Theme.GsAdmob" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
-
-        <item name="android:splitMotionEvents">false</item>
-        <item name="android:windowEnableSplitTouch">false</item>
-
-        <item name="android:windowLayoutInDisplayCutoutMode" tools:targetApi="o_mr1">shortEdges
-        </item>
-
-        <item name="bottomSheetDialogTheme">@style/BaseBottomSheetDialogTheme</item>
-    </style>
-
+<resources>
     <style name="Theme.GsAdmob" parent="Base.Theme.GsAdmob"/>
-
-    <style name="BaseBottomSheetDialogTheme" parent="Theme.Design.Light.BottomSheetDialog">
-        <item name="bottomSheetStyle">@style/BaseBottomSheetDialogModal</item>
-    </style>
-
-    <style name="BaseBottomSheetDialogModal" parent="Widget.Design.BottomSheet.Modal">
-        <item name="android:background">@android:color/transparent</item>
-        <item name="behavior_skipCollapsed">true</item>
-        <item name="behavior_fitToContents">true</item>
-        <item name="behavior_peekHeight">2000dp</item>
-        // yep, that helped to skip collapsed state at initial
-        <item name="behavior_hideable">true</item>
-    </style>
 </resources>

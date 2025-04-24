@@ -474,6 +474,12 @@ Sử dụng [AdGsDelayManager](https://github.com/vtabk2/GsAdmob/blob/main/GsAdm
 # BaseWithAdsAdapter Adapter chứa quảng cáo native
 
 # Lịch sử cập nhật
+**Version 1.3.23**
+- Tăng tốc di chuyển BottomSheetDialogFragment của ResumeDialogFragment
+- Tạo style Base.Theme.GsAdmob
+```css
+      <style name="Theme.GsAdmob" parent="Base.Theme.GsAdmob"/>
+```
 **Version 1.3.22**
 - Sửa lỗi hủy quảng cáo trả thưởng không được 
 

@@ -29,6 +29,16 @@ Thư viện được tạo ra với mục đích quản lý và tùy chỉnh gia
             }
 ```
 
+# Quan trọng
+
+- [AdGsManager](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/AdGsManager.kt): Quản lý toàn bộ quảng cáo ở trong ứng dụng, chứa các hàm tải và hiển thị quảng
+  cáo...
+- [AdGsSplashManager](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/AdGsSplashManager.kt): Được tạo ra dùng cho màn hình splash
+- [AdGsDelayManager](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/AdGsDelayManager.kt): Được tạo ra dùng cho các quảng cáo cần thời gian chờ, hiện tại thường dùng
+  cho
+  quảng cáo lúc mở lại ứng dụng(app open resume)
+- [AdGsRewardedManager](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/AdGsRewardedManager.kt): Được tạo ra dùng cho các chức năng dùng quảng cáo trả thưởng
+
 # Cấu hình quảng cáo
 
 Thay đổi cấu hình quảng cáo trong [config_admob](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/res/values/config_admob.xml)

@@ -16,6 +16,7 @@
 
         <activity
             android:name=".ui.activity.splash.SplashActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|uiMode|screenSize|smallestScreenSize"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>

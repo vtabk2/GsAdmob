@@ -36,7 +36,7 @@ Thư viện được tạo ra với mục đích quản lý và tùy chỉnh gia
 - [AdGsSplashManager](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/AdGsSplashManager.kt): Được tạo ra dùng cho màn hình splash
 - [AdGsDelayManager](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/AdGsDelayManager.kt): Được tạo ra dùng cho các quảng cáo cần thời gian chờ, hiện tại thường dùng
   cho
-  quảng cáo lúc mở lại ứng dụng(app open resume)
+  quảng cáo lúc mở lại ứng dụng (app open resume)
 - [AdGsRewardedManager](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/AdGsRewardedManager.kt): Được tạo ra dùng cho các chức năng dùng quảng cáo trả thưởng
 
 # Cấu hình quảng cáo
@@ -48,9 +48,9 @@ Thay đổi cấu hình quảng cáo trong [config_admob](https://github.com/vta
 **Step 2.** Tùy chỉnh config_admob
 
 - Ở trên cùng là app id và các id của quảng cáo dùng trong ứng dụng. Hiện tại có cấu hình 11 id quảng cáo cho 5 loại quảng cáo
-- Tiếp theo là cấu hình các thuộc tính có thể thay đổi của các mẫu quảng cáo native cấu hình sẵn(album, font, frame, language, share, sticker, template, vip)
+- Tiếp theo là cấu hình các thuộc tính có thể thay đổi của các mẫu quảng cáo native cấu hình sẵn (album, font, frame, language, share, sticker, template, vip)
 - Tiếp theo là cấu hình các thuộc tính của shimmer
-- Cấu hình view root của các quảng cáo native(thường là khi là 1 item trong recyclerview)
+- Cấu hình view root của các quảng cáo native (thường là khi là 1 item trong recyclerview)
 
 Ví dụ : Thêm margin cho quảng cáo native album
 
@@ -460,10 +460,15 @@ Sử dụng [AdGsDelayManager](https://github.com/vtabk2/GsAdmob/blob/main/GsAdm
 - Cấu trúc mở rộng application
 
 > Sửa lỗi webview (fixWebView)
+
 > Cấu hình thiết bị test (setupDeviceTest)
+
 > Cấu hình đồng ý analytics (setupConsentMode)
+
 > Đăng ký lắng nghe quảng cáo (registerAdGsManager)
+
 > Khởi tạo các cấu hình khác (initOtherConfig)
+
 > Khởi tạo quảng cáo (initMobileAds)
 
 # BaseWithAdsAdapter Adapter chứa quảng cáo native

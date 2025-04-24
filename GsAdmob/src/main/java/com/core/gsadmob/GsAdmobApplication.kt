@@ -45,6 +45,7 @@ abstract class GsAdmobApplication : MultiDexApplication() {
 
     /**
      * Sửa lỗi Android Pie (9.0) WebView in multi-process
+     *
      * https://stackoverflow.com/questions/51843546/android-pie-9-0-webview-in-multi-process
      */
     open fun fixWebView(packageName: String) {
@@ -92,6 +93,7 @@ abstract class GsAdmobApplication : MultiDexApplication() {
 
     /**
      * Cấu hình analytics cho người dùng châu âu khi có thông báo
+     *
      * (End users in the European Economic Area (EEA) must provide consent for their personal data to be shared with Google for advertising purposes.
      * When data is not marked as consented, it may impact ads personalization and measurement. Verify your Firebase consent settings)
      */

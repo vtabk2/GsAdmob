@@ -276,6 +276,73 @@ loại quảng cáo và tích hợp GDPR/CMP.
 
 ### Tùy chỉnh quảng cáo Native
 
+### 1. Khai báo trong xml
+
+- Dùng các adsNativeMode mặc định (album, font, frame...)
+
+  ```css
+        <com.core.gsadmob.natives.view.NativeGsAdView
+            android:id="@+id/nativeAdView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:adsNativeMode="album"/>
+  ```
+
+- Dùng mode custom và sử dụng ID gốc, chỉ thay đổi layout
+
+  ```css
+        <com.core.gsadmob.natives.view.NativeGsAdView
+            android:id="@+id/nativeLanguage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:adsLayoutId="@layout/ad_native_custom"
+            app:adsLayoutShimmerId="@layout/ad_native_custom_shimmer"
+            app:adsNativeMode="custom"/>
+  ```
+
+- Dùng mode custom và thay đổi hết id thì tốt nhất là tạo style
+
+  ```css
+        <style name="NativeTest" parent="ads_BaseNativeCustom">
+            <item name="adsLayoutId">@layout/ad_native_test</item>
+            <item name="adsLayoutShimmerId">@layout/ad_native_test_shimmer</item>
+            <item name="adsHeadlineId">@id/ad_headline_test</item>
+            <item name="adsBodyId">@id/ad_body_test</item>
+            <item name="adsStarsId">@id/ad_stars_test</item>
+            <item name="adsAppIconId">@id/ad_app_icon_test</item>
+            <item name="adsCallToActionId">@id/ad_call_to_action_test</item>
+            <item name="adsViewId">@id/ad_view_test</item>
+            <item name="adsShimmerId">@id/ad_shimmer_test</item>
+            <item name="adsNativeViewRoot">@style/ads_NativeAlbumRoot</item>
+        </style>
+  ```
+
+  ```css
+        <com.core.gsadmob.natives.view.NativeGsAdView
+            android:id="@+id/nativeLanguage"
+            style="@style/NativeTest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+  ```
+
+### 2. Cấu hình trong kotlin
+
+- Dùng các adsNativeMode mặc định (album, font, frame...)
+
+  ```css
+        applyBuilder(NativeDefaultConfig.BUILDER_ALBUM)
+  ```
+
+- Dùng mode custom và sử dụng ID gốc, chỉ thay đổi layout
+
+  ```css
+        val builder = BaseNativeAdView.Builder().apply {
+            adsLayoutId = R.layout.ad_native_custom
+            adsLayoutShimmerId = R.layout.ad_native_custom_shimmer
+        }
+        binding.nativeAdView.applyBuilder(builder)
+  ```
+
 ### Tùy chỉnh VipPreferences
 
 - Lưu 1 key mới
@@ -505,7 +572,8 @@ và khi sử dụng thì gọi:
 
 ## 📄 Giấy phép
 
-🤝 Đóng góp
+## 🤝 Đóng góp
+
 Mọi đóng góp vui lòng tạo `Pull requests` hoặc `Issues` trên [GitHub](https://github.com/vtabk2/GsAdmob).
 
 # Quan trọng

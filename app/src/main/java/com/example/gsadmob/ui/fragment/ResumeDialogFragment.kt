@@ -30,8 +30,6 @@ class ResumeDialogFragment : BottomSheetDialogFragment() {
     private var heightScreen: Int = 0
     private var viewRoot: ViewGroup? = null
 
-    private val adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameAppOpenResume
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         context?.let {
@@ -73,7 +71,7 @@ class ResumeDialogFragment : BottomSheetDialogFragment() {
             AdGsDelayManager(
                 activity = it,
                 fragment = this,
-                adPlaceName = adPlaceName,
+                adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameAppOpenResume,
                 callbackFinished = {
                     dismissAllowingStateLoss()
                 })

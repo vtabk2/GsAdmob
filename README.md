@@ -276,6 +276,22 @@ loại quảng cáo và tích hợp GDPR/CMP.
 
 ### Tùy chỉnh quảng cáo Native
 
+### Tùy chỉnh VipPreferences
+
+- Lưu 1 key mới
+
+  ```css
+        fun save(key: String, value: Boolean) {}
+  ```
+
+- Lấy giá trị từ 1 key mới
+
+  ```css
+        fun load(key: String, valueDefault: Boolean = false) {}
+  ```
+
+- Có thể dùng các biến mặc định như isPro, isProByYear, isProByMonth
+
 ### Cấu hình Remote Config
 
 ## 📜 Lịch sử phiên bản
@@ -485,13 +501,12 @@ và khi sử dụng thì gọi:
 
 </details>
 
-**If this library helps you in anyway, show your love ❤️ by putting a ⭐ on this project ✌️**
+**Nếu thư viện này giúp ích cho bạn theo bất kỳ cách nào, hãy thể hiện tình yêu của bạn ❤️ bằng cách đặt ⭐ vào dự án này ✌️️**
 
 ## 📄 Giấy phép
 
 🤝 Đóng góp
-Mọi đóng góp vui lòng tạo `Pull requests` hoặc `Issues`
-trên [GitHub](https://github.com/vtabk2/GsAdmob).
+Mọi đóng góp vui lòng tạo `Pull requests` hoặc `Issues` trên [GitHub](https://github.com/vtabk2/GsAdmob).
 
 # Quan trọng
 

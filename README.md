@@ -22,9 +22,11 @@ loại quảng cáo và tích hợp GDPR/CMP.
 Thêm repository vào `settings.gradle`:
 ```css
       dependencyResolutionManagement {
+          repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
           repositories {
-            mavenCentral()
-            maven { url "https://jitpack.io" }
+              google()
+              mavenCentral()
+              maven { url "https://jitpack.io" }
           }
       }
 ```

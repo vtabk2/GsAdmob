@@ -99,10 +99,6 @@ Tạo file `config_admob.xml` trong `res/values`:
       </resources>
 ```
 
-🤝 Đóng góp
-Mọi đóng góp vui lòng tạo `Pull requests` hoặc `Issues`
-trên [GitHub](https://github.com/vtabk2/GsAdmob).
-
 ## 🎮 Sử dụng
 
 ### Quảng cáo App Open
@@ -119,19 +115,17 @@ trên [GitHub](https://github.com/vtabk2/GsAdmob).
           app:adsShowType="alwaysShow"/>
 ```
 
-- Tải quảng cáo:
-  với [adPlaceName](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/model/AdPlaceName.kt)
-  là quảng cáo cụ thể
+- Tải quảng cáo với adPlaceName mặc định ở [AdPlaceNameDefaultConfig](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/AdPlaceNameDefaultConfig.kt)
 
 ```css
       AdGsManager.instance.registerBanner(
           lifecycleOwner = this,
-          adPlaceName = AdPlaceNameConfig.HOME_BANNER,
+          adPlaceName = AdPlaceNameDefaultConfig.HOME_BANNER,
           bannerGsAdView = binding.bannerView
       )
 ```
 
-- Khi đã cấu hình Remote config
+- Khi đã cấu hình Remote Config ở [AdGsRemoteExtraConfig](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/utils/remoteconfig/AdGsRemoteExtraConfig.kt)
 
 ```css
        AdGsManager.instance.registerBanner(
@@ -198,11 +192,53 @@ trên [GitHub](https://github.com/vtabk2/GsAdmob).
 
 ## 🔧 Tuỳ chỉnh nâng cao
 
+### Tùy chỉnh quảng cáo Banner
+
+- Đổi màu nền banner với `adsBannerGsBackgroundColor`
+
+```css
+      app:adsBannerGsBackgroundColor="@android:color/holo_green_dark"
+```
+
+- Thay đổi kiểu hiển thị với `adsShowType`
+
+| adsShowType   | Trạng thái                                                                                                                                                                                  |
+|---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| showIfSuccess | Quảng cáo chỉ chiếm kích thước và hiển thị khi quảng cáo được tải thành công                                                                                                                |
+| alwaysShow    | Quảng cáo luôn chiếm kích thước và hiển thị nếu quảng cáo đươc tải thành công                                                                                                               |
+| hide          | Ẩn quảng cáo đi nhưng vẫn chiếm kích thước và không hiển thị ngay cả khi quảng cáo được tải thành công (được dùng khi đang show quảng cáo app open hiển thị thì tạm ẩn banner đi chẳng hạn) |
+| notShow       | Ẩn quảng cáo đi không chiếm kích thước và không hiển thị ngày cả khi quảng cáo được tải thành công                                                                                          |
+
+```css
+      app:adsShowType="alwaysShow"
+```
+
+- Ví dụ
+
+```css
+      <com.core.gsadmob.banner.BannerGsAdView
+          android:id="@+id/bannerView"
+          android:layout_width="match_parent"
+          android:layout_height="60dp"
+          app:adsShowType="alwaysShow"
+          app:layout_constraintBottom_toBottomOf="parent"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"/>
+```
+
+### Tùy chỉnh quảng cáo Native
+
+### Cấu hình Remote Config
+
 ## 📜 Lịch sử phiên bản
 
 **If this library helps you in anyway, show your love ❤️ by putting a ⭐ on this project ✌️**
 
 ## 📄 Giấy phép
+
+🤝 Đóng góp
+Mọi đóng góp vui lòng tạo `Pull requests` hoặc `Issues`
+trên [GitHub](https://github.com/vtabk2/GsAdmob).
 
 # Quan trọng
 

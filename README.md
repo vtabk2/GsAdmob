@@ -117,6 +117,37 @@ loại quảng cáo và tích hợp GDPR/CMP.
 
 ### Quảng cáo App Open
 
+### 1. Quảng cáo app open ở màn hình splash
+
+Cách dùng chi tiết xem ở [SplashActivity](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/ui/activity/splash/SplashActivity.kt)
+
+- Khởi tạo
+
+  ```css
+        AdGsSplashManager(
+            this@SplashActivity,
+            adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameSplash,
+            onRetryAdPlaceNameListener = object : AdGsSplashManager.OnRetryAdPlaceNameListener {
+                override fun getAdPlaceName(): AdPlaceName {
+                    return AdGsRemoteExtraConfig.instance.adPlaceNameSplash
+                }
+            },
+            goToHomeCallback = {
+                goToHome()
+            }, initMobileAds = {
+                TestApplication.applicationContext().initMobileAds()
+            }, adsLoading = {
+                bindingView?.clBlur?.isVisible = it
+            }, isDebug = BuildConfig.DEBUG
+        )
+  ```
+
+### 2. Quảng cáo app open resume khi trở lại ứng dụng
+
+- Bước 1: Cấu hình ở Application
+
+- Bước 2: Cấu hình ở ResumeDialogFragment
+
 ### Quảng cáo Banner
 
 - Khai báo trong xml:
@@ -633,305 +664,5 @@ và khi sử dụng thì gọi:
 ## 🤝 Đóng góp
 
 Mọi đóng góp vui lòng tạo `Pull requests` hoặc `Issues` trên [GitHub](https://github.com/vtabk2/GsAdmob).
-
-# Quan trọng
-
-- [AdGsManager](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/AdGsManager.kt): Quản lý toàn bộ quảng cáo ở trong ứng dụng, chứa các hàm tải và hiển thị quảng
-  cáo...
-- [AdGsSplashManager](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/AdGsSplashManager.kt): Được tạo ra dùng cho màn hình splash
-- [AdGsDelayManager](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/AdGsDelayManager.kt): Được tạo ra dùng cho các quảng cáo cần thời gian chờ, hiện tại thường dùng
-  cho
-  quảng cáo lúc mở lại ứng dụng (app open resume)
-- [AdGsRewardedManager](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/AdGsRewardedManager.kt): Được tạo ra dùng cho các chức năng dùng quảng cáo trả thưởng
-
-# Cấu hình quảng cáo
-
-Thay đổi cấu hình quảng cáo trong [config_admob](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/res/values/config_admob.xml)
-
-**Step 1.** Trong ứng dụng tạo 1 file config_admob.xml ở values
-
-**Step 2.** Tùy chỉnh config_admob
-
-- Ở trên cùng là app id và các id của quảng cáo dùng trong ứng dụng. Hiện tại có cấu hình 11 id quảng cáo cho 5 loại quảng cáo
-- Tiếp theo là cấu hình các thuộc tính có thể thay đổi của các mẫu quảng cáo native cấu hình sẵn (album, font, frame, language, share, sticker, template, vip)
-- Tiếp theo là cấu hình các thuộc tính của shimmer
-- Cấu hình view root của các quảng cáo native (thường là khi là 1 item trong recyclerview)
-
-Ví dụ : Thêm margin cho quảng cáo native album
-
-```css
-         <style name="ads_NativeAlbumRoot" parent="ads_BaseNativeAdViewRoot">
-            <item name="android:layout_marginStart">6dp</item>
-            <item name="android:layout_marginEnd">6dp</item>
-            <item name="android:layout_marginBottom">8dp</item>
-        </style>
-```
-
-- Tạo style mới cho quảng cáo native 
-
-```css
-            <!--    album-->
-        <style name="NativeAlbum" parent="ads_BaseNativeCustom">
-            <item name="adsLayoutId">@layout/ad_native_album</item>
-            <item name="adsLayoutShimmerId">@layout/ad_native_album_shimmer</item>
-            <item name="adsHeadlineId">@id/ad_headline_album</item>
-            <item name="adsBodyId">@id/ad_body_album</item>
-            <item name="adsStarsId">@id/ad_stars_album</item>
-            <item name="adsAppIconId">@id/ad_app_icon_album</item>
-            <item name="adsCallToActionId">@id/ad_call_to_action_album</item>
-            <item name="adsViewId">@id/ad_view_album</item>
-            <item name="adsShimmerId">@id/ad_shimmer_album</item>
-            <item name="adsNativeViewRoot">@style/ads_NativeAlbumRoot</item>
-            <item name="adsNativeMode">album</item>
-        </style>
-```
-
-Khi dùng : có thể thay trong code
-```css
-        bindingView.nativeTest1.setStyle(R.style.NativeAlbum)
-```
-
-hoặc khởi tạo sẵn trong xml
-```css
-        <com.core.gsadmob.natives.view.NativeGsAdView
-            android:id="@+id/nativeCustom"
-            style="@style/NativeAlbum"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"/>
-
-```
-
-
-- Cấu hình ngôi sao rating ở ads_RatingBar
-```css
-        <style name="ads_RatingBar" parent="Theme.AppCompat">
-            <item name="colorControlNormal">#FFBF1C</item>
-            <item name="colorControlActivated">#FFBF1C</item>
-        </style>
-```
-
-# [AdGsRemoteConfig](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/remoteconfig/AdGsRemoteConfig.kt)
-- Dùng để khởi tạo remote config trên firebase
-- Cách dùng xem [RemoteConfig](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/utils/remoteconfig/RemoteConfig.kt)
-- Trong updateRemoteConfig sẽ cấu hình các dữ liệu lấy từ firebase xuống
-
-# [BaseAdsActivity](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/ui/activity/base/BaseAdsActivity.kt)
-
-- Khởi tạo [AdGsRewardedManager](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/AdGsRewardedManager.kt) để dùng cho quảng cáo trả thưởng
-
-# [VipPreferences](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/preferences/VipPreferences.kt) Nơi lưu trạng thái đã mua vip
-
-- Đăng ký keyVipList khi khởi tạo AdGsManager
-
-> Nếu dùng mặc định thì xài: keyVipList = VipPreferences.defaultKeyVipList
-
-> Nếu muốn thay đổi thì khởi tạo: keyVipList = mutableListOf("isPro", "isProByYear")
-
-```css
-        AdGsManager.instance.registerCoroutineScope(
-            application = this,
-            coroutineScope = mainScope,
-            applicationId = BuildConfig.APPLICATION_ID,
-            keyVipList = VipPreferences.defaultKeyVipList,
-            callbackStartLifecycle = { activity ->
-                if (canShowAppOpenResume && activity !is SplashActivity) {
-                    AdGsManager.instance.showAd(adPlaceName = adPlaceName, onlyCheckNotShow = true, callbackShow = { adShowStatus ->
-                        when (adShowStatus) {
-                            AdShowStatus.CAN_SHOW, AdShowStatus.REQUIRE_LOAD -> {
-                                activity.supportFragmentManager.let { fragmentManager ->
-                                    val bottomDialogFragment = fragmentManager.findFragmentByTag(tag) as? ResumeDialogFragment
-                                    if (bottomDialogFragment != null && bottomDialogFragment.isVisible) {
-                                        // BottomDialogFragment đang hiển thị
-                                        bottomDialogFragment.onShowAds("onResume")
-                                    } else {
-                                        // BottomDialogFragment không hiển thị
-                                        val fragment = (activity.window.decorView.rootView as? ViewGroup)?.let { ResumeDialogFragment.newInstance(it) }
-                                        fragment?.show(fragmentManager, tag)
-                                    }
-                                }
-                            }
-
-                            else -> {
-
-                            }
-                        }
-                    })
-                }
-            },
-            callbackPauseLifecycle = { activity ->
-                val bottomDialogFragment = activity.supportFragmentManager.findFragmentByTag(tag) as? ResumeDialogFragment
-                if (bottomDialogFragment != null && bottomDialogFragment.isVisible) {
-                    // BottomDialogFragment đang hiển thị
-                    activity.runOnUiThread {
-                        bottomDialogFragment.dismissAllowingStateLoss()
-                    }
-                } else {
-                    // BottomDialogFragment không hiển thị
-                }
-            }, callbackNothingLifecycle = {
-                // 1 số logic cần thiết khác (ví dụ retry vip hoặc Lingver)
-            }, callbackChangeVip = { currentActivity, isVip ->
-                if (currentActivity is BaseAdsActivity<*>) {
-                    currentActivity.updateUiWithVip(isVip = isVip)
-                }
-            }
-        )
-```
-
-- Lưu 1 key mới
-
-```css
-         fun save(key: String, value: Boolean) {}
-```
-
-- Lấy giá trị từ 1 key mới
-
-```css
-        fun load(key: String, valueDefault: Boolean = false){}
-```
-
-- Có thể dùng các key mặc định như isPro, isProByYear, isProByMonth
-
-# Hướng dẫn GDPR xem ở SplashActivity
-
-# Cách load quảng cáo
-
-Tạo cách AdPlaceName trước giống cấu trúc ở AdPlaceNameConfig
-
-**Show quảng cáo xen kẽ**
-
-```css
-        bindingView.tvInterstitial.setOnClickListener {
-            startActivity(Intent(this, TestNativeActivity::class.java))
-            AdGsManager.instance.showAd(adPlaceName = AdPlaceNameConfig.AD_PLACE_NAME_FULL)
-        }
-```
-
-**Quảng cáo banner**
-
-```css
-        AdGsManager.instance.registerBanner(
-            lifecycleOwner = this,
-            adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome,
-            bannerGsAdView = bindingView.bannerView
-        )
-```
-
-**Quảng cáo native**
-
-- Khi không rõ là native hay banner thì dùng hàm này
-
-```css
-        AdGsManager.instance.registerNativeOrBanner(
-            lifecycleOwner = this,
-            adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameLanguage,
-            bannerGsAdView = bindingView.bannerView,
-            nativeGsAdView = bindingView.nativeLanguage,
-            callbackSuccess = { nativeAdGsData, isStartShimmer ->
-
-            },
-            callbackFailed = {
-
-            }
-        )
-```
-- Khi native ở trong recycler view
-
-```css
-        AdGsManager.instance.registerNative(
-            lifecycleOwner = this,
-            adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameNativeHome,
-            callbackSuccess = { nativeAdGsData, isStartShimmer ->
-                adapter?.setupItemAds(nativeAd = nativeAdGsData?.nativeAd, isStartShimmer = isStartShimmer)
-            }
-        )
-```
-
-- Khi native ở ngoài
-
-```css
-        AdGsManager.instance.registerNative(
-            lifecycleOwner = this,
-            adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_NATIVE,
-            nativeGsAdView = bindingView.nativeFrame
-        )
-```
-
-**Quảng cáo trả thưởng**
-
-Từ version 1.3.12 đã cải tiến để khởi tạo và quản lý bằng [AdGsRewardedManager](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/AdGsRewardedManager.kt)
-
-Nếu có nhiều quảng cáo trả thưởng thì khởi tạo như sau:
-
-```css
-        adGsRewardedManager = AdGsRewardedManager(
-                activity = this,
-                isDebug = BuildConfig.DEBUG
-            )
-```
-
-và khi sử dụng thì truyền adPlaceName vào khi gọi:
-
-```css
-        adGsRewardedManager?.showAds(
-                  adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_REWARDED_INTERSTITIAL,
-                  callback = { typeShowAds ->
-                  
-                  })
-```
-
-Nếu có 1 quảng cáo trả thưởng thì khởi tạo như sau:
-
-```css
-        adGsRewardedManager = AdGsRewardedManager(
-                activity = this,
-                adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_REWARDED_INTERSTITIAL,
-                isDebug = BuildConfig.DEBUG
-            )
-```
-
-và khi sử dụng thì gọi:
-
-```css
-        adGsRewardedManager?.showAds(               
-                  callback = { typeShowAds ->
-                  
-                  })
-```
-
-**Quảng cáo app open**
-Gồm 2 loại :
-
-- Quảng cáo 1 lần khi mở ứng dụng
-
-Hướng dẫn chi tiết ở [SplashActivity](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/ui/activity/splash/SplashActivity.kt)
-
-Sử dụng [AdGsSplashManager](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/AdGsSplashManager.kt)
-
-
-- Quảng cáo khi trở lại ứng dụng
-
-Hướng dẫn chi tiết ở [TestApplication](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/TestApplication.kt)
-
-Sử dụng [AdGsDelayManager](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/AdGsDelayManager.kt) ở trong ResumeDialogFragment quản lý việc tải quảng cáo có thời gian chờ
-
-**GsAdmobApplication**
-
-- Cấu trúc mở rộng application
-
-> Sửa lỗi webview (fixWebView)
-
-> Cấu hình thiết bị test (setupDeviceTest)
-
-> Cấu hình đồng ý analytics (setupConsentMode)
-
-> Đăng ký lắng nghe quảng cáo (registerAdGsManager)
-
-> Khởi tạo các cấu hình khác (initOtherConfig)
-
-> Khởi tạo quảng cáo (initMobileAds)
-
-# BaseWithAdsAdapter Adapter chứa quảng cáo native
 
 

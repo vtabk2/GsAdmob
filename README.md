@@ -45,7 +45,10 @@ Thêm dependency vào `build.gradle`:
 ### 1. Khởi tạo trong Application
 
 - Tạo 1 application ví dụ
-  [TestApplication](https://github.com/vtabk2/GsAdmob/blob/25.04.2025/app/src/main/java/com/example/gsadmob/TestApplication.kt)
+  [TestApplication](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/TestApplication.kt)
+
+- Ở trong registerAdGsManager sẽ khởi
+  tạo [AdGsManager](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/AdGsManager.kt)
 
 ```css
       class TestApplication : GsAdmobApplication() {
@@ -99,6 +102,32 @@ Tạo file `config_admob.xml` trong `res/values`:
 🤝 Đóng góp
 Mọi đóng góp vui lòng tạo `Pull requests` hoặc `Issues`
 trên [GitHub](https://github.com/vtabk2/GsAdmob).
+
+## 🎮 Sử dụng
+
+### Quảng cáo Banner
+
+- Khai báo trong xml:
+
+```css
+      <com.core.gsadmob.banner.BannerGsAdView
+          android:id="@+id/bannerView"
+          android:layout_width="match_parent"
+          android:layout_height="60dp"
+          app:adsShowType="alwaysShow"/>
+```
+
+- Tải quảng cáo:
+  với [adPlaceName](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/model/AdPlaceName.kt)
+  là quảng cáo cụ thể
+
+```css
+      AdGsManager.instance.registerBanner(
+          lifecycleOwner = this,
+          adPlaceName = AdPlaceNameConfig.HOME_BANNER,
+          bannerGsAdView = binding.bannerView
+      )
+```
 
 # Quan trọng
 

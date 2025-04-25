@@ -19,7 +19,7 @@ loại quảng cáo và tích hợp GDPR/CMP.
 
 ### Gradle
 
-Thêm repository vào `settings.gradle`:
+- Thêm repository vào `settings.gradle`:
 
 ```css
       dependencyResolutionManagement {
@@ -32,7 +32,7 @@ Thêm repository vào `settings.gradle`:
       }
 ```
 
-Thêm dependency vào `build.gradle`:
+- Thêm dependency vào `build.gradle`:
 
 ```css
       dependencies {
@@ -50,54 +50,56 @@ Thêm dependency vào `build.gradle`:
 - Ở trong registerAdGsManager sẽ khởi
   tạo [AdGsManager](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/AdGsManager.kt)
 
-```css
-      class TestApplication : GsAdmobApplication() {
-          private val mainScope = MainScope()
-          
-          override fun registerAdGsManager() {
-              super.registerAdGsManager()
-              
-              AdGsManager.instance.registerCoroutineScope(
-                  application = this,
-                  coroutineScope = mainScope,
-                  applicationId = BuildConfig.APPLICATION_ID,
-                  keyVipList = VipPreferences.defaultKeyVipList,
-                  callbackStartLifecycle = { activity ->
-                  },
-                  callbackPauseLifecycle = { activity ->
-                  },
-                  callbackNothingLifecycle = {
-                  },
-                  callbackChangeVip = { currentActivity, isVip ->
-                  }, showLog = BuildConfig.DEBUG 
-              )
-          }
-      }
-```
+  - keyVipList là danh sách các key vip được dùng trong ứng dụng của bạn, xem chi tiết ở [VipPreferences](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/preferences/VipPreferences.kt)
+
+  ```css
+        class TestApplication : GsAdmobApplication() {
+            private val mainScope = MainScope()
+            
+            override fun registerAdGsManager() {
+                super.registerAdGsManager()
+                
+                AdGsManager.instance.registerCoroutineScope(
+                    application = this,
+                    coroutineScope = mainScope,
+                    applicationId = BuildConfig.APPLICATION_ID,
+                    keyVipList = VipPreferences.defaultKeyVipList,
+                    callbackStartLifecycle = { activity ->
+                    },
+                    callbackPauseLifecycle = { activity ->
+                    },
+                    callbackNothingLifecycle = {
+                    },
+                    callbackChangeVip = { currentActivity, isVip ->
+                    }, showLog = BuildConfig.DEBUG 
+                )
+            }
+        }
+  ```
 
 ### 2. Cấu hình quảng cáo
 
-Tạo file `config_admob.xml` trong `res/values`:
+- Tạo file `config_admob.xml` trong `res/values`:
 
-```css
-      <resources>
-          <!-- App ID -->
-          <string name="app_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
-
-          <!-- Ad Unit IDs -->
-          <string name="app_open_id" translatable="false">ca-app-pub-3940256099942544/9257395921</string>
-          <string name="app_open_id_resume" translatable="false">ca-app-pub-3940256099942544/9257395921</string>
-          <string name="banner_id" translatable="false">ca-app-pub-3940256099942544/9214589741</string>
-          <string name="banner_id_home" translatable="false">ca-app-pub-3940256099942544/9214589741</string>
-          <string name="banner_id_collapsible" translatable="false">ca-app-pub-3940256099942544/2014213617</string>
-          <string name="interstitial_id" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
-          <string name="interstitial_id_without_video" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
-          <string name="native_id" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
-          <string name="native_id_language" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
-          <string name="rewarded_id" translatable="false">ca-app-pub-3940256099942544/5224354917</string>
-          <string name="rewarded_interstitial_id" translatable="false">ca-app-pub-3940256099942544/5354046379</string>
-      </resources>
-```
+  ```css
+        <resources>
+            <!-- App ID -->
+            <string name="app_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
+  
+            <!-- Ad Unit IDs -->
+            <string name="app_open_id" translatable="false">ca-app-pub-3940256099942544/9257395921</string>
+            <string name="app_open_id_resume" translatable="false">ca-app-pub-3940256099942544/9257395921</string>
+            <string name="banner_id" translatable="false">ca-app-pub-3940256099942544/9214589741</string>
+            <string name="banner_id_home" translatable="false">ca-app-pub-3940256099942544/9214589741</string>
+            <string name="banner_id_collapsible" translatable="false">ca-app-pub-3940256099942544/2014213617</string>
+            <string name="interstitial_id" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
+            <string name="interstitial_id_without_video" translatable="false">ca-app-pub-3940256099942544/1033173712</string>
+            <string name="native_id" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
+            <string name="native_id_language" translatable="false">ca-app-pub-3940256099942544/2247696110</string>
+            <string name="rewarded_id" translatable="false">ca-app-pub-3940256099942544/5224354917</string>
+            <string name="rewarded_interstitial_id" translatable="false">ca-app-pub-3940256099942544/5354046379</string>
+        </resources>
+  ```
 
 ## 🎮 Sử dụng
 
@@ -107,33 +109,33 @@ Tạo file `config_admob.xml` trong `res/values`:
 
 - Khai báo trong xml:
 
-```css
-      <com.core.gsadmob.banner.BannerGsAdView
-          android:id="@+id/bannerView"
-          android:layout_width="match_parent"
-          android:layout_height="60dp"
-          app:adsShowType="alwaysShow"/>
-```
+  ```css
+        <com.core.gsadmob.banner.BannerGsAdView
+            android:id="@+id/bannerView"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            app:adsShowType="alwaysShow"/>
+  ```
 
 - Tải quảng cáo với adPlaceName mặc định ở [AdPlaceNameDefaultConfig](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/AdPlaceNameDefaultConfig.kt)
 
-```css
-      AdGsManager.instance.registerBanner(
-          lifecycleOwner = this,
-          adPlaceName = AdPlaceNameDefaultConfig.HOME_BANNER,
-          bannerGsAdView = binding.bannerView
-      )
-```
+  ```css
+        AdGsManager.instance.registerBanner(
+            lifecycleOwner = this,
+            adPlaceName = AdPlaceNameDefaultConfig.HOME_BANNER,
+            bannerGsAdView = binding.bannerView
+        )
+  ```
 
 - Khi đã cấu hình Remote Config ở [AdGsRemoteExtraConfig](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/utils/remoteconfig/AdGsRemoteExtraConfig.kt)
 
-```css
-       AdGsManager.instance.registerBanner(
-           lifecycleOwner = this,
-           adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome,
-           bannerGsAdView = bindingView.bannerView
-       )      
-```
+  ```css
+         AdGsManager.instance.registerBanner(
+             lifecycleOwner = this,
+             adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome,
+             bannerGsAdView = bindingView.bannerView
+         )      
+  ```
 
 ### Quảng cáo Interstitial
 
@@ -141,36 +143,36 @@ Tạo file `config_admob.xml` trong `res/values`:
 
 - Quảng cáo Native ở bên ngoài
 
-```css
-      AdGsManager.instance.registerNative(
-          lifecycleOwner = this,
-          adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_NATIVE,
-          nativeGsAdView = bindingView.nativeFrame
-      )
-```
+  ```css
+        AdGsManager.instance.registerNative(
+            lifecycleOwner = this,
+            adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_NATIVE,
+            nativeGsAdView = bindingView.nativeFrame
+        )
+  ```
 
 - Quảng cáo Native ở trong RecyclerView
 
-```css
-      AdGsManager.instance.registerNative(
-          lifecycleOwner = this,
-          adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameNativeHome,
-          callbackSuccess = { nativeAdGsData, isStartShimmer ->
-              adapter?.setupItemAds(nativeAd = nativeAdGsData?.nativeAd, isStartShimmer = isStartShimmer)
-          }
-      )
-```
+  ```css
+        AdGsManager.instance.registerNative(
+            lifecycleOwner = this,
+            adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameNativeHome,
+            callbackSuccess = { nativeAdGsData, isStartShimmer ->
+                adapter?.setupItemAds(nativeAd = nativeAdGsData?.nativeAd, isStartShimmer = isStartShimmer)
+            }
+        )
+  ```
 
 - Tự do chuyển đổi giữ quảng cáo Native và Banner
 
-```css
-      AdGsManager.instance.registerNativeOrBanner(
-          lifecycleOwner = this,
-          adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameLanguage,
-          bannerGsAdView = bindingView.bannerView,
-          nativeGsAdView = bindingView.nativeLanguage
-      )
-```
+  ```css
+        AdGsManager.instance.registerNativeOrBanner(
+            lifecycleOwner = this,
+            adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameLanguage,
+            bannerGsAdView = bindingView.bannerView,
+            nativeGsAdView = bindingView.nativeLanguage
+        )
+  ```
 
 ### Quảng cáo Rewarded và quảng cáo Rewarded Interstitial
 
@@ -229,9 +231,9 @@ Tạo file `config_admob.xml` trong `res/values`:
 
 - Đổi màu nền banner với `adsBannerGsBackgroundColor`
 
-```css
-      app:adsBannerGsBackgroundColor="@android:color/holo_green_dark"
-```
+  ```css
+        app:adsBannerGsBackgroundColor="@android:color/holo_green_dark"
+  ```
 
 - Thay đổi kiểu hiển thị với `adsShowType`
 
@@ -242,23 +244,23 @@ Tạo file `config_admob.xml` trong `res/values`:
 | hide          | Ẩn quảng cáo đi nhưng vẫn chiếm kích thước và không hiển thị ngay cả khi quảng cáo được tải thành công (được dùng khi đang show quảng cáo app open hiển thị thì tạm ẩn banner đi chẳng hạn) |
 | notShow       | Ẩn quảng cáo đi không chiếm kích thước và không hiển thị ngày cả khi quảng cáo được tải thành công                                                                                          |
 
-```css
-      app:adsShowType="alwaysShow"
-```
+  ```css
+        app:adsShowType="alwaysShow"
+  ```
 
 - Ví dụ
 
-```css
-      <com.core.gsadmob.banner.BannerGsAdView
-          android:id="@+id/bannerView"
-          android:layout_width="match_parent"
-          android:layout_height="60dp"
-          app:adsBannerGsBackgroundColor="@android:color/holo_green_dark"
-          app:adsShowType="alwaysShow"
-          app:layout_constraintBottom_toBottomOf="parent"
-          app:layout_constraintEnd_toEndOf="parent"
-          app:layout_constraintStart_toStartOf="parent"/>
-```
+  ```css
+        <com.core.gsadmob.banner.BannerGsAdView
+            android:id="@+id/bannerView"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            app:adsBannerGsBackgroundColor="@android:color/holo_green_dark"
+            app:adsShowType="alwaysShow"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+  ```
 
 ### Tùy chỉnh quảng cáo Native
 

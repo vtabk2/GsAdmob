@@ -1,32 +1,39 @@
-# GsAdmob
+# GsAdmob 📚
 
-Thư viện được tạo ra với mục đích quản lý và tùy chỉnh giao diện của các quảng cáo trong ứng dụng 1 cách dễ dàng :
+Thư viện quản lý và tùy chỉnh quảng cáo trong ứng dụng Android một cách linh hoạt, hỗ trợ đa dạng
+loại quảng cáo và tích hợp GDPR/CMP.
 
-- Có lưu trạng thái vip của ứng dụng ở VipPreferences
-- Có xử lý việc thay đổi trạng thái vip
-- Tùy chỉnh dễ dàng giao diện quảng cáo Native
-- Có thêm trạng thái đang tải quảng cáo
-- Có hỗ trợ kiểm tra CMP/GDPR
-- Có BaseWithAdsAdapter để dùng adapter có chứa quảng cáo native  
+## 🌟 Tính năng nổi bật
 
-# Cấu hình Gradle gồm 2 bước
+- **Quản lý trạng thái VIP** với `VipPreferences`
+- **Tùy chỉnh Native Ads** dễ dàng qua XML/Code
+- **Hỗ trợ GDPR/CMP** và Remote config (Firebase)
+- **Quảng cáo đa dạng**: Banner, Native, Interstitial, Rewarded, Rewarded Interstitial, App Open
+- **Tích hợp Adapter** cho RecyclerView với `BaseWithAdsAdapter`
+- **Xử lý lifecycle** tự động cho quảng cáo
+- **Hiệu ứng Shimmer** khi tải quảng cáo
 
-**Step 1.** Add the JitPack repository to your build file. Add it in your root build.gradle at the end of repositories:
+---
+
+## 📥 Cài đặt
+
+### Gradle
+
+Thêm repository vào `settings.gradle`:
 ```css
-        dependencyResolutionManagement {
-                repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
-                repositories {
-                    mavenCentral()
-                    maven { url 'https://jitpack.io' }
-                }
-            }
+      dependencyResolutionManagement {
+        repositories {
+          mavenCentral()
+          maven { url "https://jitpack.io" }
+        }
+      }
 ```
 
-**Step 2.** Add the dependency
+Thêm dependency vào `build.gradle`:
 ```css
-        dependencies {
-                    implementation 'com.github.vtabk2:GsAdmob:1.3.22'
-            }
+      dependencies {
+          implementation 'com.github.vtabk2:GsAdmob:1.3.23'
+      }
 ```
 
 # Quan trọng

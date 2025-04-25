@@ -337,10 +337,42 @@ loại quảng cáo và tích hợp GDPR/CMP.
 
   ```css
         val builder = BaseNativeAdView.Builder().apply {
-            adsLayoutId = R.layout.ad_native_custom
-            adsLayoutShimmerId = R.layout.ad_native_custom_shimmer
+            adsLayoutId = R.layout.ad_native_test
+            adsLayoutShimmerId = R.layout.ad_native_test_shimmer
+            adsNativeMode = AdsNativeMode.CUSTOM
         }
         binding.nativeAdView.applyBuilder(builder)
+  ```
+  
+- Tùy chỉnh toàn bộ id
+
+  ```css
+        val builder = BaseNativeAdView.Builder().apply {
+            adsLayoutId = R.layout.ad_native_test
+            adsLayoutShimmerId = R.layout.ad_native_test_shimmer
+            adsHeadlineId = R.id.ad_headline_test
+            adsBodyId = R.id.ad_body_test
+            adsStarsId = R.id.ad_stars_test
+            adsAppIconId = R.id.ad_app_icon_test
+            adsCallToActionId = R.id.ad_call_to_action_test
+            adsViewId = R.id.ad_view_test
+            adsShimmerId = R.id.ad_shimmer_test
+            adsNativeViewRoot = R.style.ads_NativeTestRoot
+            adsNativeMode = AdsNativeMode.CUSTOM
+        }
+        binding.nativeAdView.applyBuilder(builder)
+  ```
+  
+- Dùng style có sẵn
+
+  ```css
+        binding.nativeAdView.setStyle(R.style.NativeFont)
+  ```
+  
+- Dùng style tự tạo ví dụ như `NativeTest` đã tạo ở trên
+
+  ```css
+        binding.nativeAdView.setStyle(R.style.NativeTest)
   ```
 
 ### Tùy chỉnh VipPreferences

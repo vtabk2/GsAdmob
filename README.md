@@ -480,6 +480,9 @@ Sử dụng [AdGsDelayManager](https://github.com/vtabk2/GsAdmob/blob/main/GsAdm
 ```css
       <style name="Theme.GsAdmob" parent="Base.Theme.GsAdmob"/>
 ```
+
+<details> <summary>👉 Click để xem thêm lịch sử cập nhật</summary>
+
 **Version 1.3.22**
 - Sửa lỗi hủy quảng cáo trả thưởng không được 
 
@@ -673,5 +676,6 @@ và khi sử dụng thì gọi:
 **Version: 1.2.17**
 - Lưu lại currentKeyVipList khi khởi tạo để khi dùng hàm kiểm tra vip isFullVersion() không cần truyền keyVipList vào nữa mà dùng currentKeyVipList luôn
 
+</details>
 
 

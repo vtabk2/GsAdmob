@@ -105,6 +105,8 @@ trên [GitHub](https://github.com/vtabk2/GsAdmob).
 
 ## 🎮 Sử dụng
 
+### Quảng cáo App Open
+
 ### Quảng cáo Banner
 
 - Khai báo trong xml:
@@ -128,6 +130,79 @@ trên [GitHub](https://github.com/vtabk2/GsAdmob).
           bannerGsAdView = binding.bannerView
       )
 ```
+
+- Khi đã cấu hình Remote config
+
+```css
+       AdGsManager.instance.registerBanner(
+           lifecycleOwner = this,
+           adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome,
+           bannerGsAdView = bindingView.bannerView
+       )      
+```
+
+### Quảng cáo Interstitial
+
+### Quảng cáo Native
+
+### Quảng cáo Rewarded và quảng cáo Rewarded Interstitial
+
+- Mặc định AdPlaceName:
+
+> AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_REWARDED là adPlaceName của quảng cáo Rewarded
+
+> AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_REWARDED_INTERSTITIAL là adPlaceName của quảng cáo Rewarded Interstitial
+
+- Trường hợp có một quảng cáo trả thưởng:
+
+  - Khởi tạo luôn adPlaceName
+
+```css
+      val adGsRewardedManager = AdGsRewardedManager(
+          activity = this,
+          adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_REWARDED_INTERSTITIAL,
+          isDebug = BuildConfig.DEBUG
+      )
+```
+
+  - Sử dụng:
+
+```css
+      adGsRewardedManager?.showAds(               
+                  callback = { typeShowAds ->
+                  
+                  })
+```
+
+
+- Trường hợp có nhiều quảng cáo trả thưởng:
+
+  - Khởi tạo:
+
+```css
+      val adGsRewardedManager = AdGsRewardedManager(
+          activity = this,
+          isDebug = BuildConfig.DEBUG
+      )
+```
+
+  - Sử dụng:
+
+```css
+      adGsRewardedManager?.showAds(
+                  adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_REWARDED_INTERSTITIAL,
+                  callback = { typeShowAds ->
+                  
+                  })
+```
+
+## 🔧 Tuỳ chỉnh nâng cao
+
+## 📜 Lịch sử phiên bản
+
+**If this library helps you in anyway, show your love ❤️ by putting a ⭐ on this project ✌️**
+
+## 📄 Giấy phép
 
 # Quan trọng
 

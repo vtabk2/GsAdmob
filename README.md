@@ -151,44 +151,44 @@ Tạo file `config_admob.xml` trong `res/values`:
 
   - Khởi tạo luôn adPlaceName
 
-```css
-      val adGsRewardedManager = AdGsRewardedManager(
-          activity = this,
-          adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_REWARDED_INTERSTITIAL,
-          isDebug = BuildConfig.DEBUG
-      )
-```
+  ```css
+        val adGsRewardedManager = AdGsRewardedManager(
+            activity = this,
+            adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_REWARDED_INTERSTITIAL,
+            isDebug = BuildConfig.DEBUG
+        )
+  ```
 
   - Sử dụng:
 
-```css
-      adGsRewardedManager?.showAds(               
-          callback = { typeShowAds ->
-                  
-          })        
-```
+  ```css
+        adGsRewardedManager?.showAds(               
+            callback = { typeShowAds ->
+                    
+            })        
+  ```
 
 
 - Trường hợp có nhiều quảng cáo trả thưởng:
 
   - Khởi tạo:
 
-```css
-      val adGsRewardedManager = AdGsRewardedManager(
-          activity = this,
-          isDebug = BuildConfig.DEBUG
-      )
-```
+  ```css
+        val adGsRewardedManager = AdGsRewardedManager(
+            activity = this,
+            isDebug = BuildConfig.DEBUG
+        )
+  ```
 
   - Sử dụng:
 
-```css
-      adGsRewardedManager?.showAds(
-          adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_REWARDED_INTERSTITIAL,
-          callback = { typeShowAds ->
-                  
-          })                
-```
+  ```css
+        adGsRewardedManager?.showAds(
+            adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_REWARDED_INTERSTITIAL,
+            callback = { typeShowAds ->
+                    
+            })                
+  ```
 
 ## 🔧 Tuỳ chỉnh nâng cao
 

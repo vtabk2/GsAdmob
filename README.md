@@ -373,6 +373,16 @@ loại quảng cáo và tích hợp GDPR/CMP.
 
   ```css
         binding.nativeAdView.setStyle(R.style.NativeTest)
+  
+        bindingView.nativeTest1.setStyle(com.core.gsadmob.R.style.NativeFont)
+  ```
+- Cấu hình ngôi sao rating ở ads_RatingBar
+
+  ```css
+        <style name="ads_RatingBar" parent="Theme.AppCompat">
+            <item name="colorControlNormal">#FFBF1C</item>
+            <item name="colorControlActivated">#FFBF1C</item>
+        </style>
   ```
 
 ### Tùy chỉnh VipPreferences
@@ -392,6 +402,22 @@ loại quảng cáo và tích hợp GDPR/CMP.
 - Có thể dùng các biến mặc định như isPro, isProByYear, isProByMonth
 
 ### Cấu hình Remote Config
+
+### Theme
+
+- Cấu hình để BottomSheet không bị giật khi di chuyển từ dưới lên
+
+Thêm bottomSheetDialogTheme vào style gốc của ứng dụng
+
+  ```css
+        <item name="bottomSheetDialogTheme">@style/BaseBottomSheetDialogTheme</item>
+  ```
+
+hoặc mở rộng style gốc với `Base.Theme.GsAdmob`
+
+  ```css
+        <style name="Theme.GsAdmob" parent="Base.Theme.GsAdmob"/>
+  ```
 
 ## 📜 Lịch sử phiên bản
 
@@ -766,134 +792,6 @@ hoặc khởi tạo sẵn trong xml
 ```
 
 - Có thể dùng các key mặc định như isPro, isProByYear, isProByMonth
-
-# Banner
-
-- Đổi màu nền banner adsBannerGsBackgroundColor
-
-```css
-      app:adsBannerGsBackgroundColor="@android:color/holo_green_dark"
-```
-
-- Chú ý adsShowType có các kiểu hiển thị khác nhau: 
-
-| adsShowType   | Trạng thái                                                                                                                                                                                  |
-|---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| showIfSuccess | Quảng cáo chỉ chiếm kích thước và hiển thị khi quảng cáo được tải thành công                                                                                                                |
-| alwaysShow    | Quảng cáo luôn chiếm kích thước và hiển thị nếu quảng cáo đươc tải thành công                                                                                                               |
-| hide          | Ẩn quảng cáo đi nhưng vẫn chiếm kích thước và không hiển thị ngay cả khi quảng cáo được tải thành công (được dùng khi đang show quảng cáo app open hiển thị thì tạm ẩn banner đi chẳng hạn) |
-| notShow       | Ẩn quảng cáo đi không chiếm kích thước và không hiển thị ngày cả khi quảng cáo được tải thành công                                                                                          |
-
-```css
-        <com.core.gsadmob.banner.BannerGsAdView
-            android:id="@+id/bannerView"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            app:adsShowType="alwaysShow"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"/>
-```
-
-- Cách truyền dữ liệu
-
-```css
-        bannerGsAdView?.setBannerAdView()
-```
-
-# Native Ads
-
-- Tùy biến NativeAdView thì chọn adsNativeMode = custom
-
-```css
-        <com.core.gsadmob.natives.view.NativeGsAdView
-            android:id="@+id/nativeCustom"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            app:adsNativeMode="custom"/>
-```
-
-- Cách 1: Giữ id gốc chỉ đổi id layout
-
-```css
-        val builder = BaseNativeAdView.Builder().apply {
-            adsLayoutId = R.layout.ad_native_test
-            adsLayoutShimmerId = R.layout.ad_native_test_shimmer
-        }
-        bindingView.nativeCustom.applyBuilder(builder)
-```
-
-- Cách 2: Đổi tất cả id thì cấu hình lại trong builder:
-
-```css
-        val builder = BaseNativeAdView.Builder().apply {
-            adsLayoutId = R.layout.ad_native_test
-            adsLayoutShimmerId = R.layout.ad_native_test_shimmer
-            adsHeadlineId = R.id.ad_headline_test
-            adsStarsId = R.id.ad_stars_test
-            adsAppIconId = R.id.ad_app_icon_test
-            adsCallToActionId = R.id.ad_call_to_action_test
-            adsViewId = R.id.ad_view_test
-            adsShimmerId = R.id.ad_view_test_shimmer
-        }
-        bindingView.nativeCustom.applyBuilder(builder)
-```
-
-- Cách 3:
-
-```css
-        <com.core.gsadmob.natives.view.NativeGsAdView
-            android:id="@+id/nativeTest8"
-            style="@style/NativeVip"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"/>
-
-        <com.core.gsadmob.natives.view.NativeGsAdView
-            android:id="@+id/nativeCustom"
-            style="@style/NativeTest"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"/>
-
-        <style name="NativeTest" parent="BaseNativeCustom">
-            <item name="adsLayoutId">@layout/ad_native_test</item>
-            <item name="adsLayoutShimmerId">@layout/ad_native_test_shimmer</item>
-            <item name="adsHeadlineId">@id/ad_headline_test</item>
-            <item name="adsStarsId">@id/ad_stars_test</item>
-            <item name="adsAppIconId">@id/ad_app_icon_test</item>
-            <item name="adsCallToActionId">@id/ad_call_to_action_test</item>
-            <item name="adsViewId">@id/ad_view_test</item>
-            <item name="adsShimmerId">@id/ad_view_test_shimmer</item>
-        </style>
-```
-
-- Nếu muốn dùng các id mặc định thì ko cần đổi(xem id mặc định ở ads_BaseNativeCustom)
-
-```css  
-        <style name="NativeTest" parent="BaseNativeCustom">
-            <item name="adsLayoutId">@layout/ad_native_test</item>
-            <item name="adsLayoutShimmerId">@layout/ad_native_test_shimmer</item>
-            <item name="adsNativeViewRoot">@style/ads_NativeTestRoot</item>
-        </style>
-        
-        bindingView.nativeTest1.applyBuilder(NativeDefaultConfig.BUILDER_ALBUM)
-        
-        bindingView.nativeTest2.applyBuilder(NativeDefaultConfig.BUILDER_FONT)
-```
-
-- Cách 4: Có thể tạo style rồi set trực tiếp bằng cách dưới đây
-
-```css
-        bindingView.nativeTest1.setStyle(com.core.gsadmob.R.style.NativeVip)
-```
-
-hoặc
-
-```css        
-        bindingView.nativeTest1.setStyle(R.style.NativeTest)
-```
 
 # Hướng dẫn GDPR xem ở SplashActivity
 

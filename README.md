@@ -139,6 +139,39 @@ Tạo file `config_admob.xml` trong `res/values`:
 
 ### Quảng cáo Native
 
+- Quảng cáo Native ở bên ngoài
+
+```css
+      AdGsManager.instance.registerNative(
+          lifecycleOwner = this,
+          adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_NATIVE,
+          nativeGsAdView = bindingView.nativeFrame
+      )
+```
+
+- Quảng cáo Native ở trong RecyclerView
+
+```css
+      AdGsManager.instance.registerNative(
+          lifecycleOwner = this,
+          adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameNativeHome,
+          callbackSuccess = { nativeAdGsData, isStartShimmer ->
+              adapter?.setupItemAds(nativeAd = nativeAdGsData?.nativeAd, isStartShimmer = isStartShimmer)
+          }
+      )
+```
+
+- Tự do chuyển đổi giữ quảng cáo Native và Banner
+
+```css
+      AdGsManager.instance.registerNativeOrBanner(
+          lifecycleOwner = this,
+          adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameLanguage,
+          bannerGsAdView = bindingView.bannerView,
+          nativeGsAdView = bindingView.nativeLanguage
+      )
+```
+
 ### Quảng cáo Rewarded và quảng cáo Rewarded Interstitial
 
 - Mặc định AdPlaceName:
@@ -220,6 +253,7 @@ Tạo file `config_admob.xml` trong `res/values`:
           android:id="@+id/bannerView"
           android:layout_width="match_parent"
           android:layout_height="60dp"
+          app:adsBannerGsBackgroundColor="@android:color/holo_green_dark"
           app:adsShowType="alwaysShow"
           app:layout_constraintBottom_toBottomOf="parent"
           app:layout_constraintEnd_toEndOf="parent"

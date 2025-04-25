@@ -20,6 +20,7 @@ loại quảng cáo và tích hợp GDPR/CMP.
 ### Gradle
 
 Thêm repository vào `settings.gradle`:
+
 ```css
       dependencyResolutionManagement {
           repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)
@@ -32,6 +33,7 @@ Thêm repository vào `settings.gradle`:
 ```
 
 Thêm dependency vào `build.gradle`:
+
 ```css
       dependencies {
           implementation 'com.github.vtabk2:GsAdmob:1.3.23'
@@ -40,7 +42,7 @@ Thêm dependency vào `build.gradle`:
 
 ## 🛠 Cấu hình cơ bản
 
-1. Khởi tạo trong Application
+### 1. Khởi tạo trong Application
 
 - Tạo 1 application ví dụ
   [TestApplication](https://github.com/vtabk2/GsAdmob/blob/25.04.2025/app/src/main/java/com/example/gsadmob/TestApplication.kt)
@@ -70,7 +72,7 @@ Thêm dependency vào `build.gradle`:
       }
 ```
 
-2. Cấu hình quảng cáo
+### 2. Cấu hình quảng cáo
 
 Tạo file `config_admob.xml` trong `res/values`:
 

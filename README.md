@@ -163,9 +163,9 @@ Tạo file `config_admob.xml` trong `res/values`:
 
 ```css
       adGsRewardedManager?.showAds(               
-                  callback = { typeShowAds ->
+          callback = { typeShowAds ->
                   
-                  })
+          })        
 ```
 
 
@@ -184,10 +184,10 @@ Tạo file `config_admob.xml` trong `res/values`:
 
 ```css
       adGsRewardedManager?.showAds(
-                  adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_REWARDED_INTERSTITIAL,
-                  callback = { typeShowAds ->
+          adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_REWARDED_INTERSTITIAL,
+          callback = { typeShowAds ->
                   
-                  })
+          })                
 ```
 
 ## 🔧 Tuỳ chỉnh nâng cao

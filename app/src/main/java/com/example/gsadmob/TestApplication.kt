@@ -41,6 +41,8 @@ class TestApplication : GsAdmobApplication() {
         val adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameAppOpenResume
         val tag = ResumeDialogFragment.javaClass.simpleName
 
+
+
         AdGsManager.instance.registerCoroutineScope(
             application = this,
             coroutineScope = mainScope,

@@ -52,6 +52,18 @@ loại quảng cáo và tích hợp GDPR/CMP.
 
 - keyVipList là danh sách các key vip được dùng trong ứng dụng của bạn, xem chi tiết ở [VipPreferences](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/preferences/VipPreferences.kt)
 
+  - Mặc định 
+  
+    ```css
+          keyVipList = VipPreferences.defaultKeyVipList
+    ```
+  - Tùy chỉnh
+  
+    ```css
+          keyVipList = mutableListOf("isPro", "isProByYear", "isProByMonth")
+    ```
+- TestApplication
+
   ```css
         class TestApplication : GsAdmobApplication() {
             private val mainScope = MainScope()

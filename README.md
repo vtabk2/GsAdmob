@@ -117,42 +117,12 @@ hoặc khởi tạo sẵn trong xml
 
 # [VipPreferences](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/preferences/VipPreferences.kt) Nơi lưu trạng thái đã mua vip
 
-- Khởi tạo ở Application
+- Đăng ký keyVipList khi khởi tạo AdGsManager
 
-```css
-        VipPreferences.instance.initVipPreferences(this, BuildConfig.APPLICATION_ID)
-```
+> Nếu dùng mặc định thì xài: keyVipList = VipPreferences.defaultKeyVipList
 
-- Đăng ký thay đổi trạng thái mua vip ở Application (keyVipList là danh sách key vip của ứng dụng)
+> Nếu muốn thay đổi thì khởi tạo: keyVipList = mutableListOf("isPro", "isProByYear")
 
-```css
-        private val mainScope = MainScope()
-        
-        mainScope.launch {
-            VipPreferences.instance.getVipChangeFlow(keyVipList)
-                .catch { e -> e.printStackTrace() }
-                .stateIn(mainScope, SharingStarted.Eagerly, VipPreferences.instance.isFullVersion())
-                .collect { isVip ->
-                    AdGsManager.instance.notifyVip(isVip)
-                }
-        }
-```
-
-- Lưu 1 key mới
-
-```css
-         fun save(key: String, value: Boolean) {}
-```
-
-- Lấy giá trị từ 1 key mới
-
-```css
-        fun load(key: String, valueDefault: Boolean = false){}
-```
-
-- Có thể dùng các key mặc định như isPro, isProByYear, isProByMonth
-
-- Từ ***Version 1.2.15*** đã cải tiến tích hợp vào registerCoroutineScope của AdGsManager
 ```css
         AdGsManager.instance.registerCoroutineScope(
             application = this,
@@ -203,6 +173,20 @@ hoặc khởi tạo sẵn trong xml
             }
         )
 ```
+
+- Lưu 1 key mới
+
+```css
+         fun save(key: String, value: Boolean) {}
+```
+
+- Lấy giá trị từ 1 key mới
+
+```css
+        fun load(key: String, valueDefault: Boolean = false){}
+```
+
+- Có thể dùng các key mặc định như isPro, isProByYear, isProByMonth
 
 # Banner
 

@@ -19,7 +19,7 @@ loại quảng cáo và tích hợp GDPR/CMP.
 
 ### Gradle
 
-- Thêm repository vào `settings.gradle`:
+### 1. Thêm repository vào `settings.gradle`:
 
 ```css
       dependencyResolutionManagement {
@@ -32,7 +32,7 @@ loại quảng cáo và tích hợp GDPR/CMP.
       }
 ```
 
-- Thêm dependency vào `build.gradle`:
+### 2. Thêm dependency vào `build.gradle`:
 
 ```css
       dependencies {
@@ -47,10 +47,10 @@ loại quảng cáo và tích hợp GDPR/CMP.
 - Tạo 1 application ví dụ
   [TestApplication](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/TestApplication.kt)
 
-- Ở trong registerAdGsManager sẽ khởi
+- Ở trong registerAdGsManager() sẽ khởi
   tạo [AdGsManager](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/AdGsManager.kt)
 
-  - keyVipList là danh sách các key vip được dùng trong ứng dụng của bạn, xem chi tiết ở [VipPreferences](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/preferences/VipPreferences.kt)
+- keyVipList là danh sách các key vip được dùng trong ứng dụng của bạn, xem chi tiết ở [VipPreferences](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/preferences/VipPreferences.kt)
 
   ```css
         class TestApplication : GsAdmobApplication() {
@@ -237,16 +237,16 @@ loại quảng cáo và tích hợp GDPR/CMP.
 
 - Thay đổi kiểu hiển thị với `adsShowType`
 
+  ```css
+        app:adsShowType="alwaysShow"
+  ```
+
 | adsShowType   | Trạng thái                                                                                                                                                                                  |
 |---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
 | showIfSuccess | Quảng cáo chỉ chiếm kích thước và hiển thị khi quảng cáo được tải thành công                                                                                                                |
 | alwaysShow    | Quảng cáo luôn chiếm kích thước và hiển thị nếu quảng cáo đươc tải thành công                                                                                                               |
 | hide          | Ẩn quảng cáo đi nhưng vẫn chiếm kích thước và không hiển thị ngay cả khi quảng cáo được tải thành công (được dùng khi đang show quảng cáo app open hiển thị thì tạm ẩn banner đi chẳng hạn) |
 | notShow       | Ẩn quảng cáo đi không chiếm kích thước và không hiển thị ngày cả khi quảng cáo được tải thành công                                                                                          |
-
-  ```css
-        app:adsShowType="alwaysShow"
-  ```
 
 - Ví dụ
 

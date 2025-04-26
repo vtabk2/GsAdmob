@@ -117,9 +117,11 @@ loại quảng cáo và tích hợp GDPR/CMP.
 
 - Đổi string của dialog GDPR/CMP
 
-> <string name="ads_msg_gdpr">@string/msg_gdpr</string>
-
-> <string name="ads_text_grant_permission">@string/text_grant_permission</string>
+  ```css
+        <string name="ads_msg_gdpr">@string/msg_gdpr</string>
+  
+        <string name="ads_text_grant_permission">@string/text_grant_permission</string>
+  ```
 
 ## 🎮 Sử dụng
 

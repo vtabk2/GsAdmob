@@ -97,10 +97,10 @@ loại quảng cáo và tích hợp GDPR/CMP.
 
   ```css
         <resources>
-            <!-- App ID -->
+            <!-- App id -->
             <string name="app_id" translatable="false">ca-app-pub-3940256099942544~3347511713</string>
   
-            <!-- Ad Unit IDs -->
+            <!-- Ad Unit ids -->
             <string name="app_open_id" translatable="false">ca-app-pub-3940256099942544/9257395921</string>
             <string name="app_open_id_resume" translatable="false">ca-app-pub-3940256099942544/9257395921</string>
             <string name="banner_id" translatable="false">ca-app-pub-3940256099942544/9214589741</string>
@@ -154,9 +154,10 @@ Cách dùng chi tiết xem ở [SplashActivity](https://github.com/vtabk2/GsAdmo
 
 ### 2. Quảng cáo app open resume khi trở lại ứng dụng
 
-- Bước 1: Cấu hình ở Application
+- Bước 1: Cấu hình ở [Application](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/TestApplication.kt)
 
 Trong callbackStartLifecycle sẽ kiểm tra xem quảng cáo app open có sẵn hoặc có thể tải thì sẽ mở màn hình ResumeDialogFragment
+
 Trong callbackPauseLifecycle sẽ tắt ResumeDialogFragment đi nếu nó đang hiển thị
 
   ```css
@@ -427,7 +428,7 @@ Trong callbackPauseLifecycle sẽ tắt ResumeDialogFragment đi nếu nó đang
             app:adsNativeMode="album"/>
   ```
 
-- Dùng mode custom và sử dụng ID gốc, chỉ thay đổi layout
+- Dùng mode custom và sử dụng id gốc, chỉ thay đổi layout
 
   ```css
         <com.core.gsadmob.natives.view.NativeGsAdView
@@ -472,7 +473,7 @@ Trong callbackPauseLifecycle sẽ tắt ResumeDialogFragment đi nếu nó đang
         applyBuilder(NativeDefaultConfig.BUILDER_ALBUM)
   ```
 
-- Dùng mode custom và sử dụng ID gốc, chỉ thay đổi layout
+- Dùng mode custom và sử dụng id gốc, chỉ thay đổi layout
 
   ```css
         val builder = BaseNativeAdView.Builder().apply {
@@ -613,7 +614,7 @@ Tùy chỉnh shimmer
 ### Cấu hình Remote Config
 
 - Tạo file remote_config_defaults
-- Tạo [RemoteConfig]() sẽ mở rộng [AdGsRemoteConfig]()
+- Tạo [RemoteConfig](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/utils/remoteconfig/RemoteConfig.kt) sẽ mở rộng [AdGsRemoteConfig](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/remoteconfig/AdGsRemoteConfig.kt)
 
 Bên trong updateRemoteConfig của RemoteConfig là nơi lấy các cấu hình từ RemoteConfig trên Firebase
 
@@ -626,6 +627,9 @@ Bên trong updateRemoteConfig của RemoteConfig là nơi lấy các cấu hình
             isDebug = BuildConfig.DEBUG
         )
   ```
+
+- Tạo [AdGsRemoteExtraConfig](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/utils/remoteconfig/AdGsRemoteExtraConfig.kt) nơi
+  này sẽ quản lý các quảng cáo có trong ứng dụng để RemoteConfig cập nhật thông tin từ RemoteConfig vào
 
 ### Theme
 

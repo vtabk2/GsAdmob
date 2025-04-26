@@ -517,14 +517,6 @@ Trong callbackPauseLifecycle: sẽ tắt ResumeDialogFragment đi nếu nó đan
   
         bindingView.nativeTest1.setStyle(com.core.gsadmob.R.style.NativeFont)
   ```
-- Cấu hình ngôi sao rating ở ads_RatingBar
-
-  ```css
-        <style name="ads_RatingBar" parent="Theme.AppCompat">
-            <item name="colorControlNormal">#FFBF1C</item>
-            <item name="colorControlActivated">#FFBF1C</item>
-        </style>
-  ```
   
 ### 3. Tùy chỉnh các mẫu native có sẵn xem ở [config_admob.xml](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/res/values/config_admob.xml)
 
@@ -595,6 +587,15 @@ Tùy chỉnh shimmer
   
       <dimen name="ads_bg_shimmer_radius">5dp</dimen>
 ```
+
+- Cấu hình ngôi sao rating ở ads_RatingBar
+
+  ```css
+        <style name="ads_RatingBar" parent="Theme.AppCompat">
+            <item name="colorControlNormal">#FFBF1C</item>
+            <item name="colorControlActivated">#FFBF1C</item>
+        </style>
+  ```
 
 ### Tùy chỉnh VipPreferences
 

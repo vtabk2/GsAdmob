@@ -11,8 +11,8 @@ import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
 import com.core.gsadmob.utils.AdGsDelayManager
-import com.example.gsadmob.utils.remoteconfig.AdGsRemoteExtraConfig
 import com.example.gsadmob.databinding.FragmentResumeBinding
+import com.example.gsadmob.utils.remoteconfig.AdGsRemoteExtraConfig
 import com.google.android.material.R
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -29,8 +29,6 @@ class ResumeDialogFragment : BottomSheetDialogFragment() {
     lateinit var binding: FragmentResumeBinding
     private var heightScreen: Int = 0
     private var viewRoot: ViewGroup? = null
-
-    private val adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameAppOpenResume
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,7 +71,7 @@ class ResumeDialogFragment : BottomSheetDialogFragment() {
             AdGsDelayManager(
                 activity = it,
                 fragment = this,
-                adPlaceName = adPlaceName,
+                adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameAppOpenResume,
                 callbackFinished = {
                     dismissAllowingStateLoss()
                 })

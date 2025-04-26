@@ -47,8 +47,7 @@ loại quảng cáo và tích hợp GDPR/CMP.
 - Tạo 1 application ví dụ
   [TestApplication](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/TestApplication.kt)
 
-- Ở trong registerAdGsManager() sẽ khởi
-  tạo [AdGsManager](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/AdGsManager.kt)
+- Ở trong registerAdGsManager() của `TestApplication` sẽ khởi tạo [AdGsManager](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/AdGsManager.kt)
 
 - keyVipList là danh sách các key vip được dùng trong ứng dụng của bạn, xem chi tiết ở [VipPreferences](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/preferences/VipPreferences.kt)
 
@@ -64,7 +63,7 @@ loại quảng cáo và tích hợp GDPR/CMP.
           keyVipList = mutableListOf("isPro", "isProByYear")
     ```
 
-- TestApplication
+- `TestApplication`
 
   ```css
         class TestApplication : GsAdmobApplication() {
@@ -129,9 +128,11 @@ loại quảng cáo và tích hợp GDPR/CMP.
 
 ### 1. Quảng cáo app open ở màn hình splash
 
-Cách dùng chi tiết xem ở [SplashActivity](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/ui/activity/splash/SplashActivity.kt)
+- Sử dụng [AdGsSplashManager](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/AdGsSplashManager.kt) để tải và hiển thị quảng cáo cho màn hình splash
 
-- Khởi tạo
+Hướng dẫn chi tiết cách dùng xem ở [SplashActivity](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/ui/activity/splash/SplashActivity.kt)
+
+- Khởi tạo AdGsSplashManager
 
   ```css
         AdGsSplashManager(
@@ -156,9 +157,9 @@ Cách dùng chi tiết xem ở [SplashActivity](https://github.com/vtabk2/GsAdmo
 
 - Bước 1: Cấu hình ở [Application](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/TestApplication.kt)
 
-Trong callbackStartLifecycle sẽ kiểm tra xem quảng cáo app open có sẵn hoặc có thể tải thì sẽ mở màn hình ResumeDialogFragment
+Trong callbackStartLifecycle: sẽ kiểm tra xem quảng cáo app open có sẵn hoặc có thể tải thì sẽ mở màn hình ResumeDialogFragment
 
-Trong callbackPauseLifecycle sẽ tắt ResumeDialogFragment đi nếu nó đang hiển thị
+Trong callbackPauseLifecycle: sẽ tắt ResumeDialogFragment đi nếu nó đang hiển thị
 
   ```css
         override fun registerAdGsManager() {
@@ -630,6 +631,24 @@ Bên trong updateRemoteConfig của RemoteConfig là nơi lấy các cấu hình
 
 - Tạo [AdGsRemoteExtraConfig](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/utils/remoteconfig/AdGsRemoteExtraConfig.kt) nơi
   này sẽ quản lý các quảng cáo có trong ứng dụng để RemoteConfig cập nhật thông tin từ RemoteConfig vào
+
+### GsAdmobApplication
+
+- Sửa lỗi webview, truyền getPackageName() của ứng dụng vào
+
+  ```css
+        override fun fixWebView(packageName: String) {
+            super.fixWebView(getPackageName())
+        }
+  ```
+
+- Cài đặt có dùng thiết bị thành máy test không, super.setupDeviceTest(true) sẽ cho thiết bị thành máy test
+
+  ```css
+        override fun setupDeviceTest(isDebug: Boolean) {
+            super.setupDeviceTest(BuildConfig.DEBUG)
+        }
+  ```
 
 ### Theme
 

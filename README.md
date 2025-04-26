@@ -58,10 +58,10 @@ loại quảng cáo và tích hợp GDPR/CMP.
           keyVipList = VipPreferences.defaultKeyVipList
     ```
 
-  - Tùy chỉnh
+  - Tùy chỉnh các key mình dùng ví dụ sử dụng 2 key isPro, isProByYear
   
     ```css
-          keyVipList = mutableListOf("isPro", "isProByYear", "isProByMonth")
+          keyVipList = mutableListOf("isPro", "isProByYear")
     ```
 
 - TestApplication
@@ -115,6 +115,12 @@ loại quảng cáo và tích hợp GDPR/CMP.
         </resources>
   ```
 
+- Đổi string của dialog GDPR/CMP
+
+> <string name="ads_msg_gdpr">@string/msg_gdpr</string>
+
+> <string name="ads_text_grant_permission">@string/text_grant_permission</string>
+
 ## 🎮 Sử dụng
 
 ### Quảng cáo App Open
@@ -148,7 +154,75 @@ Cách dùng chi tiết xem ở [SplashActivity](https://github.com/vtabk2/GsAdmo
 
 - Bước 1: Cấu hình ở Application
 
-- Bước 2: Cấu hình ở ResumeDialogFragment
+Trong callbackStartLifecycle sẽ kiểm tra xem quảng cáo app open có sẵn hoặc có thể tải thì sẽ mở màn hình ResumeDialogFragment
+Trong callbackPauseLifecycle sẽ tắt ResumeDialogFragment đi nếu nó đang hiển thị
+
+  ```css
+        override fun registerAdGsManager() {
+            super.registerAdGsManager()
+
+            RemoteConfig.instance.initRemoteConfig(
+                application = this,
+                remoteConfigDefaultsId = R.xml.remote_config_defaults,
+                isDebug = BuildConfig.DEBUG
+            )
+
+            val adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameAppOpenResume
+            val tag = ResumeDialogFragment.javaClass.simpleName
+
+            AdGsManager.instance.registerCoroutineScope(
+                application = this,
+                coroutineScope = mainScope,
+                applicationId = BuildConfig.APPLICATION_ID,
+                keyVipList = VipPreferences.defaultKeyVipList,
+                callbackStartLifecycle = { activity ->
+                    if (canShowAppOpenResume && activity !is SplashActivity) {
+                       AdGsManager.instance.showAd(adPlaceName = adPlaceName, onlyCheckNotShow = true, callbackShow = { adShowStatus ->
+                           when (adShowStatus) {
+                               AdShowStatus.CAN_SHOW, AdShowStatus.REQUIRE_LOAD -> {
+                                   activity.supportFragmentManager.let { fragmentManager ->
+                                       val bottomDialogFragment = fragmentManager.findFragmentByTag(tag) as? ResumeDialogFragment
+                                       if (bottomDialogFragment != null && bottomDialogFragment.isVisible) {
+                                          // BottomDialogFragment đang hiển thị
+                                          bottomDialogFragment.onShowAds("onResume")
+                                       } else {
+                                          // BottomDialogFragment không hiển thị
+                                          val fragment = (activity.window.decorView.rootView as? ViewGroup)?.let { ResumeDialogFragment.newInstance(it) }
+                                          fragment?.show(fragmentManager, tag)
+                                       }
+                                  }
+                               }
+
+                               else -> {
+
+                               }
+                           }
+                       })
+                   }
+                },
+                callbackPauseLifecycle = { activity ->
+                    val bottomDialogFragment = activity.supportFragmentManager.findFragmentByTag(tag) as? ResumeDialogFragment
+                    if (bottomDialogFragment != null && bottomDialogFragment.isVisible) {
+                        // BottomDialogFragment đang hiển thị
+                        activity.runOnUiThread {
+                            bottomDialogFragment.dismissAllowingStateLoss()
+                        }
+                    } else {
+                        // BottomDialogFragment không hiển thị
+                    }
+                }, callbackNothingLifecycle = {
+                    // 1 số logic cần thiết khác (ví dụ retry vip hoặc Lingver)
+                }, callbackChangeVip = { currentActivity, isVip ->
+                    if (currentActivity is BaseAdsActivity<*>) {
+                        currentActivity.updateUiWithVip(isVip = isVip)
+                    }
+                }
+           )
+       }
+  ```
+
+- Bước 2: Tạo fragment [ResumeDialogFragment](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/ui/fragment/ResumeDialogFragment.kt)
+  và trong onShowAds sẽ khởi tạo AdGsDelayManager để xử lý tải và hiển thị quảng cáo app open resume
 
   ```css
         fun onShowAds(from: String) {
@@ -447,6 +521,76 @@ Cách dùng chi tiết xem ở [SplashActivity](https://github.com/vtabk2/GsAdmo
             <item name="colorControlActivated">#FFBF1C</item>
         </style>
   ```
+  
+### 3. Tùy chỉnh các mẫu native có sẵn xem ở [config_admob.xml](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/res/values/config_admob.xml)
+
+Ví dụ album có thể thay đổi các thông số
+
+```css
+      <!--    album-->
+      <color name="ads_text_color_headline_album">@android:color/white</color>
+      <color name="ads_text_color_body_album">@android:color/white</color>
+      <color name="ads_text_color_attribution_album">@android:color/white</color>
+      <color name="ads_text_color_call_button_album">@color/selector_color_white_black</color>
+      <color name="ads_call_button_album">#14B261</color>
+      <color name="ads_call_button_album_pressed">#DFE1E6</color>
+      <color name="ads_bg_color_album">#212121</color>
+  
+      <drawable name="ads_bg_album">@drawable/ads__bg_album</drawable>
+      <drawable name="ads_bg_text_ad_album">@drawable/ads__bg_text_ad_album</drawable>
+      <drawable name="ads_bg_call_action_button_album">
+          @drawable/ads_selector_bg_call_action_button_album
+      </drawable>
+  
+      <bool name="ads_call_button_album_textAllCaps">false</bool>
+  
+      <dimen name="ads_text_size_headline_album">15sp</dimen>
+      <dimen name="ads_text_size_body_album">13sp</dimen>
+      <dimen name="ads_text_size_attribution_album">8sp</dimen>
+      <dimen name="ads_text_size_call_to_action_album">14sp</dimen>
+      <dimen name="ads_height_call_to_action_album">32dp</dimen>
+      <dimen name="ads_radius_call_to_action_album">10dp</dimen>
+      <dimen name="ads_padding_bottom_call_to_action_album">6dp</dimen>
+      <dimen name="ads_padding_left_call_to_action_album">10dp</dimen>
+      <dimen name="ads_padding_right_call_to_action_album">10dp</dimen>
+      <dimen name="ads_padding_top_call_to_action_album">6dp</dimen>
+      <dimen name="ads_radius_bg_album">0dp</dimen>
+  
+      <style name="ads_NativeAlbumRoot" parent="ads_BaseNativeAdViewRoot">
+  
+      </style>
+```
+
+Tùy chỉnh shimmer
+
+```css
+      <!--    shimmer root-->
+      <color name="ads_bg_shimmer_root_color">#CACACA</color>
+      <color name="ads_bg_banner_shimmer_root_color">#CACACA</color>
+  
+      <drawable name="ads_bg_shimmer_album">@drawable/ads__bg_shimmer_root</drawable>
+      <drawable name="ads_bg_shimmer_custom">@drawable/ads__bg_shimmer_root</drawable>
+      <drawable name="ads_bg_shimmer_font">@drawable/ads__bg_shimmer_root</drawable>
+      <drawable name="ads_bg_shimmer_frame">@drawable/ads__bg_shimmer_root</drawable>
+      <drawable name="ads_bg_shimmer_language">@drawable/ads__bg_shimmer_root</drawable>
+      <drawable name="ads_bg_shimmer_share">@drawable/ads__bg_shimmer_root</drawable>
+      <drawable name="ads_bg_shimmer_sticker">@drawable/ads__bg_shimmer_root</drawable>
+      <drawable name="ads_bg_shimmer_template">@drawable/ads__bg_shimmer_root</drawable>
+      <drawable name="ads_bg_shimmer_vip">@drawable/ads__bg_shimmer_root</drawable>
+  
+      <drawable name="ads_bg_banner_shimmer_root">@drawable/ads__bg_banner_shimmer_root</drawable>
+  
+      <dimen name="ads_bg_shimmer_root_radius">0dp</dimen>
+  
+      <dimen name="ads_bg_banner_shimmer_root_radius">0dp</dimen>
+  
+      <!--    shimmer-->
+      <color name="ads_bg_shimmer_color">#80000000</color>
+  
+      <drawable name="ads_bg_shimmer">@drawable/ads__bg_shimmer</drawable>
+  
+      <dimen name="ads_bg_shimmer_radius">5dp</dimen>
+```
 
 ### Tùy chỉnh VipPreferences
 
@@ -467,6 +611,9 @@ Cách dùng chi tiết xem ở [SplashActivity](https://github.com/vtabk2/GsAdmo
 ### Cấu hình Remote Config
 
 - Tạo file remote_config_defaults
+- Tạo [RemoteConfig]() sẽ mở rộng [AdGsRemoteConfig]()
+
+Bên trong updateRemoteConfig của RemoteConfig là nơi lấy các cấu hình từ RemoteConfig trên Firebase
 
 - Khởi tạo trong registerAdGsManager() ở Application
 

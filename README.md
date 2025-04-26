@@ -520,73 +520,73 @@ Trong callbackPauseLifecycle: sẽ tắt ResumeDialogFragment đi nếu nó đan
   
 ### 3. Tùy chỉnh các mẫu native có sẵn xem ở [config_admob.xml](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/res/values/config_admob.xml)
 
-Ví dụ album có thể thay đổi các thông số
+- Ví dụ album có thể thay đổi các thông số
 
-```css
-      <!--    album-->
-      <color name="ads_text_color_headline_album">@android:color/white</color>
-      <color name="ads_text_color_body_album">@android:color/white</color>
-      <color name="ads_text_color_attribution_album">@android:color/white</color>
-      <color name="ads_text_color_call_button_album">@color/selector_color_white_black</color>
-      <color name="ads_call_button_album">#14B261</color>
-      <color name="ads_call_button_album_pressed">#DFE1E6</color>
-      <color name="ads_bg_color_album">#212121</color>
-  
-      <drawable name="ads_bg_album">@drawable/ads__bg_album</drawable>
-      <drawable name="ads_bg_text_ad_album">@drawable/ads__bg_text_ad_album</drawable>
-      <drawable name="ads_bg_call_action_button_album">
-          @drawable/ads_selector_bg_call_action_button_album
-      </drawable>
-  
-      <bool name="ads_call_button_album_textAllCaps">false</bool>
-  
-      <dimen name="ads_text_size_headline_album">15sp</dimen>
-      <dimen name="ads_text_size_body_album">13sp</dimen>
-      <dimen name="ads_text_size_attribution_album">8sp</dimen>
-      <dimen name="ads_text_size_call_to_action_album">14sp</dimen>
-      <dimen name="ads_height_call_to_action_album">32dp</dimen>
-      <dimen name="ads_radius_call_to_action_album">10dp</dimen>
-      <dimen name="ads_padding_bottom_call_to_action_album">6dp</dimen>
-      <dimen name="ads_padding_left_call_to_action_album">10dp</dimen>
-      <dimen name="ads_padding_right_call_to_action_album">10dp</dimen>
-      <dimen name="ads_padding_top_call_to_action_album">6dp</dimen>
-      <dimen name="ads_radius_bg_album">0dp</dimen>
-  
-      <style name="ads_NativeAlbumRoot" parent="ads_BaseNativeAdViewRoot">
-  
-      </style>
-```
+  ```css
+        <!--    album-->
+        <color name="ads_text_color_headline_album">@android:color/white</color>
+        <color name="ads_text_color_body_album">@android:color/white</color>
+        <color name="ads_text_color_attribution_album">@android:color/white</color>
+        <color name="ads_text_color_call_button_album">@color/selector_color_white_black</color>
+        <color name="ads_call_button_album">#14B261</color>
+        <color name="ads_call_button_album_pressed">#DFE1E6</color>
+        <color name="ads_bg_color_album">#212121</color>
+    
+        <drawable name="ads_bg_album">@drawable/ads__bg_album</drawable>
+        <drawable name="ads_bg_text_ad_album">@drawable/ads__bg_text_ad_album</drawable>
+        <drawable name="ads_bg_call_action_button_album">
+            @drawable/ads_selector_bg_call_action_button_album
+        </drawable>
+    
+        <bool name="ads_call_button_album_textAllCaps">false</bool>
+    
+        <dimen name="ads_text_size_headline_album">15sp</dimen>
+        <dimen name="ads_text_size_body_album">13sp</dimen>
+        <dimen name="ads_text_size_attribution_album">8sp</dimen>
+        <dimen name="ads_text_size_call_to_action_album">14sp</dimen>
+        <dimen name="ads_height_call_to_action_album">32dp</dimen>
+        <dimen name="ads_radius_call_to_action_album">10dp</dimen>
+        <dimen name="ads_padding_bottom_call_to_action_album">6dp</dimen>
+        <dimen name="ads_padding_left_call_to_action_album">10dp</dimen>
+        <dimen name="ads_padding_right_call_to_action_album">10dp</dimen>
+        <dimen name="ads_padding_top_call_to_action_album">6dp</dimen>
+        <dimen name="ads_radius_bg_album">0dp</dimen>
+    
+        <style name="ads_NativeAlbumRoot" parent="ads_BaseNativeAdViewRoot">
+    
+        </style>
+  ```
 
-Tùy chỉnh shimmer
+- Tùy chỉnh shimmer
 
-```css
-      <!--    shimmer root-->
-      <color name="ads_bg_shimmer_root_color">#CACACA</color>
-      <color name="ads_bg_banner_shimmer_root_color">#CACACA</color>
-  
-      <drawable name="ads_bg_shimmer_album">@drawable/ads__bg_shimmer_root</drawable>
-      <drawable name="ads_bg_shimmer_custom">@drawable/ads__bg_shimmer_root</drawable>
-      <drawable name="ads_bg_shimmer_font">@drawable/ads__bg_shimmer_root</drawable>
-      <drawable name="ads_bg_shimmer_frame">@drawable/ads__bg_shimmer_root</drawable>
-      <drawable name="ads_bg_shimmer_language">@drawable/ads__bg_shimmer_root</drawable>
-      <drawable name="ads_bg_shimmer_share">@drawable/ads__bg_shimmer_root</drawable>
-      <drawable name="ads_bg_shimmer_sticker">@drawable/ads__bg_shimmer_root</drawable>
-      <drawable name="ads_bg_shimmer_template">@drawable/ads__bg_shimmer_root</drawable>
-      <drawable name="ads_bg_shimmer_vip">@drawable/ads__bg_shimmer_root</drawable>
-  
-      <drawable name="ads_bg_banner_shimmer_root">@drawable/ads__bg_banner_shimmer_root</drawable>
-  
-      <dimen name="ads_bg_shimmer_root_radius">0dp</dimen>
-  
-      <dimen name="ads_bg_banner_shimmer_root_radius">0dp</dimen>
-  
-      <!--    shimmer-->
-      <color name="ads_bg_shimmer_color">#80000000</color>
-  
-      <drawable name="ads_bg_shimmer">@drawable/ads__bg_shimmer</drawable>
-  
-      <dimen name="ads_bg_shimmer_radius">5dp</dimen>
-```
+  ```css
+        <!--    shimmer root-->
+        <color name="ads_bg_shimmer_root_color">#CACACA</color>
+        <color name="ads_bg_banner_shimmer_root_color">#CACACA</color>
+    
+        <drawable name="ads_bg_shimmer_album">@drawable/ads__bg_shimmer_root</drawable>
+        <drawable name="ads_bg_shimmer_custom">@drawable/ads__bg_shimmer_root</drawable>
+        <drawable name="ads_bg_shimmer_font">@drawable/ads__bg_shimmer_root</drawable>
+        <drawable name="ads_bg_shimmer_frame">@drawable/ads__bg_shimmer_root</drawable>
+        <drawable name="ads_bg_shimmer_language">@drawable/ads__bg_shimmer_root</drawable>
+        <drawable name="ads_bg_shimmer_share">@drawable/ads__bg_shimmer_root</drawable>
+        <drawable name="ads_bg_shimmer_sticker">@drawable/ads__bg_shimmer_root</drawable>
+        <drawable name="ads_bg_shimmer_template">@drawable/ads__bg_shimmer_root</drawable>
+        <drawable name="ads_bg_shimmer_vip">@drawable/ads__bg_shimmer_root</drawable>
+    
+        <drawable name="ads_bg_banner_shimmer_root">@drawable/ads__bg_banner_shimmer_root</drawable>
+    
+        <dimen name="ads_bg_shimmer_root_radius">0dp</dimen>
+    
+        <dimen name="ads_bg_banner_shimmer_root_radius">0dp</dimen>
+    
+        <!--    shimmer-->
+        <color name="ads_bg_shimmer_color">#80000000</color>
+    
+        <drawable name="ads_bg_shimmer">@drawable/ads__bg_shimmer</drawable>
+    
+        <dimen name="ads_bg_shimmer_radius">5dp</dimen>
+  ```
 
 - Cấu hình ngôi sao rating ở ads_RatingBar
 

@@ -526,7 +526,7 @@ hoặc mở rộng style gốc với `Base.Theme.GsAdmob`
 
 Mọi đóng góp vui lòng tạo `Pull requests` hoặc `Issues` trên [GitHub](https://github.com/vtabk2/GsAdmob).
 
-## [Lịch sử cập nhật]()
+## [Lịch sử cập nhật](https://github.com/vtabk2/GsAdmob/blob/main/HISTORY.md)
 
 
 

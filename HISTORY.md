@@ -7,6 +7,8 @@
       <style name="Theme.GsAdmob" parent="Base.Theme.GsAdmob"/>
 ```
 
+- Đổi HashMap thành ConcurrentHashMap ở AdGsManager
+
 **Version 1.3.22**
 
 - Sửa lỗi hủy quảng cáo trả thưởng không được

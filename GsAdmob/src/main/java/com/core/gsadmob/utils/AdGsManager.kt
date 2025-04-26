@@ -65,17 +65,18 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import java.util.concurrent.ConcurrentHashMap
 
 class AdGsManager {
-    private val adGsDataMap = HashMap<AdPlaceName, BaseAdGsData>()
-    private val adGsDataMapMutableStateFlow = MutableStateFlow(HashMap<AdPlaceName, BaseActiveAdGsData>())
+    private val adGsDataMap = ConcurrentHashMap<AdPlaceName, BaseAdGsData>()
+    private val adGsDataMapMutableStateFlow = MutableStateFlow(ConcurrentHashMap<AdPlaceName, BaseActiveAdGsData>())
 
-    private val shimmerMap = HashMap<AdPlaceName, Boolean>()
-    private val startShimmerLiveData = MutableLiveData<HashMap<AdPlaceName, Boolean>>()
+    private val shimmerMap = ConcurrentHashMap<AdPlaceName, Boolean>()
+    private val startShimmerLiveData = MutableLiveData<ConcurrentHashMap<AdPlaceName, Boolean>>()
 
-    private val backupDelayTimeMap = HashMap<AdPlaceName, Long>()
-    private val backupActiveTimeMap = HashMap<AdPlaceName, Boolean>()
-    private val backupCancelTimeMap = HashMap<AdPlaceName, Boolean>()
+    private val backupDelayTimeMap = ConcurrentHashMap<AdPlaceName, Long>()
+    private val backupActiveTimeMap = ConcurrentHashMap<AdPlaceName, Boolean>()
+    private val backupCancelTimeMap = ConcurrentHashMap<AdPlaceName, Boolean>()
 
     private val isVipMutableStateFlow = MutableStateFlow(false)
     var isVipFlow = isVipMutableStateFlow.asStateFlow()
@@ -1168,7 +1169,7 @@ class AdGsManager {
     private fun notifyAds(from: String) {
         log("AdGsManager_notifyAds_from", from)
         defaultScope?.launch {
-            val newData = HashMap<AdPlaceName, BaseActiveAdGsData>()
+            val newData = ConcurrentHashMap<AdPlaceName, BaseActiveAdGsData>()
             adGsDataMap.toMap().forEach {
                 when (val adGsData = it.value) {
                     is BannerAdGsData -> if (adGsData.isActive) newData[it.key] = adGsData.copy()

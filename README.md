@@ -603,19 +603,27 @@ Hướng dẫn chi tiết xem [ImageAdapter](https://github.com/vtabk2/GsAdmob/b
 
 > override nativeAdLayoutId : khi muốn thay đổi native layout id
 
+
 > override nativeAdId: khi muốn thay đổi id NativeGsAdView
 
-> override onCreateItemViewHolder để tùy chỉnh khởi tạo item
 
-> override onBindItemViewHolder để tùy chỉnh cập nhật dữ liệu cho item
+> override onCreateItemViewHolder: để tùy chỉnh khởi tạo item
 
-> override onCreateAdViewHolder để tùy chỉnh khởi tạo item quảng cáo
 
-> override onBindAdViewHolder để tùy chỉnh cập nhật dữ liệu cho item quảng cáo
+> override onBindItemViewHolder: để tùy chỉnh cập nhật dữ liệu cho item
+
+
+> override onCreateAdViewHolder: để tùy chỉnh khởi tạo item quảng cáo
+
+
+> override onBindAdViewHolder: để tùy chỉnh cập nhật dữ liệu cho item quảng cáo
  
-> override canCheckUpdateCallActionButton để tùy chỉnh xem CallActionButton có thay đổi trạng thái không
+
+> override canCheckUpdateCallActionButton: để tùy chỉnh xem CallActionButton có thay đổi trạng thái không
  
-> override getBackgroundResourceCallActionButton để lấy res cho CallActionButton và chỉ có tác dụng khi canCheckUpdateCallActionButton = true
+
+> override getBackgroundResourceCallActionButton: để lấy res cho CallActionButton và chỉ có tác dụng khi canCheckUpdateCallActionButton = true
+
 
 ### Tùy chỉnh VipPreferences
 

@@ -1,9 +1,9 @@
 **Version 1.3.25**
 - Cải tiến BaseWithAdsAdapter
-- Thêm onCreateAdViewHolder để có thể tùy chỉnh item quảng cáo native
-- Thêm onBindAdViewHolder để có thể tùy chỉnh item quảng cáo native
-- Thêm biến canCheckUpdateCallActionButton để xác định CallActionButton có thay đôi trạng thái không
-- Thêm getBackgroundResourceCallActionButton để thay đổi trạng thái CallActionButton và hàm này chỉ có tác dụng khi canCheckUpdateCallActionButton = true
+- Thêm onCreateAdViewHolder: để có thể tùy chỉnh item quảng cáo native
+- Thêm onBindAdViewHolder: để có thể tùy chỉnh item quảng cáo native
+- Thêm biến canCheckUpdateCallActionButton: để xác định CallActionButton có thay đôi trạng thái không
+- Thêm getBackgroundResourceCallActionButton: để thay đổi trạng thái CallActionButton và hàm này chỉ có tác dụng khi canCheckUpdateCallActionButton = true
 
 **Version 1.3.24**
 
@@ -17,9 +17,9 @@ Hướng dẫn chi tiết xem [ImageAdapter](https://github.com/vtabk2/GsAdmob/b
 
 > override nativeAdId: khi muốn thay đổi id NativeGsAdView
 
-> override onCreateItemViewHolder để tự xử dữ liệu mới
+> override onCreateItemViewHolder: để tự xử dữ liệu mới
 
-> override onBindItemViewHolder để tự xử dữ liệu mới
+> override onBindItemViewHolder: để tự xử dữ liệu mới
 
 **Version 1.3.23**
 

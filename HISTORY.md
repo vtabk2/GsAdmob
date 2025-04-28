@@ -1,3 +1,10 @@
+**Version 1.3.25**
+- Cải tiến BaseWithAdsAdapter
+- Thêm onCreateAdViewHolder để có thể tùy chỉnh item quảng cáo native
+- Thêm onBindAdViewHolder để có thể tùy chỉnh item quảng cáo native
+- Thêm biến canCheckUpdateCallActionButton để xác định CallActionButton có thay đôi trạng thái không
+- Thêm getBackgroundResourceCallActionButton để thay đổi trạng thái CallActionButton và hàm này chỉ có tác dụng khi canCheckUpdateCallActionButton = true
+
 **Version 1.3.24**
 
 - Cải tiến BaseWithAdsAdapter để tự xử lý quảng cáo native

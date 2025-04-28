@@ -31,6 +31,12 @@ abstract class BaseWithAdsAdapter(context: Context) : RecyclerView.Adapter<Recyc
      */
     open val nativeAdId: Int = R.id.nativeAd
 
+    /**
+     * canCheckUpdateCallActionButton = true -> quảng cáo native có thay đổi trạng thái nút dựa trên item trước nó
+     * canCheckUpdateCallActionButton = false -> quảng cáo native không có thay đổi trạng thái nút dựa trên item trước nó
+     */
+    open val canCheckUpdateCallActionButton = false
+
     override fun getItemViewType(position: Int): Int {
         return when (itemList[position]) {
             is ItemAds -> ADS
@@ -40,16 +46,30 @@ abstract class BaseWithAdsAdapter(context: Context) : RecyclerView.Adapter<Recyc
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         return when (viewType) {
-            ADS -> NativeAdHolder(layoutInflater.inflate(nativeAdLayoutId, parent, false))
+            ADS -> onCreateAdViewHolder(parent)
             else -> onCreateItemViewHolder(parent, viewType)
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
         when (holder) {
-            is NativeAdHolder -> holder.bind(itemList[position] as ItemAds)
+            is NativeAdHolder -> onBindAdViewHolder(holder, position)
             else -> onBindItemViewHolder(holder, position)
         }
+    }
+
+    /**
+     * Hàm khởi tạo item quảng cáo native
+     */
+    open fun onCreateAdViewHolder(parent: ViewGroup): RecyclerView.ViewHolder {
+        return NativeAdHolder(layoutInflater.inflate(nativeAdLayoutId, parent, false))
+    }
+
+    /**
+     * Hàm cập nhật dữ liệu quảng cáo native
+     */
+    open fun onBindAdViewHolder(holder: NativeAdHolder, position: Int) {
+        holder.bind(itemList[position] as ItemAds)
     }
 
     /**
@@ -110,6 +130,10 @@ abstract class BaseWithAdsAdapter(context: Context) : RecyclerView.Adapter<Recyc
         }
     }
 
+    open fun getBackgroundResourceCallActionButton(position: Int): Int {
+        return 0
+    }
+
     /**
      * Kiểm tra xem có dữ liệu nào khác ItemAds không?
      */
@@ -134,7 +158,11 @@ abstract class BaseWithAdsAdapter(context: Context) : RecyclerView.Adapter<Recyc
             nativeGsAdView?.let {
                 it.setNativeAd(nativeAd = itemAds.nativeAd, isStartShimmer = itemAds.isLoading)
 
-                itemAds.nativeAd?.let {
+                itemAds.nativeAd?.let { nativeAd ->
+                    if (canCheckUpdateCallActionButton) {
+                        it.updateCallActionButton(getBackgroundResourceCallActionButton(adapterPosition))
+                    }
+
                     itemView.visible()
                     itemView.layoutParams = RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
                 } ?: run {

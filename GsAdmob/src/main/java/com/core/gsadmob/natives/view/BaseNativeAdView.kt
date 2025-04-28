@@ -193,6 +193,7 @@ abstract class BaseNativeAdView(context: Context, attrs: AttributeSet?) : FrameL
     }
 
     fun updateCallActionButton(resId: Int) {
+        if (resId == 0) return
         callActionButtonView?.setBackgroundResource(resId)
     }
 

@@ -1,3 +1,27 @@
+**Version 1.3.26**
+- Sửa lỗi Unable to add window -- token is not valid; is your activity running?
+
+```css
+                Fatal Exception: android.view.WindowManager$BadTokenException: Unable to add window -- token android.os.BinderProxy@1a9a45f is not valid; is your activity running?
+       at android.view.ViewRootImpl.setView(ViewRootImpl.java:1588)
+       at android.view.WindowManagerGlobal.addView(WindowManagerGlobal.java:509)
+       at android.view.WindowManagerImpl.addView(WindowManagerImpl.java:133)
+       at android.app.Dialog.show(Dialog.java:512)
+       at com.core.gsadmob.utils.AdGsRewardedManager.checkShowRewardedAds$lambda$6(AdGsRewardedManager.kt:119)
+       at com.core.gscore.utils.network.NetworkUtils$hasInternetAccessCheck$1$1.invokeSuspend(NetworkUtils.kt:143)
+       at kotlin.coroutines.jvm.internal.BaseContinuationImpl.resumeWith(ContinuationImpl.kt:33)
+       at kotlinx.coroutines.DispatchedTask.run(DispatchedTask.kt:101)
+       at android.os.Handler.handleCallback(Handler.java:938)
+       at android.os.Handler.dispatchMessage(Handler.java:99)
+       at android.os.Looper.loopOnce(Looper.java:226)
+       at android.os.Looper.loop(Looper.java:313)
+       at android.app.ActivityThread.main(ActivityThread.java:8669)
+       at java.lang.reflect.Method.invoke(Method.java)
+       at com.android.internal.os.RuntimeInit$MethodAndArgsCaller.run(RuntimeInit.java:571)
+       at com.android.internal.os.ZygoteInit.main(ZygoteInit.java:1135)
+        
+```
+
 **Version 1.3.25**
 - Cải tiến BaseWithAdsAdapter
 - Thêm onCreateAdViewHolder: để có thể tùy chỉnh item quảng cáo native

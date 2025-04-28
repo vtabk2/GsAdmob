@@ -36,7 +36,7 @@ loại quảng cáo và tích hợp GDPR/CMP.
 
 ```css
       dependencies {
-          implementation 'com.github.vtabk2:GsAdmob:1.3.23'
+          implementation 'com.github.vtabk2:GsAdmob:1.3.24'
       }
 ```
 
@@ -596,6 +596,18 @@ Trong callbackPauseLifecycle: sẽ tắt ResumeDialogFragment đi nếu nó đan
             <item name="colorControlActivated">#FFBF1C</item>
         </style>
   ```
+
+- Tùy chỉnh [BaseWithAdsAdapter](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/adapter/BaseWithAdsAdapter.kt)
+
+Hướng dẫn chi tiết xem [ImageAdapter](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/ui/adapter/ImageAdapter.kt)
+
+> override nativeAdLayoutId : khi muốn thay đổi native layout id
+
+> override nativeAdId: khi muốn thay đổi id NativeGsAdView
+
+> override onCreateItemViewHolder để tự xử dữ liệu mới
+
+> override onBindItemViewHolder để tự xử dữ liệu mới
 
 ### Tùy chỉnh VipPreferences
 

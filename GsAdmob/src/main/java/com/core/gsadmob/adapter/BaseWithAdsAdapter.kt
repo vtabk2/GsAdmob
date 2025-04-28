@@ -2,14 +2,34 @@ package com.core.gsadmob.adapter
 
 import android.content.Context
 import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.core.gsadmob.R
 import com.core.gsadmob.model.ItemAds
+import com.core.gsadmob.natives.view.NativeGsAdView
+import com.core.gscore.utils.extensions.gone
+import com.core.gscore.utils.extensions.visible
 import com.google.android.gms.ads.nativead.NativeAd
 
 abstract class BaseWithAdsAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var layoutInflater: LayoutInflater = LayoutInflater.from(context)
     var itemList: MutableList<Any> = mutableListOf()
+
+    /**
+     * Dùng cho trường hợp dữ liệu lấy được quá chậm sau khi khởi tải được quảng cáo rồi
+     */
     var isStartShimmer: Boolean = false
+
+    /**
+     * Layout id native quảng cáo
+     */
+    open val nativeAdLayoutId: Int = R.layout.ad_item_native
+
+    /**
+     * Id của NativeGsAdView
+     */
+    open val nativeAdId: Int = R.id.nativeAd
 
     override fun getItemViewType(position: Int): Int {
         return when (itemList[position]) {
@@ -17,6 +37,30 @@ abstract class BaseWithAdsAdapter(context: Context) : RecyclerView.Adapter<Recyc
             else -> ITEM
         }
     }
+
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
+        return when (viewType) {
+            ADS -> NativeAdHolder(layoutInflater.inflate(nativeAdLayoutId, parent, false))
+            else -> onCreateItemViewHolder(parent, viewType)
+        }
+    }
+
+    override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
+        when (holder) {
+            is NativeAdHolder -> holder.bind(itemList[position] as ItemAds)
+            else -> onBindItemViewHolder(holder, position)
+        }
+    }
+
+    /**
+     * Hàm khởi tạo các item khác ItemAds
+     */
+    abstract fun onCreateItemViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder
+
+    /**
+     * Hàm cập nhật dữ liệu vào item
+     */
+    abstract fun onBindItemViewHolder(holder: RecyclerView.ViewHolder, position: Int)
 
     override fun getItemCount(): Int {
         return itemList.size
@@ -41,6 +85,9 @@ abstract class BaseWithAdsAdapter(context: Context) : RecyclerView.Adapter<Recyc
         }
     }
 
+    /**
+     * Hiển thị shimmer
+     */
     fun startShimmer() {
         isStartShimmer = true
         itemList.filterIsInstance<ItemAds>().forEach {
@@ -50,6 +97,9 @@ abstract class BaseWithAdsAdapter(context: Context) : RecyclerView.Adapter<Recyc
         }
     }
 
+    /**
+     * Ẩn shimmer
+     */
     fun stopShimmer(nativeAd: NativeAd?) {
         isStartShimmer = false
         itemList.filterIsInstance<ItemAds>().forEach {
@@ -60,12 +110,47 @@ abstract class BaseWithAdsAdapter(context: Context) : RecyclerView.Adapter<Recyc
         }
     }
 
+    /**
+     * Kiểm tra xem có dữ liệu nào khác ItemAds không?
+     */
     fun isEmpty(): Boolean {
         return itemList.none { it !is ItemAds }
     }
 
+    /**
+     * Kiểm tra xem item có position này có phải là ItemAds không?
+     */
     fun isAds(position: Int): Boolean {
         return itemList[position] is ItemAds
+    }
+
+    /**
+     * Phần xử lý quảng cáo native
+     */
+    inner class NativeAdHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        val nativeGsAdView: NativeGsAdView? = itemView.findViewById(nativeAdId)
+
+        fun bind(itemAds: ItemAds) {
+            nativeGsAdView?.let {
+                it.setNativeAd(nativeAd = itemAds.nativeAd, isStartShimmer = itemAds.isLoading)
+
+                itemAds.nativeAd?.let {
+                    itemView.visible()
+                    itemView.layoutParams = RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                } ?: run {
+                    if (itemAds.isLoading) {
+                        itemView.visible()
+                        itemView.layoutParams = RecyclerView.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT)
+                    } else {
+                        itemView.gone()
+                        itemView.layoutParams = RecyclerView.LayoutParams(0, 0)
+                    }
+                }
+            } ?: run {
+                itemView.gone()
+                itemView.layoutParams = RecyclerView.LayoutParams(0, 0)
+            }
+        }
     }
 
     companion object {

@@ -31,7 +31,7 @@ class HomeActivity : BaseMVVMActivity<ActivityHomeBinding>(ActivityHomeBinding::
         manager.spanSizeLookup = object : GridLayoutManager.SpanSizeLookup() {
             override fun getSpanSize(position: Int): Int {
                 return adapter?.let {
-                    if (it.isAds(position)) 4 else 1
+                    if (it.isAds(position) || it.isTitle(position)) 4 else 1
                 } ?: 1
             }
         }

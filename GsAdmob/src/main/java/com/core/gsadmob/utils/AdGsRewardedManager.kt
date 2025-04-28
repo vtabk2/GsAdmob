@@ -80,7 +80,17 @@ class AdGsRewardedManager(
         callbackStart: (() -> Unit)? = null,
         requireCheck: Boolean = true
     ) {
+        if (activity.isFinishing || activity.isDestroyed) {
+            callback?.invoke(TypeShowAds.CANCEL)
+            return
+        }
+
         fun gatherConsent() {
+            if (activity.isFinishing || activity.isDestroyed) {
+                callback?.invoke(TypeShowAds.CANCEL)
+                return
+            }
+
             googleMobileAdsConsentManager?.gatherConsent(
                 activity = activity,
                 onCanShowAds = {
@@ -99,6 +109,11 @@ class AdGsRewardedManager(
         }
 
         NetworkUtils.hasInternetAccessCheck(doTask = {
+            if (activity.isFinishing || activity.isDestroyed) {
+                callback?.invoke(TypeShowAds.CANCEL)
+                return@hasInternetAccessCheck
+            }
+
             if (googleMobileAdsConsentManager == null) {
                 googleMobileAdsConsentManager = GoogleMobileAdsConsentManager.getInstance(activity)
             }
@@ -109,15 +124,19 @@ class AdGsRewardedManager(
                             gatherConsent()
                         } else {
                             gdprPermissionsDialog?.dismiss()
-                            gdprPermissionsDialog = DialogUtils.initGdprPermissionDialog(activity, callback = { granted ->
-                                if (granted) {
-                                    gatherConsent()
-                                } else {
-                                    callback?.invoke(TypeShowAds.CANCEL)
-                                }
-                            })
-                            gdprPermissionsDialog?.show()
-                            activity.dialogLayout(gdprPermissionsDialog)
+                            if (!activity.isFinishing && !activity.isDestroyed) {
+                                gdprPermissionsDialog = DialogUtils.initGdprPermissionDialog(activity, callback = { granted ->
+                                    if (granted) {
+                                        gatherConsent()
+                                    } else {
+                                        callback?.invoke(TypeShowAds.CANCEL)
+                                    }
+                                })
+                                gdprPermissionsDialog?.show()
+                                activity.dialogLayout(gdprPermissionsDialog)
+                            } else {
+                                callback?.invoke(TypeShowAds.CANCEL)
+                            }
                         }
                     } else {
                         loadAndShowRewardedAds(

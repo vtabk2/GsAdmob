@@ -19,7 +19,7 @@ abstract class BaseWithAdsAdapter(context: Context) : RecyclerView.Adapter<Recyc
     /**
      * Dùng cho trường hợp dữ liệu lấy được quá chậm sau khi khởi tải được quảng cáo rồi
      */
-    var isStartShimmer: Boolean = false
+    private var isStartShimmer: Boolean = false
 
     /**
      * Layout id native quảng cáo
@@ -152,13 +152,13 @@ abstract class BaseWithAdsAdapter(context: Context) : RecyclerView.Adapter<Recyc
      * Phần xử lý quảng cáo native
      */
     inner class NativeAdHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val nativeGsAdView: NativeGsAdView? = itemView.findViewById(nativeAdId)
+        private val nativeGsAdView: NativeGsAdView? = itemView.findViewById(nativeAdId)
 
         fun bind(itemAds: ItemAds) {
             nativeGsAdView?.let {
                 it.setNativeAd(nativeAd = itemAds.nativeAd, isStartShimmer = itemAds.isLoading)
 
-                itemAds.nativeAd?.let { nativeAd ->
+                itemAds.nativeAd?.let { _ ->
                     if (canCheckUpdateCallActionButton) {
                         it.updateCallActionButton(getBackgroundResourceCallActionButton(adapterPosition))
                     }

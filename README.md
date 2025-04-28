@@ -597,7 +597,7 @@ Trong callbackPauseLifecycle: sẽ tắt ResumeDialogFragment đi nếu nó đan
         </style>
   ```
 
-- Tùy chỉnh [BaseWithAdsAdapter](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/adapter/BaseWithAdsAdapter.kt)
+- Tùy chỉnh quảng cáo Native trong RecyclerView bằng cách dùng [BaseWithAdsAdapter](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/adapter/BaseWithAdsAdapter.kt)
 
 Hướng dẫn chi tiết xem [ImageAdapter](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/ui/adapter/ImageAdapter.kt)
 

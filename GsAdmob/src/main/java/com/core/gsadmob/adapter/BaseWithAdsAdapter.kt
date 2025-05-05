@@ -4,6 +4,7 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.core.gsadmob.R
 import com.core.gsadmob.model.ItemAds
@@ -36,6 +37,16 @@ abstract class BaseWithAdsAdapter(context: Context) : RecyclerView.Adapter<Recyc
      * canCheckUpdateCallActionButton = false -> quảng cáo native không có thay đổi trạng thái nút dựa trên item trước nó
      */
     open val canCheckUpdateCallActionButton = false
+
+    /**
+     * Nó quyết định xem 2 đối tượng có cùng items hay là không?
+     */
+    open fun areItemsTheSameDiff(oldItem: Any, newItem: Any): Boolean = false
+
+    /**
+     * Nó quyết định xem 2 items có cùng dữ liệu hay là không?. Phương thức này chỉ được gọi khi areItemsTheSameDiff() trả về true.
+     */
+    open fun areContentsTheSameDiff(oldItem: Any, newItem: Any): Boolean = false
 
     override fun getItemViewType(position: Int): Int {
         return when (itemList[position]) {
@@ -95,6 +106,28 @@ abstract class BaseWithAdsAdapter(context: Context) : RecyclerView.Adapter<Recyc
             }
         }
         notifyDataSetChanged()
+    }
+
+    /**
+     * Thêm dữ liệu và có kiểm tra sự khác biệt dữ liệu
+     */
+    open fun setDataWithCalculateDiff(list: MutableList<Any>) {
+        if (isStartShimmer) {
+            list.filterIsInstance<ItemAds>().forEach {
+                it.isLoading = true
+            }
+        }
+        calculateDiff(list)
+        itemList.clear()
+        itemList.addAll(list)
+    }
+
+    /**
+     * Xác định xem danh sách dữ liệu có thay đổi không?
+     */
+    open fun calculateDiff(newList: MutableList<Any>) {
+        val diffResult = DiffUtil.calculateDiff(BaseDiffUtil(oldList = itemList, newList = newList))
+        diffResult.dispatchUpdatesTo(this)
     }
 
     open fun setupItemAds(nativeAd: NativeAd?, isStartShimmer: Boolean) {
@@ -178,6 +211,24 @@ abstract class BaseWithAdsAdapter(context: Context) : RecyclerView.Adapter<Recyc
                 itemView.gone()
                 itemView.layoutParams = RecyclerView.LayoutParams(0, 0)
             }
+        }
+    }
+
+    inner class BaseDiffUtil(private val oldList: MutableList<Any>, private val newList: MutableList<Any>) : DiffUtil.Callback() {
+        override fun getOldListSize(): Int {
+            return oldList.size
+        }
+
+        override fun getNewListSize(): Int {
+            return newList.size
+        }
+
+        override fun areItemsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return areItemsTheSameDiff(oldList[oldItemPosition], newList[newItemPosition])
+        }
+
+        override fun areContentsTheSame(oldItemPosition: Int, newItemPosition: Int): Boolean {
+            return areContentsTheSameDiff(oldList[oldItemPosition], newList[newItemPosition])
         }
     }
 

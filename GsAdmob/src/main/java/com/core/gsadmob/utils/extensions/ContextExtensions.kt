@@ -15,10 +15,15 @@ val Context.cmpUtils: CMPUtils get() = CMPUtils.newInstance(applicationContext)
 fun Context.isWebViewEnabled(): Boolean {
     val webViewPackageInfo = WebViewCompat.getCurrentWebViewPackage(this)
     val isWebViewEnabled = webViewPackageInfo != null
-            && packageManager?.getApplicationEnabledSetting(webViewPackageInfo.packageName).let { setting ->
+            && try {
+        val setting = packageManager.getApplicationEnabledSetting(webViewPackageInfo.packageName)
         setting != PackageManager.COMPONENT_ENABLED_STATE_DISABLED
                 && setting != PackageManager.COMPONENT_ENABLED_STATE_DISABLED_USER
                 && setting != PackageManager.COMPONENT_ENABLED_STATE_DISABLED_UNTIL_USED
+    } catch (e: IllegalArgumentException) {
+        // Package không tồn tại, coi như WebView bị vô hiệu hóa
+        e.printStackTrace()
+        false
     }
     return isWebViewEnabled
 }

@@ -1,3 +1,6 @@
+**Version 1.3.28**
+- Thêm setDataWithCalculateDiff để cập nhật dữ liệu có sử dụng DiffUtil
+
 **Version 1.3.27**
 - Sửa lỗi Fatal Exception: java.lang.IllegalArgumentException Unknown package: com.google.android.webview
 

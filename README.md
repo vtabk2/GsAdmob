@@ -36,7 +36,7 @@ loại quảng cáo và tích hợp GDPR/CMP.
 
 ```css
       dependencies {
-          implementation 'com.github.vtabk2:GsAdmob:1.3.27'
+          implementation 'com.github.vtabk2:GsAdmob:1.3.28'
       }
 ```
 
@@ -623,6 +623,18 @@ Hướng dẫn chi tiết xem [ImageAdapter](https://github.com/vtabk2/GsAdmob/b
  
 
 > override getBackgroundResourceCallActionButton: để lấy res cho CallActionButton và chỉ có tác dụng khi canCheckUpdateCallActionButton = true
+
+
+> setData() : Cập nhật dữ liệu mà không dùng DiffUtil
+
+
+> setDataWithCalculateDiff() : Cập nhật dữ liệu có sử dụng DiffUtil 
+ 
+
+> override fun areItemsTheSameDiff(oldItem: Any, newItem: Any): Cần xử lý khi dùng setDataWithCalculateDiff
+
+
+> override fun areContentsTheSameDiff(oldItem: Any, newItem: Any): Cần xử lý khi dùng setDataWithCalculateDiff
 
 
 ### Tùy chỉnh VipPreferences

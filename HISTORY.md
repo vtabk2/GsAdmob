@@ -1,3 +1,6 @@
+**Version 1.3.27**
+- Sửa lỗi Fatal Exception: java.lang.IllegalArgumentException Unknown package: com.google.android.webview
+
 **Version 1.3.26**
 - Sửa lỗi Unable to add window -- token is not valid; is your activity running?
 

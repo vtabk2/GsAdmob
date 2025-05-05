@@ -323,9 +323,9 @@ Trong callbackPauseLifecycle: sẽ tắt ResumeDialogFragment đi nếu nó đan
 
 - Mặc định AdPlaceName:
 
-> AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_REWARDED là adPlaceName của quảng cáo Rewarded
+  - AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_REWARDED là adPlaceName của quảng cáo Rewarded
 
-> AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_REWARDED_INTERSTITIAL là adPlaceName của quảng cáo Rewarded Interstitial
+  - AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_REWARDED_INTERSTITIAL là adPlaceName của quảng cáo Rewarded Interstitial
 
 - Trường hợp có một quảng cáo trả thưởng:
 
@@ -601,40 +601,40 @@ Trong callbackPauseLifecycle: sẽ tắt ResumeDialogFragment đi nếu nó đan
 
 Hướng dẫn chi tiết xem [ImageAdapter](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/ui/adapter/ImageAdapter.kt)
 
-> override nativeAdLayoutId : khi muốn thay đổi native layout id
+  - override nativeAdLayoutId : khi muốn thay đổi native layout id
 
 
-> override nativeAdId: khi muốn thay đổi id NativeGsAdView
+  - override nativeAdId: khi muốn thay đổi id NativeGsAdView
 
 
-> override onCreateItemViewHolder: để tùy chỉnh khởi tạo item
+  - override onCreateItemViewHolder: để tùy chỉnh khởi tạo item
 
 
-> override onBindItemViewHolder: để tùy chỉnh cập nhật dữ liệu cho item
+  - override onBindItemViewHolder: để tùy chỉnh cập nhật dữ liệu cho item
 
 
-> override onCreateAdViewHolder: để tùy chỉnh khởi tạo item quảng cáo
+  - override onCreateAdViewHolder: để tùy chỉnh khởi tạo item quảng cáo
 
 
-> override onBindAdViewHolder: để tùy chỉnh cập nhật dữ liệu cho item quảng cáo
+  - override onBindAdViewHolder: để tùy chỉnh cập nhật dữ liệu cho item quảng cáo
  
 
-> override canCheckUpdateCallActionButton: để tùy chỉnh xem CallActionButton có thay đổi trạng thái không
+  - override canCheckUpdateCallActionButton: để tùy chỉnh xem CallActionButton có thay đổi trạng thái không
  
 
-> override getBackgroundResourceCallActionButton: để lấy res cho CallActionButton và chỉ có tác dụng khi canCheckUpdateCallActionButton = true
+  - override getBackgroundResourceCallActionButton: để lấy res cho CallActionButton và chỉ có tác dụng khi canCheckUpdateCallActionButton = true
 
 
-> setData() : Cập nhật dữ liệu mà không dùng DiffUtil
+  - setData() : Cập nhật dữ liệu mà không dùng DiffUtil
 
 
-> setDataWithCalculateDiff() : Cập nhật dữ liệu có sử dụng DiffUtil 
+  - setDataWithCalculateDiff() : Cập nhật dữ liệu có sử dụng DiffUtil 
  
 
-> override fun areItemsTheSameDiff(oldItem: Any, newItem: Any): Cần xử lý khi dùng setDataWithCalculateDiff
+  - override fun areItemsTheSameDiff(oldItem: Any, newItem: Any): Cần xử lý khi dùng setDataWithCalculateDiff
 
 
-> override fun areContentsTheSameDiff(oldItem: Any, newItem: Any): Cần xử lý khi dùng setDataWithCalculateDiff
+  - override fun areContentsTheSameDiff(oldItem: Any, newItem: Any): Cần xử lý khi dùng setDataWithCalculateDiff
 
 
 ### Tùy chỉnh VipPreferences
@@ -655,7 +655,7 @@ Hướng dẫn chi tiết xem [ImageAdapter](https://github.com/vtabk2/GsAdmob/b
 
 ### Cấu hình Remote Config
 
-- Tạo file remote_config_defaults
+- Tạo file remote_config_defaults.xml ở thư mục res/xml
 - Tạo [RemoteConfig](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/utils/remoteconfig/RemoteConfig.kt) sẽ mở rộng [AdGsRemoteConfig](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/remoteconfig/AdGsRemoteConfig.kt)
 
 Bên trong updateRemoteConfig của RemoteConfig là nơi lấy các cấu hình từ RemoteConfig trên Firebase

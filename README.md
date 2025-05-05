@@ -44,7 +44,7 @@ loại quảng cáo và tích hợp GDPR/CMP.
 
 ### 1. Khởi tạo trong Application
 
-- Tạo 1 application ví dụ
+- Tạo 1 application mở rộng GsAdmobApplication ví dụ
   [TestApplication](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/TestApplication.kt)
 
 - Ở trong registerAdGsManager() của `TestApplication` sẽ khởi tạo [AdGsManager](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/AdGsManager.kt)

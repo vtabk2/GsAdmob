@@ -520,7 +520,7 @@ Trong callbackPauseLifecycle: sẽ tắt ResumeDialogFragment đi nếu nó đan
   
 ### 3. Tùy chỉnh các mẫu native có sẵn xem ở [config_admob.xml](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/res/values/config_admob.xml)
 
-- Ví dụ album có thể thay đổi các thông số
+#### 3.1. Ví dụ album có thể thay đổi các thông số
 
   ```css
         <!--    album-->
@@ -557,7 +557,7 @@ Trong callbackPauseLifecycle: sẽ tắt ResumeDialogFragment đi nếu nó đan
         </style>
   ```
 
-- Tùy chỉnh shimmer
+#### 3.2. Tùy chỉnh shimmer
 
   ```css
         <!--    shimmer root-->
@@ -588,7 +588,7 @@ Trong callbackPauseLifecycle: sẽ tắt ResumeDialogFragment đi nếu nó đan
         <dimen name="ads_bg_shimmer_radius">5dp</dimen>
   ```
 
-- Cấu hình ngôi sao rating ở ads_RatingBar
+#### 3.3. Cấu hình ngôi sao rating ở ads_RatingBar
 
   ```css
         <style name="ads_RatingBar" parent="Theme.AppCompat">
@@ -597,47 +597,84 @@ Trong callbackPauseLifecycle: sẽ tắt ResumeDialogFragment đi nếu nó đan
         </style>
   ```
 
-- Tùy chỉnh quảng cáo Native trong RecyclerView bằng cách dùng [BaseWithAdsAdapter](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/adapter/BaseWithAdsAdapter.kt)
+#### 3.4. Tùy chỉnh quảng cáo Native trong RecyclerView bằng cách dùng [BaseWithAdsAdapter](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/adapter/BaseWithAdsAdapter.kt)
 
 Hướng dẫn chi tiết xem [ImageAdapter](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/ui/adapter/ImageAdapter.kt)
 
-  - override nativeAdLayoutId : khi muốn thay đổi native layout id
+- Khi muốn thay đổi giao diện quảng cáo
 
+  ```css
+         override val nativeAdLayoutId: Int = R.layout.item_ads_image
+  ```
 
-  - override nativeAdId: khi muốn thay đổi id NativeGsAdView
+- Khi muốn thay đổi id của NativeGsAdView
 
+  ```css
+        override val nativeAdId: Int = R.id.nativeAd
+  ```
 
-  - override onCreateItemViewHolder: để tùy chỉnh khởi tạo item
+- Khởi tạo giao diện các item khác
 
+  ```css
+        override onCreateItemViewHolder
+  ```
 
-  - override onBindItemViewHolder: để tùy chỉnh cập nhật dữ liệu cho item
+- Cập nhật dữ liệu vào giao diện item
 
+  ```css
+        override onBindItemViewHolder
+  ```
 
-  - override onCreateAdViewHolder: để tùy chỉnh khởi tạo item quảng cáo
+- Khởi tạo giao diên quảng cáo
 
+  ```css
+        override onCreateAdViewHolder
+  ```
 
-  - override onBindAdViewHolder: để tùy chỉnh cập nhật dữ liệu cho item quảng cáo
- 
+- Cập nhật dữ liệu vào giao diện quảng cáo
 
-  - override canCheckUpdateCallActionButton: để tùy chỉnh xem CallActionButton có thay đổi trạng thái không
- 
+  ```css
+        override onBindAdViewHolder
+  ```
 
-  - override getBackgroundResourceCallActionButton: để lấy res cho CallActionButton và chỉ có tác dụng khi canCheckUpdateCallActionButton = true
+- Kích hoạt chức năng thay đổi trạng thái CallActionButton
 
+  ```css
+        override canCheckUpdateCallActionButton
+  ```
 
-  - setData() : Cập nhật dữ liệu mà không dùng DiffUtil
+- Lấy res cho CallActionButton và chỉ có tác dụng khi canCheckUpdateCallActionButton = true
 
+  ```css
+        override getBackgroundResourceCallActionButton
+  ```
 
-  - setDataWithCalculateDiff() : Cập nhật dữ liệu có sử dụng DiffUtil 
- 
+- Cập nhật dữ liệu mà không dùng DiffUtil
 
-  - override fun areItemsTheSameDiff(oldItem: Any, newItem: Any): Cần xử lý khi dùng setDataWithCalculateDiff
+  ```css
+        setData()
+  ```
 
+- Cập nhật dữ liệu có sử dụng DiffUtil
 
-  - override fun areContentsTheSameDiff(oldItem: Any, newItem: Any): Cần xử lý khi dùng setDataWithCalculateDiff
+  ```css
+        setDataWithCalculateDiff()
+  ``` 
 
+  - Kiểm tra xem 2 đối tượng có giống nhau không?
 
-### Tùy chỉnh VipPreferences
+    ```css
+          override fun areItemsTheSameDiff(oldItem: Any, newItem: Any)
+    ```
+
+  - Kiểm tra xem 2 đối tượng có dữ liệu giống nhau không và chỉ được gọi khi areItemsTheSameDiff =
+    true
+
+    ```css
+          override fun areContentsTheSameDiff(oldItem: Any, newItem: Any)
+    ```
+
+### Tùy chỉnh VipPreferences (nơi chứa các key vip của ứng dụng nếu cần)
 
 - Lưu 1 key mới
 
@@ -673,7 +710,7 @@ Bên trong updateRemoteConfig của RemoteConfig là nơi lấy các cấu hình
 - Tạo [AdGsRemoteExtraConfig](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/utils/remoteconfig/AdGsRemoteExtraConfig.kt) nơi
   này sẽ quản lý các quảng cáo có trong ứng dụng để RemoteConfig cập nhật thông tin từ RemoteConfig vào
 
-### GsAdmobApplication
+### GsAdmobApplication là abstract class
 
 - Sửa lỗi webview, truyền getPackageName() của ứng dụng vào
 

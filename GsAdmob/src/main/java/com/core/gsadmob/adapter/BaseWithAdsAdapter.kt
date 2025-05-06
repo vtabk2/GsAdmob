@@ -41,12 +41,12 @@ abstract class BaseWithAdsAdapter(context: Context) : RecyclerView.Adapter<Recyc
     /**
      * Nó quyết định xem 2 đối tượng có cùng items hay là không?
      */
-    open fun areItemsTheSameDiff(oldItem: Any, newItem: Any): Boolean = false
+    open fun areItemsTheSameDiff(oldItem: Any, newItem: Any): Boolean = true
 
     /**
      * Nó quyết định xem 2 items có cùng dữ liệu hay là không?. Phương thức này chỉ được gọi khi areItemsTheSameDiff() trả về true.
      */
-    open fun areContentsTheSameDiff(oldItem: Any, newItem: Any): Boolean = false
+    open fun areContentsTheSameDiff(oldItem: Any, newItem: Any): Boolean = true
 
     override fun getItemViewType(position: Int): Int {
         return when (itemList[position]) {
@@ -98,6 +98,21 @@ abstract class BaseWithAdsAdapter(context: Context) : RecyclerView.Adapter<Recyc
     }
 
     open fun setData(list: MutableList<Any>) {
+        if (!isStartShimmer) {
+            // Lấy dữ liệu quảng cáo đã có trong danh sách cũ
+            val adsList = itemList.filter { it is ItemAds && it.nativeAd != null }
+
+            // Cập nhật dữ liệu quảng cáo đã có vào danh sách mới
+            list.filterIsInstance<ItemAds>().forEachIndexed { index, item ->
+                adsList.getOrNull(index)?.let {
+                    if (it is ItemAds) {
+                        item.nativeAd = it.nativeAd
+                        item.isLoading = it.isLoading
+                    }
+                }
+            }
+        }
+
         itemList.clear()
         itemList.addAll(list)
         if (isStartShimmer) {
@@ -115,6 +130,19 @@ abstract class BaseWithAdsAdapter(context: Context) : RecyclerView.Adapter<Recyc
         if (isStartShimmer) {
             list.filterIsInstance<ItemAds>().forEach {
                 it.isLoading = true
+            }
+        } else {
+            // Lấy dữ liệu quảng cáo đã có trong danh sách cũ
+            val adsList = itemList.filter { it is ItemAds && it.nativeAd != null }
+
+            // Cập nhật dữ liệu quảng cáo đã có vào danh sách mới
+            list.filterIsInstance<ItemAds>().forEachIndexed { index, item ->
+                adsList.getOrNull(index)?.let {
+                    if (it is ItemAds) {
+                        item.nativeAd = it.nativeAd
+                        item.isLoading = it.isLoading
+                    }
+                }
             }
         }
         calculateDiff(list)

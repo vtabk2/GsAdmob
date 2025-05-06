@@ -66,6 +66,10 @@ class HomeActivity : BaseMVVMActivity<ActivityHomeBinding>(ActivityHomeBinding::
         bindingView.tvTestAds.setOnClickListener {
             startActivity(Intent(this, TestAdsActivity::class.java))
         }
+
+        bindingView.imageReload.setOnClickListener {
+            viewModel.loadData()
+        }
     }
 
     override fun onBackPressed() {

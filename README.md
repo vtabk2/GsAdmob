@@ -47,9 +47,9 @@ loại quảng cáo và tích hợp GDPR/CMP.
 - Tạo 1 application mở rộng GsAdmobApplication ví dụ
   [TestApplication](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/TestApplication.kt)
 
-- Ở trong registerAdGsManager() của `TestApplication` sẽ khởi tạo [AdGsManager](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/AdGsManager.kt)
+- Ở trong `registerAdGsManager()` của `TestApplication` sẽ khởi tạo [AdGsManager](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/AdGsManager.kt)
 
-- keyVipList là danh sách các key vip được dùng trong ứng dụng của bạn, xem chi tiết ở [VipPreferences](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/preferences/VipPreferences.kt)
+- `keyVipList` là danh sách các key vip được dùng trong ứng dụng của bạn, xem chi tiết ở [VipPreferences](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/preferences/VipPreferences.kt)
 
   - Mặc định 
   
@@ -57,7 +57,7 @@ loại quảng cáo và tích hợp GDPR/CMP.
           keyVipList = VipPreferences.defaultKeyVipList
     ```
 
-  - Tùy chỉnh các key mình dùng ví dụ sử dụng 2 key isPro, isProByYear
+  - Tùy chỉnh các key mình dùng ví dụ sử dụng 2 key `isPro`, `isProByYear`
   
     ```css
           keyVipList = mutableListOf("isPro", "isProByYear")
@@ -132,7 +132,7 @@ loại quảng cáo và tích hợp GDPR/CMP.
 
 Hướng dẫn chi tiết cách dùng xem ở [SplashActivity](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/ui/activity/splash/SplashActivity.kt)
 
-- Khởi tạo AdGsSplashManager
+- Khởi tạo `AdGsSplashManager`
 
   ```css
         AdGsSplashManager(
@@ -157,9 +157,9 @@ Hướng dẫn chi tiết cách dùng xem ở [SplashActivity](https://github.co
 
 - Bước 1: Cấu hình ở [Application](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/TestApplication.kt)
 
-Trong callbackStartLifecycle: sẽ kiểm tra xem quảng cáo app open có sẵn hoặc có thể tải thì sẽ mở màn hình ResumeDialogFragment
+Trong callbackStartLifecycle: sẽ kiểm tra xem quảng cáo app open có sẵn hoặc có thể tải thì sẽ mở màn hình `ResumeDialogFragment`
 
-Trong callbackPauseLifecycle: sẽ tắt ResumeDialogFragment đi nếu nó đang hiển thị
+Trong callbackPauseLifecycle: sẽ tắt `ResumeDialogFragment` đi nếu nó đang hiển thị
 
   ```css
         override fun registerAdGsManager() {
@@ -226,7 +226,7 @@ Trong callbackPauseLifecycle: sẽ tắt ResumeDialogFragment đi nếu nó đan
   ```
 
 - Bước 2: Tạo fragment [ResumeDialogFragment](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/ui/fragment/ResumeDialogFragment.kt)
-  và trong onShowAds sẽ khởi tạo AdGsDelayManager để xử lý tải và hiển thị quảng cáo app open resume
+  và trong onShowAds sẽ khởi tạo [AdGsDelayManager](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/AdGsDelayManager.kt) để xử lý tải và hiển thị quảng cáo app open resume
 
   ```css
         fun onShowAds(from: String) {
@@ -468,7 +468,7 @@ Trong callbackPauseLifecycle: sẽ tắt ResumeDialogFragment đi nếu nó đan
 
 ### 2. Cấu hình trong kotlin
 
-- Dùng các adsNativeMode mặc định (album, font, frame...)
+- Dùng các `adsNativeMode` mặc định (album, font, frame...)
 
   ```css
         applyBuilder(NativeDefaultConfig.BUILDER_ALBUM)
@@ -607,7 +607,7 @@ Hướng dẫn chi tiết xem [ImageAdapter](https://github.com/vtabk2/GsAdmob/b
          override val nativeAdLayoutId: Int = R.layout.item_ads_image
   ```
 
-- Khi muốn thay đổi id của NativeGsAdView
+- Khi muốn thay đổi id của `NativeGsAdView`
 
   ```css
         override val nativeAdId: Int = R.id.nativeAd
@@ -674,7 +674,7 @@ Hướng dẫn chi tiết xem [ImageAdapter](https://github.com/vtabk2/GsAdmob/b
           override fun areContentsTheSameDiff(oldItem: Any, newItem: Any)
     ```
 
-### Tùy chỉnh VipPreferences (nơi chứa các key vip của ứng dụng nếu cần)
+### Tùy chỉnh `VipPreferences` (nơi chứa các key vip của ứng dụng nếu cần)
 
 - Lưu 1 key mới
 
@@ -690,14 +690,14 @@ Hướng dẫn chi tiết xem [ImageAdapter](https://github.com/vtabk2/GsAdmob/b
 
 - Có thể dùng các biến mặc định như isPro, isProByYear, isProByMonth
 
-### Cấu hình Remote Config
+### Cấu hình `Remote Config`
 
 - Tạo file `remote_config_defaults.xml` ở thư mục `res/xml`
 - Tạo [RemoteConfig](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/utils/remoteconfig/RemoteConfig.kt) sẽ mở rộng [AdGsRemoteConfig](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/remoteconfig/AdGsRemoteConfig.kt)
 
-Bên trong updateRemoteConfig của RemoteConfig là nơi lấy các cấu hình từ RemoteConfig trên Firebase
+Bên trong `updateRemoteConfig` của `RemoteConfig` là nơi lấy các cấu hình từ RemoteConfig trên Firebase
 
-- Khởi tạo trong registerAdGsManager() ở Application
+- Khởi tạo trong `registerAdGsManager()` ở Application
 
   ```css
         RemoteConfig.instance.initRemoteConfig(

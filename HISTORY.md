@@ -1,5 +1,5 @@
 **Version 1.3.29**
-- Sửa chức năng setData và setDataWithCalculateDiff bị mất dữ liệu quảng cáo cũ khi cập nhật danh sách mới
+- Sửa chức năng setData và setDataWithCalculateDiff của `BaseWithAdsAdapter` bị mất dữ liệu quảng cáo cũ khi cập nhật danh sách mới
 
 **Version 1.3.28**
 - Thêm setDataWithCalculateDiff để cập nhật dữ liệu có sử dụng DiffUtil

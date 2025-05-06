@@ -692,7 +692,7 @@ Hướng dẫn chi tiết xem [ImageAdapter](https://github.com/vtabk2/GsAdmob/b
 
 ### Cấu hình Remote Config
 
-- Tạo file remote_config_defaults.xml ở thư mục res/xml
+- Tạo file `remote_config_defaults.xml` ở thư mục `res/xml`
 - Tạo [RemoteConfig](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/utils/remoteconfig/RemoteConfig.kt) sẽ mở rộng [AdGsRemoteConfig](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/remoteconfig/AdGsRemoteConfig.kt)
 
 Bên trong updateRemoteConfig của RemoteConfig là nơi lấy các cấu hình từ RemoteConfig trên Firebase

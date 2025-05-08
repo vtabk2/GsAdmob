@@ -1,3 +1,9 @@
+**Version 1.3.30**
+
+- Thêm config cho bg_text_ad cho các quảng cáo native mẫu `album`, `font`, `frame`, `language`, `share`, `sticker`, `template`, `vip` giờ có thể chỉnh `text ad` 3 thông số
+  background color , radius và padding
+- Cập nhật GsCore mới nhất
+
 **Version 1.3.29**
 - Sửa chức năng setData và setDataWithCalculateDiff của `BaseWithAdsAdapter` bị mất dữ liệu quảng cáo cũ khi cập nhật danh sách mới
 

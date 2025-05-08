@@ -36,7 +36,7 @@ loại quảng cáo và tích hợp GDPR/CMP.
 
 ```css
       dependencies {
-          implementation 'com.github.vtabk2:GsAdmob:1.3.29'
+          implementation 'com.github.vtabk2:GsAdmob:1.3.30'
       }
 ```
 

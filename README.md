@@ -531,6 +531,7 @@ Trong callbackPauseLifecycle: sẽ tắt `ResumeDialogFragment` đi nếu nó đ
         <color name="ads_call_button_album">#14B261</color>
         <color name="ads_call_button_album_pressed">#DFE1E6</color>
         <color name="ads_bg_color_album">#212121</color>
+        <color name="ads_bg_text_ad_album_color">#15C969</color>
     
         <drawable name="ads_bg_album">@drawable/ads__bg_album</drawable>
         <drawable name="ads_bg_text_ad_album">@drawable/ads__bg_text_ad_album</drawable>
@@ -551,6 +552,12 @@ Trong callbackPauseLifecycle: sẽ tắt `ResumeDialogFragment` đi nếu nó đ
         <dimen name="ads_padding_right_call_to_action_album">10dp</dimen>
         <dimen name="ads_padding_top_call_to_action_album">6dp</dimen>
         <dimen name="ads_radius_bg_album">0dp</dimen>
+        
+        <dimen name="ads_bg_text_ad_album_radius">5dp</dimen>
+        <dimen name="ads_bg_text_ad_album_padding_bottom">2dp</dimen>
+        <dimen name="ads_bg_text_ad_album_padding_left">@dimen/ads_bg_text_ad_album_radius</dimen>
+        <dimen name="ads_bg_text_ad_album_padding_right">@dimen/ads_bg_text_ad_album_radius</dimen>
+        <dimen name="ads_bg_text_ad_album_padding_top">2dp</dimen>
     
         <style name="ads_NativeAlbumRoot" parent="ads_BaseNativeAdViewRoot">
     
@@ -693,7 +700,7 @@ Hướng dẫn chi tiết xem [ImageAdapter](https://github.com/vtabk2/GsAdmob/b
 ### Cấu hình `Remote Config`
 
 - Tạo file `remote_config_defaults.xml` ở thư mục `res/xml`
-- Tạo [RemoteConfig](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/utils/remoteconfig/RemoteConfig.kt) sẽ mở rộng [AdGsRemoteConfig](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/remoteconfig/AdGsRemoteConfig.kt)
+- Tạo file [RemoteConfig](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/utils/remoteconfig/RemoteConfig.kt) sẽ mở rộng [AdGsRemoteConfig](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/remoteconfig/AdGsRemoteConfig.kt)
 
 Bên trong `updateRemoteConfig` của `RemoteConfig` là nơi lấy các cấu hình từ RemoteConfig trên Firebase
 

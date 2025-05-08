@@ -49,6 +49,7 @@
     <color name="ads_call_button_album">#14B261</color>
     <color name="ads_call_button_album_pressed">#DFE1E6</color>
     <color name="ads_bg_color_album">#212121</color>
+    <color name="ads_bg_text_ad_album_color">#15C969</color>
 
     <drawable name="ads_bg_album">@drawable/ads__bg_album</drawable>
     <drawable name="ads_bg_text_ad_album">@drawable/ads__bg_text_ad_album</drawable>
@@ -70,6 +71,12 @@
     <dimen name="ads_padding_top_call_to_action_album">6dp</dimen>
     <dimen name="ads_radius_bg_album">0dp</dimen>
 
+    <dimen name="ads_bg_text_ad_album_radius">5dp</dimen>
+    <dimen name="ads_bg_text_ad_album_padding_bottom">2dp</dimen>
+    <dimen name="ads_bg_text_ad_album_padding_left">@dimen/ads_bg_text_ad_album_radius</dimen>
+    <dimen name="ads_bg_text_ad_album_padding_right">@dimen/ads_bg_text_ad_album_radius</dimen>
+    <dimen name="ads_bg_text_ad_album_padding_top">2dp</dimen>
+
     <style name="ads_NativeAlbumRoot" parent="ads_BaseNativeAdViewRoot">
 
     </style>
@@ -82,6 +89,7 @@
     <color name="ads_call_button_font">#4088F4</color>
     <color name="ads_call_button_font_pressed">#DFE1E6</color>
     <color name="ads_bg_color_font">#F0F4F8</color>
+    <color name="ads_bg_text_ad_font_color">#15C969</color>
 
     <drawable name="ads_bg_font">@drawable/ads__bg_font</drawable>
     <drawable name="ads_bg_text_ad_font">@drawable/ads__bg_text_ad_font</drawable>
@@ -105,6 +113,12 @@
     <dimen name="ads_root_font_heightToWidth">0.25</dimen>
     <dimen name="ads_minWidth_call_to_action_font">96dp</dimen>
 
+    <dimen name="ads_bg_text_ad_font_radius">5dp</dimen>
+    <dimen name="ads_bg_text_ad_font_padding_bottom">2dp</dimen>
+    <dimen name="ads_bg_text_ad_font_padding_left">@dimen/ads_bg_text_ad_font_radius</dimen>
+    <dimen name="ads_bg_text_ad_font_padding_right">@dimen/ads_bg_text_ad_font_radius</dimen>
+    <dimen name="ads_bg_text_ad_font_padding_top">2dp</dimen>
+
     <style name="ads_NativeFontRoot" parent="ads_BaseNativeAdViewRoot">
 
     </style>
@@ -117,6 +131,7 @@
     <color name="ads_call_button_frame">#4088F4</color>
     <color name="ads_call_button_frame_pressed">#DFE1E6</color>
     <color name="ads_bg_color_frame">#706EEC</color>
+    <color name="ads_bg_text_ad_frame_color">#15C969</color>
 
     <drawable name="ads_bg_frame">@drawable/ads__bg_frame</drawable>
     <drawable name="ads_bg_text_ad_frame">@drawable/ads__bg_text_ad_frame</drawable>
@@ -143,6 +158,12 @@
     <dimen name="ads_root_frame_heightToWidth">1.5</dimen>
     <dimen name="ads_minWidth_call_to_action_frame">96dp</dimen>
 
+    <dimen name="ads_bg_text_ad_frame_radius">5dp</dimen>
+    <dimen name="ads_bg_text_ad_frame_padding_bottom">2dp</dimen>
+    <dimen name="ads_bg_text_ad_frame_padding_left">@dimen/ads_bg_text_ad_frame_radius</dimen>
+    <dimen name="ads_bg_text_ad_frame_padding_right">@dimen/ads_bg_text_ad_frame_radius</dimen>
+    <dimen name="ads_bg_text_ad_frame_padding_top">2dp</dimen>
+
     <style name="ads_NativeFrameRoot" parent="ads_BaseNativeAdViewRoot">
 
     </style>
@@ -155,6 +176,7 @@
     <color name="ads_call_button_language">#14B261</color>
     <color name="ads_call_button_language_pressed">#DFE1E6</color>
     <color name="ads_bg_color_language">#F2F2F2</color>
+    <color name="ads_bg_text_ad_language_color">#FF2600</color>
 
     <drawable name="ads_bg_language">@drawable/ads__bg_language</drawable>
     <drawable name="ads_bg_text_ad_language">@drawable/ads__bg_text_ad_language</drawable>
@@ -176,6 +198,12 @@
     <dimen name="ads_padding_top_call_to_action_language">6dp</dimen>
     <dimen name="ads_radius_bg_language">0dp</dimen>
 
+    <dimen name="ads_bg_text_ad_language_radius">5dp</dimen>
+    <dimen name="ads_bg_text_ad_language_padding_bottom">2dp</dimen>
+    <dimen name="ads_bg_text_ad_language_padding_left">@dimen/ads_bg_text_ad_language_radius</dimen>
+    <dimen name="ads_bg_text_ad_language_padding_right">@dimen/ads_bg_text_ad_language_radius</dimen>
+    <dimen name="ads_bg_text_ad_language_padding_top">2dp</dimen>
+
     <style name="ads_NativeLanguageRoot" parent="ads_BaseNativeAdViewRoot">
 
     </style>
@@ -188,6 +216,7 @@
     <color name="ads_call_button_share">#14B261</color>
     <color name="ads_call_button_share_pressed">#DFE1E6</color>
     <color name="ads_bg_color_share">#212121</color>
+    <color name="ads_bg_text_ad_share_color">#15C969</color>
 
     <drawable name="ads_bg_share">@drawable/ads__bg_share</drawable>
     <drawable name="ads_bg_text_ad_share">@drawable/ads__bg_text_ad_share</drawable>
@@ -211,6 +240,15 @@
     <dimen name="ads_margin_start_share">10dp</dimen>
     <dimen name="ads_margin_end_share">10dp</dimen>
 
+    <dimen name="ads_bg_text_ad_share_bottomLeftRadius">0dp</dimen>
+    <dimen name="ads_bg_text_ad_share_bottomRightRadius">10dp</dimen>
+    <dimen name="ads_bg_text_ad_share_topLeftRadius">10dp</dimen>
+    <dimen name="ads_bg_text_ad_share_topRightRadius">0dp</dimen>
+    <dimen name="ads_bg_text_ad_share_padding_bottom">2dp</dimen>
+    <dimen name="ads_bg_text_ad_share_padding_left">@dimen/ads_bg_text_ad_share_topLeftRadius</dimen>
+    <dimen name="ads_bg_text_ad_share_padding_right">@dimen/ads_bg_text_ad_share_bottomRightRadius</dimen>
+    <dimen name="ads_bg_text_ad_share_padding_top">2dp</dimen>
+
     <style name="ads_NativeShareRoot" parent="ads_BaseNativeAdViewRoot">
 
     </style>
@@ -223,6 +261,7 @@
     <color name="ads_call_button_sticker">#4088F4</color>
     <color name="ads_call_button_sticker_pressed">#DFE1E6</color>
     <color name="ads_bg_color_sticker">#706EEC</color>
+    <color name="ads_bg_text_ad_sticker_color">#50D5FF</color>
 
     <drawable name="ads_bg_sticker">@drawable/ads__bg_sticker</drawable>
     <drawable name="ads_bg_text_ad_sticker">@drawable/ads__bg_text_ad_sticker</drawable>
@@ -246,6 +285,15 @@
     <dimen name="ads_root_sticker_heightToWidth">0.40298507462</dimen>
     <dimen name="ads_minWidth_call_to_action_sticker">96dp</dimen>
 
+    <dimen name="ads_bg_text_ad_sticker_bottomLeftRadius">0dp</dimen>
+    <dimen name="ads_bg_text_ad_sticker_bottomRightRadius">10dp</dimen>
+    <dimen name="ads_bg_text_ad_sticker_topLeftRadius">10dp</dimen>
+    <dimen name="ads_bg_text_ad_sticker_topRightRadius">0dp</dimen>
+    <dimen name="ads_bg_text_ad_sticker_padding_bottom">2dp</dimen>
+    <dimen name="ads_bg_text_ad_sticker_padding_left">@dimen/ads_bg_text_ad_sticker_topLeftRadius</dimen>
+    <dimen name="ads_bg_text_ad_sticker_padding_right">@dimen/ads_bg_text_ad_sticker_bottomRightRadius</dimen>
+    <dimen name="ads_bg_text_ad_sticker_padding_top">2dp</dimen>
+
     <style name="ads_NativeStickerRoot" parent="ads_BaseNativeAdViewRoot">
 
     </style>
@@ -258,6 +306,7 @@
     <color name="ads_call_button_template">#4088F4</color>
     <color name="ads_call_button_template_pressed">#DFE1E6</color>
     <color name="ads_bg_color_template">#EEEDED</color>
+    <color name="ads_bg_text_ad_template_color">#15C969</color>
 
     <drawable name="ads_bg_template">@drawable/ads__bg_template</drawable>
     <drawable name="ads_bg_text_ad_template">@drawable/ads__bg_text_ad_template</drawable>
@@ -281,6 +330,12 @@
     <dimen name="ads_root_template_heightToWidth">0.25</dimen>
     <dimen name="ads_minWidth_call_to_action_template">96dp</dimen>
 
+    <dimen name="ads_bg_text_ad_template_radius">5dp</dimen>
+    <dimen name="ads_bg_text_ad_template_padding_bottom">2dp</dimen>
+    <dimen name="ads_bg_text_ad_template_padding_left">@dimen/ads_bg_text_ad_template_radius</dimen>
+    <dimen name="ads_bg_text_ad_template_padding_right">@dimen/ads_bg_text_ad_template_radius</dimen>
+    <dimen name="ads_bg_text_ad_template_padding_top">2dp</dimen>
+
     <style name="ads_NativeTemplateRoot" parent="ads_BaseNativeAdViewRoot">
 
     </style>
@@ -294,6 +349,7 @@
     <color name="ads_call_button_vip_end">#14B261</color>
     <color name="ads_call_button_vip_pressed">#DFE1E6</color>
     <color name="ads_bg_color_vip">#F2F2F2</color>
+    <color name="ads_bg_text_ad_vip_color">#FF2600</color>
 
     <drawable name="ads_bg_vip">@drawable/ads__bg_vip</drawable>
     <drawable name="ads_bg_text_ad_vip">@drawable/ads__bg_text_ad_vip</drawable>
@@ -315,6 +371,12 @@
     <dimen name="ads_padding_top_bottom_call_to_action_vip">6dp</dimen>
     <dimen name="ads_radius_bg_vip">10dp</dimen>
     <dimen name="ads_root_vip_heightToWidth">0.46923076923</dimen>
+
+    <dimen name="ads_bg_text_ad_vip_radius">5dp</dimen>
+    <dimen name="ads_bg_text_ad_vip_padding_bottom">2dp</dimen>
+    <dimen name="ads_bg_text_ad_vip_padding_left">@dimen/ads_bg_text_ad_vip_radius</dimen>
+    <dimen name="ads_bg_text_ad_vip_padding_right">@dimen/ads_bg_text_ad_vip_radius</dimen>
+    <dimen name="ads_bg_text_ad_vip_padding_top">2dp</dimen>
 
     <style name="ads_NativeVipRoot" parent="ads_BaseNativeAdViewRoot">
 

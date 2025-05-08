@@ -83,6 +83,7 @@
     <color name="ads_call_button_font">#4088F4</color>
     <color name="ads_call_button_font_pressed">#DFE1E6</color>
     <color name="ads_bg_color_font">#F0F4F8</color>
+    <color name="ads_bg_text_ad_font_color">#15C969</color>
 
     <drawable name="ads_bg_font">@drawable/ads__bg_font</drawable>
     <drawable name="ads_bg_text_ad_font">@drawable/ads__bg_text_ad_font</drawable>
@@ -118,6 +119,7 @@
     <color name="ads_call_button_frame">#4088F4</color>
     <color name="ads_call_button_frame_pressed">#DFE1E6</color>
     <color name="ads_bg_color_frame">#706EEC</color>
+    <color name="ads_bg_text_ad_frame_color">#15C969</color>
 
     <drawable name="ads_bg_frame">@drawable/ads__bg_frame</drawable>
     <drawable name="ads_bg_text_ad_frame">@drawable/ads__bg_text_ad_frame</drawable>
@@ -156,6 +158,7 @@
     <color name="ads_call_button_language">#14B261</color>
     <color name="ads_call_button_language_pressed">#DFE1E6</color>
     <color name="ads_bg_color_language">#F2F2F2</color>
+    <color name="ads_bg_text_ad_language_color">#FF2600</color>
 
     <drawable name="ads_bg_language">@drawable/ads__bg_language</drawable>
     <drawable name="ads_bg_text_ad_language">@drawable/ads__bg_text_ad_language</drawable>
@@ -189,6 +192,7 @@
     <color name="ads_call_button_share">#14B261</color>
     <color name="ads_call_button_share_pressed">#DFE1E6</color>
     <color name="ads_bg_color_share">#212121</color>
+    <color name="ads_bg_text_ad_share_color">#15C969</color>
 
     <drawable name="ads_bg_share">@drawable/ads__bg_share</drawable>
     <drawable name="ads_bg_text_ad_share">@drawable/ads__bg_text_ad_share</drawable>
@@ -260,6 +264,7 @@
     <color name="ads_call_button_template">#4088F4</color>
     <color name="ads_call_button_template_pressed">#DFE1E6</color>
     <color name="ads_bg_color_template">#EEEDED</color>
+    <color name="ads_bg_text_ad_template_color">#15C969</color>
 
     <drawable name="ads_bg_template">@drawable/ads__bg_template</drawable>
     <drawable name="ads_bg_text_ad_template">@drawable/ads__bg_text_ad_template</drawable>
@@ -296,6 +301,7 @@
     <color name="ads_call_button_vip_end">#14B261</color>
     <color name="ads_call_button_vip_pressed">#DFE1E6</color>
     <color name="ads_bg_color_vip">#F2F2F2</color>
+    <color name="ads_bg_text_ad_vip_color">#FF2600</color>
 
     <drawable name="ads_bg_vip">@drawable/ads__bg_vip</drawable>
     <drawable name="ads_bg_text_ad_vip">@drawable/ads__bg_text_ad_vip</drawable>

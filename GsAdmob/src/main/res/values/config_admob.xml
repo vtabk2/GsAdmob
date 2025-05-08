@@ -70,6 +70,11 @@
     <dimen name="ads_padding_right_call_to_action_album">10dp</dimen>
     <dimen name="ads_padding_top_call_to_action_album">6dp</dimen>
     <dimen name="ads_radius_bg_album">0dp</dimen>
+    <dimen name="ads_bg_text_ad_album_radius">5dp</dimen>
+    <dimen name="ads_bg_text_ad_album_padding_bottom">2dp</dimen>
+    <dimen name="ads_bg_text_ad_album_padding_left">@dimen/ads_bg_text_ad_album_radius</dimen>
+    <dimen name="ads_bg_text_ad_album_padding_right">@dimen/ads_bg_text_ad_album_radius</dimen>
+    <dimen name="ads_bg_text_ad_album_padding_top">2dp</dimen>
 
     <style name="ads_NativeAlbumRoot" parent="ads_BaseNativeAdViewRoot">
 
@@ -106,6 +111,11 @@
     <dimen name="ads_radius_bg_font">0dp</dimen>
     <dimen name="ads_root_font_heightToWidth">0.25</dimen>
     <dimen name="ads_minWidth_call_to_action_font">96dp</dimen>
+    <dimen name="ads_bg_text_ad_font_radius">5dp</dimen>
+    <dimen name="ads_bg_text_ad_font_padding_bottom">2dp</dimen>
+    <dimen name="ads_bg_text_ad_font_padding_left">@dimen/ads_bg_text_ad_font_radius</dimen>
+    <dimen name="ads_bg_text_ad_font_padding_right">@dimen/ads_bg_text_ad_font_radius</dimen>
+    <dimen name="ads_bg_text_ad_font_padding_top">2dp</dimen>
 
     <style name="ads_NativeFontRoot" parent="ads_BaseNativeAdViewRoot">
 
@@ -145,6 +155,11 @@
     <dimen name="ads_top_right_radius_bg_frame">0dp</dimen>
     <dimen name="ads_root_frame_heightToWidth">1.5</dimen>
     <dimen name="ads_minWidth_call_to_action_frame">96dp</dimen>
+    <dimen name="ads_bg_text_ad_frame_radius">5dp</dimen>
+    <dimen name="ads_bg_text_ad_frame_padding_bottom">2dp</dimen>
+    <dimen name="ads_bg_text_ad_frame_padding_left">@dimen/ads_bg_text_ad_frame_radius</dimen>
+    <dimen name="ads_bg_text_ad_frame_padding_right">@dimen/ads_bg_text_ad_frame_radius</dimen>
+    <dimen name="ads_bg_text_ad_frame_padding_top">2dp</dimen>
 
     <style name="ads_NativeFrameRoot" parent="ads_BaseNativeAdViewRoot">
 
@@ -179,6 +194,11 @@
     <dimen name="ads_padding_right_call_to_action_language">10dp</dimen>
     <dimen name="ads_padding_top_call_to_action_language">6dp</dimen>
     <dimen name="ads_radius_bg_language">0dp</dimen>
+    <dimen name="ads_bg_text_ad_language_radius">5dp</dimen>
+    <dimen name="ads_bg_text_ad_language_padding_bottom">2dp</dimen>
+    <dimen name="ads_bg_text_ad_language_padding_left">@dimen/ads_bg_text_ad_language_radius</dimen>
+    <dimen name="ads_bg_text_ad_language_padding_right">@dimen/ads_bg_text_ad_language_radius</dimen>
+    <dimen name="ads_bg_text_ad_language_padding_top">2dp</dimen>
 
     <style name="ads_NativeLanguageRoot" parent="ads_BaseNativeAdViewRoot">
 
@@ -215,6 +235,14 @@
     <dimen name="ads_radius_bg_share">10dp</dimen>
     <dimen name="ads_margin_start_share">10dp</dimen>
     <dimen name="ads_margin_end_share">10dp</dimen>
+    <dimen name="ads_bg_text_ad_share_bottomLeftRadius">0dp</dimen>
+    <dimen name="ads_bg_text_ad_share_bottomRightRadius">10dp</dimen>
+    <dimen name="ads_bg_text_ad_share_topLeftRadius">10dp</dimen>
+    <dimen name="ads_bg_text_ad_share_topRightRadius">0dp</dimen>
+    <dimen name="ads_bg_text_ad_share_padding_bottom">2dp</dimen>
+    <dimen name="ads_bg_text_ad_share_padding_left">@dimen/ads_bg_text_ad_share_topLeftRadius</dimen>
+    <dimen name="ads_bg_text_ad_share_padding_right">@dimen/ads_bg_text_ad_share_bottomRightRadius</dimen>
+    <dimen name="ads_bg_text_ad_share_padding_top">2dp</dimen>
 
     <style name="ads_NativeShareRoot" parent="ads_BaseNativeAdViewRoot">
 
@@ -251,6 +279,14 @@
     <dimen name="ads_radius_bg_sticker">10dp</dimen>
     <dimen name="ads_root_sticker_heightToWidth">0.40298507462</dimen>
     <dimen name="ads_minWidth_call_to_action_sticker">96dp</dimen>
+    <dimen name="ads_bg_text_ad_sticker_bottomLeftRadius">0dp</dimen>
+    <dimen name="ads_bg_text_ad_sticker_bottomRightRadius">10dp</dimen>
+    <dimen name="ads_bg_text_ad_sticker_topLeftRadius">10dp</dimen>
+    <dimen name="ads_bg_text_ad_sticker_topRightRadius">0dp</dimen>
+    <dimen name="ads_bg_text_ad_sticker_padding_bottom">2dp</dimen>
+    <dimen name="ads_bg_text_ad_sticker_padding_left">@dimen/ads_bg_text_ad_sticker_topLeftRadius</dimen>
+    <dimen name="ads_bg_text_ad_sticker_padding_right">@dimen/ads_bg_text_ad_sticker_bottomRightRadius</dimen>
+    <dimen name="ads_bg_text_ad_sticker_padding_top">2dp</dimen>
 
     <style name="ads_NativeStickerRoot" parent="ads_BaseNativeAdViewRoot">
 
@@ -287,6 +323,11 @@
     <dimen name="ads_radius_bg_template">0dp</dimen>
     <dimen name="ads_root_template_heightToWidth">0.25</dimen>
     <dimen name="ads_minWidth_call_to_action_template">96dp</dimen>
+    <dimen name="ads_bg_text_ad_template_radius">5dp</dimen>
+    <dimen name="ads_bg_text_ad_template_padding_bottom">2dp</dimen>
+    <dimen name="ads_bg_text_ad_template_padding_left">@dimen/ads_bg_text_ad_template_radius</dimen>
+    <dimen name="ads_bg_text_ad_template_padding_right">@dimen/ads_bg_text_ad_template_radius</dimen>
+    <dimen name="ads_bg_text_ad_template_padding_top">2dp</dimen>
 
     <style name="ads_NativeTemplateRoot" parent="ads_BaseNativeAdViewRoot">
 
@@ -323,6 +364,11 @@
     <dimen name="ads_padding_top_bottom_call_to_action_vip">6dp</dimen>
     <dimen name="ads_radius_bg_vip">10dp</dimen>
     <dimen name="ads_root_vip_heightToWidth">0.46923076923</dimen>
+    <dimen name="ads_bg_text_ad_vip_radius">5dp</dimen>
+    <dimen name="ads_bg_text_ad_vip_padding_bottom">2dp</dimen>
+    <dimen name="ads_bg_text_ad_vip_padding_left">@dimen/ads_bg_text_ad_vip_radius</dimen>
+    <dimen name="ads_bg_text_ad_vip_padding_right">@dimen/ads_bg_text_ad_vip_radius</dimen>
+    <dimen name="ads_bg_text_ad_vip_padding_top">2dp</dimen>
 
     <style name="ads_NativeVipRoot" parent="ads_BaseNativeAdViewRoot">
 

@@ -4,12 +4,14 @@
     <solid android:color="@color/ads_bg_text_ad_sticker_color"/>
 
     <corners
-        android:bottomRightRadius="10dp"
-        android:topLeftRadius="10dp"/>
+        android:bottomLeftRadius="@dimen/ads_bg_text_ad_sticker_bottomLeftRadius"
+        android:bottomRightRadius="@dimen/ads_bg_text_ad_sticker_bottomRightRadius"
+        android:topLeftRadius="@dimen/ads_bg_text_ad_sticker_topLeftRadius"
+        android:topRightRadius="@dimen/ads_bg_text_ad_sticker_topRightRadius"/>
 
     <padding
-        android:bottom="2dp"
-        android:left="10dp"
-        android:right="10dp"
-        android:top="2dp"/>
+        android:bottom="@dimen/ads_bg_text_ad_sticker_padding_bottom"
+        android:left="@dimen/ads_bg_text_ad_sticker_padding_left"
+        android:right="@dimen/ads_bg_text_ad_sticker_padding_right"
+        android:top="@dimen/ads_bg_text_ad_sticker_padding_top"/>
 </shape>

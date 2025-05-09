@@ -60,9 +60,6 @@ dependencies {
 
     implementation (libs.baseandroid)
 
-    implementation(libs.lottie)
-    implementation(libs.blurview)
-
     // Import the Firebase BoM
     implementation(platform(libs.firebase.bom))
     // Add the dependency for the Firebase SDK for Google Analytics

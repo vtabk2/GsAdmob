@@ -28,6 +28,41 @@
         @drawable/ads_selector_bg_grant_gdpr
     </drawable>
 
+    <!--   cấu hình giao diện AdResumeDialogFragment-->
+    <string name="ad_text_welcome_back">Welcome back</string>
+
+    <color name="ad_blurOverlayColor">#80000000</color>
+
+    <style name="LottieAppOpenResume" parent="ads_LottieAppOpenResume">
+
+    </style>
+
+    <style name="ads_LottieAppOpenResume">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">6dp</item>
+        <item name="android:adjustViewBounds">true</item>
+        <item name="lottie_autoPlay">true</item>
+        <item name="lottie_loop">true</item>
+        <item name="lottie_rawRes">@raw/ad_app_open_resume</item>
+    </style>
+
+    <style name="TextAppOpenResume" parent="ads_TextAppOpenResume">
+
+    </style>
+
+    <style name="ads_TextAppOpenResume">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">80dp</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingStart">12dp</item>
+        <item name="android:paddingEnd">12dp</item>
+        <item name="android:text">@string/ad_text_welcome_back</item>
+        <item name="android:textColor">@android:color/white</item>
+        <item name="android:textSize">22sp</item>
+    </style>
+
     <!--    style dùng để cho text tự động chạy-->
     <style name="ads_Autoscroll">
         <item name="android:maxLines">1</item>

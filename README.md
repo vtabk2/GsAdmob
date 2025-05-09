@@ -36,7 +36,7 @@ loại quảng cáo và tích hợp GDPR/CMP.
 
 ```css
       dependencies {
-          implementation 'com.github.vtabk2:GsAdmob:1.3.30'
+          implementation 'com.github.vtabk2:GsAdmob:1.4.0'
       }
 ```
 
@@ -77,14 +77,15 @@ loại quảng cáo và tích hợp GDPR/CMP.
                     coroutineScope = mainScope,
                     applicationId = BuildConfig.APPLICATION_ID,
                     keyVipList = VipPreferences.defaultKeyVipList,
-                    callbackStartLifecycle = { activity ->
-                    },
-                    callbackPauseLifecycle = { activity ->
-                    },
-                    callbackNothingLifecycle = {
+                    adPlaceNameAppOpenResume = AdGsRemoteExtraConfig.instance.adPlaceNameAppOpenResume,
+                    canShowAppOpenResume = { activity ->
+                        canShowAppOpenResume && activity !is SplashActivity
                     },
                     callbackChangeVip = { currentActivity, isVip ->
-                    }, showLog = BuildConfig.DEBUG 
+                        if (currentActivity is BaseAdsActivity<*>) {
+                           currentActivity.updateUiWithVip(isVip = isVip)
+                        }
+                    }
                 )
             }
         }
@@ -155,11 +156,7 @@ Hướng dẫn chi tiết cách dùng xem ở [SplashActivity](https://github.co
 
 ### 2. Quảng cáo app open resume khi trở lại ứng dụng
 
-- Bước 1: Cấu hình ở [Application](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/TestApplication.kt)
-
-Trong callbackStartLifecycle: sẽ kiểm tra xem quảng cáo app open có sẵn hoặc có thể tải thì sẽ mở màn hình `ResumeDialogFragment`
-
-Trong callbackPauseLifecycle: sẽ tắt `ResumeDialogFragment` đi nếu nó đang hiển thị
+- Cấu hình ở [Application](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/TestApplication.kt)
 
   ```css
         override fun registerAdGsManager() {
@@ -171,75 +168,25 @@ Trong callbackPauseLifecycle: sẽ tắt `ResumeDialogFragment` đi nếu nó đ
                 isDebug = BuildConfig.DEBUG
             )
 
-            val adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameAppOpenResume
-            val tag = ResumeDialogFragment.javaClass.simpleName
-
             AdGsManager.instance.registerCoroutineScope(
                 application = this,
                 coroutineScope = mainScope,
                 applicationId = BuildConfig.APPLICATION_ID,
                 keyVipList = VipPreferences.defaultKeyVipList,
-                callbackStartLifecycle = { activity ->
-                    if (canShowAppOpenResume && activity !is SplashActivity) {
-                       AdGsManager.instance.showAd(adPlaceName = adPlaceName, onlyCheckNotShow = true, callbackShow = { adShowStatus ->
-                           when (adShowStatus) {
-                               AdShowStatus.CAN_SHOW, AdShowStatus.REQUIRE_LOAD -> {
-                                   activity.supportFragmentManager.let { fragmentManager ->
-                                       val bottomDialogFragment = fragmentManager.findFragmentByTag(tag) as? ResumeDialogFragment
-                                       if (bottomDialogFragment != null && bottomDialogFragment.isVisible) {
-                                          // BottomDialogFragment đang hiển thị
-                                          bottomDialogFragment.onShowAds("onResume")
-                                       } else {
-                                          // BottomDialogFragment không hiển thị
-                                          val fragment = (activity.window.decorView.rootView as? ViewGroup)?.let { ResumeDialogFragment.newInstance(it) }
-                                          fragment?.show(fragmentManager, tag)
-                                       }
-                                  }
-                               }
-
-                               else -> {
-
-                               }
-                           }
-                       })
-                   }
+                adPlaceNameAppOpenResume = AdGsRemoteExtraConfig.instance.adPlaceNameAppOpenResume,
+                canShowAppOpenResume = { activity ->
+                    canShowAppOpenResume && activity !is SplashActivity
                 },
-                callbackPauseLifecycle = { activity ->
-                    val bottomDialogFragment = activity.supportFragmentManager.findFragmentByTag(tag) as? ResumeDialogFragment
-                    if (bottomDialogFragment != null && bottomDialogFragment.isVisible) {
-                        // BottomDialogFragment đang hiển thị
-                        activity.runOnUiThread {
-                            bottomDialogFragment.dismissAllowingStateLoss()
-                        }
-                    } else {
-                        // BottomDialogFragment không hiển thị
-                    }
-                }, callbackNothingLifecycle = {
+                callbackNothingLifecycle = {
                     // 1 số logic cần thiết khác (ví dụ retry vip hoặc Lingver)
-                }, callbackChangeVip = { currentActivity, isVip ->
+                },
+                callbackChangeVip = { currentActivity, isVip ->
                     if (currentActivity is BaseAdsActivity<*>) {
                         currentActivity.updateUiWithVip(isVip = isVip)
                     }
                 }
            )
        }
-  ```
-
-- Bước 2: Tạo fragment [ResumeDialogFragment](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/ui/fragment/ResumeDialogFragment.kt)
-  và trong onShowAds sẽ khởi tạo [AdGsDelayManager](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/AdGsDelayManager.kt) để xử lý tải và hiển thị quảng cáo app open resume
-
-  ```css
-        fun onShowAds(from: String) {
-            (activity as? AppCompatActivity)?.let {
-                AdGsDelayManager(
-                    activity = it,
-                    fragment = this,
-                    adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameAppOpenResume,
-                    callbackFinished = {
-                        dismissAllowingStateLoss()
-                    })
-            }
-        }
   ```
 
 ### Quảng cáo Banner
@@ -379,6 +326,35 @@ Trong callbackPauseLifecycle: sẽ tắt `ResumeDialogFragment` đi nếu nó đ
   ```
 
 ## 🔧 Tuỳ chỉnh nâng cao
+
+### Tùy chỉnh quảng cáo App open resume
+
+- Thay đổi text
+
+  ```css
+        <string name="ad_text_welcome_back">Welcome back</string>
+  ```
+
+- Thay đổi animation LottieAppOpenResume
+
+  ```css
+         <style name="LottieAppOpenResume" parent="ads_LottieAppOpenResume">
+
+         </style>
+  ```
+  
+- Thay đổi TextAppOpenResume
+
+  ```css
+        <style name="TextAppOpenResume" parent="ads_TextAppOpenResume">
+
+        </style>
+  ```
+- Thay đổi blurOverlayColor App open resume
+
+  ```css
+        <color name="ad_blurOverlayColor">#80000000</color>
+  ```
 
 ### Tùy chỉnh quảng cáo Banner
 

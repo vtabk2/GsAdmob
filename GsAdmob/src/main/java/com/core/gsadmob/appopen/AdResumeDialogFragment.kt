@@ -1,4 +1,4 @@
-package com.example.gsadmob.ui.fragment
+package com.core.gsadmob.appopen
 
 import android.app.Dialog
 import android.graphics.Color
@@ -10,25 +10,27 @@ import android.view.ViewGroup
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentManager
+import com.core.gsadmob.databinding.AdFragmentResumeDialogBinding
+import com.core.gsadmob.model.AdPlaceName
 import com.core.gsadmob.utils.AdGsDelayManager
-import com.example.gsadmob.databinding.FragmentResumeBinding
-import com.example.gsadmob.utils.remoteconfig.AdGsRemoteExtraConfig
 import com.google.android.material.R
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.android.material.bottomsheet.BottomSheetDialog
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 
-class ResumeDialogFragment : BottomSheetDialogFragment() {
+class AdResumeDialogFragment : BottomSheetDialogFragment() {
 
     companion object {
-        fun newInstance(viewRoot: ViewGroup) = ResumeDialogFragment().apply {
+        fun newInstance(viewRoot: ViewGroup, adPlaceNameAppOpenResume: AdPlaceName) = AdResumeDialogFragment().apply {
             this.viewRoot = viewRoot
+            this.adPlaceNameAppOpenResume = adPlaceNameAppOpenResume
         }
     }
 
-    lateinit var binding: FragmentResumeBinding
+    lateinit var binding: AdFragmentResumeDialogBinding
     private var heightScreen: Int = 0
     private var viewRoot: ViewGroup? = null
+    private var adPlaceNameAppOpenResume: AdPlaceName? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -45,7 +47,7 @@ class ResumeDialogFragment : BottomSheetDialogFragment() {
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
-        binding = FragmentResumeBinding.inflate(layoutInflater)
+        binding = AdFragmentResumeDialogBinding.inflate(layoutInflater)
         return binding.root
     }
 
@@ -71,7 +73,7 @@ class ResumeDialogFragment : BottomSheetDialogFragment() {
             AdGsDelayManager(
                 activity = it,
                 fragment = this,
-                adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameAppOpenResume,
+                adPlaceName = adPlaceNameAppOpenResume,
                 callbackFinished = {
                     dismissAllowingStateLoss()
                 })

@@ -66,4 +66,7 @@ dependencies {
     implementation(libs.firebase.config.ktx)
 
     implementation(libs.gson)
+
+    implementation(libs.lottie)
+    implementation(libs.blurview)
 }

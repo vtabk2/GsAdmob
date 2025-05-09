@@ -4,7 +4,6 @@ import android.annotation.SuppressLint
 import com.core.gsadmob.GsAdmobApplication
 import com.core.gsadmob.utils.AdGsManager
 import com.core.gsadmob.utils.preferences.VipPreferences
-import com.example.gsadmob.ui.activity.base.BaseAdsActivity
 import com.example.gsadmob.ui.activity.splash.SplashActivity
 import com.example.gsadmob.utils.remoteconfig.AdGsRemoteExtraConfig
 import com.example.gsadmob.utils.remoteconfig.RemoteConfig
@@ -44,11 +43,7 @@ class TestApplication : GsAdmobApplication() {
             canShowAppOpenResume = { activity ->
                 canShowAppOpenResume && activity !is SplashActivity
             },
-            callbackChangeVip = { currentActivity, isVip ->
-                if (currentActivity is BaseAdsActivity<*>) {
-                    currentActivity.updateUiWithVip(isVip = isVip)
-                }
-            }
+            requireScreenAdLoading = false
         )
     }
 

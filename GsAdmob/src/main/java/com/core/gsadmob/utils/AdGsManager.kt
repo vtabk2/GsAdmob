@@ -98,6 +98,7 @@ class AdGsManager {
      * @param keyVipList đây là danh sách các key lưu giá trị vip của ứng dụng (kiểu có nhiều loại vip như vip tháng, vip năm hay vip toàn bộ)
      * @param adPlaceNameAppOpenResume quảng cáo app open resume muốn sử dụng
      * @param canShowAppOpenResume điều kiện để có thể hiển thị quảng cáo app open resume
+     * @param requireScreenAdLoading = true cần màn hình chờ tải quảng cáo app open resume
      * @param callbackNothingLifecycle thường dùng để thiết lập 1 số logic khác (ví dụ retry vip hoặc Lingver)
      * @param callbackChangeVip trả về activity hiện tại và trạng thái vip hiện tại (mục đích là để cập nhật giao diện cho ứng dụng)
      * @param showLog có muốn hiển thị log không?
@@ -109,6 +110,7 @@ class AdGsManager {
         keyVipList: MutableList<String> = VipPreferences.defaultKeyVipList,
         adPlaceNameAppOpenResume: AdPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_APP_OPEN_RESUME,
         canShowAppOpenResume: (activity: AppCompatActivity) -> Boolean = { false },
+        requireScreenAdLoading: Boolean = true,
         callbackNothingLifecycle: (() -> Unit)? = null,
         callbackChangeVip: ((currentActivity: Activity?, isVip: Boolean) -> Unit)? = null,
         showLog: Boolean = false
@@ -152,6 +154,12 @@ class AdGsManager {
                         when (adShowStatus) {
                             AdShowStatus.CAN_SHOW, AdShowStatus.REQUIRE_LOAD -> {
                                 if (adShowStatus == AdShowStatus.REQUIRE_LOAD && !NetworkUtils.isInternetAvailable(activity)) return@showAd
+                                if (!requireScreenAdLoading) {
+                                    if (adShowStatus == AdShowStatus.CAN_SHOW) {
+                                        instance.registerAndShowAds(adPlaceName = adPlaceNameAppOpenResume)
+                                    }
+                                    return@showAd
+                                }
                                 activity.supportFragmentManager.let { fragmentManager ->
                                     val bottomDialogFragment = fragmentManager.findFragmentByTag(tag) as? AdResumeDialogFragment
                                     if (bottomDialogFragment != null && bottomDialogFragment.isVisible) {

@@ -160,10 +160,12 @@ Hướng dẫn chi tiết cách dùng xem ở [SplashActivity](https://github.co
 
   Cần khai báo `adPlaceNameAppOpenResume` và `canShowAppOpenResume`
 
-  - `adPlaceNameAppOpenResume` Quảng cáo app open resume bạn muốn dùng
+  - `adPlaceNameAppOpenResume` Quảng cáo app open resume bạn muốn dùng, nếu không truyền vào thì sẽ dùng AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_APP_OPEN_RESUME mặc định
 
   - `canShowAppOpenResume` Điều kiện để hiển thị quảng cáo app open resume
 
+
+- Khi có sử dụng RemoteConfig thì khởi tạo `RemoteConfig.instance.initRemoteConfig()` trước
 
   ```css
         override fun registerAdGsManager() {
@@ -186,11 +188,28 @@ Hướng dẫn chi tiết cách dùng xem ở [SplashActivity](https://github.co
                 },
                 callbackNothingLifecycle = {
                     // 1 số logic cần thiết khác (ví dụ retry vip hoặc Lingver)
+                }
+           )
+       }
+  ```
+
+- Khi không sử dụng RemoteConfig
+
+  ```css
+        override fun registerAdGsManager() {
+            super.registerAdGsManager()
+
+            AdGsManager.instance.registerCoroutineScope(
+                application = this,
+                coroutineScope = mainScope,
+                applicationId = BuildConfig.APPLICATION_ID,
+                keyVipList = VipPreferences.defaultKeyVipList,
+                adPlaceNameAppOpenResume = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_APP_OPEN_RESUME,
+                canShowAppOpenResume = { activity ->
+                    canShowAppOpenResume && activity !is SplashActivity
                 },
-                callbackChangeVip = { currentActivity, isVip ->
-                    if (currentActivity is BaseAdsActivity<*>) {
-                        currentActivity.updateUiWithVip(isVip = isVip)
-                    }
+                callbackNothingLifecycle = {
+                    // 1 số logic cần thiết khác (ví dụ retry vip hoặc Lingver)
                 }
            )
        }

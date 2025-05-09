@@ -36,7 +36,7 @@ loại quảng cáo và tích hợp GDPR/CMP.
 
 ```css
       dependencies {
-          implementation 'com.github.vtabk2:GsAdmob:1.3.30'
+          implementation 'com.github.vtabk2:GsAdmob:1.4.0'
       }
 ```
 
@@ -326,6 +326,35 @@ Hướng dẫn chi tiết cách dùng xem ở [SplashActivity](https://github.co
   ```
 
 ## 🔧 Tuỳ chỉnh nâng cao
+
+### Tùy chỉnh quảng cáo App open resume
+
+- Thay đổi text
+
+  ```css
+        <string name="ad_text_welcome_back">Welcome back</string>
+  ```
+
+- Thay đổi animation LottieAppOpenResume
+
+  ```css
+         <style name="LottieAppOpenResume" parent="ads_LottieAppOpenResume">
+
+         </style>
+  ```
+  
+- Thay đổi TextAppOpenResume
+
+  ```css
+        <style name="TextAppOpenResume" parent="ads_TextAppOpenResume">
+
+        </style>
+  ```
+- Thay đổi blurOverlayColor App open resume
+
+  ```css
+        <color name="ad_blurOverlayColor">#80000000</color>
+  ```
 
 ### Tùy chỉnh quảng cáo Banner
 

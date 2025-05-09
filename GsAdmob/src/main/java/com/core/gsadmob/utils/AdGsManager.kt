@@ -214,7 +214,9 @@ class AdGsManager {
             AdPlaceNameDefaultConfig.instance.initAdPlaceNameDefaultConfig(application = application)
 
             async {
-                VipPreferences.instance.getVipChangeFlow(keyVipList = keyVipList).catch { e -> e.printStackTrace() }.stateIn(this, SharingStarted.Eagerly, VipPreferences.instance.isFullVersion())
+                VipPreferences.instance.getVipChangeFlow(keyVipList = keyVipList)
+                    .catch { e -> e.printStackTrace() }
+                    .stateIn(this, SharingStarted.Eagerly, VipPreferences.instance.isFullVersion())
                     .collect { isVip ->
                         notifyVip(isVip)
                         callbackChangeVip?.invoke(currentActivity, isVip)

@@ -1,3 +1,8 @@
+**Version 1.4.1**
+
+- Thêm `requireScreenAdLoading` để cấu hình có dùng màn hình chờ tải quảng cáo không
+- Khi không muốn có màn hình chờ tải quảng cáo thì dùng `requireScreenAdLoading = false` khi khởi tạo `AdGsManager.instance.registerCoroutineScope()`
+
 **Version 1.4.0**
 - Đổi cách sử dụng quảng cáo app open resume đơn giản hơn
   - `adPlaceNameAppOpenResume` là quảng cáo app open resume truyền vào

@@ -36,7 +36,7 @@ loại quảng cáo và tích hợp GDPR/CMP.
 
 ```css
       dependencies {
-          implementation 'com.github.vtabk2:GsAdmob:1.4.0'
+          implementation 'com.github.vtabk2:GsAdmob:1.4.1'
       }
 ```
 
@@ -214,6 +214,8 @@ Hướng dẫn chi tiết cách dùng xem ở [SplashActivity](https://github.co
            )
        }
   ```
+
+- Khi không muốn có màn hình chờ tải quảng cáo thì dùng `requireScreenAdLoading = false` khi khởi tạo `AdGsManager.instance.registerCoroutineScope()`
 
 ### Quảng cáo Banner
 

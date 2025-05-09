@@ -17,6 +17,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ProcessLifecycleOwner
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.core.gsadmob.appopen.AdResumeDialogFragment
 import com.core.gsadmob.banner.BannerGsAdView
 import com.core.gsadmob.callback.AdGsListener
 import com.core.gsadmob.model.AdGsType
@@ -95,8 +96,8 @@ class AdGsManager {
      * Bắt buộc phải khởi tạo ở Application nếu không thì sẽ không thể tải được quảng cáo nào cả
      * @param applicationId dùng để tạo VipPreferences
      * @param keyVipList đây là danh sách các key lưu giá trị vip của ứng dụng (kiểu có nhiều loại vip như vip tháng, vip năm hay vip toàn bộ)
-     * @param callbackStartLifecycle trả kết quả khi quay trở lại ứng dụng (được dùng cho quảng cáo app open resume)
-     * @param callbackPauseLifecycle trả kết quả khi ứng dụng vào trạng thái tạm dừng
+     * @param adPlaceNameAppOpenResume quảng cáo app open resume muốn sử dụng
+     * @param canShowAppOpenResume điều kiện để có thể hiển thị quảng cáo app open resume
      * @param callbackNothingLifecycle thường dùng để thiết lập 1 số logic khác (ví dụ retry vip hoặc Lingver)
      * @param callbackChangeVip trả về activity hiện tại và trạng thái vip hiện tại (mục đích là để cập nhật giao diện cho ứng dụng)
      * @param showLog có muốn hiển thị log không?
@@ -106,11 +107,11 @@ class AdGsManager {
         coroutineScope: CoroutineScope,
         applicationId: String,
         keyVipList: MutableList<String> = VipPreferences.defaultKeyVipList,
-        callbackStartLifecycle: ((activity: AppCompatActivity) -> Unit)? = null,
-        callbackPauseLifecycle: ((activity: AppCompatActivity) -> Unit)? = null,
+        adPlaceNameAppOpenResume: AdPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_APP_OPEN_RESUME,
+        canShowAppOpenResume: (activity: AppCompatActivity) -> Boolean = { false },
         callbackNothingLifecycle: (() -> Unit)? = null,
         callbackChangeVip: ((currentActivity: Activity?, isVip: Boolean) -> Unit)? = null,
-        showLog: Boolean = true
+        showLog: Boolean = false
     ) {
         this.application = application
         this.showLog = showLog
@@ -136,6 +137,8 @@ class AdGsManager {
             override fun onActivityDestroyed(activity: Activity) {}
         })
 
+        val tag = AdResumeDialogFragment.javaClass.simpleName
+
         val resumeLifecycleObserver = object : DefaultLifecycleObserver {
             override fun onStart(owner: LifecycleOwner) {
                 super.onStart(owner)
@@ -143,14 +146,48 @@ class AdGsManager {
                     if (!isPause) return
                     if (isVipFlow.value) return
                     isPause = false
-                    callbackStartLifecycle?.invoke(activity)
+
+                    if (!canShowAppOpenResume.invoke(activity)) return
+                    instance.showAd(adPlaceName = adPlaceNameAppOpenResume, onlyCheckNotShow = true, callbackShow = { adShowStatus ->
+                        when (adShowStatus) {
+                            AdShowStatus.CAN_SHOW, AdShowStatus.REQUIRE_LOAD -> {
+                                if (adShowStatus == AdShowStatus.REQUIRE_LOAD && !NetworkUtils.isInternetAvailable(activity)) return@showAd
+                                activity.supportFragmentManager.let { fragmentManager ->
+                                    val bottomDialogFragment = fragmentManager.findFragmentByTag(tag) as? AdResumeDialogFragment
+                                    if (bottomDialogFragment != null && bottomDialogFragment.isVisible) {
+                                        // BottomDialogFragment đang hiển thị
+                                        bottomDialogFragment.onShowAds("onResume")
+                                    } else {
+                                        // BottomDialogFragment không hiển thị
+                                        val fragment = (activity.window.decorView.rootView as? ViewGroup)?.let {
+                                            AdResumeDialogFragment.newInstance(
+                                                viewRoot = it, adPlaceNameAppOpenResume = adPlaceNameAppOpenResume
+                                            )
+                                        }
+                                        fragment?.show(fragmentManager, tag)
+                                    }
+                                }
+                            }
+
+                            else -> {
+
+                            }
+                        }
+                    })
                 }
             }
 
             override fun onPause(owner: LifecycleOwner) {
                 super.onPause(owner)
                 (currentActivity as? AppCompatActivity)?.let { activity ->
-                    callbackPauseLifecycle?.invoke(activity)
+                    (activity.supportFragmentManager.findFragmentByTag(tag) as? AdResumeDialogFragment)?.let { adResumeDialogFragment ->
+                        if (adResumeDialogFragment.isVisible) {
+                            // BottomDialogFragment đang hiển thị
+                            activity.runOnUiThread {
+                                adResumeDialogFragment.dismissAllowingStateLoss()
+                            }
+                        }
+                    }
                 }
 
                 isPause = true
@@ -177,9 +214,7 @@ class AdGsManager {
             AdPlaceNameDefaultConfig.instance.initAdPlaceNameDefaultConfig(application = application)
 
             async {
-                VipPreferences.instance.getVipChangeFlow(keyVipList = keyVipList)
-                    .catch { e -> e.printStackTrace() }
-                    .stateIn(this, SharingStarted.Eagerly, VipPreferences.instance.isFullVersion())
+                VipPreferences.instance.getVipChangeFlow(keyVipList = keyVipList).catch { e -> e.printStackTrace() }.stateIn(this, SharingStarted.Eagerly, VipPreferences.instance.isFullVersion())
                     .collect { isVip ->
                         notifyVip(isVip)
                         callbackChangeVip?.invoke(currentActivity, isVip)
@@ -275,47 +310,31 @@ class AdGsManager {
 
                 when (adPlaceName.adGsType) {
                     AdGsType.APP_OPEN -> loadAppOpenAd(
-                        app = it,
-                        adPlaceName = adPlaceName,
-                        adGsData = adGsData as AppOpenAdGsData,
-                        requiredLoadNewAds = requiredLoadNewAds
+                        app = it, adPlaceName = adPlaceName, adGsData = adGsData as AppOpenAdGsData, requiredLoadNewAds = requiredLoadNewAds
                     )
 
                     AdGsType.BANNER, AdGsType.BANNER_COLLAPSIBLE -> {
                         loadBannerAd(
-                            app = it,
-                            adPlaceName = adPlaceName,
-                            adGsData = adGsData as BannerAdGsData
+                            app = it, adPlaceName = adPlaceName, adGsData = adGsData as BannerAdGsData
                         )
                     }
 
                     AdGsType.INTERSTITIAL -> loadInterstitialAd(
-                        app = it,
-                        adPlaceName = adPlaceName,
-                        adGsData = adGsData as InterstitialAdGsData,
-                        requiredLoadNewAds = requiredLoadNewAds
+                        app = it, adPlaceName = adPlaceName, adGsData = adGsData as InterstitialAdGsData, requiredLoadNewAds = requiredLoadNewAds
                     )
 
                     AdGsType.NATIVE -> {
                         loadNativeAd(
-                            app = it,
-                            adPlaceName = adPlaceName,
-                            adGsData = adGsData as NativeAdGsData
+                            app = it, adPlaceName = adPlaceName, adGsData = adGsData as NativeAdGsData
                         )
                     }
 
                     AdGsType.REWARDED -> loadRewardedAd(
-                        app = it,
-                        adPlaceName = adPlaceName,
-                        adGsData = adGsData as RewardedAdGsData,
-                        requiredLoadNewAds = requiredLoadNewAds
+                        app = it, adPlaceName = adPlaceName, adGsData = adGsData as RewardedAdGsData, requiredLoadNewAds = requiredLoadNewAds
                     )
 
                     AdGsType.REWARDED_INTERSTITIAL -> loadRewardedInterstitialAd(
-                        app = it,
-                        adPlaceName = adPlaceName,
-                        adGsData = adGsData as RewardedInterstitialAdGsData,
-                        requiredLoadNewAds = requiredLoadNewAds
+                        app = it, adPlaceName = adPlaceName, adGsData = adGsData as RewardedInterstitialAdGsData, requiredLoadNewAds = requiredLoadNewAds
                     )
                 }
             } else {
@@ -555,8 +574,7 @@ class AdGsManager {
         startShimmerLiveData.postValue(shimmerMap)
 
         val adRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
-        val adLoader = AdLoader.Builder(app, adPlaceName.adUnitId)
-            .withAdListener(object : AdListener() {
+        val adLoader = AdLoader.Builder(app, adPlaceName.adUnitId).withAdListener(object : AdListener() {
                 override fun onAdFailedToLoad(loadAdError: LoadAdError) {
                     log("loadNativeAd_onAdFailedToLoad: message", loadAdError.message, logType = LogType.ERROR)
                     shimmerMap[adPlaceName] = false
@@ -568,8 +586,7 @@ class AdGsManager {
                 override fun onAdClicked() {
                     adGsData.listener?.onAdClicked()
                 }
-            })
-            .forNativeAd { nativeAd ->
+            }).forNativeAd { nativeAd ->
                 shimmerMap[adPlaceName] = false
                 adGsData.lastTime = System.currentTimeMillis()
 
@@ -661,10 +678,7 @@ class AdGsManager {
      * Tải quảng cáo trả thưởng xen kẽ
      */
     private fun loadRewardedInterstitialAd(
-        app: Application,
-        adPlaceName: AdPlaceName,
-        adGsData: RewardedInterstitialAdGsData,
-        requiredLoadNewAds: Boolean
+        app: Application, adPlaceName: AdPlaceName, adGsData: RewardedInterstitialAdGsData, requiredLoadNewAds: Boolean
     ) {
         val adRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
         RewardedInterstitialAd.load(app, adPlaceName.adUnitId, adRequest, object : RewardedInterstitialAdLoadCallback() {
@@ -751,11 +765,7 @@ class AdGsManager {
      *
      */
     fun showAd(
-        adPlaceName: AdPlaceName,
-        requiredLoadNewAds: Boolean = false,
-        onlyShow: Boolean = false,
-        onlyCheckNotShow: Boolean = false,
-        callbackShow: ((adShowStatus: AdShowStatus) -> Unit)? = null
+        adPlaceName: AdPlaceName, requiredLoadNewAds: Boolean = false, onlyShow: Boolean = false, onlyCheckNotShow: Boolean = false, callbackShow: ((adShowStatus: AdShowStatus) -> Unit)? = null
     ) {
         // khi hiển thị quảng cáo thì hủy hết quảng cáo trả thưởng đi
         if (adPlaceName.adGsType == AdGsType.INTERSTITIAL) {
@@ -891,11 +901,7 @@ class AdGsManager {
      * Đăng kí sự kiện và hiển thị quảng cáo
      */
     fun registerAndShowAds(
-        adPlaceName: AdPlaceName,
-        requiredLoadNewAds: Boolean = false,
-        adGsListener: AdGsListener? = null,
-        onlyShow: Boolean = false,
-        callbackShow: ((AdShowStatus) -> Unit)? = null
+        adPlaceName: AdPlaceName, requiredLoadNewAds: Boolean = false, adGsListener: AdGsListener? = null, onlyShow: Boolean = false, callbackShow: ((AdShowStatus) -> Unit)? = null
     ) {
         registerAdsListener(adPlaceName = adPlaceName, adGsListener = adGsListener)
         showAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, onlyShow = onlyShow, callbackShow = callbackShow)

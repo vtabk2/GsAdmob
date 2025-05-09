@@ -1,3 +1,35 @@
+**Version 1.4.0**
+- Đổi cách sử dụng quảng cáo app open resume đơn giản hơn
+  - `adPlaceNameAppOpenResume` là quảng cáo app open resume truyền vào
+  - `canShowAppOpenResume` là điều kiện có thể hiển thị quảng cáo app open resume
+
+  ```css
+        RemoteConfig.instance.initRemoteConfig(
+            application = this,
+            remoteConfigDefaultsId = R.xml.remote_config_defaults,
+            isDebug = BuildConfig.DEBUG
+        )
+
+        AdGsManager.instance.registerCoroutineScope(
+            application = this,
+            coroutineScope = mainScope,
+            applicationId = BuildConfig.APPLICATION_ID,
+            keyVipList = VipPreferences.defaultKeyVipList,
+            adPlaceNameAppOpenResume = AdGsRemoteExtraConfig.instance.adPlaceNameAppOpenResume,
+            canShowAppOpenResume = { activity ->
+                canShowAppOpenResume && activity !is SplashActivity
+            },
+            callbackChangeVip = { currentActivity, isVip ->
+                if (currentActivity is BaseAdsActivity<*>) {
+                    currentActivity.updateUiWithVip(isVip = isVip)
+                }
+            }
+        )
+  ```
+
+- Từ giờ chuyển mặc định showLog = false
+
+
 **Version 1.3.30**
 
 - Thêm config cho bg_text_ad cho các quảng cáo native mẫu `album`, `font`, `frame`, `language`, `share`, `sticker`, `template`, `vip` giờ có thể chỉnh `text ad` 3 thông số

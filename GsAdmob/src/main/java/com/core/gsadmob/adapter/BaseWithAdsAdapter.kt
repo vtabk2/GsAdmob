@@ -116,8 +116,10 @@ abstract class BaseWithAdsAdapter(context: Context) : RecyclerView.Adapter<Recyc
         itemList.clear()
         itemList.addAll(list)
         if (isStartShimmer) {
-            itemList.filterIsInstance<ItemAds>().forEach {
-                it.isLoading = true
+            itemList.forEach { item ->
+                if (item is ItemAds) {
+                    item.isLoading = true
+                }
             }
         }
         notifyDataSetChanged()
@@ -128,8 +130,10 @@ abstract class BaseWithAdsAdapter(context: Context) : RecyclerView.Adapter<Recyc
      */
     open fun setDataWithCalculateDiff(list: MutableList<Any>) {
         if (isStartShimmer) {
-            list.filterIsInstance<ItemAds>().forEach {
-                it.isLoading = true
+            list.forEach { item ->
+                if (item is ItemAds) {
+                    item.isLoading = true
+                }
             }
         } else {
             // Lấy dữ liệu quảng cáo đã có trong danh sách cũ
@@ -171,10 +175,11 @@ abstract class BaseWithAdsAdapter(context: Context) : RecyclerView.Adapter<Recyc
      */
     fun startShimmer() {
         isStartShimmer = true
-        itemList.filterIsInstance<ItemAds>().forEach {
-            val index = itemList.indexOf(it)
-            it.isLoading = true
-            notifyItemChanged(index)
+        itemList.forEachIndexed { index, item ->
+            if (item is ItemAds) {
+                item.isLoading = true
+                notifyItemChanged(index)
+            }
         }
     }
 
@@ -183,11 +188,12 @@ abstract class BaseWithAdsAdapter(context: Context) : RecyclerView.Adapter<Recyc
      */
     fun stopShimmer(nativeAd: NativeAd?) {
         isStartShimmer = false
-        itemList.filterIsInstance<ItemAds>().forEach {
-            val index = itemList.indexOf(it)
-            it.isLoading = false
-            it.nativeAd = nativeAd
-            notifyItemChanged(index)
+        itemList.forEachIndexed { index, item ->
+            if (item is ItemAds) {
+                item.isLoading = false
+                item.nativeAd = nativeAd
+                notifyItemChanged(index)
+            }
         }
     }
 

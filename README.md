@@ -62,6 +62,11 @@ loại quảng cáo và tích hợp GDPR/CMP.
     ```css
           keyVipList = mutableListOf("isPro", "isProByYear")
     ```
+  - Nếu không muốn sử dụng thì khởi tạo
+    
+    ```css
+          keyVipList = mutableListOf()
+    ```
 
 - `TestApplication`
 

@@ -28,7 +28,36 @@
   ```
 
 - Từ giờ chuyển mặc định showLog = false
+- Thêm tùy chọn app open resume
 
+### Tùy chỉnh quảng cáo App open resume
+
+- Thay đổi text
+
+  ```css
+        <string name="ad_text_welcome_back">Welcome back</string>
+  ```
+
+- Thay đổi animation LottieAppOpenResume
+
+  ```css
+         <style name="LottieAppOpenResume" parent="ads_LottieAppOpenResume">
+
+         </style>
+  ```
+
+- Thay đổi TextAppOpenResume
+
+  ```css
+        <style name="TextAppOpenResume" parent="ads_TextAppOpenResume">
+
+        </style>
+  ```
+- Thay đổi blurOverlayColor App open resume
+
+  ```css
+        <color name="ad_blurOverlayColor">#80000000</color>
+  ```
 
 **Version 1.3.30**
 

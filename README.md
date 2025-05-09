@@ -79,7 +79,7 @@ loại quảng cáo và tích hợp GDPR/CMP.
                     keyVipList = VipPreferences.defaultKeyVipList,
                     adPlaceNameAppOpenResume = AdGsRemoteExtraConfig.instance.adPlaceNameAppOpenResume,
                     canShowAppOpenResume = { activity ->
-                    canShowAppOpenResume && activity !is SplashActivity
+                        canShowAppOpenResume && activity !is SplashActivity
                     },
                     callbackChangeVip = { currentActivity, isVip ->
                         if (currentActivity is BaseAdsActivity<*>) {

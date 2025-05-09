@@ -158,6 +158,10 @@ Hướng dẫn chi tiết cách dùng xem ở [SplashActivity](https://github.co
 
 - Cấu hình ở [Application](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/TestApplication.kt)
 
+- `adPlaceNameAppOpenResume` Quảng cáo app open resume
+
+- `canShowAppOpenResume` Điều kiện để hiển thị quảng cáo app open resume
+
   ```css
         override fun registerAdGsManager() {
             super.registerAdGsManager()

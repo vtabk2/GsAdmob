@@ -1,4 +1,6 @@
 <resources>
+    <string name="ad_text_welcome_back">@string/text_welcome_back</string>
+
     <drawable name="ads_bg_shimmer_frame">@drawable/ads__bg_shimmer_frame</drawable>
 
     <style name="NativeTest" parent="ads_BaseNativeCustom">

@@ -8,10 +8,10 @@ loại quảng cáo và tích hợp GDPR/CMP.
 - **Quản lý trạng thái VIP** với `VipPreferences`
 - **Tùy chỉnh Native Ads** dễ dàng qua XML/Code
 - **Hỗ trợ GDPR/CMP** và Remote config (Firebase)
-- **Quảng cáo đa dạng**: Banner, Native, Interstitial, Rewarded, Rewarded Interstitial, App Open
+- **Quảng cáo đa dạng**: `Banner`, `Native`, `Interstitial`, `Rewarded`, `Rewarded Interstitial`, `App Open`
 - **Tích hợp Adapter** cho RecyclerView với `BaseWithAdsAdapter`
-- **Xử lý lifecycle** tự động cho quảng cáo
-- **Hiệu ứng Shimmer** khi tải quảng cáo
+- **Xử lý lifecycle** tự động cho quảng cáo `Banner` và `Native`
+- **Hiệu ứng Shimmer** khi tải quảng cáo `Banner` và `Native`
 
 ---
 
@@ -120,7 +120,7 @@ loại quảng cáo và tích hợp GDPR/CMP.
         </resources>
   ```
 
-- Đổi string của dialog GDPR/CMP
+- Đổi string của dialog GDPR/CMP nếu trong ứng dụng có sử dụng quảng cáo trả thưởng: `Rewarded` hoặc `Rewarded Interstitial`
 
   ```css
         <string name="ads_msg_gdpr">@string/msg_gdpr</string>

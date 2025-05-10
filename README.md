@@ -3,7 +3,7 @@
 Thư viện quản lý và tùy chỉnh quảng cáo trong ứng dụng Android một cách linh hoạt, hỗ trợ đa dạng
 loại quảng cáo và tích hợp GDPR/CMP.
 
-## 🌟 Tính năng nổi bật
+## 🌟🌟🌟 Tính năng nổi bật
 
 - **Quản lý trạng thái VIP** với `VipPreferences`
 - **Tùy chỉnh Native Ads** dễ dàng qua XML/Code
@@ -435,7 +435,7 @@ Hướng dẫn chi tiết cách dùng xem ở [SplashActivity](https://github.co
   | sticker       | Quảng cáo mẫu sticker                                    |
   | template      | Quảng cáo mẫu template                                   |
   | vip           | Quảng cáo mẫu vip                                        |
-  | custom        | Khi muốn tự tùy chỉnh quảng cáo native với giao diện mới |
+  | custom        | Khi muốn tự tùy chỉnh quảng cáo native với giao diện mới | ⭐⭐⭐
 
 ### 1. Khai báo trong xml
 

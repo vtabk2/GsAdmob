@@ -400,13 +400,13 @@ Hướng dẫn chi tiết cách dùng xem ở [SplashActivity](https://github.co
   ```css
         app:adsShowType="alwaysShow"
   ```
-
-| adsShowType   | Trạng thái                                                                                                                                                                                  |
-|---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
-| showIfSuccess | Quảng cáo chỉ chiếm kích thước và hiển thị khi quảng cáo được tải thành công                                                                                                                |
-| alwaysShow    | Quảng cáo luôn chiếm kích thước và hiển thị nếu quảng cáo đươc tải thành công                                                                                                               |
-| hide          | Ẩn quảng cáo đi nhưng vẫn chiếm kích thước và không hiển thị ngay cả khi quảng cáo được tải thành công (được dùng khi đang show quảng cáo app open hiển thị thì tạm ẩn banner đi chẳng hạn) |
-| notShow       | Ẩn quảng cáo đi không chiếm kích thước và không hiển thị ngày cả khi quảng cáo được tải thành công                                                                                          |
+  
+  | adsShowType   | Trạng thái                                                                                                                                                                                  |
+  |---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+  | showIfSuccess | Quảng cáo chỉ chiếm kích thước và hiển thị khi quảng cáo được tải thành công                                                                                                                |
+  | alwaysShow    | Quảng cáo luôn chiếm kích thước và hiển thị nếu quảng cáo đươc tải thành công                                                                                                               |
+  | hide          | Ẩn quảng cáo đi nhưng vẫn chiếm kích thước và không hiển thị ngay cả khi quảng cáo được tải thành công (được dùng khi đang show quảng cáo app open hiển thị thì tạm ẩn banner đi chẳng hạn) |
+  | notShow       | Ẩn quảng cáo đi không chiếm kích thước và không hiển thị ngày cả khi quảng cáo được tải thành công                                                                                          |
 
 - Ví dụ
 
@@ -423,6 +423,19 @@ Hướng dẫn chi tiết cách dùng xem ở [SplashActivity](https://github.co
   ```
 
 ### Tùy chỉnh quảng cáo Native
+  
+  | adsNativeMode | Trạng thái                                               |
+  |---------------|----------------------------------------------------------|
+  | none          | (Mặc định) Không hiển thị quảng cáo                      |
+  | album         | Quảng cáo mẫu album                                      |
+  | font          | Quảng cáo mẫu font                                       |
+  | frame         | Quảng cáo mẫu frame                                      |
+  | language      | Quảng cáo mẫu language                                   |
+  | share         | Quảng cáo mẫu share                                      |
+  | sticker       | Quảng cáo mẫu sticker                                    |
+  | template      | Quảng cáo mẫu template                                   |
+  | vip           | Quảng cáo mẫu vip                                        |
+  | custom        | Khi muốn tự tùy chỉnh quảng cáo native với giao diện mới |
 
 ### 1. Khai báo trong xml
 

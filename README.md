@@ -86,10 +86,8 @@ loại quảng cáo và tích hợp GDPR/CMP.
                     canShowAppOpenResume = { activity ->
                         canShowAppOpenResume && activity !is SplashActivity
                     },
-                    callbackChangeVip = { currentActivity, isVip ->
-                        if (currentActivity is BaseAdsActivity<*>) {
-                           currentActivity.updateUiWithVip(isVip = isVip)
-                        }
+                    callbackNothingLifecycle = {
+                        // 1 số logic cần thiết khác (ví dụ retry vip hoặc Lingver)
                     }
                 )
             }

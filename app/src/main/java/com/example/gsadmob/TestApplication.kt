@@ -40,8 +40,8 @@ class TestApplication : GsAdmobApplication() {
             applicationId = BuildConfig.APPLICATION_ID,
             keyVipList = VipPreferences.defaultKeyVipList,
             adPlaceNameAppOpenResume = AdGsRemoteExtraConfig.instance.adPlaceNameAppOpenResume,
-            canShowAppOpenResume = { activity ->
-                canShowAppOpenResume && activity !is SplashActivity
+            canShowAppOpenResume = { currentActivity ->
+                canShowAppOpenResume && currentActivity !is SplashActivity
             },
             requireScreenAdLoading = false
         )

@@ -109,7 +109,7 @@ class AdGsManager {
         applicationId: String,
         keyVipList: MutableList<String> = VipPreferences.defaultKeyVipList,
         adPlaceNameAppOpenResume: AdPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_APP_OPEN_RESUME,
-        canShowAppOpenResume: (activity: AppCompatActivity) -> Boolean = { false },
+        canShowAppOpenResume: (currentActivity: AppCompatActivity) -> Boolean = { false },
         requireScreenAdLoading: Boolean = true,
         callbackNothingLifecycle: (() -> Unit)? = null,
         callbackChangeVip: ((currentActivity: Activity?, isVip: Boolean) -> Unit)? = null,

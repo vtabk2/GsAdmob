@@ -435,7 +435,7 @@ Hướng dẫn chi tiết cách dùng xem ở [SplashActivity](https://github.co
   | sticker       | Quảng cáo mẫu sticker                                    |
   | template      | Quảng cáo mẫu template                                   |
   | vip           | Quảng cáo mẫu vip                                        |
-  | custom        | Khi muốn tự tùy chỉnh quảng cáo native với giao diện mới | ⭐⭐⭐
+  | custom ⭐⭐⭐    | Khi muốn tự tùy chỉnh quảng cáo native với giao diện mới |
 
 ### 1. Khai báo trong xml
 

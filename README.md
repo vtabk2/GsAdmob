@@ -163,9 +163,9 @@ Hướng dẫn chi tiết cách dùng xem ở [SplashActivity](https://github.co
 
   Các giá trị có thể tùy chỉnh :
 
-  - `adPlaceNameAppOpenResume` là quảng cáo app open resume bạn muốn dùng, nếu không truyền vào thì sẽ dùng AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_APP_OPEN_RESUME mặc định
+  - `adPlaceNameAppOpenResume` là quảng cáo app open resume bạn muốn dùng (mặc định adPlaceNameAppOpenResume = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_APP_OPEN_RESUME)
 
-  - `canShowAppOpenResume` điều kiện để hiển thị quảng cáo app open resume
+  - `canShowAppOpenResume` điều kiện để hiển thị quảng cáo app open resume (mặc định canShowAppOpenResume = { false })
 
   - `requireScreenAdLoading` để tùy chỉnh có hiển thị màn hình chờ tải quảng cáo app open resume không? (mặc định requireScreenAdLoading = true)
 
@@ -229,8 +229,7 @@ Hướng dẫn chi tiết cách dùng xem ở [SplashActivity](https://github.co
         <com.core.gsadmob.banner.BannerGsAdView
             android:id="@+id/bannerView"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
-            app:adsShowType="alwaysShow"/>
+            android:layout_height="wrap_content"/>
   ```
 
 - Tải quảng cáo với adPlaceName mặc định ở [AdPlaceNameDefaultConfig](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/java/com/core/gsadmob/utils/AdPlaceNameDefaultConfig.kt)

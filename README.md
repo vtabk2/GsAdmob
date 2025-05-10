@@ -584,6 +584,16 @@ Hướng dẫn chi tiết cách dùng xem ở [SplashActivity](https://github.co
         </style>
   ```
 
+- Thay đổi kích thước margin của quảng cáo
+
+  ```css
+        <style name="ads_NativeAlbumRoot" parent="ads_BaseNativeAdViewRoot">
+            <item name="android:layout_marginStart">6dp</item>
+            <item name="android:layout_marginEnd">6dp</item>
+            <item name="android:layout_marginBottom">8dp</item>
+        </style>
+  ```
+
 #### 3.2. Tùy chỉnh shimmer
 
   ```css

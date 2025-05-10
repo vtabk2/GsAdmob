@@ -161,12 +161,13 @@ Hướng dẫn chi tiết cách dùng xem ở [SplashActivity](https://github.co
 
 - Cấu hình ở [Application](https://github.com/vtabk2/GsAdmob/blob/main/app/src/main/java/com/example/gsadmob/TestApplication.kt)
 
-  Cần khai báo `adPlaceNameAppOpenResume` và `canShowAppOpenResume`
+  Các giá trị có thể tùy chỉnh :
 
   - `adPlaceNameAppOpenResume` là quảng cáo app open resume bạn muốn dùng, nếu không truyền vào thì sẽ dùng AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_APP_OPEN_RESUME mặc định
 
-  - `canShowAppOpenResume` Điều kiện để hiển thị quảng cáo app open resume
+  - `canShowAppOpenResume` điều kiện để hiển thị quảng cáo app open resume
 
+  - `requireScreenAdLoading` để tùy chỉnh có hiển thị màn hình chờ tải quảng cáo app open resume không? (mặc định requireScreenAdLoading = true)
 
 - Khi có sử dụng RemoteConfig thì khởi tạo `RemoteConfig.instance.initRemoteConfig()` trước
 

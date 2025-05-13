@@ -30,19 +30,22 @@ class TestNativeActivity : BaseMVVMActivity<ActivityTestNativeBinding>(ActivityT
         AdGsManager.instance.registerBanner(
             lifecycleOwner = this,
             adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameBannerTestNative,
-            bannerGsAdView = bindingView.bannerView
+            bannerGsAdView = bindingView.bannerView,
+            useShimmer = false
         )
 
         AdGsManager.instance.registerNative(
             lifecycleOwner = this,
             adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_NATIVE,
-            nativeGsAdView = bindingView.nativeFrame
+            nativeGsAdView = bindingView.nativeFrame,
+            useShimmer = false
         )
 
         AdGsManager.instance.registerNative(
             lifecycleOwner = this,
             adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_NATIVE_LANGUAGE,
-            nativeGsAdView = bindingView.nativeLanguage
+            nativeGsAdView = bindingView.nativeLanguage,
+            useShimmer = false
         )
     }
 

@@ -162,8 +162,12 @@ abstract class BaseWithAdsAdapter(context: Context) : RecyclerView.Adapter<Recyc
         diffResult.dispatchUpdatesTo(this)
     }
 
-    open fun setupItemAds(nativeAd: NativeAd?, isStartShimmer: Boolean) {
-        if (isStartShimmer && nativeAd == null) {
+    /**
+     * @param useShimmer = true Sử dụng shimmer
+     * @param isStartShimmer = true Hiển thị shimmer và chỉ có tác dụng khi useShimmer = true
+     */
+    open fun setupItemAds(nativeAd: NativeAd?, isStartShimmer: Boolean, useShimmer: Boolean = true) {
+        if (isStartShimmer && nativeAd == null && useShimmer) {
             startShimmer()
         } else {
             stopShimmer(nativeAd)
@@ -197,6 +201,9 @@ abstract class BaseWithAdsAdapter(context: Context) : RecyclerView.Adapter<Recyc
         }
     }
 
+    /**
+     * Thay đổi giao diện CallActionButton
+     */
     open fun getBackgroundResourceCallActionButton(position: Int): Int {
         return 0
     }

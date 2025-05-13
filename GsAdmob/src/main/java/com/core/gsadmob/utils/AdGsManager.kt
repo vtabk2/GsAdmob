@@ -923,6 +923,7 @@ class AdGsManager {
         bannerGsAdView: BannerGsAdView? = null,
         nativeGsAdView: NativeGsAdView? = null,
         requiredLoadNewAds: Boolean = false,
+        useShimmer: Boolean = true,
         adGsListener: AdGsListener? = null,
         callbackSuccess: ((nativeAdGsData: NativeAdGsData?, isStartShimmer: Boolean) -> Unit)? = null,
         callbackFailed: (() -> Unit)? = null
@@ -932,6 +933,7 @@ class AdGsManager {
             adPlaceName = adPlaceName,
             nativeGsAdView = nativeGsAdView,
             requiredLoadNewAds = requiredLoadNewAds,
+            useShimmer = useShimmer,
             adGsListener = adGsListener,
             callbackSuccess = callbackSuccess,
             callbackFailed = {
@@ -940,6 +942,7 @@ class AdGsManager {
                     adPlaceName = adPlaceName,
                     bannerGsAdView = bannerGsAdView,
                     requiredLoadNewAds = requiredLoadNewAds,
+                    useShimmer = useShimmer,
                     adGsListener = adGsListener,
                     callbackFailed = callbackFailed
                 )
@@ -1028,6 +1031,7 @@ class AdGsManager {
         adPlaceName: AdPlaceName,
         bannerGsAdView: BannerGsAdView?,
         requiredLoadNewAds: Boolean = false,
+        useShimmer: Boolean = true,
         adGsListener: AdGsListener? = null,
         callbackFailed: (() -> Unit)? = null
     ) {
@@ -1039,7 +1043,7 @@ class AdGsManager {
                     requiredLoadNewAds = requiredLoadNewAds,
                     adGsListener = adGsListener,
                     callbackBanner = { bannerAdGsData, isStartShimmer ->
-                        bannerGsAdView?.setBannerAdView(adView = bannerAdGsData?.bannerAdView, isStartShimmer = isStartShimmer)
+                        bannerGsAdView?.setBannerAdView(adView = bannerAdGsData?.bannerAdView, isStartShimmer = if (useShimmer) isStartShimmer else false)
                         try {
                             bannerGsAdView?.resume()
                         } catch (e: Exception) {
@@ -1076,6 +1080,7 @@ class AdGsManager {
         adPlaceName: AdPlaceName,
         nativeGsAdView: NativeGsAdView? = null,
         requiredLoadNewAds: Boolean = false,
+        useShimmer: Boolean = true,
         adGsListener: AdGsListener? = null,
         callbackSuccess: ((nativeAdGsData: NativeAdGsData?, isStartShimmer: Boolean) -> Unit)? = null,
         callbackFailed: (() -> Unit)? = null
@@ -1088,8 +1093,8 @@ class AdGsManager {
                     requiredLoadNewAds = requiredLoadNewAds,
                     adGsListener = adGsListener,
                     callbackNative = { nativeAdGsData, isStartShimmer ->
-                        nativeGsAdView?.setNativeAd(nativeAd = nativeAdGsData?.nativeAd, isStartShimmer = isStartShimmer)
-                        callbackSuccess?.invoke(nativeAdGsData, isStartShimmer)
+                        nativeGsAdView?.setNativeAd(nativeAd = nativeAdGsData?.nativeAd, isStartShimmer = if (useShimmer) isStartShimmer else false)
+                        callbackSuccess?.invoke(nativeAdGsData, if (useShimmer) isStartShimmer else false)
                     },
                     callbackDestroy = {
                         try {

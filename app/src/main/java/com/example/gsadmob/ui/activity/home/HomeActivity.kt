@@ -44,14 +44,15 @@ class HomeActivity : BaseMVVMActivity<ActivityHomeBinding>(ActivityHomeBinding::
         AdGsManager.instance.registerBanner(
             lifecycleOwner = this,
             adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome,
-            bannerGsAdView = bindingView.bannerView
+            bannerGsAdView = bindingView.bannerView,
+            useShimmer = false
         )
 
         AdGsManager.instance.registerNative(
             lifecycleOwner = this,
             adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameNativeHome,
             callbackSuccess = { nativeAdGsData, isStartShimmer ->
-                adapter?.setupItemAds(nativeAd = nativeAdGsData?.nativeAd, isStartShimmer = isStartShimmer)
+                adapter?.setupItemAds(nativeAd = nativeAdGsData?.nativeAd, isStartShimmer = isStartShimmer, useShimmer = true)
             }
         )
     }

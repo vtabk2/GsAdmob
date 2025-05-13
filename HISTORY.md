@@ -1,3 +1,56 @@
+**Version 1.4.2**
+
+- Thêm tính năng tắt không sử dụng shimmer cho native và banner `useShimmer = false`
+- Banner
+
+  ```css
+         AdGsManager.instance.registerBanner(
+            lifecycleOwner = this,
+            adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome,
+            bannerGsAdView = bindingView.bannerView,
+            useShimmer = false
+        )
+  ```
+- Native bên ngoài
+ 
+  ```css
+         AdGsManager.instance.registerNative(
+            lifecycleOwner = this,
+            adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_NATIVE_LANGUAGE,
+            nativeGsAdView = bindingView.nativeLanguage,
+            useShimmer = false
+        )
+  ```
+- Native bên trong recycler view
+
+  ```css
+        AdGsManager.instance.registerNative(
+            lifecycleOwner = this,
+            adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameNativeHome,
+            callbackSuccess = { nativeAdGsData, isStartShimmer ->
+                adapter?.setupItemAds(nativeAd = nativeAdGsData?.nativeAd, isStartShimmer = isStartShimmer, useShimmer = false)
+            }
+        )
+  ```
+
+- Không biết native hay banner
+
+  ```css
+        AdGsManager.instance.registerNativeOrBanner(
+            lifecycleOwner = this,
+            adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameLanguage,
+            bannerGsAdView = bindingView.bannerView,
+            nativeGsAdView = bindingView.nativeLanguage,
+            useShimmer = false,
+            callbackSuccess = { nativeAdGsData, isStartShimmer ->
+
+            },
+            callbackFailed = {
+
+            }
+        )
+  ```
+
 **Version 1.4.1**
 
 - Thêm `requireScreenAdLoading` để cấu hình có dùng màn hình chờ tải quảng cáo không

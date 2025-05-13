@@ -36,7 +36,7 @@ loại quảng cáo và tích hợp GDPR/CMP.
 
 ```css
       dependencies {
-          implementation 'com.github.vtabk2:GsAdmob:1.4.1'
+          implementation 'com.github.vtabk2:GsAdmob:1.4.2'
       }
 ```
 
@@ -252,6 +252,17 @@ Hướng dẫn chi tiết cách dùng xem ở [SplashActivity](https://github.co
          )      
   ```
 
+- Khi không muốn sử dụng shimmer `useShimmer = false`
+
+  ```css
+         AdGsManager.instance.registerBanner(
+            lifecycleOwner = this,
+            adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome,
+            bannerGsAdView = bindingView.bannerView,
+            useShimmer = false
+        )
+  ```
+
 ### Quảng cáo Interstitial
 
 - Hiển thị quảng cáo xen kẽ
@@ -264,36 +275,38 @@ Hướng dẫn chi tiết cách dùng xem ở [SplashActivity](https://github.co
 
 ### Quảng cáo Native
 
-- Quảng cáo Native ở bên ngoài
+- Quảng cáo Native ở bên ngoài (khi không muốn sử dụng shimmer thì dùng `useShimmer = false`)
 
   ```css
         AdGsManager.instance.registerNative(
             lifecycleOwner = this,
             adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_NATIVE,
-            nativeGsAdView = bindingView.nativeFrame
+            nativeGsAdView = bindingView.nativeFrame,
+            useShimmer = true
         )
   ```
 
-- Quảng cáo Native ở trong RecyclerView
+- Quảng cáo Native ở trong RecyclerView (khi không muốn sử dụng shimmer thì dùng `useShimmer = false`)
 
   ```css
         AdGsManager.instance.registerNative(
             lifecycleOwner = this,
             adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameNativeHome,
             callbackSuccess = { nativeAdGsData, isStartShimmer ->
-                adapter?.setupItemAds(nativeAd = nativeAdGsData?.nativeAd, isStartShimmer = isStartShimmer)
+                adapter?.setupItemAds(nativeAd = nativeAdGsData?.nativeAd, isStartShimmer = isStartShimmer, useShimmer = true)
             }
         )
   ```
 
-- Tự do chuyển đổi giữ quảng cáo Native và Banner
+- Tự do chuyển đổi giữ quảng cáo Native và Banner (khi không muốn sử dụng shimmer thì dùng `useShimmer = false`)
 
   ```css
         AdGsManager.instance.registerNativeOrBanner(
             lifecycleOwner = this,
             adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameLanguage,
             bannerGsAdView = bindingView.bannerView,
-            nativeGsAdView = bindingView.nativeLanguage
+            nativeGsAdView = bindingView.nativeLanguage,
+            useShimmer = true
         )
   ```
 

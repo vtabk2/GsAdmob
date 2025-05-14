@@ -387,8 +387,9 @@ class AdGsManager {
                         showAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, onlyShow = true)
                     }
 
-                    adGsData.appOpenAd?.onPaidEventListener = OnPaidEventListener {
+                    adGsData.appOpenAd?.onPaidEventListener = OnPaidEventListener { adValue ->
                         adGsData.isUsed = true
+                        adGsData.extendListener?.onPaidListener(adValue)
                     }
 
                     adGsData.appOpenAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
@@ -417,7 +418,7 @@ class AdGsManager {
                         }
 
                         override fun onAdClicked() {
-                            adGsData.listener?.onAdClicked()
+                            adGsData.extendListener?.onAdClicked()
                         }
                     }
                 }
@@ -450,8 +451,9 @@ class AdGsManager {
 
         bannerAdView.loadAd(adRequest)
 
-        bannerAdView.onPaidEventListener = OnPaidEventListener {
+        bannerAdView.onPaidEventListener = OnPaidEventListener { adValue ->
             adGsData.isUsed = true
+            adGsData.extendListener?.onPaidListener(adValue)
         }
 
         bannerAdView.adListener = object : AdListener() {
@@ -479,7 +481,7 @@ class AdGsManager {
             }
 
             override fun onAdClicked() {
-                adGsData.listener?.onAdClicked()
+                adGsData.extendListener?.onAdClicked()
             }
         }
     }
@@ -538,8 +540,9 @@ class AdGsManager {
                         showAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, onlyShow = true)
                     }
 
-                    adGsData.interstitialAd?.onPaidEventListener = OnPaidEventListener {
+                    adGsData.interstitialAd?.onPaidEventListener = OnPaidEventListener { adValue ->
                         adGsData.isUsed = true
+                        adGsData.extendListener?.onPaidListener(adValue)
                     }
 
                     adGsData.interstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
@@ -568,7 +571,7 @@ class AdGsManager {
                         }
 
                         override fun onAdClicked() {
-                            adGsData.listener?.onAdClicked()
+                            adGsData.extendListener?.onAdClicked()
                         }
                     }
                 }
@@ -594,7 +597,7 @@ class AdGsManager {
                 }
 
                 override fun onAdClicked() {
-                    adGsData.listener?.onAdClicked()
+                    adGsData.extendListener?.onAdClicked()
                 }
             }).forNativeAd { nativeAd ->
                 shimmerMap[adPlaceName] = false
@@ -606,8 +609,9 @@ class AdGsManager {
                     adGsData.nativeAd = nativeAd
                     adGsData.isLoading = false
 
-                    adGsData.nativeAd?.setOnPaidEventListener {
+                    adGsData.nativeAd?.setOnPaidEventListener { adValue ->
                         adGsData.isUsed = true
+                        adGsData.extendListener?.onPaidListener(adValue)
                     }
 
                     notifyAds("loadNativeAd.forNativeAd")
@@ -646,8 +650,9 @@ class AdGsManager {
                         showAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, onlyShow = true)
                     }
 
-                    adGsData.rewardedAd?.onPaidEventListener = OnPaidEventListener {
+                    adGsData.rewardedAd?.onPaidEventListener = OnPaidEventListener { adValue ->
                         adGsData.isUsed = true
+                        adGsData.extendListener?.onPaidListener(adValue)
                     }
 
                     adGsData.rewardedAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
@@ -676,7 +681,7 @@ class AdGsManager {
                         }
 
                         override fun onAdClicked() {
-                            adGsData.listener?.onAdClicked()
+                            adGsData.extendListener?.onAdClicked()
                         }
                     }
                 }
@@ -716,8 +721,9 @@ class AdGsManager {
                         showAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, onlyShow = true)
                     }
 
-                    adGsData.rewardedInterstitialAd?.onPaidEventListener = OnPaidEventListener {
+                    adGsData.rewardedInterstitialAd?.onPaidEventListener = OnPaidEventListener { adValue ->
                         adGsData.isUsed = true
+                        adGsData.extendListener?.onPaidListener(adValue)
                     }
 
                     adGsData.rewardedInterstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
@@ -746,7 +752,7 @@ class AdGsManager {
                         }
 
                         override fun onAdClicked() {
-                            adGsData.listener?.onAdClicked()
+                            adGsData.extendListener?.onAdClicked()
                         }
                     }
                 }
@@ -1265,6 +1271,13 @@ class AdGsManager {
         } ?: run {
             backupActiveTimeMap[adPlaceName] = false
         }
+    }
+
+    /**
+     * Xác định ứng dụng đang có ở trạng thái pause không?
+     */
+    fun getPauseApp(): Boolean {
+        return isPause
     }
 
     companion object {

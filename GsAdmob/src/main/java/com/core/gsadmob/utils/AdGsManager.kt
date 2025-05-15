@@ -1289,6 +1289,14 @@ class AdGsManager {
     }
 
     /**
+     * Xóa quảng cáo và xóa đăng ký sự kiện khi tải quảng cáo
+     */
+    fun clearAndRemoveListener(adPlaceName: AdPlaceName) {
+        removeAdsListener(adPlaceName = adPlaceName)
+        clearWithAdPlaceName(adPlaceName = adPlaceName)
+    }
+
+    /**
      * Xác định ứng dụng đang có ở trạng thái pause không?
      */
     fun getPauseApp(): Boolean {

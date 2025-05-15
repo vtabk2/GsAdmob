@@ -36,7 +36,7 @@ loại quảng cáo và tích hợp GDPR/CMP.
 
 ```css
       dependencies {
-          implementation 'com.github.vtabk2:GsAdmob:1.4.2'
+          implementation 'com.github.vtabk2:GsAdmob:1.4.3'
       }
 ```
 
@@ -435,6 +435,25 @@ Hướng dẫn chi tiết cách dùng xem ở [SplashActivity](https://github.co
             app:layout_constraintStart_toStartOf="parent"/>
   ```
 
+- Bắt các sự kiện của quảng cáo `adGsExtendListener`, `adGsListener`
+
+  ```css
+        AdGsManager.instance.registerBanner(
+            lifecycleOwner = this,
+            adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome,
+            bannerGsAdView = bindingView.bannerView,
+            useShimmer = false,
+            adGsListener = object : AdGsListener {
+                
+            },
+            adGsExtendListener = object : AdGsExtendListener {
+                override fun onAdClicked() {
+                    Log.d("TAG5", "HomeActivity_onAdClicked: adPlaceNameBannerHome")
+                }
+            }
+        )
+  ```
+
 ### Tùy chỉnh quảng cáo Native
   
   | adsNativeMode | Trạng thái                                               |
@@ -549,6 +568,26 @@ Hướng dẫn chi tiết cách dùng xem ở [SplashActivity](https://github.co
         binding.nativeAdView.setStyle(R.style.NativeTest)
   
         bindingView.nativeTest1.setStyle(com.core.gsadmob.R.style.NativeFont)
+  ```
+
+- Bắt các sự kiện của quảng cáo `adGsExtendListener`, `adGsListener`
+
+  ```css
+        AdGsManager.instance.registerNative(
+            lifecycleOwner = this,
+            adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameNativeHome,
+            callbackSuccess = { nativeAdGsData, isStartShimmer ->
+                adapter?.setupItemAds(nativeAd = nativeAdGsData?.nativeAd, isStartShimmer = isStartShimmer, useShimmer = true)
+            },
+            adGsListener = object : AdGsListener {
+                
+            },
+            adGsExtendListener = object : AdGsExtendListener{
+                override fun onAdClicked() {
+                    Log.d("TAG5", "HomeActivity_onAdClicked: adPlaceNameNativeHome")
+                }
+            }
+        )
   ```
   
 ### 3. Tùy chỉnh các mẫu native có sẵn xem ở [config_admob.xml](https://github.com/vtabk2/GsAdmob/blob/main/GsAdmob/src/main/res/values/config_admob.xml)
@@ -722,6 +761,25 @@ Hướng dẫn chi tiết xem [ImageAdapter](https://github.com/vtabk2/GsAdmob/b
 
     ```css
           override fun areContentsTheSameDiff(oldItem: Any, newItem: Any)
+    ```
+### Tùy chỉnh quảng cáo `Interstitial` 
+
+- Bắt các sự kiện của quảng cáo `AdGsManager.instance.registerAndShowAds`
+
+    ```css
+          AdGsManager.instance.registerAndShowAds
+    ```
+
+- Bắt các sự kiện mở rộng của quảng cáo `adGsExtendListener`
+
+    ```css
+          AdGsManager.instance.showAd(
+                adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_INTERSTITIAL,
+                adGsExtendListener = object : AdGsExtendListener {
+                override fun onAdClicked() {
+                    Log.d("TAG5", "TestAdsActivity_onAdClicked: AD_PLACE_NAME_INTERSTITIAL")
+                }
+            })
     ```
 
 ### Tùy chỉnh `VipPreferences` (nơi chứa các key vip của ứng dụng nếu cần)

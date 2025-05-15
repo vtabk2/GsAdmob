@@ -107,7 +107,7 @@ class AdGsManager {
     fun registerCoroutineScope(
         application: Application,
         coroutineScope: CoroutineScope,
-        applicationId: String,
+        applicationId: String = application.packageName,
         keyVipList: MutableList<String> = VipPreferences.defaultKeyVipList,
         adPlaceNameAppOpenResume: AdPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_APP_OPEN_RESUME,
         canShowAppOpenResume: (currentActivity: AppCompatActivity) -> Boolean = { false },

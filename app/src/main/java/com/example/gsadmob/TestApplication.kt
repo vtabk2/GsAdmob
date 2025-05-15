@@ -43,7 +43,7 @@ class TestApplication : GsAdmobApplication() {
             canShowAppOpenResume = { currentActivity ->
                 canShowAppOpenResume && currentActivity !is SplashActivity
             },
-            requireScreenAdLoading = false
+            requireScreenAdLoading = true
         )
     }
 

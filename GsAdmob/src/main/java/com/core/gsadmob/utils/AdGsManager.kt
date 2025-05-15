@@ -19,6 +19,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.core.gsadmob.appopen.AdResumeDialogFragment
 import com.core.gsadmob.banner.BannerGsAdView
+import com.core.gsadmob.callback.AdGsExtendListener
 import com.core.gsadmob.callback.AdGsListener
 import com.core.gsadmob.model.AdGsType
 import com.core.gsadmob.model.AdPlaceName
@@ -417,7 +418,7 @@ class AdGsManager {
                         }
 
                         override fun onAdClicked() {
-                            adGsData.listener?.onAdClicked()
+                            adGsData.extendListener?.onAdClicked()
                         }
                     }
                 }
@@ -479,7 +480,7 @@ class AdGsManager {
             }
 
             override fun onAdClicked() {
-                adGsData.listener?.onAdClicked()
+                adGsData.extendListener?.onAdClicked()
             }
         }
     }
@@ -568,7 +569,7 @@ class AdGsManager {
                         }
 
                         override fun onAdClicked() {
-                            adGsData.listener?.onAdClicked()
+                            adGsData.extendListener?.onAdClicked()
                         }
                     }
                 }
@@ -594,7 +595,7 @@ class AdGsManager {
                 }
 
                 override fun onAdClicked() {
-                    adGsData.listener?.onAdClicked()
+                    adGsData.extendListener?.onAdClicked()
                 }
             }).forNativeAd { nativeAd ->
                 shimmerMap[adPlaceName] = false
@@ -676,7 +677,7 @@ class AdGsManager {
                         }
 
                         override fun onAdClicked() {
-                            adGsData.listener?.onAdClicked()
+                            adGsData.extendListener?.onAdClicked()
                         }
                     }
                 }
@@ -746,7 +747,7 @@ class AdGsManager {
                         }
 
                         override fun onAdClicked() {
-                            adGsData.listener?.onAdClicked()
+                            adGsData.extendListener?.onAdClicked()
                         }
                     }
                 }
@@ -775,7 +776,12 @@ class AdGsManager {
      *
      */
     fun showAd(
-        adPlaceName: AdPlaceName, requiredLoadNewAds: Boolean = false, onlyShow: Boolean = false, onlyCheckNotShow: Boolean = false, callbackShow: ((adShowStatus: AdShowStatus) -> Unit)? = null
+        adPlaceName: AdPlaceName,
+        requiredLoadNewAds: Boolean = false,
+        onlyShow: Boolean = false,
+        onlyCheckNotShow: Boolean = false,
+        callbackShow: ((adShowStatus: AdShowStatus) -> Unit)? = null,
+        adGsExtendListener: AdGsExtendListener? = null
     ) {
         // khi hiển thị quảng cáo thì hủy hết quảng cáo trả thưởng đi
         if (adPlaceName.adGsType == AdGsType.INTERSTITIAL) {
@@ -800,6 +806,9 @@ class AdGsManager {
                     return
                 }
                 (adGsDataMap[adPlaceName] as? BaseShowAdGsData)?.let { adGsData ->
+                    if (adGsExtendListener != null) {
+                        adGsData.extendListener = adGsExtendListener
+                    }
                     if (adGsData.isCancel) {
                         adGsData.listener = null
                         callbackShow?.invoke(AdShowStatus.CANCEL)
@@ -891,18 +900,19 @@ class AdGsManager {
      * @param adPlaceName : Cấu hình cho quảng cáo
      * @param adGsListener : Các sự kiện được trả về
      */
-    private fun registerAdsListener(adPlaceName: AdPlaceName, adGsListener: AdGsListener? = null) {
+    private fun registerAdsListener(adPlaceName: AdPlaceName, adGsListener: AdGsListener?, adGsExtendListener: AdGsExtendListener?) {
         val adGsData = getAdGsData(adPlaceName = adPlaceName)
         // update listener
         adGsData.listener = adGsListener
+        adGsData.extendListener = adGsExtendListener
         adGsDataMap[adPlaceName] = adGsData
     }
 
     /**
      * Đăng kí sự kiện và tải quảng cáo
      */
-    private fun registerActiveAndLoadAds(adPlaceName: AdPlaceName, requiredLoadNewAds: Boolean = false, adGsListener: AdGsListener? = null) {
-        registerAdsListener(adPlaceName = adPlaceName, adGsListener = adGsListener)
+    private fun registerActiveAndLoadAds(adPlaceName: AdPlaceName, requiredLoadNewAds: Boolean = false, adGsListener: AdGsListener?, adGsExtendListener: AdGsExtendListener?) {
+        registerAdsListener(adPlaceName = adPlaceName, adGsListener = adGsListener, adGsExtendListener = adGsExtendListener)
         activeAd(adPlaceName = adPlaceName)
         loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
     }
@@ -911,10 +921,14 @@ class AdGsManager {
      * Đăng kí sự kiện và hiển thị quảng cáo
      */
     fun registerAndShowAds(
-        adPlaceName: AdPlaceName, requiredLoadNewAds: Boolean = false, adGsListener: AdGsListener? = null, onlyShow: Boolean = false, callbackShow: ((AdShowStatus) -> Unit)? = null
+        adPlaceName: AdPlaceName,
+        requiredLoadNewAds: Boolean = false,
+        adGsListener: AdGsListener? = null,
+        adGsExtendListener: AdGsExtendListener? = null,
+        onlyShow: Boolean = false, callbackShow: ((AdShowStatus) -> Unit)? = null
     ) {
-        registerAdsListener(adPlaceName = adPlaceName, adGsListener = adGsListener)
-        showAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, onlyShow = onlyShow, callbackShow = callbackShow)
+        registerAdsListener(adPlaceName = adPlaceName, adGsListener = adGsListener, adGsExtendListener = adGsExtendListener)
+        showAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, onlyShow = onlyShow, callbackShow = callbackShow, adGsExtendListener = adGsExtendListener)
     }
 
     fun registerNativeOrBanner(
@@ -925,6 +939,7 @@ class AdGsManager {
         requiredLoadNewAds: Boolean = false,
         useShimmer: Boolean = true,
         adGsListener: AdGsListener? = null,
+        adGsExtendListener: AdGsExtendListener? = null,
         callbackSuccess: ((nativeAdGsData: NativeAdGsData?, isStartShimmer: Boolean) -> Unit)? = null,
         callbackFailed: (() -> Unit)? = null
     ) {
@@ -935,6 +950,7 @@ class AdGsManager {
             requiredLoadNewAds = requiredLoadNewAds,
             useShimmer = useShimmer,
             adGsListener = adGsListener,
+            adGsExtendListener = adGsExtendListener,
             callbackSuccess = callbackSuccess,
             callbackFailed = {
                 registerBanner(
@@ -956,6 +972,7 @@ class AdGsManager {
         lifecycleOwner: LifecycleOwner,
         adPlaceName: AdPlaceName,
         adGsListener: AdGsListener? = null,
+        adGsExtendListener: AdGsExtendListener? = null,
         requiredLoadNewAds: Boolean = false,
         callbackBanner: ((bannerAdGsData: BannerAdGsData?, isStartShimmer: Boolean) -> Unit)? = null,
         callbackNative: ((nativeAdGsData: NativeAdGsData?, isStartShimmer: Boolean) -> Unit)? = null,
@@ -982,7 +999,7 @@ class AdGsManager {
 
         // 3. Xử lý coroutine riêng cho data flow
         lifecycleOwner.lifecycleScope.launch {
-            instance.registerActiveAndLoadAds(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, adGsListener = adGsListener)
+            instance.registerActiveAndLoadAds(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, adGsListener = adGsListener, adGsExtendListener = adGsExtendListener)
 
             // Xử lý shimmer effect
             instance.startShimmerLiveData.observe(lifecycleOwner) { shimmerMap ->
@@ -1033,6 +1050,7 @@ class AdGsManager {
         requiredLoadNewAds: Boolean = false,
         useShimmer: Boolean = true,
         adGsListener: AdGsListener? = null,
+        adGsExtendListener: AdGsExtendListener? = null,
         callbackFailed: (() -> Unit)? = null
     ) {
         when (adPlaceName.adGsType) {
@@ -1042,6 +1060,7 @@ class AdGsManager {
                     adPlaceName = adPlaceName,
                     requiredLoadNewAds = requiredLoadNewAds,
                     adGsListener = adGsListener,
+                    adGsExtendListener = adGsExtendListener,
                     callbackBanner = { bannerAdGsData, isStartShimmer ->
                         bannerGsAdView?.setBannerAdView(adView = bannerAdGsData?.bannerAdView, isStartShimmer = if (useShimmer) isStartShimmer else false)
                         try {
@@ -1082,6 +1101,7 @@ class AdGsManager {
         requiredLoadNewAds: Boolean = false,
         useShimmer: Boolean = true,
         adGsListener: AdGsListener? = null,
+        adGsExtendListener: AdGsExtendListener? = null,
         callbackSuccess: ((nativeAdGsData: NativeAdGsData?, isStartShimmer: Boolean) -> Unit)? = null,
         callbackFailed: (() -> Unit)? = null
     ) {
@@ -1092,6 +1112,7 @@ class AdGsManager {
                     adPlaceName = adPlaceName,
                     requiredLoadNewAds = requiredLoadNewAds,
                     adGsListener = adGsListener,
+                    adGsExtendListener = adGsExtendListener,
                     callbackNative = { nativeAdGsData, isStartShimmer ->
                         nativeGsAdView?.setNativeAd(nativeAd = nativeAdGsData?.nativeAd, isStartShimmer = if (useShimmer) isStartShimmer else false)
                         callbackSuccess?.invoke(nativeAdGsData, if (useShimmer) isStartShimmer else false)
@@ -1265,6 +1286,13 @@ class AdGsManager {
         } ?: run {
             backupActiveTimeMap[adPlaceName] = false
         }
+    }
+
+    /**
+     * Xác định ứng dụng đang có ở trạng thái pause không?
+     */
+    fun getPauseApp(): Boolean {
+        return isPause
     }
 
     companion object {

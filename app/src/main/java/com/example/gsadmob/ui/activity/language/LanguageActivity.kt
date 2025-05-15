@@ -1,6 +1,8 @@
 package com.example.gsadmob.ui.activity.language
 
 import android.os.Bundle
+import android.util.Log
+import com.core.gsadmob.callback.AdGsExtendListener
 import com.core.gsadmob.utils.AdGsManager
 import com.core.gsmvvm.ui.activity.BaseMVVMActivity
 import com.example.gsadmob.databinding.ActivityLanguageBinding
@@ -20,6 +22,11 @@ class LanguageActivity : BaseMVVMActivity<ActivityLanguageBinding>(ActivityLangu
             },
             callbackFailed = {
 
+            },
+            adGsExtendListener = object : AdGsExtendListener {
+                override fun onAdClicked() {
+                    Log.d("TAG5", "LanguageActivity_onAdClicked: adPlaceNameLanguage")
+                }
             }
         )
     }

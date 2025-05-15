@@ -77,6 +77,7 @@ class AdGsManager {
     private val startShimmerLiveData = MutableLiveData<ConcurrentHashMap<AdPlaceName, Boolean>>()
 
     private val backupDelayTimeMap = ConcurrentHashMap<AdPlaceName, Long>()
+    private val backupDelayShowTimeMap = ConcurrentHashMap<AdPlaceName, Long>()
     private val backupActiveTimeMap = ConcurrentHashMap<AdPlaceName, Boolean>()
     private val backupCancelTimeMap = ConcurrentHashMap<AdPlaceName, Boolean>()
 
@@ -413,6 +414,7 @@ class AdGsManager {
                         }
 
                         override fun onAdShowedFullScreenContent() {
+                            adGsData.lastShowTime = System.currentTimeMillis()
                             adGsData.isShowing = true
                             adGsData.listener?.onAdShowing()
                         }
@@ -564,6 +566,7 @@ class AdGsManager {
                         }
 
                         override fun onAdShowedFullScreenContent() {
+                            adGsData.lastShowTime = System.currentTimeMillis()
                             adGsData.isShowing = true
                             adGsData.listener?.onAdShowing()
                         }
@@ -818,9 +821,17 @@ class AdGsManager {
                         callbackShow?.invoke(AdShowStatus.SHOWING)
                         return
                     }
+
+                    val checkShowTime = if (adGsData.delayShowTime > 0L) {
+                        val currentTime = System.currentTimeMillis()
+                        currentTime - adGsData.lastShowTime >= adGsData.delayShowTime * 1000
+                    } else {
+                        true
+                    }
+
                     val canShow = when (adPlaceName.adGsType) {
-                        AdGsType.APP_OPEN -> (adGsData as? AppOpenAdGsData)?.appOpenAd != null && wasLoadTimeLessThanNHoursAgo(adGsData, 4)
-                        AdGsType.INTERSTITIAL -> (adGsData as? InterstitialAdGsData)?.interstitialAd != null
+                        AdGsType.APP_OPEN -> (adGsData as? AppOpenAdGsData)?.appOpenAd != null && wasLoadTimeLessThanNHoursAgo(adGsData, 4) && checkShowTime
+                        AdGsType.INTERSTITIAL -> (adGsData as? InterstitialAdGsData)?.interstitialAd != null && checkShowTime
                         AdGsType.REWARDED -> (adGsData as? RewardedAdGsData)?.rewardedAd != null
                         AdGsType.REWARDED_INTERSTITIAL -> (adGsData as? RewardedInterstitialAdGsData)?.rewardedInterstitialAd != null
                         else -> false
@@ -877,6 +888,11 @@ class AdGsManager {
                         if (onlyShow) {
                             callbackShow?.invoke(AdShowStatus.ONLY_SHOW)
                             return
+                        }
+                        if (!checkShowTime) {
+                            callbackShow?.invoke(AdShowStatus.REQUIRE_DELAY_SHOW_TIME)
+                            return
+
                         }
                         callbackShow?.invoke(AdShowStatus.REQUIRE_LOAD)
                         // chưa có thì load
@@ -1154,11 +1170,12 @@ class AdGsManager {
                 AdGsType.REWARDED_INTERSTITIAL -> RewardedInterstitialAdGsData()
             }.apply {
                 delayTime = backupDelayTimeMap[adPlaceName] ?: adPlaceName.delayTime
+                delayShowTime = backupDelayShowTimeMap[adPlaceName] ?: adPlaceName.delayShowTime
 
                 if (this is BaseActiveAdGsData) {
-                    isActive = backupActiveTimeMap[adPlaceName] ?: false
+                    isActive = backupActiveTimeMap[adPlaceName] == true
                 } else if (this is BaseShowAdGsData) {
-                    isCancel = backupCancelTimeMap[adPlaceName] ?: false
+                    isCancel = backupCancelTimeMap[adPlaceName] == true
                 }
             }
         }
@@ -1172,6 +1189,16 @@ class AdGsManager {
         backupDelayTimeMap[adPlaceName] = delayTime
         // thử set delayTime cho adPlaceName
         adGsDataMap[adPlaceName]?.delayTime = delayTime
+    }
+
+    /**
+     * Đăng ký thời gian tối thiểu giữa các lần hiển thị quảng cáo
+     */
+    fun registerDelayShowTime(delayShowTime: Long, adPlaceName: AdPlaceName) {
+        // lưu lại cho trường hơp chưa tạo adPlaceName
+        backupDelayShowTimeMap[adPlaceName] = delayShowTime
+        // thử set delayTime cho adPlaceName
+        adGsDataMap[adPlaceName]?.delayShowTime = delayShowTime
     }
 
     /**

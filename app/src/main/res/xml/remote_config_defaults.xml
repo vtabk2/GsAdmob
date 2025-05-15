@@ -9,6 +9,7 @@
             "adUnitId": "",
             "autoReloadWhenDismiss": false,
             "delayTime": 0,
+            "delayShowTime": 0,
             "adGsType": "app_open",
             "isEnable": true
             },
@@ -17,6 +18,7 @@
             "adUnitId": "",
             "autoReloadWhenDismiss": false,
             "delayTime": 0,
+            "delayShowTime": 0,
             "adGsType": "interstitial",
             "isEnable": false
             }
@@ -32,6 +34,7 @@
             "adUnitId": "",
             "autoReloadWhenDismiss": true,
             "delayTime": 0,
+            "delayShowTime": 30,
             "adGsType": "app_open",
             "isEnable": true
             }
@@ -47,6 +50,7 @@
             "adUnitId": "",
             "autoReloadWhenDismiss": false,
             "delayTime": 0,
+            "delayShowTime": 0,
             "adGsType": "banner",
             "isEnable": false
             },
@@ -55,6 +59,7 @@
             "adUnitId": "",
             "autoReloadWhenDismiss": false,
             "delayTime": 0,
+            "delayShowTime": 0,
             "adGsType": "native",
             "isEnable": true
             }
@@ -71,6 +76,7 @@
             "adUnitId": "",
             "autoReloadWhenDismiss": false,
             "delayTime": 30,
+            "delayShowTime": 0,
             "adGsType": "banner",
             "isEnable": true
             },
@@ -79,6 +85,7 @@
             "adUnitId": "",
             "autoReloadWhenDismiss": false,
             "delayTime": 30,
+            "delayShowTime": 0,
             "adGsType": "banner_collapsible",
             "isEnable": false
             },
@@ -87,6 +94,7 @@
             "adUnitId": "",
             "autoReloadWhenDismiss": false,
             "delayTime": 0,
+            "delayShowTime": 0,
             "adGsType": "native",
             "isEnable": true
             }

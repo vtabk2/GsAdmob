@@ -21,6 +21,10 @@ data class AdPlaceName(
      */
     @SerializedName("delayTime") var delayTime: Long = 0L,
     /**
+     * Thời gian tối thiểu giữa các lần hiển thị quảng cáo, đây là cấu hình mặc định ban đầu thôi, khi data đã thay đổi trong AdGsManager sẽ ko dùng nữa
+     */
+    @SerializedName("delayShowTime") var delayShowTime: Long = 0L,
+    /**
      * Dùng để xác định quảng cáo có được dùng không(thường dùng khi cấu hình trên firebase tắt bật)
      * isEnable = true tức là ứng dụng có sử dụng
      * isEnable = false tức là ứng dụng không sử dụng
@@ -37,8 +41,19 @@ data class AdPlaceName(
         adUnitId = adPlaceName.adUnitId
         autoReloadWhenDismiss = adPlaceName.autoReloadWhenDismiss
         delayTime = adPlaceName.delayTime
+        delayShowTime = adPlaceName.delayShowTime
         isEnable = adPlaceName.isEnable
         adGsType = adPlaceName.adGsType
+        return this
+    }
+
+    fun updateDelayTime(delayTime: Long): AdPlaceName {
+        this.delayTime = delayTime
+        return this
+    }
+
+    fun updateDelayShowTime(delayShowTime: Long): AdPlaceName {
+        this.delayShowTime = delayShowTime
         return this
     }
 

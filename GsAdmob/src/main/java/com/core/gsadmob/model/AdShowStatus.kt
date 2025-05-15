@@ -44,5 +44,10 @@ enum class AdShowStatus {
     /**
      * Lỗi quảng cáo chưa đươc kích hoạt sử dụng
      */
-    ADS_DISABLE
+    ADS_DISABLE,
+
+    /**
+     * Chưa đủ thời gian giữa các lần hiển thị
+     */
+    REQUIRE_DELAY_SHOW_TIME
 }

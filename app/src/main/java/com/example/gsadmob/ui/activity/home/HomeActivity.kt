@@ -2,8 +2,10 @@ package com.example.gsadmob.ui.activity.home
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.viewModels
 import androidx.recyclerview.widget.GridLayoutManager
+import com.core.gsadmob.callback.AdGsExtendListener
 import com.core.gsadmob.utils.AdGsManager
 import com.core.gscore.utils.extensions.removeBlink
 import com.core.gsmvvm.ui.activity.BaseMVVMActivity
@@ -45,7 +47,12 @@ class HomeActivity : BaseMVVMActivity<ActivityHomeBinding>(ActivityHomeBinding::
             lifecycleOwner = this,
             adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome,
             bannerGsAdView = bindingView.bannerView,
-            useShimmer = false
+            useShimmer = false,
+            adGsExtendListener = object : AdGsExtendListener {
+                override fun onAdClicked() {
+                    Log.d("TAG5", "HomeActivity_onAdClicked: adPlaceNameBannerHome")
+                }
+            }
         )
 
         AdGsManager.instance.registerNative(
@@ -53,6 +60,11 @@ class HomeActivity : BaseMVVMActivity<ActivityHomeBinding>(ActivityHomeBinding::
             adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameNativeHome,
             callbackSuccess = { nativeAdGsData, isStartShimmer ->
                 adapter?.setupItemAds(nativeAd = nativeAdGsData?.nativeAd, isStartShimmer = isStartShimmer, useShimmer = true)
+            },
+            adGsExtendListener = object : AdGsExtendListener{
+                override fun onAdClicked() {
+                    Log.d("TAG5", "HomeActivity_onAdClicked: adPlaceNameNativeHome")
+                }
             }
         )
     }

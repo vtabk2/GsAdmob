@@ -15,11 +15,6 @@ interface AdGsListener {
     fun onAdSuccess() {}
 
     /**
-     * Thường dùng cho các ứng dụng yêu cầu tắt ứng dụng khi quay lại
-     */
-    fun onAdClicked() {}
-
-    /**
      *  Dùng cho quảng cáo trả thưởng
      */
     fun onShowFinishSuccess(rewardItem: RewardItem) {}

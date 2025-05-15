@@ -2,7 +2,9 @@ package com.example.gsadmob.ui.activity
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import androidx.lifecycle.lifecycleScope
+import com.core.gsadmob.callback.AdGsExtendListener
 import com.core.gsadmob.utils.AdGsManager
 import com.core.gsadmob.utils.AdGsRewardedManager.TypeShowAds
 import com.core.gsadmob.utils.AdPlaceNameDefaultConfig
@@ -48,12 +50,20 @@ class TestAdsActivity : BaseAdsActivity<ActivityTestAdsBinding>(ActivityTestAdsB
 
         bindingView.tvInterstitial.setOnClickListener {
             startActivity(Intent(this, TestNativeActivity::class.java))
-            AdGsManager.instance.showAd(adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_INTERSTITIAL)
+            AdGsManager.instance.showAd(adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_INTERSTITIAL, adGsExtendListener = object : AdGsExtendListener {
+                override fun onAdClicked() {
+                    Log.d("TAG5", "TestAdsActivity_onAdClicked: AD_PLACE_NAME_INTERSTITIAL")
+                }
+            })
         }
 
         bindingView.tvInterstitialWithoutVideo.setOnClickListener {
             startActivity(Intent(this, TestNativeActivity::class.java))
-            AdGsManager.instance.showAd(adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_INTERSTITIAL_WITHOUT_VIDEO)
+            AdGsManager.instance.showAd(adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_INTERSTITIAL_WITHOUT_VIDEO, adGsExtendListener = object : AdGsExtendListener {
+                override fun onAdClicked() {
+                    Log.d("TAG5", "TestAdsActivity_onAdClicked: AD_PLACE_NAME_INTERSTITIAL_WITHOUT_VIDEO")
+                }
+            })
         }
 
         bindingView.tvRewarded.setOnClickListener {

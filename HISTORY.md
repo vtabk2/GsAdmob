@@ -1,3 +1,46 @@
+**Version 1.4.3**
+- Thêm `AdGsExtendListener` để bắt sự kiện mở quảng cáo
+- Banner thêm `adGsExtendListener = `
+
+  ```css
+        AdGsManager.instance.registerBanner(
+            lifecycleOwner = this,
+            adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome,
+            bannerGsAdView = bindingView.bannerView,
+            useShimmer = false,
+            adGsExtendListener = object : AdGsExtendListener {
+                override fun onAdClicked() {
+                    Log.d("TAG5", "HomeActivity_onAdClicked: adPlaceNameBannerHome")
+                }
+            }
+        )
+  ```
+- Native thêm `adGsExtendListener = `
+
+  ```css
+        AdGsManager.instance.registerNative(
+            lifecycleOwner = this,
+            adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_NATIVE_LANGUAGE,
+            nativeGsAdView = bindingView.nativeLanguage,
+            useShimmer = false,
+            adGsExtendListener = object : AdGsExtendListener {
+                override fun onAdClicked() {
+                    Log.d("TAG5", "HomeActivity_onAdClicked: AD_PLACE_NAME_NATIVE_LANGUAGE")
+                }
+            }
+        )
+  ```
+
+- Interstitial thêm `adGsExtendListener = `
+
+  ```css
+        AdGsManager.instance.showAd(adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_INTERSTITIAL_WITHOUT_VIDEO, adGsExtendListener = object : AdGsExtendListener {
+                override fun onAdClicked() {
+                    Log.d("TAG5", "TestAdsActivity_onAdClicked: AD_PLACE_NAME_INTERSTITIAL_WITHOUT_VIDEO")
+                }
+            })
+  ```
+
 **Version 1.4.2**
 
 - Thêm tính năng tắt không sử dụng shimmer cho native và banner `useShimmer = false`

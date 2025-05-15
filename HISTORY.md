@@ -1,3 +1,12 @@
+**Version 1.4.4**
+- Thêm `delayTime` ở `AdPlaceName` với mục đích quản lý thời gian giữa 2 lần hiển thị của quảng cáo `Interstitial` và `App Open`
+- Cập nhật thời gian thực bằng `AdGsManager.instance.registerDelayShowTime`
+- Thêm các function `updateDelayTime` và `updateDelayShowTime` cho `AdPlaceName`
+
+    ```css
+          AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_APP_OPEN_RESUME.updateDelayShowTime(delayShowTime = 20)
+    ```
+
 **Version 1.4.3**
 - Thêm `AdGsExtendListener` để bắt sự kiện mở quảng cáo
 - Banner thêm `adGsExtendListener = `

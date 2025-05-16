@@ -1,5 +1,5 @@
 **Version 1.4.4**
-- Thêm `delayTime` ở `AdPlaceName` với mục đích quản lý thời gian giữa 2 lần hiển thị của quảng cáo `Interstitial` và `App Open`
+- Thêm `delayShowTime` ở `AdPlaceName` với mục đích quản lý thời gian giữa 2 lần hiển thị của quảng cáo `Interstitial` và `App Open`
 - Cập nhật thời gian thực bằng `AdGsManager.instance.registerDelayShowTime`
 - Thêm các function `updateDelayTime` và `updateDelayShowTime` cho `AdPlaceName`
 

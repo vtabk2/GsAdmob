@@ -36,7 +36,7 @@ loại quảng cáo và tích hợp GDPR/CMP.
 
 ```css
       dependencies {
-          implementation 'com.github.vtabk2:GsAdmob:1.4.3'
+          implementation 'com.github.vtabk2:GsAdmob:1.4.4'
       }
 ```
 
@@ -398,6 +398,12 @@ Hướng dẫn chi tiết cách dùng xem ở [SplashActivity](https://github.co
 
   ```css
         <color name="ad_blurOverlayColor">#80000000</color>
+  ```
+
+- Thay đổi thời gian giữa 2 lần hiển thị
+
+  ```css
+        AdGsManager.instance.registerDelayShowTime(delayShowTime = 30, adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_APP_OPEN_RESUME)
   ```
 
 ### Tùy chỉnh quảng cáo Banner
@@ -781,6 +787,12 @@ Hướng dẫn chi tiết xem [ImageAdapter](https://github.com/vtabk2/GsAdmob/b
                 }
             })
     ```
+
+- Thay đổi thời gian giữa 2 lần hiển thị
+
+  ```css
+        AdGsManager.instance.registerDelayShowTime(delayShowTime = 30, adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_INTERSTITIAL)
+  ```
 
 ### Tùy chỉnh `VipPreferences` (nơi chứa các key vip của ứng dụng nếu cần)
 

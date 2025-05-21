@@ -36,7 +36,7 @@ loại quảng cáo và tích hợp GDPR/CMP.
 
 ```css
       dependencies {
-          implementation 'com.github.vtabk2:GsAdmob:1.4.4'
+          implementation 'com.github.vtabk2:GsAdmob:1.4.5'
       }
 ```
 
@@ -308,6 +308,17 @@ Hướng dẫn chi tiết cách dùng xem ở [SplashActivity](https://github.co
             nativeGsAdView = bindingView.nativeLanguage,
             useShimmer = true
         )
+  ```
+
+- Tạm ẩn quảng cáo native
+
+  ```css
+        bindingView.nativeFrame.hide()
+  ```
+- Hiển thị lại quảng cáo native đã ẩn
+
+  ```css
+        bindingView.nativeFrame.show()
   ```
 
 ### Quảng cáo Rewarded và quảng cáo Rewarded Interstitial

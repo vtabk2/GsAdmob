@@ -15,6 +15,7 @@ import com.core.gsadmob.natives.NativeDefaultConfig
 import com.core.gscore.utils.extensions.gone
 import com.core.gscore.utils.extensions.invisible
 import com.core.gscore.utils.extensions.visible
+import com.core.gscore.utils.extensions.visibleIf
 import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.gms.ads.nativead.MediaView
 import com.google.android.gms.ads.nativead.NativeAd
@@ -39,6 +40,18 @@ abstract class BaseNativeAdView(context: Context, attrs: AttributeSet?) : FrameL
     var builder = Builder()
 
     private var nativeAd: NativeAd? = null
+
+    /**
+     * Biến này mục đích là để tạm ẩn quảng cáo native đi
+     * isHide = true -> tạm ẩn (shimmer sẽ không hiển thị, quảng cáo tải được cũng sẽ không tự động hiển thị)
+     */
+    private var isHide = false
+
+    /**
+     * Biến này mục đích là có muốn gone view luôn không hay chỉ invisible
+     * requireGone = true -> cần gone view
+     */
+    private var requireGone = false
 
     init {
         attrs?.let {
@@ -105,6 +118,7 @@ abstract class BaseNativeAdView(context: Context, attrs: AttributeSet?) : FrameL
     open fun initViewWithMode() {}
 
     open fun setNativeAd(nativeAd: NativeAd?, isStartShimmer: Boolean) {
+        this.nativeAd = nativeAd
         if (isStartShimmer && nativeAd == null) {
             startShimmer()
             return
@@ -114,7 +128,7 @@ abstract class BaseNativeAdView(context: Context, attrs: AttributeSet?) : FrameL
             gone()
             return
         }
-        visible()
+        visibleIf(!isHide, !requireGone)
 
         val icon = nativeAd.icon
         val title = nativeAd.headline
@@ -202,7 +216,7 @@ abstract class BaseNativeAdView(context: Context, attrs: AttributeSet?) : FrameL
     }
 
     fun startShimmer() {
-        visible() // quan trọng, nếu không visible() thì sẽ ko hiển thị đc view
+        visibleIf(!isHide, !requireGone) // quan trọng, nếu không visible() thì sẽ ko hiển thị đc view
         shimmerView?.visible()
         shimmerView?.showShimmer(true)
         adView?.invisible()
@@ -212,6 +226,21 @@ abstract class BaseNativeAdView(context: Context, attrs: AttributeSet?) : FrameL
         shimmerView?.hideShimmer()
         shimmerView?.gone()
         adView?.visible()
+    }
+
+    fun hide(requireGone: Boolean = false) {
+        isHide = true
+        this.requireGone = requireGone
+        visibleIf(false, !requireGone)
+        invalidate()
+    }
+
+    fun show() {
+        isHide = false
+        if (nativeAd != null) {
+            visible()
+        }
+        invalidate()
     }
 
     fun applyBuilder(builder: Builder) {

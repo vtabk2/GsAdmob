@@ -49,13 +49,24 @@
                 android:id="@+id/imageFrameClear"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="?attr/selectableItemBackground"
+                android:padding="10dp"
+                app:layout_constraintBottom_toBottomOf="@id/tvNativeFrame"
+                app:layout_constraintEnd_toStartOf="@id/imageFrameHide"
+                app:layout_constraintTop_toTopOf="@id/tvNativeFrame"
+                app:srcCompat="@drawable/ic_clear"/>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/imageFrameHide"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:layout_marginEnd="15dp"
                 android:background="?attr/selectableItemBackground"
                 android:padding="10dp"
                 app:layout_constraintBottom_toBottomOf="@id/tvNativeFrame"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="@id/tvNativeFrame"
-                app:srcCompat="@drawable/ic_clear"/>
+                app:srcCompat="@drawable/ic_hide"/>
 
             <com.core.gsadmob.natives.view.NativeGsAdView
                 android:id="@+id/nativeFrame"

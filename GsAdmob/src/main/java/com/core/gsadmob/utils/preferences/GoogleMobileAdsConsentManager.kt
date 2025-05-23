@@ -6,6 +6,7 @@ import android.os.Handler
 import android.os.Looper
 import com.core.gsadmob.utils.extensions.getAndroidId
 import com.core.gsadmob.utils.extensions.md5
+import com.core.gscore.hourglass.Hourglass
 import com.google.android.ump.ConsentDebugSettings
 import com.google.android.ump.ConsentForm
 import com.google.android.ump.ConsentInformation
@@ -28,6 +29,8 @@ class GoogleMobileAdsConsentManager private constructor(context: Context) {
         consentInformation.reset()
     }
 
+    private var isRequestLoaded = false
+
     /**
      * Helper method to call the UMP SDK methods to request consent information and load/show a
      * consent form if necessary.
@@ -37,8 +40,22 @@ class GoogleMobileAdsConsentManager private constructor(context: Context) {
         onCanShowAds: (() -> Unit),
         onDisableAds: (() -> Unit),
         isDebug: Boolean,
-        timeout: Long = 1500
+        timeout: Long = 3500,
+        delayTime: Long = 1500
     ) {
+
+        fun setupCallback() {
+            if (isPrivacyOptionsRequired) {
+                if (canRequestAds) {
+                    onCanShowAds.invoke()
+                } else {
+                    onDisableAds.invoke()
+                }
+            } else {
+                onCanShowAds.invoke()
+            }
+        }
+
         val params = if (isDebug) {
             /*Debug*/
             val debugSettings = ConsentDebugSettings.Builder(activity)
@@ -50,23 +67,42 @@ class GoogleMobileAdsConsentManager private constructor(context: Context) {
             /*Release*/
             ConsentRequestParameters.Builder().setTagForUnderAgeOfConsent(false).build()
         }
+
+        val requireTimeout = if (timeout < MIN_TIME_DELAY) {
+            MIN_TIME_DELAY
+        } else {
+            timeout
+        }
+
+        val timeoutHourglass = object : Hourglass(requireTimeout, 500) {
+            override fun onTimerTick(timeRemaining: Long) {}
+
+            override fun onTimerFinish() {
+                if (isRequestLoaded) return
+
+                setupCallback()
+            }
+        }
+        timeoutHourglass.startTimer()
+
+        isRequestLoaded = false
+
         consentInformation.requestConsentInfoUpdate(
             activity,
             params,
             {
+                isRequestLoaded = true
+                timeoutHourglass.stopTimer()
                 if (isPrivacyOptionsRequired) {
                     if (cmpUtils.requiredShowCMPDialog()) {
                         Handler(Looper.getMainLooper()).postDelayed({
                             if (activity.isFinishing) return@postDelayed
                             cmpUtils.isCheckGDPR = true
                             UserMessagingPlatform.showPrivacyOptionsForm(activity) {
-                                if (canRequestAds) {
-                                    onCanShowAds.invoke()
-                                } else {
-                                    onDisableAds.invoke()
-                                }
+
+                                setupCallback()
                             }
-                        }, timeout)
+                        }, delayTime)
                     } else {
                         onCanShowAds.invoke()
                     }
@@ -74,15 +110,10 @@ class GoogleMobileAdsConsentManager private constructor(context: Context) {
                     onCanShowAds.invoke()
                 }
             }, {
-                if (isPrivacyOptionsRequired) {
-                    if (canRequestAds) {
-                        onCanShowAds.invoke()
-                    } else {
-                        onDisableAds.invoke()
-                    }
-                } else {
-                    onCanShowAds.invoke()
-                }
+                isRequestLoaded = true
+                timeoutHourglass.stopTimer()
+
+                setupCallback()
             }
         )
     }
@@ -121,6 +152,8 @@ class GoogleMobileAdsConsentManager private constructor(context: Context) {
     companion object {
         @Volatile
         private var instance: GoogleMobileAdsConsentManager? = null
+
+        const val MIN_TIME_DELAY = 1000L
 
         fun getInstance(context: Context) =
             instance

@@ -103,6 +103,7 @@ class AdGsManager {
      * @param requireScreenAdLoading = true cần màn hình chờ tải quảng cáo app open resume
      * @param callbackNothingLifecycle thường dùng để thiết lập 1 số logic khác (ví dụ retry vip hoặc Lingver)
      * @param callbackChangeVip trả về activity hiện tại và trạng thái vip hiện tại (mục đích là để cập nhật giao diện cho ứng dụng)
+     * @param whitePackageNameList danh sách các packageName được dùng trong ứng dụng (kiểu là applicationId khác packageName của app)
      * @param showLog có muốn hiển thị log không?
      */
     fun registerCoroutineScope(
@@ -115,6 +116,7 @@ class AdGsManager {
         requireScreenAdLoading: Boolean = true,
         callbackNothingLifecycle: (() -> Unit)? = null,
         callbackChangeVip: ((currentActivity: Activity?, isVip: Boolean) -> Unit)? = null,
+        whitePackageNameList: MutableList<String> = mutableListOf<String>(applicationId),
         showLog: Boolean = false
     ) {
         this.application = application
@@ -124,6 +126,17 @@ class AdGsManager {
             override fun onActivityCreated(activity: Activity, bundle: Bundle?) {}
 
             override fun onActivityStarted(activity: Activity) {
+                // kiểm tra xem activity này có phải là activity của ứng dụng không?
+                val activityPackage = activity.javaClass.name
+                val isFromApp = if (whitePackageNameList.isEmpty()) {
+                    true
+                } else {
+                    whitePackageNameList.any {
+                        activityPackage.startsWith(it)
+                    }
+                }
+                if (!isFromApp) return
+
                 currentActivity = activity
                 currentActivity?.let {
                     isWebViewEnabled = it.isWebViewEnabled()

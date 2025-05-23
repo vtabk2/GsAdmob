@@ -104,7 +104,7 @@ class AdGsRewardedManager(
                     callback?.invoke(TypeShowAds.CANCEL)
                 },
                 isDebug = isDebug,
-                timeout = 0
+                delayTime = 0
             )
         }
 

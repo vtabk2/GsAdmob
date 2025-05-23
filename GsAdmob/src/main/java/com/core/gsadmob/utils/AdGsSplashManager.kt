@@ -22,7 +22,7 @@ class AdGsSplashManager(
     private val goToHomeCallback: (() -> Unit),
     private val initMobileAds: (() -> Unit),
     private val adsLoading: ((Boolean) -> Unit)? = null,
-    private val delayTime: Long = 3500L,
+    private val timeout: Long = 3500L,
     private val delayRetry: Long = 500,
     private var isDebug: Boolean = false
 ) {
@@ -36,7 +36,7 @@ class AdGsSplashManager(
 
     private var googleMobileAdsConsentManager: GoogleMobileAdsConsentManager? = null
 
-    private val timerVirus = object : Hourglass(delayTime, 500) {
+    private val timerVirus = object : Hourglass(timeout, 500) {
         override fun onTimerTick(timeRemaining: Long) {}
 
         override fun onTimerFinish() {
@@ -104,32 +104,29 @@ class AdGsSplashManager(
         }
         activity.cmpUtils.isCheckGDPR = false
 
-        val timeout = if (isRetry) {
-            delayTime - delayRetry
+        // thời gian còn lại
+        val subTimeout = if (isRetry) {
+            timeout - delayRetry
         } else {
-            delayTime
-        }.toInt()
+            timeout
+        }
 
-        // phải check mạng trước nếu không timeout mặc định quá lâu
-        NetworkUtils.hasInternetAccessCheck(
-            doTask = {
-                googleMobileAdsConsentManager = GoogleMobileAdsConsentManager.getInstance(activity)
-                googleMobileAdsConsentManager?.gatherConsent(activity, onCanShowAds = {
-                    initializeMobileAdsSdk()
-                    showOpenAdIfNeed()
-                }, onDisableAds = {
-                    callBackGoHome()
-                }, isDebug = isDebug)
-
-                if (googleMobileAdsConsentManager?.canRequestAds == true) {
-                    initializeMobileAdsSdk()
-                }
-            },
-            doException = {
+        if (NetworkUtils.isInternetAvailable(context = activity)) {
+            googleMobileAdsConsentManager = GoogleMobileAdsConsentManager.getInstance(activity)
+            googleMobileAdsConsentManager?.gatherConsent(activity, onCanShowAds = {
                 initializeMobileAdsSdk()
+                showOpenAdIfNeed()
+            }, onDisableAds = {
                 callBackGoHome()
-            }, context = activity, timeout = timeout
-        )
+            }, isDebug = isDebug, timeout = subTimeout)
+
+            if (googleMobileAdsConsentManager?.canRequestAds == true) {
+                initializeMobileAdsSdk()
+            }
+        } else {
+            initializeMobileAdsSdk()
+            callBackGoHome()
+        }
     }
 
     private fun initializeMobileAdsSdk() {

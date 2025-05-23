@@ -2,6 +2,25 @@
 
 - Thêm logic timeout kiểm tra CMP/GDPR ở `GoogleMobileAdsConsentManager` các class ảnh hưởng `AdGsRewardedManager` và `AdGsSplashManager`
 
+  ```css
+       AdGsSplashManager(
+            activity = this@SplashActivity,
+            adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameSplash,
+            onRetryAdPlaceNameListener = object : AdGsSplashManager.OnRetryAdPlaceNameListener {
+                override fun getAdPlaceName(): AdPlaceName {
+                    return AdGsRemoteExtraConfig.instance.adPlaceNameSplash
+                }
+            },
+            goToHomeCallback = {
+                goToHome()
+            }, initMobileAds = {
+                TestApplication.applicationContext().initMobileAds()
+            }, adsLoading = {
+                bindingView?.clBlur?.isVisible = it
+            }, timeout = 3500, isDebug = BuildConfig.DEBUG
+        )
+  ```
+
 **Version 1.4.5**
 - Thêm tính năng tạm ẩn hiển thị quảng cáo native
 

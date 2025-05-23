@@ -1,3 +1,8 @@
+**Version 1.4.7**
+- Sửa chức năng callbackChangeVip chỉ trả về currentActivity của ứng dụng
+
+- Thêm `whitePackageNameList` ở `AdGsManager.registerCoroutineScope()` để chứa các `package name` của ứng dụng nếu ứng dụng có `applicationId != packageName`
+
 **Version 1.4.6**
 
 - Thêm logic timeout kiểm tra CMP/GDPR ở `GoogleMobileAdsConsentManager` các class ảnh hưởng `AdGsRewardedManager` và `AdGsSplashManager`

@@ -36,7 +36,7 @@ loại quảng cáo và tích hợp GDPR/CMP.
 
 ```css
       dependencies {
-          implementation 'com.github.vtabk2:GsAdmob:1.4.5'
+          implementation 'com.github.vtabk2:GsAdmob:1.4.6'
       }
 ```
 
@@ -156,6 +156,8 @@ Hướng dẫn chi tiết cách dùng xem ở [SplashActivity](https://github.co
             }, isDebug = BuildConfig.DEBUG
         )
   ```
+
+- Mặc định `timeout = 3500` có thể thay đổi khi khởi tạo `AdGsSplashManager`
 
 ### 2. Quảng cáo app open resume khi trở lại ứng dụng
 

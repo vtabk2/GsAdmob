@@ -28,7 +28,7 @@ class SplashActivity : AppCompatActivity() {
         }
 
         AdGsSplashManager(
-            this@SplashActivity,
+            activity = this@SplashActivity,
             adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameSplash,
             onRetryAdPlaceNameListener = object : AdGsSplashManager.OnRetryAdPlaceNameListener {
                 override fun getAdPlaceName(): AdPlaceName {

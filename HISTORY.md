@@ -1,3 +1,7 @@
+**Version 1.4.6**
+
+- Thêm logic timeout kiểm tra CMP/GDPR ở `GoogleMobileAdsConsentManager` các class ảnh hưởng `AdGsRewardedManager` và `AdGsSplashManager`
+
 **Version 1.4.5**
 - Thêm tính năng tạm ẩn hiển thị quảng cáo native
 

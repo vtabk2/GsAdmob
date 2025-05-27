@@ -12,6 +12,8 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 
 class TestNativeActivity : BaseMVVMActivity<ActivityTestNativeBinding>(ActivityTestNativeBinding::inflate) {
+    private var isHide = false
+
     override fun setupView(savedInstanceState: Bundle?) {
         super.setupView(savedInstanceState)
 
@@ -66,6 +68,16 @@ class TestNativeActivity : BaseMVVMActivity<ActivityTestNativeBinding>(ActivityT
 
         bindingView.imageFrameClear.setOnClickListener {
             AdGsManager.instance.clearWithAdPlaceName(adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_NATIVE)
+        }
+
+        bindingView.imageFrameHide.setOnClickListener {
+            isHide = !isHide
+
+            if (isHide) {
+                bindingView.nativeFrame.hide()
+            } else {
+                bindingView.nativeFrame.show()
+            }
         }
 
         bindingView.tvNativeLanguage.setOnClickListener {

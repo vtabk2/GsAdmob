@@ -1,3 +1,45 @@
+**Version 1.4.7**
+- Sửa chức năng callbackChangeVip từ giờ sẽ chỉ trả về currentActivity của ứng dụng
+
+- Thêm `whitePackageNameList` ở `AdGsManager.registerCoroutineScope()` để chứa các `package name` của ứng dụng nếu ứng dụng có `applicationId != application.packageName`
+
+**Version 1.4.6**
+
+- Thêm logic timeout kiểm tra CMP/GDPR ở `GoogleMobileAdsConsentManager` các class ảnh hưởng `AdGsRewardedManager` và `AdGsSplashManager`
+
+  ```css
+       AdGsSplashManager(
+            activity = this@SplashActivity,
+            adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameSplash,
+            onRetryAdPlaceNameListener = object : AdGsSplashManager.OnRetryAdPlaceNameListener {
+                override fun getAdPlaceName(): AdPlaceName {
+                    return AdGsRemoteExtraConfig.instance.adPlaceNameSplash
+                }
+            },
+            goToHomeCallback = {
+                goToHome()
+            }, initMobileAds = {
+                TestApplication.applicationContext().initMobileAds()
+            }, adsLoading = {
+                bindingView?.clBlur?.isVisible = it
+            }, timeout = 3500, isDebug = BuildConfig.DEBUG
+        )
+  ```
+
+**Version 1.4.5**
+- Thêm tính năng tạm ẩn hiển thị quảng cáo native
+
+- Tạm ẩn quảng cáo native
+
+  ```css
+        bindingView.nativeFrame.hide()
+  ```
+- Hiển thị lại quảng cáo native
+
+  ```css
+        bindingView.nativeFrame.show()
+  ```
+
 **Version 1.4.4**
 - Thêm `delayShowTime` ở `AdPlaceName` với mục đích quản lý thời gian giữa 2 lần hiển thị của quảng cáo `Interstitial` và `App Open`
 - Cập nhật thời gian thực bằng `AdGsManager.instance.registerDelayShowTime`

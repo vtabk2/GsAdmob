@@ -1,5 +1,6 @@
 package com.example.gsadmob.ui.activity
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.lifecycle.lifecycleScope
 import com.core.gsadmob.utils.AdGsManager
@@ -56,6 +57,10 @@ class TestNativeActivity : BaseMVVMActivity<ActivityTestNativeBinding>(ActivityT
 
         bindingView.tvActiveVip.setOnClickListener {
             VipPreferences.instance.isPro = !VipPreferences.instance.isPro
+        }
+
+        bindingView.tvTestFullNativeAds.setOnClickListener {
+            startActivity(Intent(this, TestFullNativeActivity::class.java))
         }
 
         bindingView.tvNativeFrame.setOnClickListener {

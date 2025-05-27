@@ -32,6 +32,10 @@ class RemoteConfig : AdGsRemoteConfig() {
             .update(AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_BANNER)
             .updateName(newName = "banner_test_native")
 
+        AdGsRemoteExtraConfig.instance.adPlaceNameNativeTestFull
+            .update(AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_NATIVE)
+            .updateName(newName = "native_test_full")
+
         log("", "-----------------------")
     }
 

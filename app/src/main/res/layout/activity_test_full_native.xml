@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="30dp">
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/textTitle"
+            android:text="Album"/>
+
+        <com.core.gsadmob.natives.view.NativeGsAdView
+            android:id="@+id/nativeAlbum"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:adsNativeMode="album"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/textTitle"
+            android:text="Font"/>
+
+        <com.core.gsadmob.natives.view.NativeGsAdView
+            android:id="@+id/nativeFont"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:adsNativeMode="font"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/textTitle"
+            android:text="Album"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:weightSum="2">
+
+            <com.core.gsadmob.natives.view.NativeGsAdView
+                android:id="@+id/nativeFrame"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                app:adsNativeMode="frame"/>
+        </LinearLayout>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/textTitle"
+            android:text="Language"/>
+
+        <com.core.gsadmob.natives.view.NativeGsAdView
+            android:id="@+id/nativeLanguage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:adsNativeMode="language"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/textTitle"
+            android:text="Share"/>
+
+        <com.core.gsadmob.natives.view.NativeGsAdView
+            android:id="@+id/nativeShare"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:adsNativeMode="share"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/textTitle"
+            android:text="Sticker"/>
+
+        <com.core.gsadmob.natives.view.NativeGsAdView
+            android:id="@+id/nativeSticker"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:adsNativeMode="sticker"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/textTitle"
+            android:text="Template"/>
+
+        <com.core.gsadmob.natives.view.NativeGsAdView
+            android:id="@+id/nativeTemplate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:adsNativeMode="template"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/textTitle"
+            android:text="Vip"/>
+
+        <com.core.gsadmob.natives.view.NativeGsAdView
+            android:id="@+id/nativeVip"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:adsNativeMode="vip"/>
+
+        <androidx.appcompat.widget.AppCompatTextView
+            style="@style/textTitle"
+            android:text="Custom Default"/>
+
+        <com.core.gsadmob.natives.view.NativeGsAdView
+            android:id="@+id/nativeCustom"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:adsNativeMode="custom"/>
+    </LinearLayout>
+</androidx.core.widget.NestedScrollView>

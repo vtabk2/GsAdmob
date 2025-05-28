@@ -1,7 +1,5 @@
 <resources>
-    <string name="ad_text_welcome_back">@string/text_welcome_back</string>
-
-    <drawable name="ads_bg_shimmer_frame">@drawable/ads__bg_shimmer_frame</drawable>
+    <string name="ad_text_welcome_back" translatable="false">@string/text_welcome_back</string>
 
     <style name="NativeTest" parent="ads_BaseNativeCustom">
         <item name="adsLayoutId">@layout/ad_native_test</item>
@@ -16,35 +14,14 @@
         <item name="android:layout_marginBottom">5dp</item>
     </style>
 
-    <style name="ads_NativeAlbumRoot" parent="ads_BaseNativeAdViewRoot">
-        <item name="android:layout_marginStart">6dp</item>
-        <item name="android:layout_marginEnd">6dp</item>
-        <item name="android:layout_marginBottom">8dp</item>
-    </style>
-
-    <style name="ads_NativeFontRoot" parent="ads_BaseNativeAdViewRoot">
-        <item name="android:layout_marginStart">5dp</item>
-        <item name="android:layout_marginTop">5dp</item>
-        <item name="android:layout_marginEnd">5dp</item>
-        <item name="android:layout_marginBottom">5dp</item>
-    </style>
-
-    <style name="ads_NativeFrameRoot" parent="ads_BaseNativeAdViewRoot">
-        <item name="android:layout_marginStart">5dp</item>
-        <item name="android:layout_marginTop">5dp</item>
-        <item name="android:layout_marginEnd">5dp</item>
-        <item name="android:layout_marginBottom">5dp</item>
-    </style>
-
-    <style name="ads_NativeStickerRoot" parent="ads_BaseNativeAdViewRoot">
-        <item name="android:layout_marginTop">3dp</item>
-        <item name="android:layout_marginBottom">18dp</item>
-    </style>
-
-    <style name="ads_NativeTemplateRoot" parent="ads_BaseNativeAdViewRoot">
-        <item name="android:layout_marginStart">5dp</item>
-        <item name="android:layout_marginTop">10dp</item>
-        <item name="android:layout_marginEnd">5dp</item>
-        <item name="android:layout_marginBottom">5dp</item>
+    <style name="textTitle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@android:color/black</item>
+        <item name="android:paddingBottom">8dp</item>
+        <item name="android:paddingTop">8dp</item>
+        <item name="android:paddingStart">15dp</item>
+        <item name="android:paddingEnd">15dp</item>
+        <item name="android:textSize">14sp</item>
     </style>
 </resources>

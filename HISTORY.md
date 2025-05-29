@@ -1,3 +1,7 @@
+**Version 1.4.8**
+
+- Xóa `callbackChangeVip` ở `AdGsManager.registerCoroutineScope()`
+
 **Version 1.4.7**
 - Sửa chức năng callbackChangeVip từ giờ sẽ chỉ trả về currentActivity của ứng dụng
 

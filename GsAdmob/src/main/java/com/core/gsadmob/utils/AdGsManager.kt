@@ -432,6 +432,10 @@ class AdGsManager {
                         override fun onAdClicked() {
                             adGsData.extendListener?.onAdClicked()
                         }
+
+                        override fun onAdImpression() {
+                            adGsData.extendListener?.onAdImpression()
+                        }
                     }
                 }
             }
@@ -493,6 +497,10 @@ class AdGsManager {
 
             override fun onAdClicked() {
                 adGsData.extendListener?.onAdClicked()
+            }
+
+            override fun onAdImpression() {
+                adGsData.extendListener?.onAdImpression()
             }
         }
     }
@@ -584,6 +592,10 @@ class AdGsManager {
                         override fun onAdClicked() {
                             adGsData.extendListener?.onAdClicked()
                         }
+
+                        override fun onAdImpression() {
+                            adGsData.extendListener?.onAdImpression()
+                        }
                     }
                 }
             }
@@ -609,6 +621,10 @@ class AdGsManager {
 
                 override fun onAdClicked() {
                     adGsData.extendListener?.onAdClicked()
+                }
+
+                override fun onAdImpression() {
+                    adGsData.extendListener?.onAdImpression()
                 }
             }).forNativeAd { nativeAd ->
                 shimmerMap[adPlaceName] = false
@@ -692,6 +708,10 @@ class AdGsManager {
                         override fun onAdClicked() {
                             adGsData.extendListener?.onAdClicked()
                         }
+
+                        override fun onAdImpression() {
+                            adGsData.extendListener?.onAdImpression()
+                        }
                     }
                 }
             }
@@ -761,6 +781,10 @@ class AdGsManager {
 
                         override fun onAdClicked() {
                             adGsData.extendListener?.onAdClicked()
+                        }
+
+                        override fun onAdImpression() {
+                            adGsData.extendListener?.onAdImpression()
                         }
                     }
                 }
@@ -1156,6 +1180,46 @@ class AdGsManager {
                 callbackFailed?.invoke()
             }
         }
+    }
+
+    /**
+     * Cách gọi hiển thị nhanh quảng cáo Interstitial mặc định AD_PLACE_NAME_INTERSTITIAL
+     */
+    fun showInterstitial(
+        requiredLoadNewAds: Boolean = false,
+        onlyShow: Boolean = false,
+        onlyCheckNotShow: Boolean = false,
+        callbackShow: ((adShowStatus: AdShowStatus) -> Unit)? = null,
+        adGsExtendListener: AdGsExtendListener? = null
+    ) {
+        instance.showAd(
+            adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_INTERSTITIAL,
+            requiredLoadNewAds = requiredLoadNewAds,
+            onlyShow = onlyShow,
+            onlyCheckNotShow = onlyCheckNotShow,
+            callbackShow = callbackShow,
+            adGsExtendListener = adGsExtendListener
+        )
+    }
+
+    /**
+     * Cách gọi hiển thị nhanh quảng cáo Interstitial mặc định AD_PLACE_NAME_INTERSTITIAL_WITHOUT_VIDEO
+     */
+    fun showInterstitialWithoutVideo(
+        requiredLoadNewAds: Boolean = false,
+        onlyShow: Boolean = false,
+        onlyCheckNotShow: Boolean = false,
+        callbackShow: ((adShowStatus: AdShowStatus) -> Unit)? = null,
+        adGsExtendListener: AdGsExtendListener? = null
+    ) {
+        instance.showAd(
+            adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_INTERSTITIAL_WITHOUT_VIDEO,
+            requiredLoadNewAds = requiredLoadNewAds,
+            onlyShow = onlyShow,
+            onlyCheckNotShow = onlyCheckNotShow,
+            callbackShow = callbackShow,
+            adGsExtendListener = adGsExtendListener
+        )
     }
 
     /**

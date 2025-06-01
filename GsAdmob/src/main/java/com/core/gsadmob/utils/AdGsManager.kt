@@ -399,8 +399,8 @@ class AdGsManager {
                         showAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, onlyShow = true)
                     }
 
-                    adGsData.appOpenAd?.onPaidEventListener = OnPaidEventListener {
-                        adGsData.isUsed = true
+                    adGsData.appOpenAd?.onPaidEventListener = OnPaidEventListener { adValue ->
+                        adGsData.extendListener?.onPaidEvent(adValue)
                     }
 
                     adGsData.appOpenAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
@@ -467,8 +467,8 @@ class AdGsManager {
 
         bannerAdView.loadAd(adRequest)
 
-        bannerAdView.onPaidEventListener = OnPaidEventListener {
-            adGsData.isUsed = true
+        bannerAdView.onPaidEventListener = OnPaidEventListener { adValue ->
+            adGsData.extendListener?.onPaidEvent(adValue)
         }
 
         bannerAdView.adListener = object : AdListener() {
@@ -559,8 +559,8 @@ class AdGsManager {
                         showAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, onlyShow = true)
                     }
 
-                    adGsData.interstitialAd?.onPaidEventListener = OnPaidEventListener {
-                        adGsData.isUsed = true
+                    adGsData.interstitialAd?.onPaidEventListener = OnPaidEventListener { adValue ->
+                        adGsData.extendListener?.onPaidEvent(adValue)
                     }
 
                     adGsData.interstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
@@ -636,8 +636,8 @@ class AdGsManager {
                     adGsData.nativeAd = nativeAd
                     adGsData.isLoading = false
 
-                    adGsData.nativeAd?.setOnPaidEventListener {
-                        adGsData.isUsed = true
+                    adGsData.nativeAd?.setOnPaidEventListener { adValue ->
+                        adGsData.extendListener?.onPaidEvent(adValue)
                     }
 
                     notifyAds("loadNativeAd.forNativeAd")
@@ -676,8 +676,8 @@ class AdGsManager {
                         showAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, onlyShow = true)
                     }
 
-                    adGsData.rewardedAd?.onPaidEventListener = OnPaidEventListener {
-                        adGsData.isUsed = true
+                    adGsData.rewardedAd?.onPaidEventListener = OnPaidEventListener { adValue ->
+                        adGsData.extendListener?.onPaidEvent(adValue)
                     }
 
                     adGsData.rewardedAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
@@ -750,8 +750,8 @@ class AdGsManager {
                         showAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, onlyShow = true)
                     }
 
-                    adGsData.rewardedInterstitialAd?.onPaidEventListener = OnPaidEventListener {
-                        adGsData.isUsed = true
+                    adGsData.rewardedInterstitialAd?.onPaidEventListener = OnPaidEventListener { adValue ->
+                        adGsData.extendListener?.onPaidEvent(adValue)
                     }
 
                     adGsData.rewardedInterstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {

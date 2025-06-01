@@ -977,8 +977,18 @@ class AdGsManager {
         adGsExtendListener: AdGsExtendListener? = null,
         onlyShow: Boolean = false, callbackShow: ((AdShowStatus) -> Unit)? = null
     ) {
-        registerAdsListener(adPlaceName = adPlaceName, adGsListener = adGsListener, adGsExtendListener = adGsExtendListener)
-        showAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, onlyShow = onlyShow, callbackShow = callbackShow, adGsExtendListener = adGsExtendListener)
+        registerAdsListener(
+            adPlaceName = adPlaceName,
+            adGsListener = adGsListener,
+            adGsExtendListener = adGsExtendListener
+        )
+        showAd(
+            adPlaceName = adPlaceName,
+            requiredLoadNewAds = requiredLoadNewAds,
+            onlyShow = onlyShow,
+            callbackShow = callbackShow,
+            adGsExtendListener = adGsExtendListener
+        )
     }
 
     fun registerNativeOrBanner(

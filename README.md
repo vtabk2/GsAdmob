@@ -266,7 +266,14 @@ Hướng dẫn chi tiết cách dùng xem ở [SplashActivity](https://github.co
   ```
 
 ### Quảng cáo Interstitial
+- Hiển thị 2 quảng cáo xen kẽ mặc định
 
+  ```css
+        AdGsManager.instance.showInterstitial()
+
+        AdGsManager.instance.showInterstitialWithoutVideo()
+  ```
+  
 - Hiển thị quảng cáo xen kẽ
 
   ```css

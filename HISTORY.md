@@ -1,3 +1,14 @@
+**Version 1.4.8**
+
+- Xóa `callbackChangeVip` ở `AdGsManager.registerCoroutineScope()`
+- Thêm 2 function gọi hiển thị nhanh 2 quảng cáo Interstitial mặc định `showInterstitial`, `showInterstitialWithoutVideo`
+
+  ```css
+        AdGsManager.instance.showInterstitial()
+
+        AdGsManager.instance.showInterstitialWithoutVideo()
+  ```    
+
 **Version 1.4.7**
 - Sửa chức năng callbackChangeVip từ giờ sẽ chỉ trả về currentActivity của ứng dụng
 

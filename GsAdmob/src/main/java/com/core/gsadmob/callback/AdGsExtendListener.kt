@@ -14,5 +14,8 @@ interface AdGsExtendListener {
      */
     fun onAdImpression() {}
 
+    /**
+     * Theo dõi doanh thu: Ghi lại giá trị mỗi khi quảng cáo hiển thị thành công và người dùng tương tác
+     */
     fun onPaidEvent(adValue: AdValue) {}
 }

@@ -50,9 +50,14 @@ class TestAdsActivity : BaseAdsActivity<ActivityTestAdsBinding>(ActivityTestAdsB
 
         bindingView.tvInterstitial.setOnClickListener {
             startActivity(Intent(this, TestNativeActivity::class.java))
-            AdGsManager.instance.showAd(
-                adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_INTERSTITIAL,
-                adGsExtendListener = object : AdGsExtendListener {
+//            AdGsManager.instance.showAd(
+//                adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_INTERSTITIAL,
+//                adGsExtendListener = object : AdGsExtendListener {
+//                override fun onAdClicked() {
+//                    Log.d("TAG5", "TestAdsActivity_onAdClicked: AD_PLACE_NAME_INTERSTITIAL")
+//                }
+//            })
+            AdGsManager.instance.showInterstitial(adGsExtendListener = object : AdGsExtendListener {
                 override fun onAdClicked() {
                     Log.d("TAG5", "TestAdsActivity_onAdClicked: AD_PLACE_NAME_INTERSTITIAL")
                 }
@@ -61,7 +66,12 @@ class TestAdsActivity : BaseAdsActivity<ActivityTestAdsBinding>(ActivityTestAdsB
 
         bindingView.tvInterstitialWithoutVideo.setOnClickListener {
             startActivity(Intent(this, TestNativeActivity::class.java))
-            AdGsManager.instance.showAd(adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_INTERSTITIAL_WITHOUT_VIDEO, adGsExtendListener = object : AdGsExtendListener {
+//            AdGsManager.instance.showAd(adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_INTERSTITIAL_WITHOUT_VIDEO, adGsExtendListener = object : AdGsExtendListener {
+//                override fun onAdClicked() {
+//                    Log.d("TAG5", "TestAdsActivity_onAdClicked: AD_PLACE_NAME_INTERSTITIAL_WITHOUT_VIDEO")
+//                }
+//            })
+            AdGsManager.instance.showInterstitialWithoutVideo(adGsExtendListener = object : AdGsExtendListener {
                 override fun onAdClicked() {
                     Log.d("TAG5", "TestAdsActivity_onAdClicked: AD_PLACE_NAME_INTERSTITIAL_WITHOUT_VIDEO")
                 }

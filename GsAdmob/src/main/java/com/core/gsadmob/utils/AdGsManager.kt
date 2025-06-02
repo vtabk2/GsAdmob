@@ -102,7 +102,6 @@ class AdGsManager {
      * @param canShowAppOpenResume điều kiện để có thể hiển thị quảng cáo app open resume
      * @param requireScreenAdLoading = true cần màn hình chờ tải quảng cáo app open resume
      * @param callbackNothingLifecycle thường dùng để thiết lập 1 số logic khác (ví dụ retry vip hoặc Lingver)
-     * @param callbackChangeVip trả về activity hiện tại và trạng thái vip hiện tại (mục đích là để cập nhật giao diện cho ứng dụng)
      * @param whitePackageNameList danh sách các packageName được dùng trong ứng dụng (kiểu là applicationId khác packageName của app)
      * @param showLog có muốn hiển thị log không?
      */
@@ -115,7 +114,6 @@ class AdGsManager {
         canShowAppOpenResume: (currentActivity: AppCompatActivity) -> Boolean = { false },
         requireScreenAdLoading: Boolean = true,
         callbackNothingLifecycle: (() -> Unit)? = null,
-        callbackChangeVip: ((currentActivity: Activity?, isVip: Boolean) -> Unit)? = null,
         whitePackageNameList: MutableList<String> = mutableListOf<String>(applicationId),
         showLog: Boolean = false
     ) {
@@ -242,7 +240,6 @@ class AdGsManager {
                     .stateIn(this, SharingStarted.Eagerly, VipPreferences.instance.isFullVersion())
                     .collect { isVip ->
                         notifyVip(isVip)
-                        callbackChangeVip?.invoke(currentActivity, isVip)
                     }
             }
 
@@ -402,8 +399,8 @@ class AdGsManager {
                         showAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, onlyShow = true)
                     }
 
-                    adGsData.appOpenAd?.onPaidEventListener = OnPaidEventListener {
-                        adGsData.isUsed = true
+                    adGsData.appOpenAd?.onPaidEventListener = OnPaidEventListener { adValue ->
+                        adGsData.extendListener?.onPaidEvent(adValue)
                     }
 
                     adGsData.appOpenAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
@@ -434,6 +431,10 @@ class AdGsManager {
 
                         override fun onAdClicked() {
                             adGsData.extendListener?.onAdClicked()
+                        }
+
+                        override fun onAdImpression() {
+                            adGsData.extendListener?.onAdImpression()
                         }
                     }
                 }
@@ -466,8 +467,8 @@ class AdGsManager {
 
         bannerAdView.loadAd(adRequest)
 
-        bannerAdView.onPaidEventListener = OnPaidEventListener {
-            adGsData.isUsed = true
+        bannerAdView.onPaidEventListener = OnPaidEventListener { adValue ->
+            adGsData.extendListener?.onPaidEvent(adValue)
         }
 
         bannerAdView.adListener = object : AdListener() {
@@ -496,6 +497,10 @@ class AdGsManager {
 
             override fun onAdClicked() {
                 adGsData.extendListener?.onAdClicked()
+            }
+
+            override fun onAdImpression() {
+                adGsData.extendListener?.onAdImpression()
             }
         }
     }
@@ -554,8 +559,8 @@ class AdGsManager {
                         showAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, onlyShow = true)
                     }
 
-                    adGsData.interstitialAd?.onPaidEventListener = OnPaidEventListener {
-                        adGsData.isUsed = true
+                    adGsData.interstitialAd?.onPaidEventListener = OnPaidEventListener { adValue ->
+                        adGsData.extendListener?.onPaidEvent(adValue)
                     }
 
                     adGsData.interstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
@@ -587,6 +592,10 @@ class AdGsManager {
                         override fun onAdClicked() {
                             adGsData.extendListener?.onAdClicked()
                         }
+
+                        override fun onAdImpression() {
+                            adGsData.extendListener?.onAdImpression()
+                        }
                     }
                 }
             }
@@ -613,6 +622,10 @@ class AdGsManager {
                 override fun onAdClicked() {
                     adGsData.extendListener?.onAdClicked()
                 }
+
+                override fun onAdImpression() {
+                    adGsData.extendListener?.onAdImpression()
+                }
             }).forNativeAd { nativeAd ->
                 shimmerMap[adPlaceName] = false
                 adGsData.lastTime = System.currentTimeMillis()
@@ -623,8 +636,8 @@ class AdGsManager {
                     adGsData.nativeAd = nativeAd
                     adGsData.isLoading = false
 
-                    adGsData.nativeAd?.setOnPaidEventListener {
-                        adGsData.isUsed = true
+                    adGsData.nativeAd?.setOnPaidEventListener { adValue ->
+                        adGsData.extendListener?.onPaidEvent(adValue)
                     }
 
                     notifyAds("loadNativeAd.forNativeAd")
@@ -663,8 +676,8 @@ class AdGsManager {
                         showAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, onlyShow = true)
                     }
 
-                    adGsData.rewardedAd?.onPaidEventListener = OnPaidEventListener {
-                        adGsData.isUsed = true
+                    adGsData.rewardedAd?.onPaidEventListener = OnPaidEventListener { adValue ->
+                        adGsData.extendListener?.onPaidEvent(adValue)
                     }
 
                     adGsData.rewardedAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
@@ -694,6 +707,10 @@ class AdGsManager {
 
                         override fun onAdClicked() {
                             adGsData.extendListener?.onAdClicked()
+                        }
+
+                        override fun onAdImpression() {
+                            adGsData.extendListener?.onAdImpression()
                         }
                     }
                 }
@@ -733,8 +750,8 @@ class AdGsManager {
                         showAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, onlyShow = true)
                     }
 
-                    adGsData.rewardedInterstitialAd?.onPaidEventListener = OnPaidEventListener {
-                        adGsData.isUsed = true
+                    adGsData.rewardedInterstitialAd?.onPaidEventListener = OnPaidEventListener { adValue ->
+                        adGsData.extendListener?.onPaidEvent(adValue)
                     }
 
                     adGsData.rewardedInterstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
@@ -764,6 +781,10 @@ class AdGsManager {
 
                         override fun onAdClicked() {
                             adGsData.extendListener?.onAdClicked()
+                        }
+
+                        override fun onAdImpression() {
+                            adGsData.extendListener?.onAdImpression()
                         }
                     }
                 }
@@ -1159,6 +1180,46 @@ class AdGsManager {
                 callbackFailed?.invoke()
             }
         }
+    }
+
+    /**
+     * Cách gọi hiển thị nhanh quảng cáo Interstitial mặc định AD_PLACE_NAME_INTERSTITIAL
+     */
+    fun showInterstitial(
+        requiredLoadNewAds: Boolean = false,
+        onlyShow: Boolean = false,
+        onlyCheckNotShow: Boolean = false,
+        callbackShow: ((adShowStatus: AdShowStatus) -> Unit)? = null,
+        adGsExtendListener: AdGsExtendListener? = null
+    ) {
+        instance.showAd(
+            adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_INTERSTITIAL,
+            requiredLoadNewAds = requiredLoadNewAds,
+            onlyShow = onlyShow,
+            onlyCheckNotShow = onlyCheckNotShow,
+            callbackShow = callbackShow,
+            adGsExtendListener = adGsExtendListener
+        )
+    }
+
+    /**
+     * Cách gọi hiển thị nhanh quảng cáo Interstitial mặc định AD_PLACE_NAME_INTERSTITIAL_WITHOUT_VIDEO
+     */
+    fun showInterstitialWithoutVideo(
+        requiredLoadNewAds: Boolean = false,
+        onlyShow: Boolean = false,
+        onlyCheckNotShow: Boolean = false,
+        callbackShow: ((adShowStatus: AdShowStatus) -> Unit)? = null,
+        adGsExtendListener: AdGsExtendListener? = null
+    ) {
+        instance.showAd(
+            adPlaceName = AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_INTERSTITIAL_WITHOUT_VIDEO,
+            requiredLoadNewAds = requiredLoadNewAds,
+            onlyShow = onlyShow,
+            onlyCheckNotShow = onlyCheckNotShow,
+            callbackShow = callbackShow,
+            adGsExtendListener = adGsExtendListener
+        )
     }
 
     /**

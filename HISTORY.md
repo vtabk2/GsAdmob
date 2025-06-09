@@ -1,3 +1,7 @@
+**Version 1.5.0**
+
+- Sửa style `ads_Autoscroll`
+
 **Version 1.4.8**
 
 - Xóa `callbackChangeVip` ở `AdGsManager.registerCoroutineScope()`

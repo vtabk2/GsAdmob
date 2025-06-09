@@ -27,7 +27,7 @@ class AdResumeDialogFragment : BottomSheetDialogFragment() {
         }
     }
 
-    lateinit var binding: AdFragmentResumeDialogBinding
+    private lateinit var binding: AdFragmentResumeDialogBinding
     private var heightScreen: Int = 0
     private var viewRoot: ViewGroup? = null
     private var adPlaceNameAppOpenResume: AdPlaceName? = null
@@ -81,7 +81,7 @@ class AdResumeDialogFragment : BottomSheetDialogFragment() {
     }
 
     private fun blurView() {
-        viewRoot?.let { root ->
+        viewRoot?.let {
             val decorView = activity?.window?.decorView ?: return@let
             val rootView = decorView.findViewById<ViewGroup>(android.R.id.content)
             val windowBackground = decorView.background

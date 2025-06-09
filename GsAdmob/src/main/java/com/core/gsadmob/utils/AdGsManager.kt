@@ -58,6 +58,7 @@ import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.google.android.gms.ads.rewardedinterstitial.RewardedInterstitialAd
 import com.google.android.gms.ads.rewardedinterstitial.RewardedInterstitialAdLoadCallback
+import com.google.firebase.annotations.PublicApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitCancellation
@@ -1328,6 +1329,7 @@ class AdGsManager {
      * Cập nhật trạng thái vip
      * @param isVip = true đã có vip và ngược lại
      */
+    @PublicApi
     fun notifyVip(isVip: Boolean) {
         defaultScope?.launch {
             isVipMutableStateFlow.emit(isVip)
@@ -1363,6 +1365,7 @@ class AdGsManager {
     /**
      * Hủy tất cả quảng cáo trả thưởng không cho hiển thị nữa (rewardAd khi đang tải thì tắt -> không cho show nữa)
      */
+    @PublicApi
     fun cancelAllRewardAd() {
         adGsDataMap.forEach {
             cancelRewardAd(adPlaceName = it.key, isCancel = true)
@@ -1372,6 +1375,7 @@ class AdGsManager {
     /**
      * Kích hoạt tự động tải lại cho các quảng cáo active
      */
+    @PublicApi
     fun activeAd(adPlaceName: AdPlaceName) {
         (adGsDataMap[adPlaceName] as? BaseActiveAdGsData)?.isActive = true
     }
@@ -1379,6 +1383,7 @@ class AdGsManager {
     /**
      * Xóa quảng cáo và xóa kích hoạt tự động tải lại quảng cáo nếu có
      */
+    @PublicApi
     fun clearAndRemoveActive(adPlaceName: AdPlaceName, requiredNotify: Boolean = true) {
         clearWithAdPlaceName(adPlaceName = adPlaceName, requiredNotify = requiredNotify)
 

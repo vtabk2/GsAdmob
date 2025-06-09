@@ -15,11 +15,13 @@ import com.core.gscore.utils.extensions.invisible
 import com.core.gscore.utils.extensions.visible
 import com.core.gscore.utils.extensions.visibleIf
 import com.google.android.gms.ads.AdView
+import com.google.firebase.annotations.PublicApi
 
 class BannerGsAdView @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : FrameLayout(context, attrs, defStyleAttr) {
     private var binding = AdBannerGsAdViewBinding.inflate(LayoutInflater.from(context), this, true)
     private var bannerView: AdView? = null
 
+    @PublicApi
     var showType = ShowType.SHOW_IF_SUCCESS
         set(value) {
             field = value
@@ -27,6 +29,7 @@ class BannerGsAdView @JvmOverloads constructor(context: Context, attrs: Attribut
             setupVisible()
         }
 
+    @PublicApi
     var adsBannerGsBackgroundColor = Color.WHITE
         set(value) {
             field = value
@@ -70,6 +73,7 @@ class BannerGsAdView @JvmOverloads constructor(context: Context, attrs: Attribut
         }
     }
 
+    @PublicApi
     fun startShimmer() {
         setupVisible(start = true)
 
@@ -78,6 +82,7 @@ class BannerGsAdView @JvmOverloads constructor(context: Context, attrs: Attribut
         binding.adsBannerView.invisible()
     }
 
+    @PublicApi
     fun stopShimmer() {
         setupVisible()
 

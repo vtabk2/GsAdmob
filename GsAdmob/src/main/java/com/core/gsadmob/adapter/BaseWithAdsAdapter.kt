@@ -12,6 +12,7 @@ import com.core.gsadmob.natives.view.NativeGsAdView
 import com.core.gscore.utils.extensions.gone
 import com.core.gscore.utils.extensions.visible
 import com.google.android.gms.ads.nativead.NativeAd
+import com.google.firebase.annotations.PublicApi
 
 abstract class BaseWithAdsAdapter(context: Context) : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     var layoutInflater: LayoutInflater = LayoutInflater.from(context)
@@ -177,6 +178,7 @@ abstract class BaseWithAdsAdapter(context: Context) : RecyclerView.Adapter<Recyc
     /**
      * Hiển thị shimmer
      */
+    @PublicApi
     fun startShimmer() {
         isStartShimmer = true
         itemList.forEachIndexed { index, item ->
@@ -190,6 +192,7 @@ abstract class BaseWithAdsAdapter(context: Context) : RecyclerView.Adapter<Recyc
     /**
      * Ẩn shimmer
      */
+    @PublicApi
     fun stopShimmer(nativeAd: NativeAd?) {
         isStartShimmer = false
         itemList.forEachIndexed { index, item ->

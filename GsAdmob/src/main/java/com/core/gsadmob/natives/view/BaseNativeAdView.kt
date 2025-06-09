@@ -20,6 +20,7 @@ import com.facebook.shimmer.ShimmerFrameLayout
 import com.google.android.gms.ads.nativead.MediaView
 import com.google.android.gms.ads.nativead.NativeAd
 import com.google.android.gms.ads.nativead.NativeAdView
+import com.google.firebase.annotations.PublicApi
 import java.util.Locale
 
 abstract class BaseNativeAdView(context: Context, attrs: AttributeSet?) : FrameLayout(context, attrs) {
@@ -215,6 +216,7 @@ abstract class BaseNativeAdView(context: Context, attrs: AttributeSet?) : FrameL
         nativeAd?.destroy()
     }
 
+    @PublicApi
     fun startShimmer() {
         visibleIf(!isHide, !requireGone) // quan trọng, nếu không visible() thì sẽ ko hiển thị đc view
         shimmerView?.visible()
@@ -222,6 +224,7 @@ abstract class BaseNativeAdView(context: Context, attrs: AttributeSet?) : FrameL
         adView?.invisible()
     }
 
+    @PublicApi
     fun stopShimmer() {
         shimmerView?.hideShimmer()
         shimmerView?.gone()
@@ -243,6 +246,7 @@ abstract class BaseNativeAdView(context: Context, attrs: AttributeSet?) : FrameL
         invalidate()
     }
 
+    @PublicApi
     fun applyBuilder(builder: Builder) {
         if (builder.adsNativeMode == AdsNativeMode.NONE) return
         this.builder = builder

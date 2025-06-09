@@ -6,7 +6,7 @@
             <padding
                 android:bottom="@dimen/ads_padding_bottom_call_to_action_language"
                 android:left="@dimen/ads_padding_left_call_to_action_language"
-                android:right="@dimen/ads_padding_left_call_to_action_language"
+                android:right="@dimen/ads_padding_right_call_to_action_language"
                 android:top="@dimen/ads_padding_top_call_to_action_language"/>
             <solid android:color="@color/ads_call_button_language_pressed"/>
         </shape>

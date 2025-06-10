@@ -231,6 +231,8 @@ abstract class BaseWithAdsAdapter(context: Context) : RecyclerView.Adapter<Recyc
     inner class NativeAdHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         private val nativeGsAdView: NativeGsAdView? = itemView.findViewById(nativeAdId)
 
+        fun getNativeGsAdView(): NativeGsAdView? = nativeGsAdView
+
         fun bind(itemAds: ItemAds) {
             nativeGsAdView?.let {
                 it.setNativeAd(nativeAd = itemAds.nativeAd, isStartShimmer = itemAds.isLoading)

@@ -165,6 +165,7 @@ class AdGsManager {
 
                     if (!canShowAppOpenResume.invoke(activity)) return
                     instance.showAd(adPlaceName = adPlaceNameAppOpenResume, onlyCheckNotShow = true, callbackShow = { adShowStatus ->
+                        log("AdGsManager_registerCoroutineScope_adShowStatus", adShowStatus)
                         when (adShowStatus) {
                             AdShowStatus.CAN_SHOW, AdShowStatus.REQUIRE_LOAD -> {
                                 if (adShowStatus == AdShowStatus.REQUIRE_LOAD && !NetworkUtils.isInternetAvailable(activity)) return@showAd
@@ -1245,12 +1246,13 @@ class AdGsManager {
                 AdGsType.REWARDED_INTERSTITIAL -> RewardedInterstitialAdGsData()
             }.apply {
                 delayTime = backupDelayTimeMap[adPlaceName] ?: adPlaceName.delayTime
-                delayShowTime = backupDelayShowTimeMap[adPlaceName] ?: adPlaceName.delayShowTime
 
                 if (this is BaseActiveAdGsData) {
                     isActive = backupActiveTimeMap[adPlaceName] == true
                 } else if (this is BaseShowAdGsData) {
                     isCancel = backupCancelTimeMap[adPlaceName] == true
+
+                    delayShowTime = backupDelayShowTimeMap[adPlaceName] ?: adPlaceName.delayShowTime
                 }
             }
         }
@@ -1272,8 +1274,8 @@ class AdGsManager {
     fun registerDelayShowTime(delayShowTime: Long, adPlaceName: AdPlaceName) {
         // lưu lại cho trường hơp chưa tạo adPlaceName
         backupDelayShowTimeMap[adPlaceName] = delayShowTime
-        // thử set delayTime cho adPlaceName
-        adGsDataMap[adPlaceName]?.delayShowTime = delayShowTime
+        // thử set delayShowTime cho adPlaceName
+        (adGsDataMap[adPlaceName] as? BaseShowAdGsData)?.delayShowTime = delayShowTime
     }
 
     /**

@@ -27,7 +27,7 @@ class AdResumeDialogFragment : BottomSheetDialogFragment() {
         }
     }
 
-    private lateinit var binding: AdFragmentResumeDialogBinding
+    private var binding: AdFragmentResumeDialogBinding? = null
     private var heightScreen: Int = 0
     private var viewRoot: ViewGroup? = null
     private var adPlaceNameAppOpenResume: AdPlaceName? = null
@@ -46,9 +46,9 @@ class AdResumeDialogFragment : BottomSheetDialogFragment() {
         }
     }
 
-    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View {
+    override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         binding = AdFragmentResumeDialogBinding.inflate(layoutInflater)
-        return binding.root
+        return binding?.root
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -85,9 +85,7 @@ class AdResumeDialogFragment : BottomSheetDialogFragment() {
             val decorView = activity?.window?.decorView ?: return@let
             val rootView = decorView.findViewById<ViewGroup>(android.R.id.content)
             val windowBackground = decorView.background
-            binding.blurView.setupWith(rootView)
-                .setFrameClearDrawable(windowBackground)
-                .setBlurRadius(5f)
+            binding?.blurView?.setupWith(rootView)?.setFrameClearDrawable(windowBackground)?.setBlurRadius(5f)
         }
     }
 
@@ -100,25 +98,27 @@ class AdResumeDialogFragment : BottomSheetDialogFragment() {
         val dialog = super.onCreateDialog(savedInstanceState) as BottomSheetDialog
 
         dialog.setOnShowListener {
-            val bottomSheet = (it as BottomSheetDialog).findViewById<View>(R.id.design_bottom_sheet) as FrameLayout?
-            bottomSheet?.setBackgroundColor(Color.TRANSPARENT)
-            val behavior = BottomSheetBehavior.from(bottomSheet!!)
-            behavior.state = BottomSheetBehavior.STATE_EXPANDED
-            behavior.isDraggable = false
+            ((it as BottomSheetDialog).findViewById<View>(R.id.design_bottom_sheet) as? FrameLayout)?.let { bottomSheet ->
+                bottomSheet.setBackgroundColor(Color.TRANSPARENT)
 
-            behavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
-                override fun onStateChanged(bottomSheet: View, newState: Int) {
-                    if (newState == BottomSheetBehavior.STATE_DRAGGING) {
-                        behavior.state = BottomSheetBehavior.STATE_EXPANDED
-                    }
-                    if (newState == BottomSheetBehavior.STATE_HIDDEN) {
-                        dismiss()
-                    }
-                }
+                val behavior = BottomSheetBehavior.from(bottomSheet)
+                behavior.state = BottomSheetBehavior.STATE_EXPANDED
+                behavior.isDraggable = false
 
-                override fun onSlide(bottomSheet: View, slideOffset: Float) {}
-            })
-            bottomSheet.requestDisallowInterceptTouchEvent(true)
+                behavior.addBottomSheetCallback(object : BottomSheetBehavior.BottomSheetCallback() {
+                    override fun onStateChanged(bottomSheet: View, newState: Int) {
+                        if (newState == BottomSheetBehavior.STATE_DRAGGING) {
+                            behavior.state = BottomSheetBehavior.STATE_EXPANDED
+                        }
+                        if (newState == BottomSheetBehavior.STATE_HIDDEN) {
+                            dismiss()
+                        }
+                    }
+
+                    override fun onSlide(bottomSheet: View, slideOffset: Float) {}
+                })
+                bottomSheet.requestDisallowInterceptTouchEvent(true)
+            }
         }
         return dialog
     }

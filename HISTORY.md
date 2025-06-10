@@ -1,3 +1,9 @@
+**Version 1.5.1**
+
+- Thêm `getNativeGsAdView` ở `BaseWithAdsAdapter`
+- Tối ưu lại `AdResumeDialogFragment`
+- Đẩy `delayShowTime` và `lastShowTime` về cho `BaseShowAdGsData`
+
 **Version 1.5.0**
 
 - Sửa style `ads_Autoscroll`

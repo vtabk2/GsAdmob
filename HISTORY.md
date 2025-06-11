@@ -1,3 +1,7 @@
+**Version 1.5.2**
+
+- Thêm `setOnCancelListener` cho `GdprPermissionDialog`
+
 **Version 1.5.1**
 
 - Thêm `getNativeGsAdView` ở `BaseWithAdsAdapter`

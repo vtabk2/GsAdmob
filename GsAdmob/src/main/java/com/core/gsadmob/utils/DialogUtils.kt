@@ -4,8 +4,8 @@ import android.content.Context
 import android.graphics.Color
 import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
-import com.core.gsadmob.databinding.AdDialogGdprPermissionBinding
 import androidx.core.graphics.drawable.toDrawable
+import com.core.gsadmob.databinding.AdDialogGdprPermissionBinding
 
 object DialogUtils {
     fun initGdprPermissionDialog(context: Context, callback: (granted: Boolean) -> Unit): AlertDialog {
@@ -18,10 +18,16 @@ object DialogUtils {
             gdprPermissionDialog.dismiss()
             callback.invoke(false)
         }
+
         binding.tvGdprGrant.setOnClickListener {
             gdprPermissionDialog.dismiss()
             callback.invoke(true)
         }
+
+        gdprPermissionDialog.setOnCancelListener {
+            callback.invoke(false)
+        }
+
         return gdprPermissionDialog
     }
 }

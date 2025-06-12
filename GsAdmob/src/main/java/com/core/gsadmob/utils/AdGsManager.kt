@@ -1411,6 +1411,10 @@ class AdGsManager {
         return isPause
     }
 
+    fun isShowLog(): Boolean {
+        return showLog
+    }
+
     companion object {
         @SuppressLint("StaticFieldLeak")
         private var singleton: AdGsManager? = null

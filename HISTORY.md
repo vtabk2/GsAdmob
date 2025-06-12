@@ -1,3 +1,7 @@
+**Version 1.5.3**
+
+- Sửa `log` của `LogExtensions` để có thể dùng `showLog` của `AdGsManager`
+
 **Version 1.5.2**
 
 - Thêm `setOnCancelListener` cho `GdprPermissionDialog`

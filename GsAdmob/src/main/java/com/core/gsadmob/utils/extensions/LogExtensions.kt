@@ -1,9 +1,10 @@
 package com.core.gsadmob.utils.extensions
 
 import android.util.Log
+import com.core.gsadmob.utils.AdGsManager
 
-fun log(message: String, value: Any, showLog: Boolean = true, logType: LogType = LogType.DEBUG) {
-    if (showLog) {
+fun log(message: String, value: Any, logType: LogType = LogType.DEBUG) {
+    if (AdGsManager.instance.isShowLog()) {
         when (logType) {
             LogType.DEBUG -> Log.d("GsAdmobLib", "$message = $value")
             LogType.ERROR -> Log.e("GsAdmobLib", "$message = $value")

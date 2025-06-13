@@ -1344,10 +1344,10 @@ class AdGsManager {
      * @param isCancel = true -> cancel ads và hủy listener đi
      */
     fun cancelRewardAd(adPlaceName: AdPlaceName, isCancel: Boolean = true) {
-        log("cancelRewardAd_adPlaceName", adPlaceName)
-        log("cancelRewardAd_isCancel", isCancel)
         when (adPlaceName.adGsType) {
             AdGsType.REWARDED, AdGsType.REWARDED_INTERSTITIAL -> {
+                log("cancelRewardAd_adPlaceName", adPlaceName)
+                log("cancelRewardAd_isCancel", isCancel)
                 if (isCancel) {
                     adGsDataMap[adPlaceName]?.listener = null
                 }

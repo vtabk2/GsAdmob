@@ -126,6 +126,12 @@ loại quảng cáo và tích hợp GDPR/CMP.
         <string name="ads_text_grant_permission">@string/text_grant_permission</string>
   ```
 
+- Đổi string welcome_back của màn hình chờ của quảng cáo `App Open Resume`
+
+  ```css
+        <string name="ad_text_welcome_back" translatable="false">@string/text_welcome_back</string>
+  ```
+
 ## 🎮 Sử dụng
 
 ### Quảng cáo App Open

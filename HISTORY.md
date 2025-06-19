@@ -1,3 +1,6 @@
+**Version 1.5.4**
+- Tối ưu lại `GsAdmobApplication`
+
 **Version 1.5.3**
 
 - Sửa `log` của `LogExtensions` để có thể dùng `showLog` của `AdGsManager`

@@ -11,18 +11,14 @@ import kotlinx.coroutines.MainScope
 
 class TestApplication : GsAdmobApplication() {
 
+    override val isDebug: Boolean = BuildConfig.DEBUG
+
+    override val packageNameForFixWebView: String = packageName
+
     private val mainScope = MainScope()
 
     init {
         instance = this
-    }
-
-    override fun fixWebView(packageName: String) {
-        super.fixWebView(getPackageName())
-    }
-
-    override fun setupDeviceTest(isDebug: Boolean) {
-        super.setupDeviceTest(BuildConfig.DEBUG)
     }
 
     override fun registerAdGsManager() {

@@ -18,6 +18,11 @@ import kotlinx.coroutines.launch
 import java.util.EnumMap
 
 abstract class GsAdmobApplication : MultiDexApplication() {
+    abstract val isDebug: Boolean
+    abstract val packageNameForFixWebView: String
+
+    open val requiredUpdateConsent = true
+
     /**
      * Biến được dùng để xử lý việc tạm chặn hiển thị quảng cáo app open resume
      * canShowAppOpenResume = true có thể hiển thị quảng cáo
@@ -32,9 +37,9 @@ abstract class GsAdmobApplication : MultiDexApplication() {
     override fun onCreate() {
         super.onCreate()
 
-        fixWebView("")
+        fixWebView()
 
-        setupDeviceTest(isDebug = false)
+        setupDeviceTest()
 
         setupConsentMode()
 
@@ -48,11 +53,11 @@ abstract class GsAdmobApplication : MultiDexApplication() {
      *
      * https://stackoverflow.com/questions/51843546/android-pie-9-0-webview-in-multi-process
      */
-    open fun fixWebView(packageName: String) {
-        if (TextUtils.isEmpty(packageName)) return
+    open fun fixWebView() {
+        if (TextUtils.isEmpty(packageNameForFixWebView)) return
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             val process = getProcessName()
-            if (packageName != process) WebView.setDataDirectorySuffix(process)
+            if (packageNameForFixWebView != process) WebView.setDataDirectorySuffix(process)
         }
     }
 
@@ -60,7 +65,7 @@ abstract class GsAdmobApplication : MultiDexApplication() {
      * Cho thiết bị hiện tại thành thiết bị test
      * @param isDebug = true cho thiết bị thành thành thiết bị test -> hiển thị quảng cáo test
      */
-    open fun setupDeviceTest(isDebug: Boolean) {
+    open fun setupDeviceTest() {
         if (isDebug) {
             deviceTestList.add(md5(getAndroidId(this)).uppercase())
 
@@ -98,6 +103,7 @@ abstract class GsAdmobApplication : MultiDexApplication() {
      * When data is not marked as consented, it may impact ads personalization and measurement. Verify your Firebase consent settings)
      */
     private fun setupConsentMode() {
+        if (!requiredUpdateConsent) return
         EnumMap<ConsentType, FirebaseAnalytics.ConsentStatus>(ConsentType::class.java).apply {
             put(ConsentType.ANALYTICS_STORAGE, FirebaseAnalytics.ConsentStatus.GRANTED)
             put(ConsentType.AD_STORAGE, FirebaseAnalytics.ConsentStatus.GRANTED)

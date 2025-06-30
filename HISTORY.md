@@ -1,3 +1,6 @@
+**Version 15.5**
+- Thêm `isRequestingPermission` để xử lý trường hợp khi xin cấp quyền thì isPause bị chuyển thành true
+
 **Version 1.5.4**
 - Tối ưu lại `GsAdmobApplication`
 

@@ -10,11 +10,6 @@ import com.example.gsadmob.utils.remoteconfig.RemoteConfig
 import kotlinx.coroutines.MainScope
 
 class TestApplication : GsAdmobApplication() {
-
-    override val isDebug: Boolean = BuildConfig.DEBUG
-
-    override val packageNameForFixWebView: String = packageName
-
     private val mainScope = MainScope()
 
     init {

@@ -18,9 +18,6 @@ import kotlinx.coroutines.launch
 import java.util.EnumMap
 
 abstract class GsAdmobApplication : MultiDexApplication() {
-    abstract val isDebug: Boolean
-    abstract val packageNameForFixWebView: String
-
     open val requiredUpdateConsent = true
 
     /**
@@ -54,19 +51,18 @@ abstract class GsAdmobApplication : MultiDexApplication() {
      * https://stackoverflow.com/questions/51843546/android-pie-9-0-webview-in-multi-process
      */
     open fun fixWebView() {
-        if (TextUtils.isEmpty(packageNameForFixWebView)) return
+        if (TextUtils.isEmpty(packageName)) return
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             val process = getProcessName()
-            if (packageNameForFixWebView != process) WebView.setDataDirectorySuffix(process)
+            if (packageName != process) WebView.setDataDirectorySuffix(process)
         }
     }
 
     /**
      * Cho thiết bị hiện tại thành thiết bị test
-     * @param isDebug = true cho thiết bị thành thành thiết bị test -> hiển thị quảng cáo test
      */
     open fun setupDeviceTest() {
-        if (isDebug) {
+        if (BuildConfig.DEBUG) {
             deviceTestList.add(md5(getAndroidId(this)).uppercase())
 
             val requestConfiguration = RequestConfiguration.Builder()

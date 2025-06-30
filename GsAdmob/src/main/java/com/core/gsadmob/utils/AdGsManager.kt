@@ -93,6 +93,12 @@ class AdGsManager {
 
     private var isPause = false
 
+    /**
+     * Xử lý cho trường hợp xin quyền vì khi xin quyền thì isPause bị chuyển thành true
+     * Cần xét lại ở resume
+     */
+    var isRequestingPermission: Boolean = false
+
     private var showLog: Boolean = true
 
     /**
@@ -216,6 +222,17 @@ class AdGsManager {
                 isPause = true
 
                 callbackNothingLifecycle?.invoke()
+            }
+
+            override fun onResume(owner: LifecycleOwner) {
+                super.onResume(owner)
+
+                if (isRequestingPermission) {
+                    if (isPause) {
+                        isRequestingPermission = false
+                        isPause = false
+                    }
+                }
             }
         }
 

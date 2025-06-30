@@ -9,14 +9,16 @@ import com.core.gsadmob.callback.AdGsExtendListener
 import com.core.gsadmob.callback.AdGsListener
 import com.core.gsadmob.utils.AdGsManager
 import com.core.gscore.utils.extensions.removeBlink
-import com.core.gsmvvm.ui.activity.BaseMVVMActivity
 import com.example.gsadmob.databinding.ActivityHomeBinding
 import com.example.gsadmob.ui.activity.TestAdsActivity
+import com.example.gsadmob.ui.activity.base.BasePermissionActivity
 import com.example.gsadmob.ui.activity.language.LanguageActivity
 import com.example.gsadmob.ui.adapter.ImageAdapter
+import com.example.gsadmob.utils.extensions.PERMISSION_CAMERA
 import com.example.gsadmob.utils.remoteconfig.AdGsRemoteExtraConfig
+import com.gs.core.ui.view.toasty.Toasty
 
-class HomeActivity : BaseMVVMActivity<ActivityHomeBinding>(ActivityHomeBinding::inflate) {
+class HomeActivity : BasePermissionActivity<ActivityHomeBinding>(ActivityHomeBinding::inflate) {
     private val viewModel: HomeViewModel by viewModels()
 
     private var adapter: ImageAdapter? = null
@@ -89,6 +91,18 @@ class HomeActivity : BaseMVVMActivity<ActivityHomeBinding>(ActivityHomeBinding::
 
         bindingView.imageReload.setOnClickListener {
             viewModel.loadData()
+        }
+
+        bindingView.tvGetPermission.setOnClickListener {
+            checkPermission(PERMISSION_CAMERA, callback = { granted ->
+                if (granted) {
+                    goToOtherHasPermission()
+                }
+            })
+        }
+
+        bindingView.imageCheckPause.setOnClickListener {
+            Toasty.showToast(this@HomeActivity, "getPauseApp = ${AdGsManager.instance.getPauseApp()}", Toasty.NORMAL)
         }
     }
 

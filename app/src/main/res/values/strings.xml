@@ -8,4 +8,8 @@
 
     <string name="text_is_running">is running, please wait...</string>
     <string name="text_welcome_back">Welcome back</string>
+
+    <string name="noti_permission">"If you reject the permissions, you cannot use this app\n\nPlease turn on permissions at [Setting] > [Permission]"</string>
+    <string name="text_close">Close</string>
+    <string name="text_settings">Settings</string>
 </resources>

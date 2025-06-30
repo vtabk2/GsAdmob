@@ -96,6 +96,7 @@ class AdGsManager {
     /**
      * Xử lý cho trường hợp xin quyền vì khi xin quyền thì isPause bị chuyển thành true
      * Cần xét lại ở resume
+     * Khi gọi xin quyền cần gọi isRequestingPermission = true
      */
     var isRequestingPermission: Boolean = false
 

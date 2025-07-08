@@ -1,3 +1,8 @@
+**Version 1.6.0*
+
+- Đổi isRequestingPermission thành isResetPause
+- Sửa lỗi không cập nhật trạng thái isPause khi đã mua vip
+
 **Version 1.5.7**
 
 - Tối ưu lại `GsAdmobApplication`

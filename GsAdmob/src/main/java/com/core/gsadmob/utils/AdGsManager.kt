@@ -94,11 +94,11 @@ class AdGsManager {
     private var isPause = false
 
     /**
-     * Xử lý cho trường hợp xin quyền vì khi xin quyền thì isPause bị chuyển thành true
+     * Xử lý cho trường hợp xin quyền, mở share, mở màn hình thanh toán vì khi đó thì isPause bị chuyển thành true
      * Cần xét lại ở resume
-     * Khi gọi xin quyền cần gọi isRequestingPermission = true
+     * Khi gọi xin quyền cần gọi isResetPause = true
      */
-    var isRequestingPermission: Boolean = false
+    var isResetPause: Boolean = false
 
     private var showLog: Boolean = true
 
@@ -228,9 +228,9 @@ class AdGsManager {
             override fun onResume(owner: LifecycleOwner) {
                 super.onResume(owner)
 
-                if (isRequestingPermission) {
+                if (isResetPause) {
                     if (isPause) {
-                        isRequestingPermission = false
+                        isResetPause = false
                         isPause = false
                     }
                 }

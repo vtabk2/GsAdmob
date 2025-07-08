@@ -167,9 +167,9 @@ class AdGsManager {
                 super.onStart(owner)
                 (currentActivity as? AppCompatActivity)?.let { activity ->
                     if (!isPause) return
-                    if (isVipFlow.value) return
                     isPause = false
 
+                    if (isVipFlow.value) return
                     if (!canShowAppOpenResume.invoke(activity)) return
                     instance.showAd(adPlaceName = adPlaceNameAppOpenResume, onlyCheckNotShow = true, callbackShow = { adShowStatus ->
                         log("AdGsManager_registerCoroutineScope_adShowStatus", adShowStatus)

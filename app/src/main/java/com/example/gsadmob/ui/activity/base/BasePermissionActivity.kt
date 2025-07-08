@@ -86,21 +86,21 @@ abstract class BasePermissionActivity<VB : ViewBinding>(inflateBinding: (LayoutI
                             }
 
                             else -> {
-                                AdGsManager.instance.isRequestingPermission = true
+                                AdGsManager.instance.isResetPause = true
                                 requestWriteStoragePermissions.launch(arrayOf(Manifest.permission.READ_MEDIA_IMAGES, Manifest.permission.READ_MEDIA_VISUAL_USER_SELECTED))
                             }
                         }
                     } else if (isTiramisuPlus()) {
-                        AdGsManager.instance.isRequestingPermission = true
+                        AdGsManager.instance.isResetPause = true
                         requestWriteStoragePermissions.launch(arrayOf(Manifest.permission.READ_MEDIA_IMAGES))
                     } else {
-                        AdGsManager.instance.isRequestingPermission = true
+                        AdGsManager.instance.isResetPause = true
                         requestWriteStoragePermissions.launch(arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE))
                     }
                 }
 
                 else -> {
-                    AdGsManager.instance.isRequestingPermission = true
+                    AdGsManager.instance.isResetPause = true
                     requestPermissions.launch(permissionId)
                 }
             }

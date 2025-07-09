@@ -1,4 +1,8 @@
-**Version 1.6.0*
+**Version 1.6.1**
+- Thay đổi vị trí lưu `lastShowTime`. Từ bây giờ `lastShowTime` sẽ được tính khi đóng quảng cáo chứ không phải khi quảng cáo được hiển thị
+- 2 loại quảng cáo ảnh hưởng là `Interstitial` và `App Open`
+
+**Version 1.6.0**
 
 - Đổi isRequestingPermission thành isResetPause
 - Sửa lỗi không cập nhật trạng thái isPause khi đã mua vip

@@ -425,6 +425,8 @@ class AdGsManager {
 
                     adGsData.appOpenAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
                         override fun onAdDismissedFullScreenContent() {
+                            adGsData.lastShowTime = System.currentTimeMillis()
+
                             adGsData.listener?.onAdClose()
                             adGsData.clearData(isResetReload = true)
                             //
@@ -444,7 +446,6 @@ class AdGsManager {
                         }
 
                         override fun onAdShowedFullScreenContent() {
-                            adGsData.lastShowTime = System.currentTimeMillis()
                             adGsData.isShowing = true
                             adGsData.listener?.onAdShowing()
                         }
@@ -585,6 +586,8 @@ class AdGsManager {
 
                     adGsData.interstitialAd?.fullScreenContentCallback = object : FullScreenContentCallback() {
                         override fun onAdDismissedFullScreenContent() {
+                            adGsData.lastShowTime = System.currentTimeMillis()
+
                             adGsData.listener?.onAdClose()
                             adGsData.clearData(isResetReload = true)
                             //
@@ -604,7 +607,6 @@ class AdGsManager {
                         }
 
                         override fun onAdShowedFullScreenContent() {
-                            adGsData.lastShowTime = System.currentTimeMillis()
                             adGsData.isShowing = true
                             adGsData.listener?.onAdShowing()
                         }
@@ -876,8 +878,8 @@ class AdGsManager {
                         return
                     }
 
+                    val currentTime = System.currentTimeMillis()
                     val checkShowTime = if (adGsData.delayShowTime > 0L) {
-                        val currentTime = System.currentTimeMillis()
                         currentTime - adGsData.lastShowTime >= adGsData.delayShowTime * 1000
                     } else {
                         true
@@ -944,6 +946,11 @@ class AdGsManager {
                             return
                         }
                         if (!checkShowTime) {
+                            log("showAd_", "______________________________")
+                            log("showAd_lastShowTime ", adGsData.lastShowTime)
+                            log("showAd_currentTime  ", currentTime)
+                            log("showAd_delayShowTime", adGsData.delayShowTime * 1000)
+                            log("showAd_", "______________________________")
                             callbackShow?.invoke(AdShowStatus.REQUIRE_DELAY_SHOW_TIME)
                             return
 

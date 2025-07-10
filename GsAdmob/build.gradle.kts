@@ -17,12 +17,6 @@ android {
             isMinifyEnabled = false
             proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
         }
-
-        all {
-            // Tạo một field mới có tên khác để tránh xung đột
-            val isDebugBuild = name == "debug"
-            buildConfigField("Boolean", "IS_DEBUG_BUILD", isDebugBuild.toString())
-        }
     }
 
     buildFeatures {

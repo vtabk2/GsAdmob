@@ -5,6 +5,7 @@ import android.text.TextUtils
 import android.webkit.WebView
 import androidx.multidex.MultiDexApplication
 import com.core.gsadmob.utils.extensions.getAndroidId
+import com.core.gsadmob.utils.extensions.log
 import com.core.gsadmob.utils.extensions.md5
 import com.google.android.gms.ads.MobileAds
 import com.google.android.gms.ads.RequestConfiguration
@@ -18,6 +19,9 @@ import kotlinx.coroutines.launch
 import java.util.EnumMap
 
 abstract class GsAdmobApplication : MultiDexApplication() {
+
+    abstract val isDebug: Boolean
+
     open val requiredUpdateConsent = true
 
     /**
@@ -51,6 +55,7 @@ abstract class GsAdmobApplication : MultiDexApplication() {
      * https://stackoverflow.com/questions/51843546/android-pie-9-0-webview-in-multi-process
      */
     open fun fixWebView() {
+        log("fixWebView_packageName", packageName)
         if (TextUtils.isEmpty(packageName)) return
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) {
             val process = getProcessName()
@@ -62,7 +67,8 @@ abstract class GsAdmobApplication : MultiDexApplication() {
      * Cho thiết bị hiện tại thành thiết bị test
      */
     open fun setupDeviceTest() {
-        if (BuildConfig.IS_DEBUG_BUILD) {
+        log("setupDeviceTest_isDebug", isDebug)
+        if (isDebug) {
             deviceTestList.add(md5(getAndroidId(this)).uppercase())
 
             val requestConfiguration = RequestConfiguration.Builder()

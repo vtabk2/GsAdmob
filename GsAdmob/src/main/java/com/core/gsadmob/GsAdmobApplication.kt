@@ -62,7 +62,7 @@ abstract class GsAdmobApplication : MultiDexApplication() {
      * Cho thiết bị hiện tại thành thiết bị test
      */
     open fun setupDeviceTest() {
-        if (BuildConfig.DEBUG) {
+        if (BuildConfig.IS_DEBUG_BUILD) {
             deviceTestList.add(md5(getAndroidId(this)).uppercase())
 
             val requestConfiguration = RequestConfiguration.Builder()

@@ -1,4 +1,4 @@
-**Version 1.6.2**
+**Version 1.6.4**
 
 - Sửa lỗi ko khởi tạo được `deviceTestList` khi build debug
 

@@ -1,3 +1,8 @@
+**Version 1.6.5**
+
+- Thêm `ads_marginHorizontal`
+- Thêm `ads_marginBottom`
+
 **Version 1.6.4**
 
 - Sửa lỗi ko khởi tạo được `deviceTestList` khi build debug

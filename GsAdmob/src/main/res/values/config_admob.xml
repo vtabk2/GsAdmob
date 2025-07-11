@@ -275,6 +275,8 @@
     <dimen name="ads_radius_bg_share">10dp</dimen>
     <dimen name="ads_margin_start_share">10dp</dimen>
     <dimen name="ads_margin_end_share">10dp</dimen>
+    <dimen name="ads_margin_top_share">11dp</dimen>
+    <dimen name="ads_margin_bottom_share">8dp</dimen>
 
     <dimen name="ads_bg_text_ad_share_bottomLeftRadius">0dp</dimen>
     <dimen name="ads_bg_text_ad_share_bottomRightRadius">10dp</dimen>

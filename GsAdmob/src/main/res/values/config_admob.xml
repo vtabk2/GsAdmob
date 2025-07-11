@@ -138,6 +138,7 @@
     <dimen name="ads_text_size_call_to_action_font">14sp</dimen>
     <dimen name="ads_height_call_to_action_font">32dp</dimen>
     <dimen name="ads_radius_call_to_action_font">10dp</dimen>
+    <dimen name="ads_marginHorizontal_call_to_action_font">11dp</dimen>
     <dimen name="ads_padding_bottom_call_to_action_font">6dp</dimen>
     <dimen name="ads_padding_left_call_to_action_font">10dp</dimen>
     <dimen name="ads_padding_right_call_to_action_font">10dp</dimen>
@@ -180,6 +181,8 @@
     <dimen name="ads_text_size_call_to_action_frame">14sp</dimen>
     <dimen name="ads_height_call_to_action_frame">32dp</dimen>
     <dimen name="ads_radius_call_to_action_frame">10dp</dimen>
+    <dimen name="ads_marginHorizontal_call_to_action_frame">8dp</dimen>
+    <dimen name="ads_marginBottom_call_to_action_frame">8dp</dimen>
     <dimen name="ads_padding_bottom_call_to_action_frame">6dp</dimen>
     <dimen name="ads_padding_left_bottom_call_to_action_frame">10dp</dimen>
     <dimen name="ads_padding_right_bottom_call_to_action_frame">10dp</dimen>
@@ -310,6 +313,8 @@
     <dimen name="ads_text_size_call_to_action_sticker">13sp</dimen>
     <dimen name="ads_height_call_to_action_sticker">32dp</dimen>
     <dimen name="ads_radius_call_to_action_sticker">10dp</dimen>
+    <dimen name="ads_marginHorizontal_call_to_action_sticker">7dp</dimen>
+    <dimen name="ads_marginBottom_call_to_action_sticker">7dp</dimen>
     <dimen name="ads_padding_bottom_call_to_action_sticker">6dp</dimen>
     <dimen name="ads_padding_left_call_to_action_sticker">10dp</dimen>
     <dimen name="ads_padding_right_call_to_action_sticker">10dp</dimen>

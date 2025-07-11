@@ -89,7 +89,7 @@
                 android:id="@+id/ad_call_to_action_font"
                 android:layout_width="wrap_content"
                 android:layout_height="@dimen/ads_height_call_to_action_font"
-                android:layout_marginHorizontal="11dp"
+                android:layout_marginHorizontal="@dimen/ads_marginHorizontal_call_to_action_font"
                 android:background="@drawable/ads_bg_call_action_button_font"
                 android:gravity="center"
                 android:lineSpacingExtra="5dp"

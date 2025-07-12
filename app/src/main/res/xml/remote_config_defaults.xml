@@ -75,19 +75,19 @@
             "name": "banner_home",
             "adUnitId": "",
             "autoReloadWhenDismiss": false,
-            "delayTime": 30,
+            "delayTime": 0,
             "delayShowTime": 0,
             "adGsType": "banner",
-            "isEnable": true
+            "isEnable": false
             },
             {
             "name": "banner_collapsible_home",
             "adUnitId": "",
             "autoReloadWhenDismiss": false,
-            "delayTime": 30,
+            "delayTime": 0,
             "delayShowTime": 0,
             "adGsType": "banner_collapsible",
-            "isEnable": false
+            "isEnable": true
             },
             {
             "name": "native_home",

@@ -299,12 +299,15 @@ class AdGsManager {
      * @param requiredLoadNewAds = true sẽ yêu cầu tải quảng cáo mới không quan tâm đã có quảng cáo cũ rồi
      * Chú ý : Hàm này ít được dùng , thay vào dó hãy dùng hàm registerActiveAndLoadAds hoặc registerAndShowAds vì nó có hỗ trợ đăng ký báo lỗi và kích hoạt quảng cáo tự tải lại
      * Hàm này được dùng trực tiếp cho app open ở màn splash
+     * @param activity != null -> quảng cáo banner_collapsible tự mở rộng
+     * @param activity == null -> quảng cáo banner_collapsible sẽ giống quảng cáo banner bình thường
      */
-    private fun loadAd(adPlaceName: AdPlaceName, requiredLoadNewAds: Boolean) {
+    private fun loadAd(activity: Activity? = null, adPlaceName: AdPlaceName, requiredLoadNewAds: Boolean) {
         application?.let {
 
             log("loadAd_adPlaceName", adPlaceName)
             log("loadAd_requiredLoadNewAds", requiredLoadNewAds)
+            log("loadAd", "---------------------------------")
             if (!isWebViewEnabled) {
                 clearAll(clearFull = false)
                 return
@@ -357,7 +360,7 @@ class AdGsManager {
 
                     AdGsType.BANNER, AdGsType.BANNER_COLLAPSIBLE -> {
                         loadBannerAd(
-                            app = it, adPlaceName = adPlaceName, adGsData = adGsData as BannerAdGsData
+                            app = it, activity = activity, adPlaceName = adPlaceName, adGsData = adGsData as BannerAdGsData
                         )
                     }
 
@@ -465,16 +468,18 @@ class AdGsManager {
 
     /**
      * Tải quảng cáo banner
+     * @param activity != null -> quảng cáo banner_collapsible tự mở rộng
+     * @param activity == null -> quảng cáo banner_collapsible sẽ giống quảng cáo banner bình thường
      */
-    private fun loadBannerAd(app: Application, adPlaceName: AdPlaceName, adGsData: BannerAdGsData) {
+    private fun loadBannerAd(app: Application, activity: Activity? = null, adPlaceName: AdPlaceName, adGsData: BannerAdGsData) {
         shimmerMap[adPlaceName] = true
         startShimmerLiveData.postValue(shimmerMap)
 
-        val bannerAdView = AdView(app)
+        val bannerAdView = AdView(activity ?: app)
         bannerAdView.adUnitId = adPlaceName.adUnitId
         bannerAdView.descendantFocusability = ViewGroup.FOCUS_BLOCK_DESCENDANTS
 
-        val adSize = getAdSize(app)
+        val adSize = getAdSize(activity ?: app)
         bannerAdView.setAdSize(adSize)
 
         // Create an extra parameter that aligns the bottom of the expanded ad to
@@ -987,11 +992,13 @@ class AdGsManager {
 
     /**
      * Đăng kí sự kiện và tải quảng cáo
+     * @param activity != null -> quảng cáo banner_collapsible tự mở rộng
+     * @param activity == null -> quảng cáo banner_collapsible sẽ giống quảng cáo banner bình thường
      */
-    private fun registerActiveAndLoadAds(adPlaceName: AdPlaceName, requiredLoadNewAds: Boolean = false, adGsListener: AdGsListener?, adGsExtendListener: AdGsExtendListener?) {
+    private fun registerActiveAndLoadAds(activity: Activity? = null, adPlaceName: AdPlaceName, requiredLoadNewAds: Boolean = false, adGsListener: AdGsListener?, adGsExtendListener: AdGsExtendListener?) {
         registerAdsListener(adPlaceName = adPlaceName, adGsListener = adGsListener, adGsExtendListener = adGsExtendListener)
         activeAd(adPlaceName = adPlaceName)
-        loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
+        loadAd(activity = activity, adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
     }
 
     /**
@@ -1046,6 +1053,7 @@ class AdGsManager {
      * Đăng ký quảng cáo native và banner
      */
     private fun registerNativeOrBanner(
+        activity: Activity? = null,
         lifecycleOwner: LifecycleOwner,
         adPlaceName: AdPlaceName,
         adGsListener: AdGsListener? = null,
@@ -1076,7 +1084,7 @@ class AdGsManager {
 
         // 3. Xử lý coroutine riêng cho data flow
         lifecycleOwner.lifecycleScope.launch {
-            instance.registerActiveAndLoadAds(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, adGsListener = adGsListener, adGsExtendListener = adGsExtendListener)
+            instance.registerActiveAndLoadAds(activity = activity, adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, adGsListener = adGsListener, adGsExtendListener = adGsExtendListener)
 
             // Xử lý shimmer effect
             instance.startShimmerLiveData.observe(lifecycleOwner) { shimmerMap ->
@@ -1119,8 +1127,11 @@ class AdGsManager {
 
     /**
      * Đăng kí quảng cáo banner
+     * @param activity != null -> quảng cáo banner_collapsible tự mở rộng
+     * @param activity == null -> quảng cáo banner_collapsible sẽ giống quảng cáo banner bình thường
      */
     fun registerBanner(
+        activity: Activity? = null,
         lifecycleOwner: LifecycleOwner,
         adPlaceName: AdPlaceName,
         bannerGsAdView: BannerGsAdView?,
@@ -1133,6 +1144,7 @@ class AdGsManager {
         when (adPlaceName.adGsType) {
             AdGsType.BANNER, AdGsType.BANNER_COLLAPSIBLE -> {
                 registerNativeOrBanner(
+                    activity = activity,
                     lifecycleOwner = lifecycleOwner,
                     adPlaceName = adPlaceName,
                     requiredLoadNewAds = requiredLoadNewAds,
@@ -1309,6 +1321,7 @@ class AdGsManager {
     fun clearWithAdPlaceName(adPlaceName: AdPlaceName, requiredNotify: Boolean = true) {
         adGsDataMap[adPlaceName]?.clearData(isResetReload = true)
         if (requiredNotify) {
+            if (!adPlaceName.isValidate()) return
             log("clearWithAdPlaceName_adPlaceName", adPlaceName)
             notifyAds("clearWithAdPlaceName")
         }

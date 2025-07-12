@@ -75,7 +75,7 @@
             "name": "banner_home",
             "adUnitId": "",
             "autoReloadWhenDismiss": false,
-            "delayTime": 30,
+            "delayTime": 0,
             "delayShowTime": 0,
             "adGsType": "banner",
             "isEnable": false
@@ -84,7 +84,7 @@
             "name": "banner_collapsible_home",
             "adUnitId": "",
             "autoReloadWhenDismiss": false,
-            "delayTime": 30,
+            "delayTime": 0,
             "delayShowTime": 0,
             "adGsType": "banner_collapsible",
             "isEnable": true

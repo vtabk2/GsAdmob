@@ -299,6 +299,8 @@ class AdGsManager {
      * @param requiredLoadNewAds = true sẽ yêu cầu tải quảng cáo mới không quan tâm đã có quảng cáo cũ rồi
      * Chú ý : Hàm này ít được dùng , thay vào dó hãy dùng hàm registerActiveAndLoadAds hoặc registerAndShowAds vì nó có hỗ trợ đăng ký báo lỗi và kích hoạt quảng cáo tự tải lại
      * Hàm này được dùng trực tiếp cho app open ở màn splash
+     * @param activity != null -> quảng cáo banner_collapsible tự mở rộng
+     * @param activity == null -> quảng cáo banner_collapsible sẽ giống quảng cáo banner bình thường
      */
     private fun loadAd(activity: Activity? = null, adPlaceName: AdPlaceName, requiredLoadNewAds: Boolean) {
         application?.let {
@@ -466,6 +468,8 @@ class AdGsManager {
 
     /**
      * Tải quảng cáo banner
+     * @param activity != null -> quảng cáo banner_collapsible tự mở rộng
+     * @param activity == null -> quảng cáo banner_collapsible sẽ giống quảng cáo banner bình thường
      */
     private fun loadBannerAd(app: Application, activity: Activity? = null, adPlaceName: AdPlaceName, adGsData: BannerAdGsData) {
         shimmerMap[adPlaceName] = true
@@ -988,6 +992,8 @@ class AdGsManager {
 
     /**
      * Đăng kí sự kiện và tải quảng cáo
+     * @param activity != null -> quảng cáo banner_collapsible tự mở rộng
+     * @param activity == null -> quảng cáo banner_collapsible sẽ giống quảng cáo banner bình thường
      */
     private fun registerActiveAndLoadAds(activity: Activity? = null, adPlaceName: AdPlaceName, requiredLoadNewAds: Boolean = false, adGsListener: AdGsListener?, adGsExtendListener: AdGsExtendListener?) {
         registerAdsListener(adPlaceName = adPlaceName, adGsListener = adGsListener, adGsExtendListener = adGsExtendListener)
@@ -1121,6 +1127,8 @@ class AdGsManager {
 
     /**
      * Đăng kí quảng cáo banner
+     * @param activity != null -> quảng cáo banner_collapsible tự mở rộng
+     * @param activity == null -> quảng cáo banner_collapsible sẽ giống quảng cáo banner bình thường
      */
     fun registerBanner(
         activity: Activity? = null,

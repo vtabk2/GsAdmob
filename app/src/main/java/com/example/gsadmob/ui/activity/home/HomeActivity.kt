@@ -47,10 +47,11 @@ class HomeActivity : BasePermissionActivity<ActivityHomeBinding>(ActivityHomeBin
         bindingView.rvImage.removeBlink()
 
         AdGsManager.instance.registerBanner(
+            activity = this,
             lifecycleOwner = this,
             adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome,
             bannerGsAdView = bindingView.bannerView,
-            useShimmer = false,
+            useShimmer = true,
             adGsListener = object : AdGsListener {
 
             },

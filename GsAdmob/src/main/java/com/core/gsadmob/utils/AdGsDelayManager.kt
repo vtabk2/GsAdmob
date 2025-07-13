@@ -1,7 +1,6 @@
 package com.core.gsadmob.utils
 
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.Fragment
 import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.LifecycleOwner
 import com.core.gsadmob.R
@@ -12,7 +11,6 @@ import com.core.gscore.hourglass.Hourglass
 
 class AdGsDelayManager(
     private val activity: AppCompatActivity,
-    fragment: Fragment? = null,
     private val adPlaceName: AdPlaceName? = null,
     private val callbackFinished: () -> Unit
 ) {
@@ -39,7 +37,7 @@ class AdGsDelayManager(
     }
 
     init {
-        fragment?.lifecycle?.addObserver(lifecycleObserver) ?: activity.lifecycle.addObserver(lifecycleObserver)
+        activity.lifecycle.addObserver(lifecycleObserver)
         registerAndShowAds()
     }
 

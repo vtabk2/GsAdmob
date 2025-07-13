@@ -1,3 +1,7 @@
+**Version 1.6.6**
+
+- Sửa quảng cáo banner collapsible từ giờ có thể tự động mở rộng lần đầu
+
 **Version 1.6.5**
 
 - Thêm `ads_marginHorizontal`

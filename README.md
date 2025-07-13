@@ -271,6 +271,18 @@ Hướng dẫn chi tiết cách dùng xem ở [SplashActivity](https://github.co
         )
   ```
 
+- Khi muốn dùng quảng cáo `banner collapsible` tự động mở rộng cần truyền thêm `activity = this`
+
+  ```css
+         AdGsManager.instance.registerBanner(
+            activity = this,
+            lifecycleOwner = this,
+            adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome,
+            bannerGsAdView = bindingView.bannerView,
+            useShimmer = false
+        )
+  ```
+
 ### Quảng cáo Interstitial
 - Hiển thị 2 quảng cáo xen kẽ mặc định
 

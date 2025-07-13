@@ -58,7 +58,9 @@ import com.google.android.gms.ads.rewarded.RewardedAd
 import com.google.android.gms.ads.rewarded.RewardedAdLoadCallback
 import com.google.android.gms.ads.rewardedinterstitial.RewardedInterstitialAd
 import com.google.android.gms.ads.rewardedinterstitial.RewardedInterstitialAdLoadCallback
+import com.google.firebase.analytics.ktx.analytics
 import com.google.firebase.annotations.PublicApi
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.async
 import kotlinx.coroutines.awaitCancellation
@@ -455,6 +457,7 @@ class AdGsManager {
 
                         override fun onAdClicked() {
                             adGsData.extendListener?.onAdClicked()
+                            logEvent(adPlaceName = adPlaceName)
                         }
 
                         override fun onAdImpression() {
@@ -523,6 +526,7 @@ class AdGsManager {
 
             override fun onAdClicked() {
                 adGsData.extendListener?.onAdClicked()
+                logEvent(adPlaceName = adPlaceName)
             }
 
             override fun onAdImpression() {
@@ -618,6 +622,7 @@ class AdGsManager {
 
                         override fun onAdClicked() {
                             adGsData.extendListener?.onAdClicked()
+                            logEvent(adPlaceName = adPlaceName)
                         }
 
                         override fun onAdImpression() {
@@ -648,6 +653,7 @@ class AdGsManager {
 
                 override fun onAdClicked() {
                     adGsData.extendListener?.onAdClicked()
+                    logEvent(adPlaceName = adPlaceName)
                 }
 
                 override fun onAdImpression() {
@@ -734,6 +740,7 @@ class AdGsManager {
 
                         override fun onAdClicked() {
                             adGsData.extendListener?.onAdClicked()
+                            logEvent(adPlaceName = adPlaceName)
                         }
 
                         override fun onAdImpression() {
@@ -808,6 +815,7 @@ class AdGsManager {
 
                         override fun onAdClicked() {
                             adGsData.extendListener?.onAdClicked()
+                            logEvent(adPlaceName = adPlaceName)
                         }
 
                         override fun onAdImpression() {
@@ -1015,7 +1023,31 @@ class AdGsManager {
         showAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds, onlyShow = onlyShow, callbackShow = callbackShow, adGsExtendListener = adGsExtendListener)
     }
 
+    private fun logEvent(adPlaceName: AdPlaceName) {
+        if (!adPlaceName.isTrackingClick) return
+        val name = "ads_" + when (adPlaceName.adGsType) {
+            AdGsType.BANNER, AdGsType.BANNER_COLLAPSIBLE, AdGsType.NATIVE -> {
+                adPlaceName.name
+            }
+
+            else -> {
+                if (currentActivity != null) {
+                    "${adPlaceName.name}.${currentActivity?.javaClass?.simpleName}"
+                } else {
+                    adPlaceName.name
+                }
+            }
+        }
+        log("logEvent_name", name)
+        Firebase.analytics.logEvent(name, Bundle())
+    }
+
+    /**
+     * @param activity != null -> quảng cáo banner_collapsible tự mở rộng
+     * @param activity == null -> quảng cáo banner_collapsible sẽ giống quảng cáo banner bình thường
+     */
     fun registerNativeOrBanner(
+        activity: Activity? = null,
         lifecycleOwner: LifecycleOwner,
         adPlaceName: AdPlaceName,
         bannerGsAdView: BannerGsAdView? = null,
@@ -1038,6 +1070,7 @@ class AdGsManager {
             callbackSuccess = callbackSuccess,
             callbackFailed = {
                 registerBanner(
+                    activity = activity,
                     lifecycleOwner = lifecycleOwner,
                     adPlaceName = adPlaceName,
                     bannerGsAdView = bannerGsAdView,
@@ -1351,8 +1384,8 @@ class AdGsManager {
      * Gửi các thay đổi các quảng cáo đã kích hoạt
      */
     private fun notifyAds(from: String) {
-        log("AdGsManager_notifyAds_from", from)
         defaultScope?.launch {
+            log("AdGsManager_notifyAds_from", from)
             val newData = ConcurrentHashMap<AdPlaceName, BaseActiveAdGsData>()
             adGsDataMap.toMap().forEach {
                 when (val adGsData = it.value) {

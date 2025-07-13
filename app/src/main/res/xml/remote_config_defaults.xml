@@ -11,7 +11,8 @@
             "delayTime": 0,
             "delayShowTime": 0,
             "adGsType": "app_open",
-            "isEnable": true
+            "isEnable": true,
+            "isTrackingClick": true
             },
             {
             "name": "interstitial_splash",
@@ -20,7 +21,8 @@
             "delayTime": 0,
             "delayShowTime": 0,
             "adGsType": "interstitial",
-            "isEnable": false
+            "isEnable": false,
+            "isTrackingClick": false
             }
             ]
         </value>
@@ -36,7 +38,8 @@
             "delayTime": 0,
             "delayShowTime": 30,
             "adGsType": "app_open",
-            "isEnable": true
+            "isEnable": true,
+            "isTrackingClick": true
             }
         </value>
     </entry>
@@ -52,7 +55,8 @@
             "delayTime": 0,
             "delayShowTime": 0,
             "adGsType": "banner",
-            "isEnable": false
+            "isEnable": false,
+            "isTrackingClick": false
             },
             {
             "name": "native_language",
@@ -61,7 +65,8 @@
             "delayTime": 0,
             "delayShowTime": 0,
             "adGsType": "native",
-            "isEnable": true
+            "isEnable": true,
+            "isTrackingClick": true
             }
             ]
         </value>
@@ -78,7 +83,8 @@
             "delayTime": 0,
             "delayShowTime": 0,
             "adGsType": "banner",
-            "isEnable": false
+            "isEnable": false,
+            "isTrackingClick": false
             },
             {
             "name": "banner_collapsible_home",
@@ -87,7 +93,8 @@
             "delayTime": 0,
             "delayShowTime": 0,
             "adGsType": "banner_collapsible",
-            "isEnable": true
+            "isEnable": true,
+            "isTrackingClick": true
             },
             {
             "name": "native_home",
@@ -96,7 +103,8 @@
             "delayTime": 0,
             "delayShowTime": 0,
             "adGsType": "native",
-            "isEnable": true
+            "isEnable": true,
+            "isTrackingClick": true
             }
             ]
         </value>

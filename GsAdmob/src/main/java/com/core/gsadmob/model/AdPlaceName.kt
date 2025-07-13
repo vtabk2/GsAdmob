@@ -33,6 +33,11 @@ data class AdPlaceName(
      */
     @SerializedName("isEnable") var isEnable: Boolean = true,
     /**
+     * isTrackingClick = true tức là có gửi event firebase
+     * isTrackingClick = false tức là không gửi event firebase
+     */
+    @SerializedName("isTrackingClick") var isTrackingClick: Boolean = true,
+    /**
      * Loại quảng cáo được cấu hình ở AdGsType
      */
     @SerializedName("adGsType") var adGsType: AdGsType = AdGsType.INTERSTITIAL
@@ -78,6 +83,11 @@ data class AdPlaceName(
     }
 
     fun disable(): AdPlaceName {
+        isEnable = false
+        return this
+    }
+
+    fun disableTrackingClick(): AdPlaceName {
         isEnable = false
         return this
     }

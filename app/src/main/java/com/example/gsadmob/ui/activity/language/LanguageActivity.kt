@@ -13,6 +13,7 @@ class LanguageActivity : BaseMVVMActivity<ActivityLanguageBinding>(ActivityLangu
         super.setupView(savedInstanceState)
 
         AdGsManager.instance.registerNativeOrBanner(
+            activity = this,
             lifecycleOwner = this,
             adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameLanguage,
             bannerGsAdView = bindingView.bannerView,

@@ -1,3 +1,10 @@
+**Version 1.6.7**
+
+- Sửa lỗi quảng cáo app open khi `requireScreenAdLoading = true` bị hủy khi `AdResumeDialogFragment`
+  bị tắt
+- Thêm logEvent khi ấn mở quảng cáo
+- Thêm `isTrackingClick` vào `remote_config_defaults.xml` để cấu hình có tự động logEvent không?
+
 **Version 1.6.6**
 
 - Sửa quảng cáo banner collapsible từ giờ có thể tự động mở rộng lần đầu

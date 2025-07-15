@@ -56,6 +56,19 @@ class BannerGsAdView @JvmOverloads constructor(context: Context, attrs: Attribut
             startShimmer()
             return
         }
+
+        // Nếu cùng một instance thì bỏ qua
+        if (bannerView == adView) {
+            stopShimmer()
+            return
+        }
+
+        // Hủy banner cũ nếu có
+        bannerView?.let { oldAdView ->
+            (oldAdView.parent as? ViewGroup)?.removeView(oldAdView)
+            oldAdView.destroy()
+        }
+
         this.bannerView = adView
 
         binding.apply {
@@ -131,7 +144,13 @@ class BannerGsAdView @JvmOverloads constructor(context: Context, attrs: Attribut
 
     fun destroy() {
         try {
-            bannerView?.destroy()
+            bannerView?.let { adView ->
+                // Xóa view khỏi parent trước khi hủy
+                (adView.parent as? ViewGroup)?.removeView(adView)
+                adView.destroy()
+            }
+            // Đặt lại thành null để tránh sử dụng lại
+            bannerView = null
         } catch (e: Exception) {
             e.printStackTrace()
         }

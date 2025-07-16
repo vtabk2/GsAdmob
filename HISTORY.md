@@ -1,3 +1,13 @@
+**Version 1.6.8**
+
+- Sửa lỗi quảng cáo banner collapsible
+
+          Fatal Exception: java.lang.IllegalStateException: The specified child already has a parent. You must call removeView() on the child's parent first.
+       at android.view.ViewGroup.addViewInner(ViewGroup.java:5247)
+       at android.view.ViewGroup.addView(ViewGroup.java:5076)
+       at android.view.ViewGroup.addView(ViewGroup.java:5016)
+       at android.view.ViewGroup.addView(ViewGroup.java:4988)
+
 **Version 1.6.7**
 
 - Sửa lỗi quảng cáo app open khi `requireScreenAdLoading = true` bị hủy khi `AdResumeDialogFragment`

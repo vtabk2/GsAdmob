@@ -1,3 +1,7 @@
+**Version 1.6.9**
+
+- Kiểm tra id quảng cáo hợp lệ trước khi load
+
 **Version 1.6.8**
 
 - Sửa lỗi quảng cáo banner collapsible

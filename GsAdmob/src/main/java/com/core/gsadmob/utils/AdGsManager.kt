@@ -338,8 +338,16 @@ class AdGsManager {
                 }
             }
 
-            if (!adPlaceName.isEnable) {
+            if (!adPlaceName.isEnable || !adPlaceName.isValidate()) {
                 adGsData.listener?.onAdClose(isFailed = true)
+                if (adGsData is BaseActiveAdGsData) {
+                    shimmerMap[adPlaceName] = false
+                    adGsData.clearData(isResetReload = false)
+                    notifyAds("loadAd.isEnable.isValidate")
+                    log("loadAd.isEnable", adPlaceName.isEnable)
+                    log("loadAd.isValidate", adPlaceName.isValidate())
+                    log("loadAd", "------------")
+                }
                 return
             }
 

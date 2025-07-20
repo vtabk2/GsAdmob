@@ -1018,6 +1018,14 @@ class AdGsManager {
     }
 
     /**
+     * Tải trước quảng cáo
+     */
+    fun preLoadAd(adPlaceName: AdPlaceName) {
+        log("preLoadAd", adPlaceName)
+        loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = false)
+    }
+
+    /**
      * Đăng kí sự kiện và hiển thị quảng cáo
      */
     fun registerAndShowAds(

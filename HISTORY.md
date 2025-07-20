@@ -1,3 +1,7 @@
+**Version 1.6.10**
+
+- Thêm hàm tải trước quảng cáo `preLoadAd`
+
 **Version 1.6.9**
 
 - Kiểm tra id quảng cáo hợp lệ trước khi load

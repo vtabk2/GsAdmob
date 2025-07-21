@@ -96,7 +96,7 @@ class GoogleMobileAdsConsentManager private constructor(context: Context) {
                 if (isPrivacyOptionsRequired) {
                     if (cmpUtils.requiredShowCMPDialog()) {
                         Handler(Looper.getMainLooper()).postDelayed({
-                            if (activity.isFinishing) return@postDelayed
+                            if (activity.isFinishing || activity.isDestroyed) return@postDelayed
                             cmpUtils.isCheckGDPR = true
                             UserMessagingPlatform.showPrivacyOptionsForm(activity) {
 

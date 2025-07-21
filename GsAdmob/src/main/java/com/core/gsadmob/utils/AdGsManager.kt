@@ -147,6 +147,7 @@ class AdGsManager {
 
                 currentActivity = activity
                 currentActivity?.let {
+                    if (it.isFinishing || it.isDestroyed) return
                     isWebViewEnabled = it.isWebViewEnabled()
                 }
             }
@@ -173,6 +174,9 @@ class AdGsManager {
 
                     if (isVipFlow.value) return
                     if (!canShowAppOpenResume.invoke(activity)) return
+
+                    if (activity.isFinishing || activity.isDestroyed) return
+
                     instance.showAd(adPlaceName = adPlaceNameAppOpenResume, onlyCheckNotShow = true, callbackShow = { adShowStatus ->
                         log("AdGsManager_registerCoroutineScope_adShowStatus", adShowStatus)
                         when (adShowStatus) {
@@ -211,7 +215,13 @@ class AdGsManager {
 
             override fun onPause(owner: LifecycleOwner) {
                 super.onPause(owner)
+                isPause = true
+
+                callbackNothingLifecycle?.invoke()
+
                 (currentActivity as? AppCompatActivity)?.let { activity ->
+                    if (activity.isFinishing || activity.isDestroyed) return
+
                     (activity.supportFragmentManager.findFragmentByTag(tag) as? AdResumeDialogFragment)?.let { adResumeDialogFragment ->
                         if (adResumeDialogFragment.isVisible) {
                             // BottomDialogFragment đang hiển thị
@@ -221,10 +231,6 @@ class AdGsManager {
                         }
                     }
                 }
-
-                isPause = true
-
-                callbackNothingLifecycle?.invoke()
             }
 
             override fun onResume(owner: LifecycleOwner) {
@@ -553,7 +559,11 @@ class AdGsManager {
                 if (context is Activity) {
                     context.windowManager.currentWindowMetrics.bounds.width()
                 } else {
-                    currentActivity?.windowManager?.currentWindowMetrics?.bounds?.width() ?: displayMetrics.widthPixels
+                    if (currentActivity == null || currentActivity?.isFinishing == true || currentActivity?.isDestroyed == true) {
+                        displayMetrics.widthPixels
+                    } else {
+                        currentActivity?.windowManager?.currentWindowMetrics?.bounds?.width() ?: displayMetrics.widthPixels
+                    }
                 }
             } else {
                 displayMetrics.widthPixels
@@ -915,6 +925,10 @@ class AdGsManager {
                     }
                     if (canShow) {
                         currentActivity?.let {
+                            if (it.isFinishing || it.isDestroyed) {
+                                callbackShow?.invoke(AdShowStatus.NO_ACTIVITY)
+                                return
+                            }
                             when (adGsData) {
                                 is AppOpenAdGsData -> {
                                     callbackShow?.invoke(AdShowStatus.CAN_SHOW)

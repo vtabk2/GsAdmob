@@ -249,10 +249,12 @@ abstract class BaseNativeAdView(context: Context, attrs: AttributeSet?) : FrameL
         invalidate()
     }
 
-    fun show() {
+    fun show(showShimmerIfFailed: Boolean = false) {
         isHide = false
         if (nativeAd != null) {
             visible()
+        } else if (showShimmerIfFailed) {
+            startShimmer()
         }
         invalidate()
     }

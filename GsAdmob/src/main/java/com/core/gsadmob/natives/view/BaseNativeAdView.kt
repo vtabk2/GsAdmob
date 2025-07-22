@@ -118,7 +118,10 @@ abstract class BaseNativeAdView(context: Context, attrs: AttributeSet?) : FrameL
 
     open fun initViewWithMode() {}
 
-    open fun setNativeAd(nativeAd: NativeAd?, isStartShimmer: Boolean) {
+    /**
+     * @param showShimmerIfFailed = true Nếu không tải được quảng cáo thì sẽ hiển thị shimmer mãi mãi
+     */
+    open fun setNativeAd(nativeAd: NativeAd?, isStartShimmer: Boolean, showShimmerIfFailed: Boolean = false) {
         this.nativeAd = nativeAd
         if (isStartShimmer && nativeAd == null) {
             startShimmer()
@@ -126,7 +129,11 @@ abstract class BaseNativeAdView(context: Context, attrs: AttributeSet?) : FrameL
         }
         stopShimmer()
         if (nativeAd == null) {
-            gone()
+            if (showShimmerIfFailed) {
+                startShimmer()
+            } else {
+                gone()
+            }
             return
         }
         visibleIf(!isHide, !requireGone)
@@ -213,7 +220,11 @@ abstract class BaseNativeAdView(context: Context, attrs: AttributeSet?) : FrameL
     }
 
     fun destroy() {
-        nativeAd?.destroy()
+        try {
+            nativeAd?.destroy()
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
     }
 
     @PublicApi

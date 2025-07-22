@@ -1,3 +1,7 @@
+**Version 1.6.12**
+
+- Thêm `showShimmerIfFailed` vào `show` của `BaseNativeAdView` để xử lý trường hợp muốn giữ trạng thái shimmer khi không tải được quảng cáo
+
 **Version 1.6.11**
 
 - Thêm `showShimmerIfFailed` vào `setNativeAd` của `BaseNativeAdView` để xử lý trường hợp muốn giữ trạng thái shimmer khi không tải được quảng cáo

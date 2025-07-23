@@ -78,7 +78,7 @@ class AdGsSplashManager(
         }
 
         override fun onDestroy(owner: LifecycleOwner) {
-            destroy()
+            destroy(fromAutoDestroy = true)
         }
     }
 
@@ -175,9 +175,9 @@ class AdGsSplashManager(
     /**
      * Gọi để hủy quảng cáo
      */
-    fun destroy() {
+    fun destroy(fromAutoDestroy: Boolean = false) {
         adPlaceName?.let {
-            AdGsManager.instance.clearAndRemoveListener(adPlaceName = it, fromAutoDestroy = true)
+            AdGsManager.instance.clearAndRemoveListener(adPlaceName = it, fromAutoDestroy = fromAutoDestroy)
         }
     }
 

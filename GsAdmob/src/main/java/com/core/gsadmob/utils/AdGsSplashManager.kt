@@ -79,7 +79,7 @@ class AdGsSplashManager(
 
         override fun onDestroy(owner: LifecycleOwner) {
             adPlaceName?.let {
-                AdGsManager.instance.clearAndRemoveListener(adPlaceName = it)
+                AdGsManager.instance.clearAndRemoveListener(adPlaceName = it, fromAutoDestroy = true)
             }
         }
     }

@@ -86,6 +86,15 @@ class HomeActivity : BasePermissionActivity<ActivityHomeBinding>(ActivityHomeBin
             startActivity(Intent(this, LanguageActivity::class.java))
         }
 
+        bindingView.tvRestart.setOnClickListener {
+            AdGsManager.instance.clearAndRemoveListener(adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome, fromAutoDestroy = false)
+            AdGsManager.instance.clearAndRemoveListener(adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameNativeHome, fromAutoDestroy = false)
+
+            val intent = Intent(this@HomeActivity, HomeActivity::class.java)
+            startActivity(intent)
+            finish()
+        }
+
         bindingView.tvTestAds.setOnClickListener {
             startActivity(Intent(this, TestAdsActivity::class.java))
         }

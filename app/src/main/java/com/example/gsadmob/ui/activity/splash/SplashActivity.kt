@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.core.view.isVisible
 import com.core.gsadmob.model.AdPlaceName
+import com.core.gsadmob.utils.AdGsManager
 import com.core.gsadmob.utils.AdGsSplashManager
 import com.example.gsadmob.BuildConfig
 import com.example.gsadmob.R
@@ -51,6 +52,7 @@ class SplashActivity : AppCompatActivity() {
             intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(intent)
         }
+        AdGsManager.instance.clearAndRemoveListener(adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameSplash, fromAutoDestroy = false)
         finish()
     }
 }

@@ -428,7 +428,7 @@ class AdGsManager {
                 adGsData.lastTime = System.currentTimeMillis() // khi tải được quảng cáo mới lưu lastTime
 
                 if (isVipFlow.value) {
-                    clearWithAdPlaceName(adPlaceName = adPlaceName, requiredNotify = true)
+                    clearWithAdPlaceName(adPlaceName = adPlaceName, requiredNotify = true, fromAutoDestroy = false)
                 } else {
                     adGsData.appOpenAd = appOpenAd
                     adGsData.isLoading = false
@@ -528,7 +528,7 @@ class AdGsManager {
                 adGsData.lastTime = System.currentTimeMillis()
 
                 if (isVipFlow.value) {
-                    clearWithAdPlaceName(adPlaceName = adPlaceName, requiredNotify = true)
+                    clearWithAdPlaceName(adPlaceName = adPlaceName, requiredNotify = true, fromAutoDestroy = false)
                 } else {
                     adGsData.bannerAdView = bannerAdView
                     adGsData.isLoading = false
@@ -597,7 +597,7 @@ class AdGsManager {
                 adGsData.lastTime = System.currentTimeMillis()
 
                 if (isVipFlow.value) {
-                    clearWithAdPlaceName(adPlaceName = adPlaceName, requiredNotify = true)
+                    clearWithAdPlaceName(adPlaceName = adPlaceName, requiredNotify = true, fromAutoDestroy = false)
                 } else {
                     adGsData.interstitialAd = interstitialAd
                     adGsData.isLoading = false
@@ -682,7 +682,7 @@ class AdGsManager {
                 adGsData.lastTime = System.currentTimeMillis()
 
                 if (isVipFlow.value) {
-                    clearWithAdPlaceName(adPlaceName = adPlaceName, requiredNotify = true)
+                    clearWithAdPlaceName(adPlaceName = adPlaceName, requiredNotify = true, fromAutoDestroy = false)
                 } else {
                     adGsData.nativeAd = nativeAd
                     adGsData.isLoading = false
@@ -718,7 +718,7 @@ class AdGsManager {
                 adGsData.lastTime = System.currentTimeMillis()
 
                 if (isVipFlow.value) {
-                    clearWithAdPlaceName(adPlaceName = adPlaceName, requiredNotify = true)
+                    clearWithAdPlaceName(adPlaceName = adPlaceName, requiredNotify = true, fromAutoDestroy = false)
                 } else {
                     adGsData.rewardedAd = rewardedAd
                     adGsData.isLoading = false
@@ -793,7 +793,7 @@ class AdGsManager {
                 adGsData.lastTime = System.currentTimeMillis()
 
                 if (isVipFlow.value) {
-                    clearWithAdPlaceName(adPlaceName = adPlaceName, requiredNotify = true)
+                    clearWithAdPlaceName(adPlaceName = adPlaceName, requiredNotify = true, fromAutoDestroy = false)
                 } else {
                     adGsData.rewardedInterstitialAd = rewardedInterstitialAd
                     adGsData.isLoading = false
@@ -1183,7 +1183,7 @@ class AdGsManager {
                 // Dọn dẹp
                 lifecycleOwner.lifecycle.removeObserver(pauseResumeObserver)
                 instance.removeAdsListener(adPlaceName = adPlaceName)
-                instance.clearAndRemoveActive(adPlaceName = adPlaceName)
+                instance.clearAndRemoveActive(adPlaceName = adPlaceName, fromAutoDestroy = true)
             }
         }
     }
@@ -1381,7 +1381,15 @@ class AdGsManager {
     /**
      * Xóa 1 quảng cáo cụ thể
      */
-    fun clearWithAdPlaceName(adPlaceName: AdPlaceName, requiredNotify: Boolean = true) {
+    fun clearWithAdPlaceName(adPlaceName: AdPlaceName, requiredNotify: Boolean = true, fromAutoDestroy: Boolean = false) {
+        // xử lý cho các trường hợp tự khởi tạo lại activity thì sẽ không xóa quảng cáo cũ đi
+        if (fromAutoDestroy) {
+            val adGsData = getAdGsData(adPlaceName = adPlaceName)
+            // nếu đang tải quảng cáo thì sẽ bỏ qua việc xóa quảng cáo nữa
+            if (adGsData.isLoading) {
+                return
+            }
+        }
         adGsDataMap[adPlaceName]?.clearData(isResetReload = true)
         if (requiredNotify) {
             if (!adPlaceName.isValidate()) return
@@ -1487,8 +1495,17 @@ class AdGsManager {
      * Xóa quảng cáo và xóa kích hoạt tự động tải lại quảng cáo nếu có
      */
     @PublicApi
-    fun clearAndRemoveActive(adPlaceName: AdPlaceName, requiredNotify: Boolean = true) {
-        clearWithAdPlaceName(adPlaceName = adPlaceName, requiredNotify = requiredNotify)
+    fun clearAndRemoveActive(adPlaceName: AdPlaceName, requiredNotify: Boolean = true, fromAutoDestroy: Boolean) {
+        // xử lý cho các trường hợp tự khởi tạo lại activity thì sẽ không xóa quảng cáo cũ đi
+        if (fromAutoDestroy) {
+            val adGsData = getAdGsData(adPlaceName = adPlaceName)
+            // nếu đang tải quảng cáo thì sẽ bỏ qua việc xóa quảng cáo nữa
+            if (adGsData.isLoading) {
+                return
+            }
+        }
+
+        clearWithAdPlaceName(adPlaceName = adPlaceName, requiredNotify = requiredNotify, fromAutoDestroy = fromAutoDestroy)
 
         (adGsDataMap[adPlaceName] as? BaseActiveAdGsData)?.let {
             it.isActive = false
@@ -1500,9 +1517,9 @@ class AdGsManager {
     /**
      * Xóa quảng cáo và xóa đăng ký sự kiện khi tải quảng cáo
      */
-    fun clearAndRemoveListener(adPlaceName: AdPlaceName) {
+    fun clearAndRemoveListener(adPlaceName: AdPlaceName, fromAutoDestroy: Boolean = false) {
         removeAdsListener(adPlaceName = adPlaceName)
-        clearWithAdPlaceName(adPlaceName = adPlaceName)
+        clearWithAdPlaceName(adPlaceName = adPlaceName, fromAutoDestroy = fromAutoDestroy)
     }
 
     /**

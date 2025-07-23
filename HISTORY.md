@@ -1,3 +1,8 @@
+**Version 1.6.13**
+
+- Sửa lỗi restart activity thì mất quảng cáo
+- Thêm `destroy()` ở `AdGsDelayManager` và `AdGsSplashManager`
+
 **Version 1.6.12**
 
 - Thêm `showShimmerIfFailed` vào `show` của `BaseNativeAdView` để xử lý trường hợp muốn giữ trạng thái shimmer khi không tải được quảng cáo

@@ -73,16 +73,17 @@ import kotlinx.coroutines.launch
 import java.util.concurrent.ConcurrentHashMap
 
 class AdGsManager {
-    private val adGsDataMap = ConcurrentHashMap<AdPlaceName, BaseAdGsData>()
-    private val adGsDataMapMutableStateFlow = MutableStateFlow(ConcurrentHashMap<AdPlaceName, BaseActiveAdGsData>())
+    private val adGsDataMap = ConcurrentHashMap<String, BaseAdGsData>()
+    private val adGsDataMapMutableStateFlow = MutableStateFlow(ConcurrentHashMap<String, BaseActiveAdGsData>())
+    private val adPlaceNameMap = ConcurrentHashMap<String, AdPlaceName>()
 
-    private val shimmerMap = ConcurrentHashMap<AdPlaceName, Boolean>()
-    private val startShimmerLiveData = MutableLiveData<ConcurrentHashMap<AdPlaceName, Boolean>>()
+    private val shimmerMap = ConcurrentHashMap<String, Boolean>()
+    private val startShimmerLiveData = MutableLiveData<ConcurrentHashMap<String, Boolean>>()
 
-    private val backupDelayTimeMap = ConcurrentHashMap<AdPlaceName, Long>()
-    private val backupDelayShowTimeMap = ConcurrentHashMap<AdPlaceName, Long>()
-    private val backupActiveTimeMap = ConcurrentHashMap<AdPlaceName, Boolean>()
-    private val backupCancelTimeMap = ConcurrentHashMap<AdPlaceName, Boolean>()
+    private val backupDelayTimeMap = ConcurrentHashMap<String, Long>()
+    private val backupDelayShowTimeMap = ConcurrentHashMap<String, Long>()
+    private val backupActiveTimeMap = ConcurrentHashMap<String, Boolean>()
+    private val backupCancelTimeMap = ConcurrentHashMap<String, Boolean>()
 
     private val isVipMutableStateFlow = MutableStateFlow(false)
     var isVipFlow = isVipMutableStateFlow.asStateFlow()
@@ -295,8 +296,10 @@ class AdGsManager {
         }.keys
         if (activeAdPlaceNames.isNotEmpty()) {
             log("tryReloadAd_isChangeNetwork", isChangeNetwork)
-            activeAdPlaceNames.forEach { adPlaceName ->
-                loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = false) // không bắt buộc tải mới
+            activeAdPlaceNames.forEach { name ->
+                adPlaceNameMap[name]?.let { adPlaceName ->
+                    loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = false) // không bắt buộc tải mới
+                }
             }
         }
     }
@@ -325,7 +328,7 @@ class AdGsManager {
                 return
             }
             val adGsData = getAdGsData(adPlaceName = adPlaceName)
-            adGsDataMap[adPlaceName] = adGsData
+            adGsDataMap[adPlaceName.name] = adGsData
 
             if (adGsData.isLoading) {
                 return
@@ -347,7 +350,7 @@ class AdGsManager {
             if (!adPlaceName.isEnable || !adPlaceName.isValidate()) {
                 adGsData.listener?.onAdClose(isFailed = true)
                 if (adGsData is BaseActiveAdGsData) {
-                    shimmerMap[adPlaceName] = false
+                    shimmerMap[adPlaceName.name] = false
                     adGsData.clearData(isResetReload = false)
                     notifyAds("loadAd.isEnable.isValidate")
                     log("loadAd.isEnable", adPlaceName.isEnable)
@@ -401,7 +404,7 @@ class AdGsManager {
             } else {
                 adGsData.listener?.onAdClose(isFailed = true)
                 if (adGsData is BaseActiveAdGsData) {
-                    shimmerMap[adPlaceName] = false
+                    shimmerMap[adPlaceName.name] = false
                     adGsData.clearData(isResetReload = false)
                     notifyAds("loadAd.isInternetAvailable")
                 }
@@ -489,7 +492,7 @@ class AdGsManager {
      * @param activity == null -> quảng cáo banner_collapsible sẽ giống quảng cáo banner bình thường
      */
     private fun loadBannerAd(app: Application, activity: Activity? = null, adPlaceName: AdPlaceName, adGsData: BannerAdGsData) {
-        shimmerMap[adPlaceName] = true
+        shimmerMap[adPlaceName.name] = true
         startShimmerLiveData.postValue(shimmerMap)
 
         val bannerAdView = AdView(activity ?: app)
@@ -517,14 +520,14 @@ class AdGsManager {
         bannerAdView.adListener = object : AdListener() {
             override fun onAdFailedToLoad(loadAdError: LoadAdError) {
                 log("loadBannerAd_onAdFailedToLoad: message", loadAdError.message, logType = LogType.ERROR)
-                shimmerMap[adPlaceName] = false
+                shimmerMap[adPlaceName.name] = false
                 adGsData.listener?.onAdClose(isFailed = true)
                 adGsData.clearData(isResetReload = false)
                 notifyAds("loadBannerAd.onAdFailedToLoad")
             }
 
             override fun onAdLoaded() {
-                shimmerMap[adPlaceName] = false
+                shimmerMap[adPlaceName.name] = false
                 adGsData.lastTime = System.currentTimeMillis()
 
                 if (isVipFlow.value) {
@@ -656,7 +659,7 @@ class AdGsManager {
      * Tải quảng cáo native
      */
     private fun loadNativeAd(app: Application, adPlaceName: AdPlaceName, adGsData: NativeAdGsData) {
-        shimmerMap[adPlaceName] = true
+        shimmerMap[adPlaceName.name] = true
         startShimmerLiveData.postValue(shimmerMap)
 
         val adRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
@@ -664,7 +667,7 @@ class AdGsManager {
             .withAdListener(object : AdListener() {
                 override fun onAdFailedToLoad(loadAdError: LoadAdError) {
                     log("loadNativeAd_onAdFailedToLoad: message", loadAdError.message, logType = LogType.ERROR)
-                    shimmerMap[adPlaceName] = false
+                    shimmerMap[adPlaceName.name] = false
                     adGsData.listener?.onAdClose(isFailed = true)
                     adGsData.clearData(isResetReload = false)
                     notifyAds("loadNativeAd.onAdFailedToLoad")
@@ -679,7 +682,7 @@ class AdGsManager {
                     adGsData.extendListener?.onAdImpression()
                 }
             }).forNativeAd { nativeAd ->
-                shimmerMap[adPlaceName] = false
+                shimmerMap[adPlaceName.name] = false
                 adGsData.lastTime = System.currentTimeMillis()
 
                 if (isVipFlow.value) {
@@ -896,7 +899,7 @@ class AdGsManager {
                     callbackShow?.invoke(AdShowStatus.SHOWING)
                     return
                 }
-                (adGsDataMap[adPlaceName] as? BaseShowAdGsData)?.let { adGsData ->
+                (adGsDataMap[adPlaceName.name] as? BaseShowAdGsData)?.let { adGsData ->
                     if (adGsExtendListener != null) {
                         adGsData.extendListener = adGsExtendListener
                     }
@@ -993,6 +996,7 @@ class AdGsManager {
                         }
                         callbackShow?.invoke(AdShowStatus.REQUIRE_LOAD)
                         // chưa có thì load
+                        adPlaceNameMap[adPlaceName.name] = adPlaceName
                         loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
                     }
                 } ?: run {
@@ -1002,6 +1006,7 @@ class AdGsManager {
                     }
                     callbackShow?.invoke(AdShowStatus.REQUIRE_LOAD)
                     // chưa có thì load
+                    adPlaceNameMap[adPlaceName.name] = adPlaceName
                     loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
                 }
             }
@@ -1018,7 +1023,7 @@ class AdGsManager {
         // update listener
         adGsData.listener = adGsListener
         adGsData.extendListener = adGsExtendListener
-        adGsDataMap[adPlaceName] = adGsData
+        adGsDataMap[adPlaceName.name] = adGsData
     }
 
     /**
@@ -1029,6 +1034,8 @@ class AdGsManager {
     private fun registerActiveAndLoadAds(activity: Activity? = null, adPlaceName: AdPlaceName, requiredLoadNewAds: Boolean = false, adGsListener: AdGsListener?, adGsExtendListener: AdGsExtendListener?) {
         registerAdsListener(adPlaceName = adPlaceName, adGsListener = adGsListener, adGsExtendListener = adGsExtendListener)
         activeAd(adPlaceName = adPlaceName)
+
+        adPlaceNameMap[adPlaceName.name] = adPlaceName
         loadAd(activity = activity, adPlaceName = adPlaceName, requiredLoadNewAds = requiredLoadNewAds)
     }
 
@@ -1037,6 +1044,8 @@ class AdGsManager {
      */
     fun preLoadAd(adPlaceName: AdPlaceName) {
         log("preLoadAd", adPlaceName)
+
+        adPlaceNameMap[adPlaceName.name] = adPlaceName
         loadAd(adPlaceName = adPlaceName, requiredLoadNewAds = false)
     }
 
@@ -1152,7 +1161,7 @@ class AdGsManager {
 
             // Xử lý shimmer effect
             instance.startShimmerLiveData.observe(lifecycleOwner) { shimmerMap ->
-                shimmerMap[adPlaceName]?.takeIf { it }?.let {
+                shimmerMap[adPlaceName.name]?.takeIf { it }?.let {
                     when (adPlaceName.adGsType) {
                         AdGsType.BANNER, AdGsType.BANNER_COLLAPSIBLE -> callbackBanner?.invoke(null, true)
                         AdGsType.NATIVE -> callbackNative?.invoke(null, true)
@@ -1164,7 +1173,7 @@ class AdGsManager {
             // Xử lý data flow khi RESUMED
             lifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
                 instance.adGsDataMapMutableStateFlow.collect { dataMap ->
-                    dataMap[adPlaceName]?.let { adData ->
+                    dataMap[adPlaceName.name]?.let { adData ->
                         when (adPlaceName.adGsType) {
                             AdGsType.BANNER, AdGsType.BANNER_COLLAPSIBLE -> callbackBanner?.invoke(adData as? BannerAdGsData, adData.isLoading)
                             AdGsType.NATIVE -> callbackNative?.invoke(adData as? NativeAdGsData, adData.isLoading)
@@ -1329,14 +1338,14 @@ class AdGsManager {
      * Xóa đăng ký sự kiện khi tải quảng cáo
      */
     fun removeAdsListener(adPlaceName: AdPlaceName) {
-        adGsDataMap[adPlaceName]?.listener = null
+        adGsDataMap[adPlaceName.name]?.listener = null
     }
 
     /**
      * Lấy 1 quảng cáo theo adPlaceName hoặc tạo mới nếu cần
      */
     private fun getAdGsData(adPlaceName: AdPlaceName): BaseAdGsData {
-        return adGsDataMap[adPlaceName] ?: run {
+        return adGsDataMap[adPlaceName.name] ?: run {
             when (adPlaceName.adGsType) {
                 AdGsType.APP_OPEN -> AppOpenAdGsData()
                 AdGsType.BANNER -> BannerAdGsData()
@@ -1346,14 +1355,14 @@ class AdGsManager {
                 AdGsType.REWARDED -> RewardedAdGsData()
                 AdGsType.REWARDED_INTERSTITIAL -> RewardedInterstitialAdGsData()
             }.apply {
-                delayTime = backupDelayTimeMap[adPlaceName] ?: adPlaceName.delayTime
+                delayTime = backupDelayTimeMap[adPlaceName.name] ?: adPlaceName.delayTime
 
                 if (this is BaseActiveAdGsData) {
-                    isActive = backupActiveTimeMap[adPlaceName] == true
+                    isActive = backupActiveTimeMap[adPlaceName.name] == true
                 } else if (this is BaseShowAdGsData) {
-                    isCancel = backupCancelTimeMap[adPlaceName] == true
+                    isCancel = backupCancelTimeMap[adPlaceName.name] == true
 
-                    delayShowTime = backupDelayShowTimeMap[adPlaceName] ?: adPlaceName.delayShowTime
+                    delayShowTime = backupDelayShowTimeMap[adPlaceName.name] ?: adPlaceName.delayShowTime
                 }
             }
         }
@@ -1364,9 +1373,9 @@ class AdGsManager {
      */
     fun registerDelayTime(delayTime: Long, adPlaceName: AdPlaceName) {
         // lưu lại cho trường hơp chưa tạo adPlaceName
-        backupDelayTimeMap[adPlaceName] = delayTime
+        backupDelayTimeMap[adPlaceName.name] = delayTime
         // thử set delayTime cho adPlaceName
-        adGsDataMap[adPlaceName]?.delayTime = delayTime
+        adGsDataMap[adPlaceName.name]?.delayTime = delayTime
     }
 
     /**
@@ -1374,9 +1383,9 @@ class AdGsManager {
      */
     fun registerDelayShowTime(delayShowTime: Long, adPlaceName: AdPlaceName) {
         // lưu lại cho trường hơp chưa tạo adPlaceName
-        backupDelayShowTimeMap[adPlaceName] = delayShowTime
+        backupDelayShowTimeMap[adPlaceName.name] = delayShowTime
         // thử set delayShowTime cho adPlaceName
-        (adGsDataMap[adPlaceName] as? BaseShowAdGsData)?.delayShowTime = delayShowTime
+        (adGsDataMap[adPlaceName.name] as? BaseShowAdGsData)?.delayShowTime = delayShowTime
     }
 
     /**
@@ -1391,7 +1400,7 @@ class AdGsManager {
                 return
             }
         }
-        adGsDataMap[adPlaceName]?.clearData(isResetReload = true)
+        adGsDataMap[adPlaceName.name]?.clearData(isResetReload = true)
         if (requiredNotify) {
             if (!adPlaceName.isValidate()) return
             log("clearWithAdPlaceName_adPlaceName", adPlaceName)
@@ -1425,7 +1434,7 @@ class AdGsManager {
     private fun notifyAds(from: String) {
         defaultScope?.launch {
             log("AdGsManager_notifyAds_from", from)
-            val newData = ConcurrentHashMap<AdPlaceName, BaseActiveAdGsData>()
+            val newData = ConcurrentHashMap<String, BaseActiveAdGsData>()
             adGsDataMap.toMap().forEach {
                 when (val adGsData = it.value) {
                     is BannerAdGsData -> if (adGsData.isActive) newData[it.key] = adGsData.copy()
@@ -1454,23 +1463,29 @@ class AdGsManager {
      * @param isCancel = true -> cancel ads và hủy listener đi
      */
     fun cancelRewardAd(adPlaceName: AdPlaceName, isCancel: Boolean = true) {
-        when (adPlaceName.adGsType) {
-            AdGsType.REWARDED, AdGsType.REWARDED_INTERSTITIAL -> {
-                log("cancelRewardAd_adPlaceName", adPlaceName)
-                log("cancelRewardAd_isCancel", isCancel)
-                if (isCancel) {
-                    adGsDataMap[adPlaceName]?.listener = null
+        log("cancelRewardAd_adPlaceName", adPlaceName)
+        log("cancelRewardAd_isCancel", isCancel)
+        cancelRewardAd(name = adPlaceName.name, isCancel = isCancel)
+    }
+
+    @PublicApi
+    fun cancelRewardAd(name: String, isCancel: Boolean = true) {
+        adGsDataMap[name]?.let { adGsData ->
+            when (adGsData) {
+                is RewardedAdGsData, is RewardedInterstitialAdGsData -> {
+                    if (isCancel) {
+                        adGsData.listener = null
+                    }
+                    (adGsData as? BaseShowAdGsData)?.isCancel = isCancel
                 }
-                (adGsDataMap[adPlaceName] as? BaseShowAdGsData)?.let {
-                    it.isCancel = isCancel
-                } ?: run {
-                    backupCancelTimeMap[adPlaceName] = isCancel
+
+                else -> {
+
                 }
             }
 
-            else -> {
-
-            }
+        } ?: run {
+            backupCancelTimeMap[name] = isCancel
         }
     }
 
@@ -1480,7 +1495,7 @@ class AdGsManager {
     @PublicApi
     fun cancelAllRewardAd() {
         adGsDataMap.forEach {
-            cancelRewardAd(adPlaceName = it.key, isCancel = true)
+            cancelRewardAd(name = it.key, isCancel = true)
         }
     }
 
@@ -1489,7 +1504,7 @@ class AdGsManager {
      */
     @PublicApi
     fun activeAd(adPlaceName: AdPlaceName) {
-        (adGsDataMap[adPlaceName] as? BaseActiveAdGsData)?.isActive = true
+        (adGsDataMap[adPlaceName.name] as? BaseActiveAdGsData)?.isActive = true
     }
 
     /**
@@ -1508,10 +1523,10 @@ class AdGsManager {
 
         clearWithAdPlaceName(adPlaceName = adPlaceName, requiredNotify = requiredNotify, fromAutoDestroy = fromAutoDestroy)
 
-        (adGsDataMap[adPlaceName] as? BaseActiveAdGsData)?.let {
+        (adGsDataMap[adPlaceName.name] as? BaseActiveAdGsData)?.let {
             it.isActive = false
         } ?: run {
-            backupActiveTimeMap[adPlaceName] = false
+            backupActiveTimeMap[adPlaceName.name] = false
         }
     }
 

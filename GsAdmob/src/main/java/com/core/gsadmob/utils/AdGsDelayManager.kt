@@ -30,9 +30,7 @@ class AdGsDelayManager(
         }
 
         override fun onDestroy(owner: LifecycleOwner) {
-            adPlaceName?.let {
-                AdGsManager.instance.clearAndRemoveListener(adPlaceName = it, fromAutoDestroy = true)
-            }
+            destroy()
         }
     }
 
@@ -80,5 +78,14 @@ class AdGsDelayManager(
             }
         }
         timerFakeDelay?.startTimer()
+    }
+
+    /**
+     * Gọi để hủy quảng cáo
+     */
+    fun destroy() {
+        adPlaceName?.let {
+            AdGsManager.instance.clearAndRemoveListener(adPlaceName = it, fromAutoDestroy = true)
+        }
     }
 }

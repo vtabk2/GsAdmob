@@ -17,6 +17,7 @@ import com.example.gsadmob.utils.remoteconfig.AdGsRemoteExtraConfig
 
 class SplashActivity : AppCompatActivity() {
     private var bindingView: ActivitySplashBinding? = null
+    private var adGsSplashManager: AdGsSplashManager? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         // Handle the splash screen transition.
@@ -28,7 +29,7 @@ class SplashActivity : AppCompatActivity() {
             tvMessageSplash.text = String.format("%s %s", getString(R.string.app_name), getString(R.string.text_is_running))
         }
 
-        AdGsSplashManager(
+        adGsSplashManager = AdGsSplashManager(
             activity = this@SplashActivity,
             adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameSplash,
             onRetryAdPlaceNameListener = object : AdGsSplashManager.OnRetryAdPlaceNameListener {
@@ -52,7 +53,7 @@ class SplashActivity : AppCompatActivity() {
             intent.addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP or Intent.FLAG_ACTIVITY_CLEAR_TOP)
             startActivity(intent)
         }
-        AdGsManager.instance.clearAndRemoveListener(adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameSplash, fromAutoDestroy = false)
+        adGsSplashManager?.destroy()
         finish()
     }
 }

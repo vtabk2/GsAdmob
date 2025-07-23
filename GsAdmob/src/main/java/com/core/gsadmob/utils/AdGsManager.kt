@@ -660,7 +660,8 @@ class AdGsManager {
         startShimmerLiveData.postValue(shimmerMap)
 
         val adRequest = AdRequest.Builder().setHttpTimeoutMillis(5000).build()
-        val adLoader = AdLoader.Builder(app, adPlaceName.adUnitId).withAdListener(object : AdListener() {
+        val adLoader = AdLoader.Builder(app, adPlaceName.adUnitId)
+            .withAdListener(object : AdListener() {
                 override fun onAdFailedToLoad(loadAdError: LoadAdError) {
                     log("loadNativeAd_onAdFailedToLoad: message", loadAdError.message, logType = LogType.ERROR)
                     shimmerMap[adPlaceName] = false

@@ -1,3 +1,7 @@
+**Version 1.6.14**
+
+- Tối ưu hàm destroy() của AdGsSplashManager và AdGsDelayManager
+
 **Version 1.6.13**
 
 - Sửa lỗi restart activity thì mất quảng cáo

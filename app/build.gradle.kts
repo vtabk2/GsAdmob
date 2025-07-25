@@ -10,11 +10,11 @@ plugins {
 
 android {
     namespace = "com.example.gsadmob"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.gsadmob"
-        minSdk = 21
+        minSdk = 24
         targetSdk = 34
         versionCode = 1
         versionName = "1.0.0"

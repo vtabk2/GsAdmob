@@ -430,6 +430,8 @@ class AdGsManager {
                 if (isVipFlow.value) {
                     clearWithAdPlaceName(adPlaceName = adPlaceName, requiredNotify = true, fromAutoDestroy = false)
                 } else {
+                    appOpenAd.setImmersiveMode(true)
+
                     adGsData.appOpenAd = appOpenAd
                     adGsData.isLoading = false
                     //
@@ -606,6 +608,8 @@ class AdGsManager {
                 if (isVipFlow.value) {
                     clearWithAdPlaceName(adPlaceName = adPlaceName, requiredNotify = true, fromAutoDestroy = false)
                 } else {
+                    interstitialAd.setImmersiveMode(true)
+
                     adGsData.interstitialAd = interstitialAd
                     adGsData.isLoading = false
                     //
@@ -728,6 +732,8 @@ class AdGsManager {
                 if (isVipFlow.value) {
                     clearWithAdPlaceName(adPlaceName = adPlaceName, requiredNotify = true, fromAutoDestroy = false)
                 } else {
+                    rewardedAd.setImmersiveMode(true)
+
                     adGsData.rewardedAd = rewardedAd
                     adGsData.isLoading = false
                     //
@@ -803,6 +809,8 @@ class AdGsManager {
                 if (isVipFlow.value) {
                     clearWithAdPlaceName(adPlaceName = adPlaceName, requiredNotify = true, fromAutoDestroy = false)
                 } else {
+                    rewardedInterstitialAd.setImmersiveMode(true)
+
                     adGsData.rewardedInterstitialAd = rewardedInterstitialAd
                     adGsData.isLoading = false
                     //

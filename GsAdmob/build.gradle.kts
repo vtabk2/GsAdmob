@@ -6,10 +6,10 @@ plugins {
 
 android {
     namespace = "com.core.gsadmob"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
-        minSdk = 21
+        minSdk = 24
     }
 
     buildTypes {

@@ -530,6 +530,13 @@ class AdGsManager {
                 if (isVipFlow.value) {
                     clearWithAdPlaceName(adPlaceName = adPlaceName, requiredNotify = true, fromAutoDestroy = false)
                 } else {
+                    if (activity != null && adGsData.isCollapsible) {
+                        if (activity.isFinishing || activity.isDestroyed) {
+                            clearWithAdPlaceName(adPlaceName = adPlaceName, requiredNotify = true, fromAutoDestroy = false)
+                            return
+                        }
+                    }
+
                     adGsData.bannerAdView = bannerAdView
                     adGsData.isLoading = false
                     notifyAds("loadBannerAd.onAdLoaded")

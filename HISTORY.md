@@ -1,3 +1,7 @@
+**Version 2.0.0**
+
+- Nâng cấp thư viện lên target 35 min 24
+
 **Version 1.6.15**
 
 - Sửa lỗi quảng cáo banner collapsible bị crash khi chuyển màn hình liên tục

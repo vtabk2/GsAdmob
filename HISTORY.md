@@ -1,3 +1,8 @@
+**Version 1.6.15**
+
+- Sửa lỗi quảng cáo banner collapsible bị crash khi chuyển màn hình liên tục
+- Thêm `delayShowTime = 30`
+
 **Version 1.6.14**
 
 - Tối ưu hàm destroy() của AdGsSplashManager và AdGsDelayManager

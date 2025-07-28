@@ -1,3 +1,8 @@
+**Version 2.0.1**
+
+- Giảm `kotlin` version xuống `2.0.20`
+- Giảm `ksp` version xuống `1.0.25`
+
 **Version 2.0.0**
 
 - Nâng cấp thư viện lên target 35 min 24

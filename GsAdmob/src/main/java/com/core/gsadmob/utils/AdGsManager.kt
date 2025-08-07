@@ -357,7 +357,12 @@ class AdGsManager {
                 return
             }
 
-            if (ads != null) return
+            if (ads != null) {
+                if (adGsData is BaseActiveAdGsData) {
+                    notifyAds("preLoadAd")
+                }
+                return
+            }
 
             // isReload = false tức là load lần đầu mới cần check delay time
             // isReload = true tức là load lại 1 lần khi tải lỗi -> bỏ qua delay time
@@ -1412,7 +1417,10 @@ class AdGsManager {
         if (requiredNotify) {
             if (!adPlaceName.isValidate()) return
             log("clearWithAdPlaceName_adPlaceName", adPlaceName)
-            notifyAds("clearWithAdPlaceName")
+            val adGsData = getAdGsData(adPlaceName = adPlaceName)
+            if (adGsData is BaseActiveAdGsData) {
+                notifyAds("clearWithAdPlaceName_" + adPlaceName.adGsType)
+            }
         }
     }
 

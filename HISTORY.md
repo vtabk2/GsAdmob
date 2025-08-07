@@ -1,3 +1,7 @@
+**Version 1.6.17**
+
+- Cập nhật trạng thái quảng cáo khi đã có sẵn
+
 **Version 1.6.16**
 
 - Thêm trạng thái state để hiển thị quảng cáo tải trước được nhanh hơn

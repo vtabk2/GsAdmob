@@ -1,3 +1,7 @@
+**Version 1.6.16**
+
+- Thêm trạng thái state để hiển thị quảng cáo tải trước được nhanh hơn
+
 **Version 1.6.15**
 
 - Sửa lỗi quảng cáo banner collapsible bị crash khi chuyển màn hình liên tục

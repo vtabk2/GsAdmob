@@ -41,6 +41,7 @@ class SplashActivity : AppCompatActivity() {
                 goToHome()
             }, initMobileAds = {
                 TestApplication.applicationContext().initMobileAds()
+                AdGsManager.instance.preLoadAd(adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameNativeHome)
             }, adsLoading = {
                 bindingView?.clBlur?.isVisible = it
             }, isDebug = BuildConfig.DEBUG

@@ -94,12 +94,27 @@
         android:layout_height="0dp"
         android:layout_marginHorizontal="5dp"
         android:layout_marginVertical="5dp"
-        app:layout_constraintBottom_toTopOf="@id/bannerView"
+        app:layout_constraintBottom_toTopOf="@id/barrier"
         app:layout_constraintTop_toBottomOf="@id/tvGetPermission"/>
+
+    <androidx.constraintlayout.widget.Barrier
+        android:id="@+id/barrier"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:barrierDirection="top"
+        app:constraint_referenced_ids="bannerView, nativeHome"/>
 
     <com.core.gsadmob.banner.BannerGsAdView
         android:id="@+id/bannerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+
+    <com.core.gsadmob.natives.view.NativeGsAdView
+        android:id="@+id/nativeHome"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:adsNativeMode="language"
         app:layout_constraintBottom_toBottomOf="parent"/>
 </androidx.constraintlayout.widget.ConstraintLayout>

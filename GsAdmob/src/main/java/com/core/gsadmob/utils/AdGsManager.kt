@@ -1088,6 +1088,7 @@ class AdGsManager {
         activity: Activity? = null,
         lifecycleOwner: LifecycleOwner,
         adPlaceName: AdPlaceName,
+        state: Lifecycle.State = Lifecycle.State.RESUMED,
         bannerGsAdView: BannerGsAdView? = null,
         nativeGsAdView: NativeGsAdView? = null,
         requiredLoadNewAds: Boolean = false,
@@ -1100,6 +1101,7 @@ class AdGsManager {
         registerNative(
             lifecycleOwner = lifecycleOwner,
             adPlaceName = adPlaceName,
+            state = state,
             nativeGsAdView = nativeGsAdView,
             requiredLoadNewAds = requiredLoadNewAds,
             useShimmer = useShimmer,
@@ -1111,6 +1113,7 @@ class AdGsManager {
                     activity = activity,
                     lifecycleOwner = lifecycleOwner,
                     adPlaceName = adPlaceName,
+                    state = state,
                     bannerGsAdView = bannerGsAdView,
                     requiredLoadNewAds = requiredLoadNewAds,
                     useShimmer = useShimmer,
@@ -1122,11 +1125,14 @@ class AdGsManager {
 
     /**
      * Đăng ký quảng cáo native và banner
+     * @param state = Lifecycle.State.RESUMED
+     * @param state = Lifecycle.State.STARTED -> sử dụng cho các màn hình chỉ sử dụng 1 lần vì logic mua vip có thể bị sai
      */
     private fun registerNativeOrBanner(
         activity: Activity? = null,
         lifecycleOwner: LifecycleOwner,
         adPlaceName: AdPlaceName,
+        state: Lifecycle.State = Lifecycle.State.RESUMED,
         adGsListener: AdGsListener? = null,
         adGsExtendListener: AdGsExtendListener? = null,
         requiredLoadNewAds: Boolean = false,
@@ -1169,7 +1175,7 @@ class AdGsManager {
             }
 
             // Xử lý data flow khi RESUMED
-            lifecycleOwner.repeatOnLifecycle(Lifecycle.State.RESUMED) {
+            lifecycleOwner.repeatOnLifecycle(state = state) {
                 instance.adGsDataMapMutableStateFlow.collect { dataMap ->
                     dataMap[adPlaceName]?.let { adData ->
                         when (adPlaceName.adGsType) {
@@ -1205,6 +1211,7 @@ class AdGsManager {
         activity: Activity? = null,
         lifecycleOwner: LifecycleOwner,
         adPlaceName: AdPlaceName,
+        state: Lifecycle.State = Lifecycle.State.RESUMED,
         bannerGsAdView: BannerGsAdView?,
         requiredLoadNewAds: Boolean = false,
         useShimmer: Boolean = true,
@@ -1218,6 +1225,7 @@ class AdGsManager {
                     activity = activity,
                     lifecycleOwner = lifecycleOwner,
                     adPlaceName = adPlaceName,
+                    state = state,
                     requiredLoadNewAds = requiredLoadNewAds,
                     adGsListener = adGsListener,
                     adGsExtendListener = adGsExtendListener,
@@ -1257,6 +1265,7 @@ class AdGsManager {
     fun registerNative(
         lifecycleOwner: LifecycleOwner,
         adPlaceName: AdPlaceName,
+        state: Lifecycle.State = Lifecycle.State.RESUMED,
         nativeGsAdView: NativeGsAdView? = null,
         requiredLoadNewAds: Boolean = false,
         useShimmer: Boolean = true,
@@ -1270,6 +1279,7 @@ class AdGsManager {
                 registerNativeOrBanner(
                     lifecycleOwner = lifecycleOwner,
                     adPlaceName = adPlaceName,
+                    state = state,
                     requiredLoadNewAds = requiredLoadNewAds,
                     adGsListener = adGsListener,
                     adGsExtendListener = adGsExtendListener,

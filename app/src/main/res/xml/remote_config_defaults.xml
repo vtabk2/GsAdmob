@@ -93,8 +93,8 @@
             "delayTime": 0,
             "delayShowTime": 0,
             "adGsType": "banner_collapsible",
-            "isEnable": true,
-            "isTrackingClick": true
+            "isEnable": false,
+            "isTrackingClick": false
             },
             {
             "name": "native_home",

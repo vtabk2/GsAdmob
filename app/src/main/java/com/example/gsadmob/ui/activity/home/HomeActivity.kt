@@ -4,6 +4,7 @@ import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
+import androidx.lifecycle.Lifecycle
 import androidx.recyclerview.widget.GridLayoutManager
 import com.core.gsadmob.callback.AdGsExtendListener
 import com.core.gsadmob.callback.AdGsListener
@@ -65,8 +66,10 @@ class HomeActivity : BasePermissionActivity<ActivityHomeBinding>(ActivityHomeBin
         AdGsManager.instance.registerNative(
             lifecycleOwner = this,
             adPlaceName = AdGsRemoteExtraConfig.instance.adPlaceNameNativeHome,
+            state = Lifecycle.State.STARTED,
+            nativeGsAdView = bindingView.nativeHome,
             callbackSuccess = { nativeAdGsData, isStartShimmer ->
-                adapter?.setupItemAds(nativeAd = nativeAdGsData?.nativeAd, isStartShimmer = isStartShimmer, useShimmer = true)
+//                adapter?.setupItemAds(nativeAd = nativeAdGsData?.nativeAd, isStartShimmer = isStartShimmer, useShimmer = true)
             },
             adGsListener = object : AdGsListener {
 

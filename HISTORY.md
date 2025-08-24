@@ -1,3 +1,7 @@
+**Version 1.7.0**
+
+- Nâng cấp gscore 1.1.0
+
 **Version 1.6.17**
 
 - Cập nhật trạng thái quảng cáo khi đã có sẵn

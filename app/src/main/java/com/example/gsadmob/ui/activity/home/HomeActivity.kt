@@ -10,6 +10,7 @@ import com.core.gsadmob.callback.AdGsExtendListener
 import com.core.gsadmob.callback.AdGsListener
 import com.core.gsadmob.utils.AdGsManager
 import com.core.gscore.utils.extensions.removeBlink
+import com.example.gsadmob.TestApplication
 import com.example.gsadmob.databinding.ActivityHomeBinding
 import com.example.gsadmob.ui.activity.TestAdsActivity
 import com.example.gsadmob.ui.activity.base.BasePermissionActivity
@@ -103,10 +104,12 @@ class HomeActivity : BasePermissionActivity<ActivityHomeBinding>(ActivityHomeBin
         }
 
         bindingView.imageReload.setOnClickListener {
+            TestApplication.applicationContext().canShowAppOpenResume = true
             viewModel.loadData()
         }
 
         bindingView.tvGetPermission.setOnClickListener {
+            TestApplication.applicationContext().canShowAppOpenResume = false
             checkPermission(PERMISSION_CAMERA, callback = { granted ->
                 if (granted) {
                     goToOtherHasPermission()

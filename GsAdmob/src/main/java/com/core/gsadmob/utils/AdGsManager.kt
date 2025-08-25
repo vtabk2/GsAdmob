@@ -174,7 +174,11 @@ class AdGsManager {
                     isPause = false
 
                     if (isVipFlow.value) return
-                    if (!canShowAppOpenResume.invoke(activity)) return
+                    if (!canShowAppOpenResume.invoke(activity)) {
+                        log("AdGsManager_registerCoroutineScope_activityName", activity.javaClass.simpleName)
+                        log("AdGsManager_registerCoroutineScope_canShowAppOpenResume", false)
+                        return
+                    }
 
                     if (activity.isFinishing || activity.isDestroyed) return
 

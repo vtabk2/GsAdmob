@@ -1,3 +1,8 @@
+**Version 1.7.1**
+
+- Thêm isValidateEnable
+- Thêm log mới
+
 **Version 1.7.0**
 
 - Nâng cấp gscore 1.1.0

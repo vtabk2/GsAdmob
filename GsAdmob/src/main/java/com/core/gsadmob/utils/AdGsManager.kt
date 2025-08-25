@@ -70,6 +70,7 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import java.util.Locale
 import java.util.concurrent.ConcurrentHashMap
 
 class AdGsManager {
@@ -998,6 +999,7 @@ class AdGsManager {
                             log("showAd_lastShowTime ", adGsData.lastShowTime)
                             log("showAd_currentTime  ", currentTime)
                             log("showAd_delayShowTime", adGsData.delayShowTime * 1000)
+                            log("showAd_timeout      ", String.format(Locale.getDefault(), "%.1f s", (adGsData.delayShowTime * 1000 - (currentTime - adGsData.lastShowTime)) / 1000.0))
                             log("showAd_", "______________________________")
                             callbackShow?.invoke(AdShowStatus.REQUIRE_DELAY_SHOW_TIME)
                             return

@@ -36,7 +36,7 @@ class RemoteConfig : AdGsRemoteConfig() {
             .update(AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_NATIVE)
             .updateName(newName = "native_test_full")
 
-        log("", "-----------------------")
+//        log("", "-----------------------")
     }
 
 
@@ -80,7 +80,7 @@ class RemoteConfig : AdGsRemoteConfig() {
         } else {
             AdGsRemoteExtraConfig.instance.adPlaceNameSplash.update(AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_APP_OPEN)
         }
-        log("setupAdSplashConfig", AdGsRemoteExtraConfig.instance.adPlaceNameSplash)
+//        log("setupAdSplashConfig", AdGsRemoteExtraConfig.instance.adPlaceNameSplash)
     }
 
     private fun setupAdAppOpenResume(remoteConfig: FirebaseRemoteConfig) {
@@ -116,7 +116,7 @@ class RemoteConfig : AdGsRemoteConfig() {
         } else {
             AdGsRemoteExtraConfig.instance.adPlaceNameAppOpenResume.update(AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_APP_OPEN_RESUME)
         }
-        log("setupAdAppOpenResume", AdGsRemoteExtraConfig.instance.adPlaceNameAppOpenResume)
+//        log("setupAdAppOpenResume", AdGsRemoteExtraConfig.instance.adPlaceNameAppOpenResume)
     }
 
     private fun setupAdHomeConfig(remoteConfig: FirebaseRemoteConfig) {
@@ -187,8 +187,8 @@ class RemoteConfig : AdGsRemoteConfig() {
             AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome.update(AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_BANNER_HOME)
             AdGsRemoteExtraConfig.instance.adPlaceNameNativeHome.update(AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_NATIVE)
         }
-        log("setupAdHomeConfig", AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome)
-        log("setupAdHomeConfig", AdGsRemoteExtraConfig.instance.adPlaceNameNativeHome)
+//        log("setupAdHomeConfig", AdGsRemoteExtraConfig.instance.adPlaceNameBannerHome)
+//        log("setupAdHomeConfig", AdGsRemoteExtraConfig.instance.adPlaceNameNativeHome)
     }
 
     private fun setupAdLanguageConfig(remoteConfig: FirebaseRemoteConfig) {
@@ -237,7 +237,7 @@ class RemoteConfig : AdGsRemoteConfig() {
         } else {
             AdGsRemoteExtraConfig.instance.adPlaceNameLanguage.update(AdPlaceNameDefaultConfig.instance.AD_PLACE_NAME_NATIVE_LANGUAGE)
         }
-        log("setupAdLanguageConfig", AdGsRemoteExtraConfig.instance.adPlaceNameLanguage)
+//        log("setupAdLanguageConfig", AdGsRemoteExtraConfig.instance.adPlaceNameLanguage)
     }
 
     companion object {

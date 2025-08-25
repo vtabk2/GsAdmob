@@ -329,8 +329,20 @@ class AdGsManager {
                 clearAll(clearFull = false)
                 return
             }
+
             val adGsData = getAdGsData(adPlaceName = adPlaceName)
             adGsDataMap[adPlaceName] = adGsData
+
+            if (!adPlaceName.isValidateEnable()) {
+                adGsData.listener?.onAdClose(isFailed = true)
+                if (adGsData is BaseActiveAdGsData) {
+                    shimmerMap[adPlaceName] = false
+                    adGsData.clearData(isResetReload = false)
+                    notifyAds("loadAd.isValidateEnable")
+                    log("loadAd", "isValidateEnable = false")
+                }
+                return
+            }
 
             if (adGsData.isLoading) {
                 return
@@ -347,19 +359,6 @@ class AdGsManager {
                     AdGsType.REWARDED -> (adGsData as? RewardedAdGsData)?.rewardedAd
                     AdGsType.REWARDED_INTERSTITIAL -> (adGsData as? RewardedInterstitialAdGsData)?.rewardedInterstitialAd
                 }
-            }
-
-            if (!adPlaceName.isEnable || !adPlaceName.isValidate()) {
-                adGsData.listener?.onAdClose(isFailed = true)
-                if (adGsData is BaseActiveAdGsData) {
-                    shimmerMap[adPlaceName] = false
-                    adGsData.clearData(isResetReload = false)
-                    notifyAds("loadAd.isEnable.isValidate")
-                    log("loadAd.isEnable", adPlaceName.isEnable)
-                    log("loadAd.isValidate", adPlaceName.isValidate())
-                    log("loadAd", "------------")
-                }
-                return
             }
 
             if (ads != null) {
@@ -1421,7 +1420,7 @@ class AdGsManager {
         }
         adGsDataMap[adPlaceName]?.clearData(isResetReload = true)
         if (requiredNotify) {
-            if (!adPlaceName.isValidate()) return
+            if (!adPlaceName.isValidateEnable()) return
             log("clearWithAdPlaceName_adPlaceName", adPlaceName)
             val adGsData = getAdGsData(adPlaceName = adPlaceName)
             if (adGsData is BaseActiveAdGsData) {

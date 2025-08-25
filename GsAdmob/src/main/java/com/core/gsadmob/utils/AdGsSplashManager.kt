@@ -89,11 +89,11 @@ class AdGsSplashManager(
 
     private fun initAdsForApp() {
         adPlaceName?.let {
-            if (!it.isValidate() && !isRetry) {
+            if (!it.isValidateEnable() && !isRetry) {
                 isRetry = true
                 Handler(Looper.getMainLooper()).postDelayed({
-                    onRetryAdPlaceNameListener?.getAdPlaceName()?.let {
-                        adPlaceName = it
+                    onRetryAdPlaceNameListener?.getAdPlaceName()?.let { name ->
+                        adPlaceName = name
                         initAdsForApp()
                     }
                 }, delayRetry)
@@ -108,6 +108,8 @@ class AdGsSplashManager(
         } else {
             timeout
         }
+
+        log("AdGsSplashManager_initAdsForApp_subTimeout", subTimeout)
 
         if (NetworkUtils.isInternetAvailable(context = activity)) {
             googleMobileAdsConsentManager = GoogleMobileAdsConsentManager.getInstance(activity)
@@ -136,6 +138,13 @@ class AdGsSplashManager(
 
     private fun showOpenAdIfNeed() {
         adPlaceName?.let {
+            if (!it.isValidateEnable()) {
+                log("AdGsSplashManager_showOpenAdIfNeed_isValidateEnable", false)
+                isAdLoaded = true
+                callBackGoHome()
+                return@let
+            }
+            log("AdGsSplashManager_showOpenAdIfNeed_registerAndShowAds", "")
             AdGsManager.instance.registerAndShowAds(adPlaceName = it, adGsListener = object : AdGsListener {
                 override fun onAdClose(isFailed: Boolean) {
                     if (isFailed) {
@@ -168,6 +177,8 @@ class AdGsSplashManager(
                 }
             })
         } ?: {
+            log("AdGsSplashManager_showOpenAdIfNeed_adPlaceName", "null")
+            isAdLoaded = true
             callBackGoHome()
         }
     }

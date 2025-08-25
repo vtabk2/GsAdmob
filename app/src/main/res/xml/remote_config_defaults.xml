@@ -11,8 +11,8 @@
             "delayTime": 0,
             "delayShowTime": 0,
             "adGsType": "app_open",
-            "isEnable": true,
-            "isTrackingClick": true
+            "isEnable": false,
+            "isTrackingClick": false
             },
             {
             "name": "interstitial_splash",

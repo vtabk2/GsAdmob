@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Handler
 import android.os.Looper
 import com.core.gsadmob.utils.extensions.getAndroidId
+import com.core.gsadmob.utils.extensions.log
 import com.core.gsadmob.utils.extensions.md5
 import com.core.gscore.hourglass.Hourglass
 import com.google.android.ump.ConsentDebugSettings
@@ -73,6 +74,8 @@ class GoogleMobileAdsConsentManager private constructor(context: Context) {
         } else {
             timeout
         }
+
+        log("GoogleMobileAdsConsentManager_gatherConsent_requireTimeout", requireTimeout)
 
         val timeoutHourglass = object : Hourglass(requireTimeout, 500) {
             override fun onTimerTick(timeRemaining: Long) {}

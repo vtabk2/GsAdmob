@@ -4,7 +4,7 @@ agp = "8.10.0"
 baseandroid = "1.1.9"
 blurview = "version-2.0.6"
 coreSplashscreen = "1.0.1"
-firebaseBom = "33.16.0"
+firebaseBom = "34.1.0"
 glide = "5.0.0-rc01"
 gscore = "1.1.0"
 gson = "2.12.1"
@@ -16,7 +16,7 @@ lottie = "6.6.2"
 material = "1.12.0"
 multidex = "2.0.1"
 constraintlayout = "2.2.1"
-playServicesAds = "23.6.0"
+playServicesAds = "24.5.0"
 preferenceKtx = "1.2.1"
 shimmer = "0.5.0"
 
@@ -32,7 +32,7 @@ baseandroid = { module = "com.github.vtabk2:BaseAndroid", version.ref = "baseand
 blurview = { module = "com.github.Dimezis:BlurView", version.ref = "blurview" }
 firebase-analytics = { module = "com.google.firebase:firebase-analytics" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
-firebase-config-ktx = { module = "com.google.firebase:firebase-config-ktx" }
+firebase-config = { module = "com.google.firebase:firebase-config" }
 glide = { module = "com.github.bumptech.glide:glide", version.ref = "glide" }
 gscore = { module = "com.github.vtabk2:GsCore", version.ref = "gscore" }
 gson = { module = "com.google.code.gson:gson", version.ref = "gson" }

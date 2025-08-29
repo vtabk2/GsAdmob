@@ -1,3 +1,7 @@
+**Version 2.1.0**
+
+- Update target 35
+
 **Version 1.7.1**
 
 - Thêm isValidateEnable

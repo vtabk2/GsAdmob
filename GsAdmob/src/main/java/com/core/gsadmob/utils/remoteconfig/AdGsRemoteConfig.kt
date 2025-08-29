@@ -4,8 +4,8 @@ import android.app.Application
 import com.core.gsadmob.utils.AdPlaceNameDefaultConfig
 import com.google.firebase.Firebase
 import com.google.firebase.remoteconfig.FirebaseRemoteConfig
-import com.google.firebase.remoteconfig.ktx.remoteConfigSettings
 import com.google.firebase.remoteconfig.remoteConfig
+import com.google.firebase.remoteconfig.remoteConfigSettings
 
 abstract class AdGsRemoteConfig {
     fun initRemoteConfig(application: Application, remoteConfigDefaultsId: Int, isDebug: Boolean = false) {

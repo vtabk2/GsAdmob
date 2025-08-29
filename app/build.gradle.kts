@@ -10,12 +10,12 @@ plugins {
 
 android {
     namespace = "com.example.gsadmob"
-    compileSdk = 34
+    compileSdk = 35
 
     defaultConfig {
         applicationId = "com.example.gsadmob"
-        minSdk = 21
-        targetSdk = 34
+        minSdk = 24
+        targetSdk = 35
         versionCode = 1
         versionName = "1.0.0"
     }
@@ -64,7 +64,7 @@ dependencies {
     implementation(platform(libs.firebase.bom))
     // Add the dependency for the Firebase SDK for Google Analytics
     implementation(libs.firebase.analytics)
-    implementation(libs.firebase.config.ktx)
+    implementation(libs.firebase.config)
 
     implementation(libs.gson)
 
